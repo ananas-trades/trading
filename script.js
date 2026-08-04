@@ -51,7 +51,7 @@ function renderCards() {
     const card = document.createElement("div");
     card.className = "item-card";
 
-    // Mapped directly to your Encora export headers
+    // Mapped directly to Encora export headers
     const show = item["Show"] || "Unknown Show";
     const date = item["Date"] || "";
     const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
@@ -63,33 +63,35 @@ function renderCards() {
     const masterNotes = item["Master Notes"] || "";
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
-    const nftDate = (item["NFT Date"] || "").trim();
-    const nftForever = (item["NFT Forever"] || "").toLowerCase() === "true";
+    
+    const nftDate = (item["NFT Date"] || item["NFT date"] || item["nft date"] || "").trim();
+    const nftForever = (item["NFT Forever"] || item["NFT forever"] || "").toString().toLowerCase() === "true";
 
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
 
     // Build location string from Tour and Venue
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
-    // --- NFT LOGIC ---
+    // --- NFT CURRENT VS EXPIRED DATE COMPARISON ---
     let nftBadgeHTML = '';
 
     if (nftForever) {
       nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
-    } else if (nftDate) {
+    } else if (nftDate !== "") {
       const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0); // Start of today
       
       const parsedNftDate = new Date(nftDate);
 
-      // If the date is valid AND in the future
+      // Check if date is valid AND in the future/today
       if (!isNaN(parsedNftDate.getTime()) && parsedNftDate >= today) {
+        // STILL NFT -> #C4001A
         nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDate}</span>`;
-      } else if (!isNaN(parsedNftDate.getTime())) {
-        // Date has passed
+      } else if (!isNaN(parsedNftDate.getTime()) && parsedNftDate < today) {
+        // NO LONGER NFT -> #C0C0C0
         nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDate})</span>`;
       } else {
-        // Fallback: If date couldn't be parsed but text exists, show active badge
+        // Fallback: If date string couldn't be parsed, show as active
         nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDate}</span>`;
       }
     }
