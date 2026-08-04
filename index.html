@@ -6,8 +6,7 @@
   <title>My Bootleg Trading List</title>
   <!-- Load PapaParse to read CSV files -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <!-- Added ?v=3.0 to instantly break browser cache -->
- <link rel="stylesheet" href="style.css?v=4.0" />
+  <link rel="stylesheet" href="style.css?v=100.0" />
 </head>
 <body>
 
@@ -16,7 +15,10 @@
     <div class="rules-box">
       <div class="rules-box-inner">
         <h2>Trading Rules & Contact</h2>
-        <p><strong>Contact:</strong> <code>tradingtreelost@gmail.com</code></p>
+        <p>
+          <strong>Contact:</strong> <code>tradingtreelost@gmail.com</code> 
+          <button id="copy-email-btn" class="mini-btn">📋 Copy Email</button>
+        </p>
         <ul>
           <li>Standard trading ratios apply (1 Video = 2 Audios).</li>
           <li>Direct non-expiring links (Mega, Google Drive) only.</li>
@@ -28,11 +30,24 @@
 
   <main class="container">
     <div class="controls">
-      <input type="text" id="search-input" placeholder="Search by show, cast, date, venue..." />
+      <!-- Search Bar with Clear 'X' Button -->
+      <div class="search-wrapper">
+        <input type="text" id="search-input" placeholder="Search show, cast, date, venue..." />
+        <button id="clear-search" class="clear-btn" title="Clear Search">&times;</button>
+      </div>
+
+      <!-- Main Filters -->
       <div class="filters">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="Video">Videos</button>
         <button class="filter-btn" data-filter="Audio">Audios</button>
+      </div>
+
+      <!-- Quick Category Badges -->
+      <div class="filters sub-filters">
+        <button class="sub-filter-btn" data-subfilter="broadway">Broadway</button>
+        <button class="sub-filter-btn" data-subfilter="west end">West End</button>
+        <button class="sub-filter-btn" data-subfilter="limited">Limited Trade</button>
       </div>
     </div>
 
@@ -40,6 +55,12 @@
     <div id="card-container"></div>
   </main>
 
-  <script src="script.js"></script>
+  <!-- Floating Back To Top Button -->
+  <button id="back-to-top" title="Back to top">⬆️ TOP</button>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="toast-hidden">Copied to clipboard!</div>
+
+  <script src="script.js?v=100.0"></script>
 </body>
 </html>
