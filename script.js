@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Sub-Filters (Broadway, West End, Limited Trade)
+  // Sub-Filters (Broadway, Off-Broadway, West End)
   document.querySelectorAll(".sub-filter-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       if (e.target.classList.contains("active")) {
@@ -146,11 +146,10 @@ function renderCards() {
       return false;
     }
 
-  // Check Sub-Filter
+    // Check Sub-Filter
     const searchableText = Object.values(item).join(" ").toLowerCase();
     
     if (currentSubFilter === 'broadway') {
-      // Matches broadway but excludes off-broadway
       if (!searchableText.includes('broadway') || searchableText.includes('off-broadway') || searchableText.includes('off broadway')) {
         return false;
       }
@@ -161,6 +160,7 @@ function renderCards() {
     if (currentSubFilter === 'west end' && !searchableText.includes('west end')) {
       return false;
     }
+
     // Check Search Bar Query
     return searchableText.includes(query);
   });
