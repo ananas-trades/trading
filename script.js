@@ -27,65 +27,49 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Smart Date Parser that handles DD-MM-YYYY (e.g., 31-05-2026)
 function parseEncoraDate(dateStr) {
   if (!dateStr) return null;
-
   const clean = dateStr.trim().replace(/\./g, '-');
   const parts = clean.split(/[-/]/);
 
   if (parts.length === 3) {
     let day, month, year;
-
-    // YYYY-MM-DD
     if (parts[0].length === 4) {
       year = parseInt(parts[0], 10);
       month = parseInt(parts[1], 10) - 1;
       day = parseInt(parts[2], 10);
-    } 
-    // DD-MM-YYYY or MM-DD-YYYY
-    else if (parts[2].length === 4) {
+    } else if (parts[2].length === 4) {
       year = parseInt(parts[2], 10);
       const p1 = parseInt(parts[0], 10);
       const p2 = parseInt(parts[1], 10);
-
-      // If first number is > 12, it MUST be DD-MM-YYYY (e.g. 31-05-2026)
       if (p1 > 12) {
         day = p1;
         month = p2 - 1;
       } else {
-        // Default standard European DD-MM-YYYY for Encora exports
         day = p1;
         month = p2 - 1;
       }
     }
-
     if (year && month !== undefined && day) {
       return new Date(year, month, day);
     }
   }
 
-  // Fallback to standard JS Date parsing
   const d = new Date(clean);
   return isNaN(d.getTime()) ? null : d;
 }
 
 function isNftStillActive(dateStr) {
   if (!dateStr) return false;
-
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // If text says forever
   if (dateStr.toLowerCase().includes("forever")) return true;
 
   const parsedDate = parseEncoraDate(dateStr);
-
   if (parsedDate) {
-    // True if date is today or in the future; False if in the past
     return parsedDate >= today;
   }
-
   return false;
 }
 
@@ -96,11 +80,9 @@ function renderCards() {
 
   const filtered = allData.filter(item => {
     const format = (item["Format"] || item["Type"] || "").trim();
-    
     if (currentFilter !== 'all' && !format.toLowerCase().includes(currentFilter.toLowerCase())) {
       return false;
     }
-
     const searchableText = Object.values(item).join(" ").toLowerCase();
     return searchableText.includes(query);
   });
@@ -109,7 +91,6 @@ function renderCards() {
 
   filtered.forEach(item => {
     const card = document.createElement("div");
-    card.className = "item-card";
 
     // Encora Headers
     const show = item["Show"] || "Unknown Show";
@@ -143,19 +124,21 @@ function renderCards() {
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
-    // --- NFT LOGIC ---
+    // --- NFT LOGIC & CARD BORDER CLASS ASSIGNMENT ---
     let nftBadgeHTML = '';
+    const activeNFT = nftForever || (nftDateStr !== "" && isNftStillActive(nftDateStr));
 
-    if (nftForever) {
-      nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
-    } else if (nftDateStr !== "") {
-      const active = isNftStillActive(nftDateStr);
-
-      if (active) {
-        // STILL NFT -> Pulsing Red (#C4001A)
-        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
+    // Assign card border type based on active NFT status
+    if (activeNFT) {
+      card.className = "item-card card-nft-active";
+      if (nftForever) {
+        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
       } else {
-        // PAST NFT -> Silver (#C0C0C0)
+        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
+      }
+    } else {
+      card.className = "item-card card-standard";
+      if (nftDateStr !== "") {
         nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDateStr})</span>`;
       }
     }
