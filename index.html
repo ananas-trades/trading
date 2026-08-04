@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Bootleg Trading List</title>
+  <!-- Load PapaParse to read CSV files -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="container">
+    <h1>🎭 My Trading Collection</h1>
+    <div class="rules-box">
+      <h2>Trading Rules & Contact</h2>
+      <p><strong>Contact:</strong> <code>your.email@example.com</code> | <strong>Discord:</strong> <code>@yourhandle</code></p>
+      <ul>
+        <li>Standard trading ratios apply (1 Video = 2 Audios).</li>
+        <li>Direct non-expiring links (Mega, Google Drive) only.</li>
+        <li>Respect all NFT dates and master restrictions.</li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="controls">
+      <input type="text" id="search-input" placeholder="Search by show, cast, date, venue..." />
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Video">Videos</button>
+        <button class="filter-btn" data-filter="Audio">Audios</button>
+      </div>
+    </div>
+
+    <div id="stats">Loading collection...</div>
+    <div id="card-container" class="card-grid"></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
