@@ -45,13 +45,13 @@ function renderCards() {
     return searchableText.includes(query);
   });
 
-  document.getElementById('stats').innerText = `Showing ${filtered.length} of ${allData.length} items`;
+  document.getElementById('stats').innerText = `SHOWING ${filtered.length} OF ${allData.length} ITEMS`;
 
   filtered.forEach(item => {
     const card = document.createElement("div");
     card.className = "item-card";
 
-    // Mapped directly to your exact Encora export headers
+    // Mapped directly to your Encora export headers
     const show = item["Show"] || "Unknown Show";
     const date = item["Date"] || "";
     const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
@@ -64,11 +64,32 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
     const nftDate = item["NFT Date"] || "";
+    const nftForever = (item["NFT Forever"] || "").toLowerCase() === "true";
 
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
 
     // Build location string from Tour and Venue
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
+
+    // --- NFT CURRENT VS PAST LOGIC ---
+    let nftBadgeHTML = '';
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set to start of today for accurate comparison
+
+    if (nftForever) {
+      // NFT Forever is always active
+      nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
+    } else if (nftDate) {
+      const parsedNftDate = new Date(nftDate);
+
+      // Check if valid date AND today is strictly BEFORE/ON the NFT Date
+      if (!isNaN(parsedNftDate.getTime()) && parsedNftDate >= today) {
+        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDate}</span>`;
+      } else if (!isNaN(parsedNftDate.getTime())) {
+        // Date has passed! Display dim expired tag (or leave empty if you want it hidden completely)
+        nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDate})</span>`;
+      }
+    }
 
     card.innerHTML = `
       <div class="card-header">
@@ -80,14 +101,14 @@ function renderCards() {
         ${date ? `📅 ${date}${showTime}` : ''} 
         ${locationParts ? `📍 ${locationParts}` : ''}
         ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
-        ${nftDate ? `<br><span class="nft-alert">⛔ NFT UNTIL: ${nftDate}</span>` : ''}
+        ${nftBadgeHTML}
       </div>
 
-      ${cast ? `<div class="card-cast"><strong>Cast:</strong> ${cast}</div>` : ''}
+      ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
       
-      ${masterNotes ? `<div class="card-notes"><strong>Master Notes:</strong> ${masterNotes}</div>` : ''}
-      ${tradingNotes ? `<div class="card-notes"><strong>Trading Notes:</strong> ${tradingNotes}</div>` : ''}
-      ${myNotes ? `<div class="card-notes"><strong>Notes:</strong> ${myNotes}</div>` : ''}
+      ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
+      ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
+      ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
     `;
 
     container.appendChild(card);
