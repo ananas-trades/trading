@@ -1,284 +1,45 @@
-/* --- BRING ON THE Y2K NOSTALGIA --- */
+/* ============================================================
+   CARD BORDER PULSE ANIMATIONS
+============================================================ */
 
-:root {
-  /* Neon Palette */
-  --neon-pink: #ff00ff;
-  --neon-blue: #00ffff;
-  --neon-yellow: #ffff00;
-  --cyber-green: #0f0;
-  
-  /* Interface Colors */
-  --win95-bg: #c0c0c0; /* Windows 95 Gray */
-  --win95-border: #404040;
-  --bg-dark: #000;
-  
-  /* Fonts */
-  --pixel-font: 'Courier New', Courier, monospace; /* Use Courier for a crude monospace look */
+/* --- 1. ACTIVE NFT CARD BORDER (INTENSE RED PULSE) --- */
+.card-nft-active {
+  border: 2px solid #C4001A !important;
+  animation: nft-card-border-pulse 1.5s ease-in-out infinite alternate !important;
 }
 
-/* --- THE BACKGROUND: CRT GLITCH / ASCII VIBE --- */
-body {
-  margin: 0;
-  font-family: var(--pixel-font);
-  background-color: var(--bg-dark);
-  color: var(--neon-blue);
-  background-image: 
-    linear-gradient(0deg, transparent 24%, rgba(0, 255, 255, .05) 25%, rgba(0, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, .05) 75%, rgba(0, 255, 255, .05) 76%, transparent 77%, transparent), 
-    linear-gradient(90deg, transparent 24%, rgba(0, 255, 255, .05) 25%, rgba(0, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 255, .05) 75%, rgba(0, 255, 255, .05) 76%, transparent 77%, transparent);
-  background-size: 50px 50px;
-  background-attachment: fixed;
-  text-transform: uppercase; /* Y2K LOVES ALL CAPS */
-}
-
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* --- THE MAIN HEADER: GLOWING TEXT --- */
-h1 {
-  text-align: center;
-  font-size: 3rem;
-  color: #fff;
-  text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink);
-  margin-bottom: 30px;
-  letter-spacing: 2px;
-}
-
-/* --- WINDOWS 95 STYLE RULES BOX --- */
-.rules-box {
-  background-color: var(--win95-bg);
-  border: 4px outset #fff; /* Classic thick raised border */
-  border-radius: 0; /* No rounded corners here! */
-  padding: 0;
-  margin-bottom: 25px;
-  color: #000; /* Rules text must be black on gray */
-  box-shadow: 5px 5px 0 rgba(0, 255, 255, 0.4); /* Neon shadow */
-}
-
-/* Windows 95 Title Bar */
-.rules-box::before {
-  content: '⚡ TRADING_PROTOCOL.EXE ⚡';
-  display: block;
-  background: linear-gradient(90deg, #000080, #008080); /* Windows 95 blue gradient */
-  color: #fff;
-  font-weight: bold;
-  padding: 4px 10px;
-  font-size: 0.9rem;
-  border-bottom: 2px solid var(--win95-border);
-}
-
-.rules-box-inner {
-  padding: 15px 20px;
-}
-
-.rules-box h2 {
-  margin-top: 0;
-  display: none; /* Hide the default H2, the header pseudo-element handles it */
-}
-
-.rules-box p, .rules-box ul {
-  font-family: var(--pixel-font);
-  font-size: 0.9rem;
-}
-
-/* --- CONTROLS: Crude Boxes & Neon Buttons --- */
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-@media (min-width: 600px) {
-  .controls {
-    flex-direction: row;
-  }
-}
-
-#search-input {
-  flex: 1;
-  padding: 15px;
-  border-radius: 0;
-  border: 4px solid var(--neon-blue);
-  background: var(--bg-dark);
-  color: var(--neon-blue);
-  font-family: var(--pixel-font);
-  font-size: 1.1rem;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-  transition: box-shadow 0.2s ease;
-}
-
-#search-input:focus {
-  outline: none;
-  border-color: var(--neon-pink);
-  box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
-}
-
-.filters {
-  display: flex;
-  gap: 10px;
-}
-
-.filter-btn {
-  padding: 12px 20px;
-  border-radius: 0;
-  border: 4px solid var(--neon-blue);
-  background: var(--bg-dark);
-  color: var(--neon-blue);
-  font-family: var(--pixel-font);
-  cursor: pointer;
-  text-transform: uppercase;
-  font-weight: bold;
-  transition: all 0.2s ease;
-}
-
-.filter-btn.active {
-  background-color: var(--neon-blue);
-  color: #000;
-  box-shadow: 0 0 15px var(--neon-blue);
-}
-
-.filter-btn:hover:not(.active) {
-  border-color: var(--neon-pink);
-  color: var(--neon-pink);
-  box-shadow: 0 0 15px var(--neon-pink);
-}
-
-#stats {
-  margin-bottom: 20px;
-  color: var(--neon-yellow);
-  font-size: 1rem;
-  text-align: center;
-  font-weight: bold;
-}
-
-/* --- THE CARD GRID: CYBERPUNK CHAOS --- */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-}
-
-.item-card {
-  background-color: rgba(30, 30, 30, 0.8);
-  border: 2px solid var(--neon-blue);
-  border-radius: 0;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  box-shadow: 5px 5px 0 var(--win95-border); /* "Offline" shadow */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.item-card:hover {
-  transform: translate(-3px, -3px);
-  box-shadow: 8px 8px 0 var(--neon-pink);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  border-bottom: 1px dashed var(--neon-blue);
-  padding-bottom: 10px;
-}
-
-.card-title {
-  font-weight: bold;
-  font-size: 1.3rem;
-  color: #fff;
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-}
-
-.badge {
-  font-size: 0.8rem;
-  padding: 4px 10px;
-  border-radius: 0;
-  border: 2px solid currentColor;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.badge-video { color: var(--neon-pink); }
-.badge-audio { color: var(--cyber-green); }
-
-.card-meta {
-  font-size: 0.95rem;
-  color: var(--neon-yellow);
-}
-
-.card-cast {
-  font-size: 0.95rem;
-  color: var(--text-main);
-  background: rgba(0, 0, 0, 0.3);
-  padding: 10px;
-  border-left: 3px solid var(--neon-blue);
-}
-
-.card-notes {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-top: 5px;
-}
-/* --- Y2K NEON RED NFT ALERT --- */
-.nft-alert {
-  color: #ff0055 !important;
-  font-weight: bold;
-  text-shadow: 0 0 8px #ff0055, 0 0 15px #ff0055;
-  background: rgba(255, 0, 85, 0.15);
-  padding: 4px 8px;
-  border: 1px dashed #ff0055;
-  display: inline-block;
-  margin-top: 6px;
-  letter-spacing: 1px;
-}
-/* --- PULSING Y2K HOT RED NFT BADGE --- */
-.nft-active {
-  color: #ffffff !important;
-  font-weight: bold !important;
-  background: rgba(196, 0, 26, 0.35) !important;
-  padding: 4px 10px !important;
-  border: 2px solid #ff1a3c !important;
-  display: inline-block !important;
-  margin-top: 8px !important;
-  letter-spacing: 1.5px !important;
-
-  /* Multi-layered neon text shadow */
-  text-shadow: 
-    0 0 4px #fff,
-    0 0 8px #ff0033,
-    0 0 15px #C4001A !important;
-
-  /* Infinite border & box pulsing animation */
-  animation: pulse-border-glow 1.2s ease-in-out infinite alternate !important;
-}
-
-/* --- BORDER & GLOW PULSE KEYFRAMES --- */
-@keyframes pulse-border-glow {
+@keyframes nft-card-border-pulse {
   0% {
     border-color: #C4001A;
-    box-shadow: 
-      0 0 4px rgba(196, 0, 26, 0.6),
-      inset 0 0 4px rgba(196, 0, 26, 0.4);
-    transform: scale(1);
+    box-shadow: 0 0 6px rgba(196, 0, 26, 0.4), inset 0 0 4px rgba(196, 0, 26, 0.2);
   }
   50% {
     border-color: #ff3355;
-    box-shadow: 
-      0 0 12px #ff0033,
-      0 0 25px rgba(196, 0, 26, 0.8),
-      inset 0 0 10px #ff0033;
-    transform: scale(1.03); /* Subtle heartbeat scale */
+    box-shadow: 0 0 16px rgba(255, 0, 85, 0.8), inset 0 0 8px rgba(255, 0, 85, 0.3);
   }
   100% {
     border-color: #ff6680;
-    box-shadow: 
-      0 0 20px #ff0033,
-      0 0 35px #C4001A,
-      inset 0 0 14px #ff3355;
-    transform: scale(1.05);
+    box-shadow: 0 0 24px rgba(255, 0, 85, 1), 0 0 35px rgba(196, 0, 26, 0.6);
+  }
+}
+
+/* --- 2. STANDARD / NON-NFT CARD BORDER (SUBTLE NEON BREATHE) --- */
+.card-standard {
+  border: 2px solid #00f0ff !important; /* Y2K Cyber Cyan / Silver Glow */
+  animation: standard-card-border-pulse 3s ease-in-out infinite alternate !important;
+}
+
+@keyframes standard-card-border-pulse {
+  0% {
+    border-color: #00f0ff;
+    box-shadow: 0 0 4px rgba(0, 240, 255, 0.2);
+  }
+  50% {
+    border-color: #7000ff; /* Shifts gently to purple */
+    box-shadow: 0 0 12px rgba(112, 0, 255, 0.5);
+  }
+  100% {
+    border-color: #00f0ff;
+    box-shadow: 0 0 16px rgba(0, 240, 255, 0.7);
   }
 }
