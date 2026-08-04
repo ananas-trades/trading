@@ -146,15 +146,21 @@ function renderCards() {
       return false;
     }
 
-    // Check Sub-Filter
+  // Check Sub-Filter
     const searchableText = Object.values(item).join(" ").toLowerCase();
-    if (currentSubFilter === 'broadway' && !searchableText.includes('broadway')) return false;
-    if (currentSubFilter === 'west end' && !searchableText.includes('west end')) return false;
-    if (currentSubFilter === 'limited') {
-      const isLimited = searchableText.includes('limited') || (item["Limited Trade Status"] || "").length > 0;
-      if (!isLimited) return false;
+    
+    if (currentSubFilter === 'broadway') {
+      // Matches broadway but excludes off-broadway
+      if (!searchableText.includes('broadway') || searchableText.includes('off-broadway') || searchableText.includes('off broadway')) {
+        return false;
+      }
     }
-
+    if (currentSubFilter === 'off-broadway' && !searchableText.includes('off-broadway') && !searchableText.includes('off broadway')) {
+      return false;
+    }
+    if (currentSubFilter === 'west end' && !searchableText.includes('west end')) {
+      return false;
+    }
     // Check Search Bar Query
     return searchableText.includes(query);
   });
