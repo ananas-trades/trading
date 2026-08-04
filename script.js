@@ -27,30 +27,40 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Robust helper function to parse Encora date strings accurately
-function parseDateString(dateStr) {
-  if (!dateStr) return null;
-  
-  // Try standard JS date parsing first
-  let d = new Date(dateStr);
-  if (!isNaN(d.getTime())) {
-    return d;
+// Comprehensive NFT Active Check
+function isNftStillActive(dateStr) {
+  if (!dateStr) return false;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Clean string: replace periods with dashes (e.g. 2023.10.12 -> 2023-10-12)
+  const cleanStr = dateStr.trim().replace(/\./g, '-');
+
+  // 1. Extract 4-digit year directly from string
+  const yearMatch = cleanStr.match(/\b(20\d\d)\b/);
+  if (yearMatch) {
+    const year = parseInt(yearMatch[1], 10);
+    const currentYear = today.getFullYear();
+
+    // If the year in the CSV is strictly in the past (e.g., 2023, 2024, 2025), it's NOT active
+    if (year < currentYear) {
+      return false;
+    }
   }
 
-  // Handle YYYY-MM-DD or YYYY/MM/DD manually
-  const parts = dateStr.split(/[-/]/);
-  if (parts.length === 3) {
-    // If year is first (4 digits)
-    if (parts[0].length === 4) {
-      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-    }
-    // If year is last (4 digits) -> MM/DD/YYYY or DD/MM/YYYY
-    if (parts[2].length === 4) {
-      return new Date(parseInt(parts[2]), parseInt(parts[0]) - 1, parseInt(parts[1]));
-    }
+  // 2. Parse as full Date for current or future years
+  const parsedDate = new Date(cleanStr);
+  if (!isNaN(parsedDate.getTime())) {
+    return parsedDate >= today;
   }
 
-  return null;
+  // 3. If there is NO 4-digit year and date parsing failed, treat it as expired unless it explicitly says "forever"
+  if (cleanStr.toLowerCase().includes("forever")) {
+    return true;
+  }
+
+  return false; // Default to expired for unrecognized past/invalid strings
 }
 
 function renderCards() {
@@ -61,12 +71,10 @@ function renderCards() {
   const filtered = allData.filter(item => {
     const format = (item["Format"] || item["Type"] || "").trim();
     
-    // Filter type check (Video vs Audio)
     if (currentFilter !== 'all' && !format.toLowerCase().includes(currentFilter.toLowerCase())) {
       return false;
     }
 
-    // Search query check across all fields
     const searchableText = Object.values(item).join(" ").toLowerCase();
     return searchableText.includes(query);
   });
@@ -77,7 +85,7 @@ function renderCards() {
     const card = document.createElement("div");
     card.className = "item-card";
 
-    // Mapped directly to Encora export headers
+    // Encora Headers
     const show = item["Show"] || "Unknown Show";
     const date = item["Date"] || "";
     const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
@@ -90,12 +98,24 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
     
-    const nftDateStr = (item["NFT Date"] || item["NFT date"] || item["nft date"] || "").trim();
-    const nftForever = (item["NFT Forever"] || item["NFT forever"] || "").toString().toLowerCase() === "true";
+    // Find NFT date field regardless of header variations
+    let nftDateStr = "";
+    for (const key in item) {
+      if (key.trim().toLowerCase() === "nft date") {
+        nftDateStr = (item[key] || "").trim();
+        break;
+      }
+    }
+
+    let nftForever = false;
+    for (const key in item) {
+      if (key.trim().toLowerCase() === "nft forever") {
+        nftForever = (item[key] || "").toString().toLowerCase() === "true";
+        break;
+      }
+    }
 
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
-
-    // Build location string from Tour and Venue
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
     // --- NFT LOGIC ---
@@ -104,16 +124,13 @@ function renderCards() {
     if (nftForever) {
       nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
     } else if (nftDateStr !== "") {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // Normalized start of today
-      
-      const parsedNftDate = parseDateString(nftDateStr);
+      const active = isNftStillActive(nftDateStr);
 
-      if (parsedNftDate && parsedNftDate >= today) {
-        // STILL ACTIVE NFT -> #C4001A (Red)
+      if (active) {
+        // STILL ACTIVE NFT -> Glowing Red (#C4001A)
         nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
       } else {
-        // EXPIRED/PAST NFT (2023, etc.) -> #C0C0C0 (Silver)
+        // PAST NFT -> Silver (#C0C0C0)
         nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDateStr})</span>`;
       }
     }
