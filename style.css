@@ -303,3 +303,88 @@ h1 {
       0 0 45px rgba(0, 240, 255, 0.8);
   }
 }
+/* ============================================================
+   Y2K CARD BORDER PULSE & HOVER COLOR SHIFTS
+============================================================ */
+
+/* --- 1. ACTIVE NFT CARD BORDER (RED PULSE -> HOT PINK HOVER) --- */
+.item-card.card-nft-active {
+  border: 2px solid #ff0033 !important;
+  animation: ultra-nft-pulse 1.4s ease-in-out infinite alternate !important;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Hover Effect for NFT Cards (Shifts to Electric Magenta / Hot Pink) */
+.item-card.card-nft-active:hover {
+  animation: none !important; /* Pause pulse to highlight hover */
+  border-color: #ff007f !important;
+  box-shadow: 
+    0 0 20px #ff007f, 
+    0 0 40px #ff007f, 
+    0 0 60px #ff0033, 
+    inset 0 0 15px #ff007f !important;
+}
+
+@keyframes ultra-nft-pulse {
+  0% {
+    border-color: #C4001A;
+    box-shadow: 
+      0 0 10px rgba(196, 0, 26, 0.7), 
+      0 0 20px rgba(196, 0, 26, 0.4), 
+      inset 0 0 8px rgba(196, 0, 26, 0.3);
+  }
+  50% {
+    border-color: #ff1a3c;
+    box-shadow: 
+      0 0 20px #ff0033, 
+      0 0 35px rgba(255, 0, 51, 0.8), 
+      inset 0 0 14px rgba(255, 0, 51, 0.5);
+  }
+  100% {
+    border-color: #ff6680;
+    box-shadow: 
+      0 0 25px #ff0033, 
+      0 0 50px #C4001A, 
+      0 0 70px rgba(255, 0, 51, 0.9), 
+      inset 0 0 18px #ff3355;
+  }
+}
+
+/* --- 2. NON-NFT CARD BORDER (CYAN PULSE -> ELECTRIC VIOLET HOVER) --- */
+.item-card.card-standard {
+  border: 2px solid #00f0ff !important;
+  animation: ultra-standard-pulse 2.8s ease-in-out infinite alternate !important;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Hover Effect for Standard Cards (Shifts to Electric Violet / Neon Purple) */
+.item-card.card-standard:hover {
+  animation: none !important; /* Pause pulse to highlight hover */
+  border-color: #b000ff !important;
+  box-shadow: 
+    0 0 20px #b000ff, 
+    0 0 40px #00f0ff, 
+    0 0 60px #b000ff, 
+    inset 0 0 15px #b000ff !important;
+}
+
+@keyframes ultra-standard-pulse {
+  0% {
+    border-color: #00f0ff;
+    box-shadow: 
+      0 0 10px rgba(0, 240, 255, 0.7), 
+      0 0 20px rgba(0, 240, 255, 0.3);
+  }
+  50% {
+    border-color: #a100ff;
+    box-shadow: 
+      0 0 20px #a100ff, 
+      0 0 35px rgba(161, 0, 255, 0.7);
+  }
+  100% {
+    border-color: #00f0ff;
+    box-shadow: 
+      0 0 25px #00f0ff, 
+      0 0 45px rgba(0, 240, 255, 0.8);
+  }
+}
