@@ -235,27 +235,47 @@ h1 {
   margin-top: 6px;
   letter-spacing: 1px;
 }
-/* --- Y2K ACTIVE NFT (RED) --- */
+/* --- EXTRA GLOWING Y2K HOT RED NFT BADGE --- */
 .nft-active {
-  color: #C4001A !important;
+  color: #ffffff !important; /* White core text makes the red pop way more */
   font-weight: bold !important;
-  text-shadow: 0 0 8px rgba(196, 0, 26, 0.6) !important;
-  background: rgba(196, 0, 26, 0.15) !important;
-  padding: 4px 8px !important;
-  border: 2px dashed #C4001A !important;
+  background: rgba(196, 0, 26, 0.35) !important;
+  padding: 4px 10px !important;
+  border: 2px solid #ff1a3c !important;
   display: inline-block !important;
   margin-top: 8px !important;
-  letter-spacing: 1px !important;
+  letter-spacing: 1.5px !important;
+
+  /* Multi-layered neon text and box glows */
+  text-shadow: 
+    0 0 4px #fff,
+    0 0 8px #ff0033,
+    0 0 15px #C4001A,
+    0 0 25px #C4001A !important;
+
+  box-shadow: 
+    0 0 10px rgba(255, 0, 51, 0.8),
+    0 0 20px rgba(196, 0, 26, 0.6),
+    inset 0 0 10px rgba(255, 0, 51, 0.5) !important;
+
+  /* Continuous pulsating neon flare */
+  animation: mega-y2k-glow 1.2s ease-in-out infinite alternate !important;
 }
 
-/* --- EXPIRED NFT (SILVER/GRAY) --- */
-.nft-passed {
-  color: #C0C0C0 !important;
-  font-size: 0.85rem !important;
-  padding: 3px 6px !important;
-  border: 1px solid #C0C0C0 !important;
-  background: rgba(192, 192, 192, 0.08) !important;
-  display: inline-block !important;
-  margin-top: 6px !important;
-  opacity: 0.85 !important;
+/* Pulsating Glow Effect */
+@keyframes mega-y2k-glow {
+  from {
+    box-shadow: 
+      0 0 8px rgba(255, 0, 51, 0.7),
+      0 0 18px rgba(196, 0, 26, 0.5);
+    border-color: #C4001A;
+  }
+  to {
+    box-shadow: 
+      0 0 16px #ff0033,
+      0 0 32px #C4001A,
+      0 0 45px rgba(255, 0, 51, 0.8),
+      inset 0 0 12px #ff0033;
+    border-color: #ff4d6d;
+  }
 }
