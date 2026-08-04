@@ -42,13 +42,8 @@ function parseEncoraDate(dateStr) {
       year = parseInt(parts[2], 10);
       const p1 = parseInt(parts[0], 10);
       const p2 = parseInt(parts[1], 10);
-      if (p1 > 12) {
-        day = p1;
-        month = p2 - 1;
-      } else {
-        day = p1;
-        month = p2 - 1;
-      }
+      day = p1;
+      month = p2 - 1;
     }
     if (year && month !== undefined && day) {
       return new Date(year, month, day);
@@ -106,7 +101,7 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
     
-    // Check all item values for NFT Forever indicators (including 'NFTF')
+    // Check all item values for NFT Flags
     let nftDateStr = "";
     let nftForever = false;
 
@@ -119,7 +114,6 @@ function renderCards() {
         nftDateStr = val;
       }
 
-      // Check for NFT Forever flags across columns (NFTF, true, yes, 1, forever)
       if (
         valLower === "nftf" || 
         valLower === "nft forever" || 
@@ -130,7 +124,6 @@ function renderCards() {
       }
     }
 
-    // Check if the date string itself contains "NFTF" or "forever"
     if (nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf") {
       nftForever = true;
     }
@@ -155,11 +148,12 @@ function renderCards() {
       }
     }
 
-    // Assign card border class based on active status
+    // Set classes for layout and animations
+    card.classList.add("item-card");
     if (isNFTActive) {
-      card.className = "item-card card-nft-active";
+      card.classList.add("card-nft-active");
     } else {
-      card.className = "item-card card-standard";
+      card.classList.add("card-standard");
     }
 
     card.innerHTML = `
