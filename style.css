@@ -235,9 +235,9 @@ h1 {
   margin-top: 6px;
   letter-spacing: 1px;
 }
-/* --- EXTRA GLOWING Y2K HOT RED NFT BADGE --- */
+/* --- PULSING Y2K HOT RED NFT BADGE --- */
 .nft-active {
-  color: #ffffff !important; /* White core text makes the red pop way more */
+  color: #ffffff !important;
   font-weight: bold !important;
   background: rgba(196, 0, 26, 0.35) !important;
   padding: 4px 10px !important;
@@ -246,36 +246,39 @@ h1 {
   margin-top: 8px !important;
   letter-spacing: 1.5px !important;
 
-  /* Multi-layered neon text and box glows */
+  /* Multi-layered neon text shadow */
   text-shadow: 
     0 0 4px #fff,
     0 0 8px #ff0033,
-    0 0 15px #C4001A,
-    0 0 25px #C4001A !important;
+    0 0 15px #C4001A !important;
 
-  box-shadow: 
-    0 0 10px rgba(255, 0, 51, 0.8),
-    0 0 20px rgba(196, 0, 26, 0.6),
-    inset 0 0 10px rgba(255, 0, 51, 0.5) !important;
-
-  /* Continuous pulsating neon flare */
-  animation: mega-y2k-glow 1.2s ease-in-out infinite alternate !important;
+  /* Infinite border & box pulsing animation */
+  animation: pulse-border-glow 1.2s ease-in-out infinite alternate !important;
 }
 
-/* Pulsating Glow Effect */
-@keyframes mega-y2k-glow {
-  from {
-    box-shadow: 
-      0 0 8px rgba(255, 0, 51, 0.7),
-      0 0 18px rgba(196, 0, 26, 0.5);
+/* --- BORDER & GLOW PULSE KEYFRAMES --- */
+@keyframes pulse-border-glow {
+  0% {
     border-color: #C4001A;
-  }
-  to {
     box-shadow: 
-      0 0 16px #ff0033,
-      0 0 32px #C4001A,
-      0 0 45px rgba(255, 0, 51, 0.8),
-      inset 0 0 12px #ff0033;
-    border-color: #ff4d6d;
+      0 0 4px rgba(196, 0, 26, 0.6),
+      inset 0 0 4px rgba(196, 0, 26, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    border-color: #ff3355;
+    box-shadow: 
+      0 0 12px #ff0033,
+      0 0 25px rgba(196, 0, 26, 0.8),
+      inset 0 0 10px #ff0033;
+    transform: scale(1.03); /* Subtle heartbeat scale */
+  }
+  100% {
+    border-color: #ff6680;
+    box-shadow: 
+      0 0 20px #ff0033,
+      0 0 35px #C4001A,
+      inset 0 0 14px #ff3355;
+    transform: scale(1.05);
   }
 }
