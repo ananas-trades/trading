@@ -1,9 +1,11 @@
 /* ============================================================
-   CARD BORDER PULSE ANIMATIONS
+   CARD BORDER PULSE ANIMATIONS (WITH DARK BACKGROUND FIX)
 ============================================================ */
 
 /* --- 1. ACTIVE NFT CARD BORDER (INTENSE RED PULSE) --- */
-.card-nft-active {
+.item-card.card-nft-active {
+  background-color: #121216 !important; /* Forces dark background */
+  color: #ffffff !important;
   border: 2px solid #C4001A !important;
   animation: nft-card-border-pulse 1.5s ease-in-out infinite alternate !important;
 }
@@ -24,8 +26,10 @@
 }
 
 /* --- 2. STANDARD / NON-NFT CARD BORDER (SUBTLE NEON BREATHE) --- */
-.card-standard {
-  border: 2px solid #00f0ff !important; /* Y2K Cyber Cyan / Silver Glow */
+.item-card.card-standard {
+  background-color: #121216 !important; /* Forces dark background */
+  color: #ffffff !important;
+  border: 2px solid #00f0ff !important; /* Y2K Cyber Cyan */
   animation: standard-card-border-pulse 3s ease-in-out infinite alternate !important;
 }
 
