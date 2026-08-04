@@ -235,25 +235,27 @@ h1 {
   margin-top: 6px;
   letter-spacing: 1px;
 }
-/* --- ACTIVE Y2K NEON RED NFT BADGE --- */
+/* --- Y2K ACTIVE NFT (RED) --- */
 .nft-active {
-  color: #ff0055 !important;
-  font-weight: bold;
-  text-shadow: 0 0 8px #ff0055, 0 0 18px #ff0055;
-  background: rgba(255, 0, 85, 0.2);
-  padding: 4px 8px;
-  border: 2px dashed #ff0055;
-  display: inline-block;
-  margin-top: 8px;
-  letter-spacing: 1px;
+  color: #C4001A !important;
+  font-weight: bold !important;
+  text-shadow: 0 0 8px rgba(196, 0, 26, 0.6) !important;
+  background: rgba(196, 0, 26, 0.15) !important;
+  padding: 4px 8px !important;
+  border: 2px dashed #C4001A !important;
+  display: inline-block !important;
+  margin-top: 8px !important;
+  letter-spacing: 1px !important;
 }
 
+/* --- EXPIRED NFT (SILVER/GRAY) --- */
 .nft-passed {
-  color: #a0a0a0;
-  font-size: 0.8rem;
-  padding: 2px 6px;
-  border: 1px solid #404040;
-  display: inline-block;
-  margin-top: 6px;
-  opacity: 0.7;
+  color: #C0C0C0 !important;
+  font-size: 0.85rem !important;
+  padding: 3px 6px !important;
+  border: 1px solid #C0C0C0 !important;
+  background: rgba(192, 192, 192, 0.08) !important;
+  display: inline-block !important;
+  margin-top: 6px !important;
+  opacity: 0.85 !important;
 }
