@@ -1,5 +1,6 @@
 let allData = [];
 let currentFilter = 'all';
+let currentSubFilter = 'all';
 
 document.addEventListener("DOMContentLoaded", () => {
   Papa.parse("list.csv", {
@@ -15,8 +16,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  document.getElementById("search-input").addEventListener("input", renderCards);
+  // Search Input & Clear Button Logic
+  const searchInput = document.getElementById("search-input");
+  const clearBtn = document.getElementById("clear-search");
 
+  searchInput.addEventListener("input", () => {
+    clearBtn.style.display = searchInput.value ? "block" : "none";
+    renderCards();
+  });
+
+  clearBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    clearBtn.style.display = "none";
+    renderCards();
+  });
+
+  // Main Format Filters (Video / Audio)
   document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
@@ -25,7 +40,54 @@ document.addEventListener("DOMContentLoaded", () => {
       renderCards();
     });
   });
+
+  // Sub-Filters (Broadway, West End, Limited Trade)
+  document.querySelectorAll(".sub-filter-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      if (e.target.classList.contains("active")) {
+        e.target.classList.remove("active");
+        currentSubFilter = 'all';
+      } else {
+        document.querySelectorAll(".sub-filter-btn").forEach(b => b.classList.remove("active"));
+        e.target.classList.add("active");
+        currentSubFilter = e.target.getAttribute("data-subfilter");
+      }
+      renderCards();
+    });
+  });
+
+  // Copy Contact Email
+  const copyEmailBtn = document.getElementById("copy-email-btn");
+  if (copyEmailBtn) {
+    copyEmailBtn.addEventListener("click", () => {
+      showToast("Email copied to clipboard!");
+    });
+  }
+
+  // Floating Back to Top Logic
+  const backToTopBtn = document.getElementById("back-to-top");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      backToTopBtn.style.display = "block";
+    } else {
+      backToTopBtn.style.display = "none";
+    }
+  });
+
+  backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 });
+
+function showToast(message) {
+  navigator.clipboard.writeText("tradingtreelost@gmail.com");
+  const toast = document.getElementById("toast");
+  toast.innerText = message;
+  toast.classList.remove("toast-hidden");
+  setTimeout(() => {
+    toast.classList.add("toast-hidden");
+  }, 2000);
+}
 
 function parseEncoraDate(dateStr) {
   if (!dateStr) return null;
@@ -78,11 +140,22 @@ function renderCards() {
   container.innerHTML = "";
 
   const filtered = allData.filter(item => {
+    // Check Format Filter
     const format = (item["Format"] || item["Type"] || "").trim();
     if (currentFilter !== 'all' && !format.toLowerCase().includes(currentFilter.toLowerCase())) {
       return false;
     }
+
+    // Check Sub-Filter
     const searchableText = Object.values(item).join(" ").toLowerCase();
+    if (currentSubFilter === 'broadway' && !searchableText.includes('broadway')) return false;
+    if (currentSubFilter === 'west end' && !searchableText.includes('west end')) return false;
+    if (currentSubFilter === 'limited') {
+      const isLimited = searchableText.includes('limited') || (item["Limited Trade Status"] || "").length > 0;
+      if (!isLimited) return false;
+    }
+
+    // Check Search Bar Query
     return searchableText.includes(query);
   });
 
@@ -94,7 +167,6 @@ function renderCards() {
   filtered.forEach(item => {
     const card = document.createElement("div");
 
-    // Encora Headers
     const show = item["Show"] || "Unknown Show";
     const date = item["Date"] || "";
     const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
@@ -107,7 +179,6 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
     
-    // Check all item values for NFT Flags
     let nftDateStr = "";
     let nftForever = false;
 
@@ -137,7 +208,7 @@ function renderCards() {
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
-    // --- NFT LOGIC & BADGE BUILDING ---
+    // NFT Badges
     let nftBadgeHTML = '';
     let isNFTActive = false;
 
@@ -154,13 +225,15 @@ function renderCards() {
       }
     }
 
-    // Set Classes safely
     card.className = "item-card";
     if (isNFTActive) {
       card.classList.add("card-nft-active");
     } else {
       card.classList.add("card-standard");
     }
+
+    // Prepare Copy Text String for Traders
+    const copyInfoText = `${show} - ${date} (${format}) - Master: ${master || 'Unknown'}`;
 
     card.innerHTML = `
       <div class="card-header">
@@ -175,12 +248,46 @@ function renderCards() {
         ${nftBadgeHTML}
       </div>
 
-      ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
+      ${cast ? `
+        <div class="card-cast collapsible-box">
+          <strong>CAST:</strong> ${cast}
+        </div>
+        ${cast.length > 120 ? '<button class="toggle-expand-btn">+ Show Full Cast</button>' : ''}
+      ` : ''}
       
       ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
       ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
       ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
+
+      <button class="copy-card-btn">📋 Copy Details for Email</button>
     `;
+
+    // Copy Card Details Listener
+    const copyCardBtn = card.querySelector(".copy-card-btn");
+    if (copyCardBtn) {
+      copyCardBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(copyInfoText);
+        const toast = document.getElementById("toast");
+        toast.innerText = "Show details copied!";
+        toast.classList.remove("toast-hidden");
+        setTimeout(() => toast.classList.add("toast-hidden"), 2000);
+      });
+    }
+
+    // Toggle Collapsible Cast Listener
+    const expandBtn = card.querySelector(".toggle-expand-btn");
+    if (expandBtn) {
+      expandBtn.addEventListener("click", () => {
+        const box = card.querySelector(".card-cast");
+        if (box.classList.contains("expanded")) {
+          box.classList.remove("expanded");
+          expandBtn.innerText = "+ Show Full Cast";
+        } else {
+          box.classList.add("expanded");
+          expandBtn.innerText = "- Hide Full Cast";
+        }
+      });
+    }
 
     container.appendChild(card);
   });
