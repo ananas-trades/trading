@@ -246,16 +246,8 @@ h1 {
   display: inline-block;
   margin-top: 8px;
   letter-spacing: 1px;
-  animation: pulse-red 1.5s infinite alternate;
 }
 
-/* Optional flashing effect for active NFTs */
-@keyframes pulse-red {
-  from { box-shadow: 0 0 5px #ff0055; }
-  to { box-shadow: 0 0 15px #ff0055, 0 0 25px #ff0055; }
-}
-
-/* --- EXPIRED NFT BADGE --- */
 .nft-passed {
   color: #a0a0a0;
   font-size: 0.8rem;
