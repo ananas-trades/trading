@@ -80,7 +80,7 @@ function renderCards() {
         ${date ? `📅 ${date}${showTime}` : ''} 
         ${locationParts ? `📍 ${locationParts}` : ''}
         ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
-        ${nftDate ? `<br>⛔ <strong>NFT Until:</strong> ${nftDate}` : ''}
+        ${nftDate ? `<br><span class="nft-alert">⛔ NFT UNTIL: ${nftDate}</span>` : ''}
       </div>
 
       ${cast ? `<div class="card-cast"><strong>Cast:</strong> ${cast}</div>` : ''}
