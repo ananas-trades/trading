@@ -148,12 +148,23 @@ function renderCards() {
       }
     }
 
-    // Set classes for layout and animations
-    card.classList.add("item-card");
+    // Set Base Classes
+    card.className = "item-card";
     if (isNFTActive) {
       card.classList.add("card-nft-active");
     } else {
       card.classList.add("card-standard");
+
+      // DIRECT HOVER LISTENERS - Overrides CSS priority issues
+      card.addEventListener("mouseenter", () => {
+        card.style.animation = "rainbow-hover-glow 2s linear infinite";
+        card.style.transform = "translateY(-4px)";
+      });
+      
+      card.addEventListener("mouseleave", () => {
+        card.style.animation = "ultra-standard-pulse 2.8s ease-in-out infinite alternate";
+        card.style.transform = "translateY(0)";
+      });
     }
 
     card.innerHTML = `
