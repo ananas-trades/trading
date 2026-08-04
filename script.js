@@ -148,12 +148,13 @@ function renderCards() {
       }
     }
 
-    // Set Base Classes
+   // Set Base Classes
     card.className = "item-card";
     if (isNFTActive) {
       card.classList.add("card-nft-active");
     } else {
       card.classList.add("card-standard");
+    }
 
       // DIRECT HOVER LISTENERS - Overrides CSS priority issues
       card.addEventListener("mouseenter", () => {
