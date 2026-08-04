@@ -33,14 +33,14 @@ function renderCards() {
   container.innerHTML = "";
 
   const filtered = allData.filter(item => {
-    const format = (item.Format || item["Media Type"] || "").trim();
+    const format = (item["Format"] || item["Type"] || "").trim();
     
-    // Filter type check
+    // Filter type check (Video vs Audio)
     if (currentFilter !== 'all' && !format.toLowerCase().includes(currentFilter.toLowerCase())) {
       return false;
     }
 
-    // Search query check
+    // Search query check across all fields
     const searchableText = Object.values(item).join(" ").toLowerCase();
     return searchableText.includes(query);
   });
@@ -51,23 +51,43 @@ function renderCards() {
     const card = document.createElement("div");
     card.className = "item-card";
 
-    const show = item.Show || item["Show Name"] || "Unknown Show";
-    const date = item.Date || item["Performance Date"] || "";
-    const format = item.Format || item["Media Type"] || "Video";
-    const cast = item.Cast || item["Cast List"] || "";
-    const location = item.Location || item["Tour"] || item["Venue"] || "";
+    // Mapped directly to your exact Encora export headers
+    const show = item["Show"] || "Unknown Show";
+    const date = item["Date"] || "";
+    const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
+    const format = item["Format"] || "Video";
+    const tour = item["Tour"] || "";
+    const venue = item["Venue"] || "";
+    const master = item["Master"] || "";
+    const cast = item["Cast"] || "";
+    const masterNotes = item["Master Notes"] || "";
+    const tradingNotes = item["Trading Notes"] || "";
+    const myNotes = item["My Notes"] || "";
+    const nftDate = item["NFT Date"] || "";
 
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
+
+    // Build location string from Tour and Venue
+    const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
     card.innerHTML = `
       <div class="card-header">
         <div class="card-title">${show}</div>
         <span class="badge ${formatClass}">${format}</span>
       </div>
+      
       <div class="card-meta">
-        ${date ? `📅 ${date}` : ''} ${location ? `📍 ${location}` : ''}
+        ${date ? `📅 ${date}${showTime}` : ''} 
+        ${locationParts ? `📍 ${locationParts}` : ''}
+        ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
+        ${nftDate ? `<br>⛔ <strong>NFT Until:</strong> ${nftDate}` : ''}
       </div>
+
       ${cast ? `<div class="card-cast"><strong>Cast:</strong> ${cast}</div>` : ''}
+      
+      ${masterNotes ? `<div class="card-notes"><strong>Master Notes:</strong> ${masterNotes}</div>` : ''}
+      ${tradingNotes ? `<div class="card-notes"><strong>Trading Notes:</strong> ${tradingNotes}</div>` : ''}
+      ${myNotes ? `<div class="card-notes"><strong>Notes:</strong> ${myNotes}</div>` : ''}
     `;
 
     container.appendChild(card);
