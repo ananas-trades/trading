@@ -27,40 +27,66 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Comprehensive NFT Active Check
+// Smart Date Parser that handles DD-MM-YYYY (e.g., 31-05-2026)
+function parseEncoraDate(dateStr) {
+  if (!dateStr) return null;
+
+  const clean = dateStr.trim().replace(/\./g, '-');
+  const parts = clean.split(/[-/]/);
+
+  if (parts.length === 3) {
+    let day, month, year;
+
+    // YYYY-MM-DD
+    if (parts[0].length === 4) {
+      year = parseInt(parts[0], 10);
+      month = parseInt(parts[1], 10) - 1;
+      day = parseInt(parts[2], 10);
+    } 
+    // DD-MM-YYYY or MM-DD-YYYY
+    else if (parts[2].length === 4) {
+      year = parseInt(parts[2], 10);
+      const p1 = parseInt(parts[0], 10);
+      const p2 = parseInt(parts[1], 10);
+
+      // If first number is > 12, it MUST be DD-MM-YYYY (e.g. 31-05-2026)
+      if (p1 > 12) {
+        day = p1;
+        month = p2 - 1;
+      } else {
+        // Default standard European DD-MM-YYYY for Encora exports
+        day = p1;
+        month = p2 - 1;
+      }
+    }
+
+    if (year && month !== undefined && day) {
+      return new Date(year, month, day);
+    }
+  }
+
+  // Fallback to standard JS Date parsing
+  const d = new Date(clean);
+  return isNaN(d.getTime()) ? null : d;
+}
+
 function isNftStillActive(dateStr) {
   if (!dateStr) return false;
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Clean string: replace periods with dashes (e.g. 2023.10.12 -> 2023-10-12)
-  const cleanStr = dateStr.trim().replace(/\./g, '-');
+  // If text says forever
+  if (dateStr.toLowerCase().includes("forever")) return true;
 
-  // 1. Extract 4-digit year directly from string
-  const yearMatch = cleanStr.match(/\b(20\d\d)\b/);
-  if (yearMatch) {
-    const year = parseInt(yearMatch[1], 10);
-    const currentYear = today.getFullYear();
+  const parsedDate = parseEncoraDate(dateStr);
 
-    // If the year in the CSV is strictly in the past (e.g., 2023, 2024, 2025), it's NOT active
-    if (year < currentYear) {
-      return false;
-    }
-  }
-
-  // 2. Parse as full Date for current or future years
-  const parsedDate = new Date(cleanStr);
-  if (!isNaN(parsedDate.getTime())) {
+  if (parsedDate) {
+    // True if date is today or in the future; False if in the past
     return parsedDate >= today;
   }
 
-  // 3. If there is NO 4-digit year and date parsing failed, treat it as expired unless it explicitly says "forever"
-  if (cleanStr.toLowerCase().includes("forever")) {
-    return true;
-  }
-
-  return false; // Default to expired for unrecognized past/invalid strings
+  return false;
 }
 
 function renderCards() {
@@ -98,7 +124,6 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
     
-    // Find NFT date field regardless of header variations
     let nftDateStr = "";
     for (const key in item) {
       if (key.trim().toLowerCase() === "nft date") {
@@ -127,7 +152,7 @@ function renderCards() {
       const active = isNftStillActive(nftDateStr);
 
       if (active) {
-        // STILL ACTIVE NFT -> Glowing Red (#C4001A)
+        // STILL NFT -> Pulsing Red (#C4001A)
         nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
       } else {
         // PAST NFT -> Silver (#C0C0C0)
