@@ -6,23 +6,24 @@
   <title>My Bootleg Trading List</title>
   <!-- Load PapaParse to read CSV files -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <link rel="stylesheet" href="style.css" />
+  <!-- Added ?v=3.0 to instantly break browser cache -->
+  <link rel="stylesheet" href="style.css?v=3.0" />
 </head>
 <body>
 
   <header class="container">
     <h1>🎭 My Trading Collection</h1>
-  <div class="rules-box">
-  <div class="rules-box-inner">
-    <h2>Trading Rules & Contact</h2>
-    <p><strong>Contact:</strong> <code>tradingtreelost@gmail.com</code> 
-    <ul>
-      <li>Standard trading ratios apply (1 Video = 2 Audios).</li>
-      <li>Direct non-expiring links (Mega, Google Drive) only.</li>
-      <li>Respect all NFT dates and master restrictions.</li>
-    </ul>
-  </div>
-</div>
+    <div class="rules-box">
+      <div class="rules-box-inner">
+        <h2>Trading Rules & Contact</h2>
+        <p><strong>Contact:</strong> <code>tradingtreelost@gmail.com</code></p>
+        <ul>
+          <li>Standard trading ratios apply (1 Video = 2 Audios).</li>
+          <li>Direct non-expiring links (Mega, Google Drive) only.</li>
+          <li>Respect all NFT dates and master restrictions.</li>
+        </ul>
+      </div>
+    </div>
   </header>
 
   <main class="container">
@@ -36,7 +37,7 @@
     </div>
 
     <div id="stats">Loading collection...</div>
-    <div id="card-container" class="card-grid"></div>
+    <div id="card-container"></div>
   </main>
 
   <script src="script.js"></script>
