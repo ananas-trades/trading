@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderCards();
     },
     error: function(err) {
-      document.getElementById('stats').innerText = "Upload your 'list.csv' file to display your collection!";
+      document.getElementById('stats').innerText = "Failed to load collection. Make sure list.csv exists!";
     }
   });
 
@@ -70,8 +70,11 @@ function isNftStillActive(dateStr) {
 }
 
 function renderCards() {
-  const query = document.getElementById("search-input").value.toLowerCase();
+  const queryInput = document.getElementById("search-input");
+  const query = queryInput ? queryInput.value.toLowerCase() : "";
   const container = document.getElementById("card-container");
+  if (!container) return;
+  
   container.innerHTML = "";
 
   const filtered = allData.filter(item => {
@@ -83,7 +86,10 @@ function renderCards() {
     return searchableText.includes(query);
   });
 
-  document.getElementById('stats').innerText = `SHOWING ${filtered.length} OF ${allData.length} ITEMS`;
+  const statsEl = document.getElementById('stats');
+  if (statsEl) {
+    statsEl.innerText = `SHOWING ${filtered.length} OF ${allData.length} ITEMS`;
+  }
 
   filtered.forEach(item => {
     const card = document.createElement("div");
@@ -148,24 +154,12 @@ function renderCards() {
       }
     }
 
-   // Set Base Classes
+    // Set Classes safely
     card.className = "item-card";
     if (isNFTActive) {
       card.classList.add("card-nft-active");
     } else {
       card.classList.add("card-standard");
-    }
-
-      // DIRECT HOVER LISTENERS - Overrides CSS priority issues
-      card.addEventListener("mouseenter", () => {
-        card.style.animation = "rainbow-hover-glow 2s linear infinite";
-        card.style.transform = "translateY(-4px)";
-      });
-      
-      card.addEventListener("mouseleave", () => {
-        card.style.animation = "ultra-standard-pulse 2.8s ease-in-out infinite alternate";
-        card.style.transform = "translateY(0)";
-      });
     }
 
     card.innerHTML = `
