@@ -105,6 +105,7 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
     
+    // Find NFT date field
     let nftDateStr = "";
     for (const key in item) {
       if (key.trim().toLowerCase() === "nft date") {
@@ -113,10 +114,14 @@ function renderCards() {
       }
     }
 
+    // Find NFT Forever field (checks for true, yes, 1, or forever)
     let nftForever = false;
     for (const key in item) {
       if (key.trim().toLowerCase() === "nft forever") {
-        nftForever = (item[key] || "").toString().toLowerCase() === "true";
+        const val = (item[key] || "").toString().trim().toLowerCase();
+        if (val === "true" || val === "yes" || val === "1" || val === "forever") {
+          nftForever = true;
+        }
         break;
       }
     }
@@ -124,23 +129,28 @@ function renderCards() {
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
-    // --- NFT LOGIC & CARD BORDER CLASS ASSIGNMENT ---
+    // --- NFT LOGIC & BADGE BUILDING ---
     let nftBadgeHTML = '';
-    const activeNFT = nftForever || (nftDateStr !== "" && isNftStillActive(nftDateStr));
+    let isNFTActive = false;
 
-    // Assign card border type based on active NFT status
-    if (activeNFT) {
-      card.className = "item-card card-nft-active";
-      if (nftForever) {
-        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
-      } else {
+    if (nftForever) {
+      isNFTActive = true;
+      nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
+    } else if (nftDateStr !== "") {
+      if (isNftStillActive(nftDateStr)) {
+        isNFTActive = true;
         nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
-      }
-    } else {
-      card.className = "item-card card-standard";
-      if (nftDateStr !== "") {
+      } else {
+        isNFTActive = false;
         nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDateStr})</span>`;
       }
+    }
+
+    // Assign card border class based on active status
+    if (isNFTActive) {
+      card.className = "item-card card-nft-active";
+    } else {
+      card.className = "item-card card-standard";
     }
 
     card.innerHTML = `
