@@ -357,34 +357,50 @@ h1 {
   transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
 }
 
-/* Hover Effect for Standard Cards (Shifts to Electric Violet / Neon Purple) */
+/* --- RAINBOW HYPER-GLOW ON HOVER --- */
 .item-card.card-standard:hover {
-  animation: none !important; /* Pause pulse to highlight hover */
-  border-color: #b000ff !important;
-  box-shadow: 
-    0 0 20px #b000ff, 
-    0 0 40px #00f0ff, 
-    0 0 60px #b000ff, 
-    inset 0 0 15px #b000ff !important;
+  animation: rainbow-hover-glow 2s linear infinite !important;
 }
 
-@keyframes ultra-standard-pulse {
+@keyframes rainbow-hover-glow {
   0% {
-    border-color: #00f0ff;
+    border-color: #00ff66 !important; /* Toxic Slime Green */
     box-shadow: 
-      0 0 10px rgba(0, 240, 255, 0.7), 
-      0 0 20px rgba(0, 240, 255, 0.3);
+      0 0 15px #00ff66, 
+      0 0 35px #00ff66, 
+      0 0 55px rgba(0, 255, 102, 0.8), 
+      inset 0 0 15px #00ff66 !important;
+  }
+  25% {
+    border-color: #ffe600 !important; /* Solar Yellow */
+    box-shadow: 
+      0 0 15px #ffe600, 
+      0 0 35px #ffe600, 
+      0 0 55px rgba(255, 230, 0, 0.8), 
+      inset 0 0 15px #ffe600 !important;
   }
   50% {
-    border-color: #a100ff;
+    border-color: #ff007f !important; /* Hot Pink / Magenta */
     box-shadow: 
-      0 0 20px #a100ff, 
-      0 0 35px rgba(161, 0, 255, 0.7);
+      0 0 15px #ff007f, 
+      0 0 35px #ff007f, 
+      0 0 55px rgba(255, 0, 127, 0.8), 
+      inset 0 0 15px #ff007f !important;
+  }
+  75% {
+    border-color: #ffffff !important; /* White-Hot Plasma */
+    box-shadow: 
+      0 0 15px #ffffff, 
+      0 0 35px #00f0ff, 
+      0 0 55px rgba(0, 240, 255, 0.9), 
+      inset 0 0 15px #ffffff !important;
   }
   100% {
-    border-color: #00f0ff;
+    border-color: #00ff66 !important; /* Back to Slime Green */
     box-shadow: 
-      0 0 25px #00f0ff, 
-      0 0 45px rgba(0, 240, 255, 0.8);
+      0 0 15px #00ff66, 
+      0 0 35px #00ff66, 
+      0 0 55px rgba(0, 255, 102, 0.8), 
+      inset 0 0 15px #00ff66 !important;
   }
 }
