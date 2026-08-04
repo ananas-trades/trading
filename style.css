@@ -363,3 +363,41 @@ h1 {
       inset 0 0 15px #00ff66 !important;
   }
 }
+/* --- RULES BOX STYLING --- */
+.rules-box {
+  background: rgba(18, 18, 22, 0.85);
+  border: 1px solid #7000ff;
+  border-radius: 8px;
+  padding: 15px 20px;
+  max-width: 600px;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 0 15px rgba(112, 0, 255, 0.3);
+  text-align: left;
+}
+
+.rules-box h2 {
+  color: #00f0ff;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  text-shadow: 0 0 5px #00f0ff;
+}
+
+.rules-box p, .rules-box li {
+  font-size: 0.85rem;
+  color: #d0d0d0;
+  line-height: 1.5;
+}
+
+.rules-box ul {
+  margin-top: 8px;
+  padding-left: 20px;
+}
+
+.rules-box code {
+  color: #ff007f;
+  background: rgba(255, 0, 127, 0.15);
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 0, 127, 0.4);
+}
