@@ -64,7 +64,8 @@ function isNftStillActive(dateStr) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  if (dateStr.toLowerCase().includes("forever")) return true;
+  const lower = dateStr.toLowerCase();
+  if (lower.includes("forever") || lower === "nftf" || lower.includes("master")) return true;
 
   const parsedDate = parseEncoraDate(dateStr);
   if (parsedDate) {
@@ -105,25 +106,33 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
     
-    // Find NFT date field
+    // Check all item values for NFT Forever indicators (including 'NFTF')
     let nftDateStr = "";
+    let nftForever = false;
+
     for (const key in item) {
-      if (key.trim().toLowerCase() === "nft date") {
-        nftDateStr = (item[key] || "").trim();
-        break;
+      const cleanKey = key.trim().toLowerCase();
+      const val = (item[key] || "").toString().trim();
+      const valLower = val.toLowerCase();
+
+      if (cleanKey === "nft date") {
+        nftDateStr = val;
+      }
+
+      // Check for NFT Forever flags across columns (NFTF, true, yes, 1, forever)
+      if (
+        valLower === "nftf" || 
+        valLower === "nft forever" || 
+        valLower.includes("nft forever") ||
+        (cleanKey.includes("nft") && (valLower === "true" || valLower === "yes" || valLower === "1"))
+      ) {
+        nftForever = true;
       }
     }
 
-    // Find NFT Forever field (checks for true, yes, 1, or forever)
-    let nftForever = false;
-    for (const key in item) {
-      if (key.trim().toLowerCase() === "nft forever") {
-        const val = (item[key] || "").toString().trim().toLowerCase();
-        if (val === "true" || val === "yes" || val === "1" || val === "forever") {
-          nftForever = true;
-        }
-        break;
-      }
+    // Check if the date string itself contains "NFTF" or "forever"
+    if (nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf") {
+      nftForever = true;
     }
 
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
