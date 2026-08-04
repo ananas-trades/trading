@@ -27,6 +27,32 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Robust helper function to parse Encora date strings accurately
+function parseDateString(dateStr) {
+  if (!dateStr) return null;
+  
+  // Try standard JS date parsing first
+  let d = new Date(dateStr);
+  if (!isNaN(d.getTime())) {
+    return d;
+  }
+
+  // Handle YYYY-MM-DD or YYYY/MM/DD manually
+  const parts = dateStr.split(/[-/]/);
+  if (parts.length === 3) {
+    // If year is first (4 digits)
+    if (parts[0].length === 4) {
+      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    }
+    // If year is last (4 digits) -> MM/DD/YYYY or DD/MM/YYYY
+    if (parts[2].length === 4) {
+      return new Date(parseInt(parts[2]), parseInt(parts[0]) - 1, parseInt(parts[1]));
+    }
+  }
+
+  return null;
+}
+
 function renderCards() {
   const query = document.getElementById("search-input").value.toLowerCase();
   const container = document.getElementById("card-container");
@@ -64,7 +90,7 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
     
-    const nftDate = (item["NFT Date"] || item["NFT date"] || item["nft date"] || "").trim();
+    const nftDateStr = (item["NFT Date"] || item["NFT date"] || item["nft date"] || "").trim();
     const nftForever = (item["NFT Forever"] || item["NFT forever"] || "").toString().toLowerCase() === "true";
 
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
@@ -72,27 +98,23 @@ function renderCards() {
     // Build location string from Tour and Venue
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
-    // --- NFT CURRENT VS EXPIRED DATE COMPARISON ---
+    // --- NFT LOGIC ---
     let nftBadgeHTML = '';
 
     if (nftForever) {
       nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
-    } else if (nftDate !== "") {
+    } else if (nftDateStr !== "") {
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // Start of today
+      today.setHours(0, 0, 0, 0); // Normalized start of today
       
-      const parsedNftDate = new Date(nftDate);
+      const parsedNftDate = parseDateString(nftDateStr);
 
-      // Check if date is valid AND in the future/today
-      if (!isNaN(parsedNftDate.getTime()) && parsedNftDate >= today) {
-        // STILL NFT -> #C4001A
-        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDate}</span>`;
-      } else if (!isNaN(parsedNftDate.getTime()) && parsedNftDate < today) {
-        // NO LONGER NFT -> #C0C0C0
-        nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDate})</span>`;
+      if (parsedNftDate && parsedNftDate >= today) {
+        // STILL ACTIVE NFT -> #C4001A (Red)
+        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
       } else {
-        // Fallback: If date string couldn't be parsed, show as active
-        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDate}</span>`;
+        // EXPIRED/PAST NFT (2023, etc.) -> #C0C0C0 (Silver)
+        nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDateStr})</span>`;
       }
     }
 
