@@ -63,7 +63,7 @@ function renderCards() {
     const masterNotes = item["Master Notes"] || "";
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
-    const nftDate = item["NFT Date"] || "";
+    const nftDate = (item["NFT Date"] || "").trim();
     const nftForever = (item["NFT Forever"] || "").toLowerCase() === "true";
 
     const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
@@ -71,23 +71,26 @@ function renderCards() {
     // Build location string from Tour and Venue
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
-    // --- NFT CURRENT VS PAST LOGIC ---
+    // --- NFT LOGIC ---
     let nftBadgeHTML = '';
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set to start of today for accurate comparison
 
     if (nftForever) {
-      // NFT Forever is always active
       nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
     } else if (nftDate) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
       const parsedNftDate = new Date(nftDate);
 
-      // Check if valid date AND today is strictly BEFORE/ON the NFT Date
+      // If the date is valid AND in the future
       if (!isNaN(parsedNftDate.getTime()) && parsedNftDate >= today) {
         nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDate}</span>`;
       } else if (!isNaN(parsedNftDate.getTime())) {
-        // Date has passed! Display dim expired tag (or leave empty if you want it hidden completely)
+        // Date has passed
         nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDate})</span>`;
+      } else {
+        // Fallback: If date couldn't be parsed but text exists, show active badge
+        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDate}</span>`;
       }
     }
 
