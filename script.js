@@ -146,7 +146,7 @@ function renderCards() {
     
     // Checks both 'Format' and 'Trader Format' automatically
     const format = (item["Format"] || item["Trader Format"] || "").trim();
-    const type = (item["Type"] || "Video").trim();
+    const typeRaw = (item["Type"] || "Video").trim();
     
     // Checks both 'File Size' and 'Size' automatically
     const sizeVal = item["File Size"] || item["Size"] || "";
@@ -160,9 +160,14 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
 
+    // --- ENFORCE "AUDIO" OR "VIDEO" BADGE TEXT ---
+    // If the Type or Format says "Audio", it's an Audio. Everything else defaults to Video.
+    const isAudio = typeRaw.toLowerCase().includes('audio') || format.toLowerCase().includes('audio');
+    const displayType = isAudio ? "AUDIO" : "VIDEO";
+
     // Badge HTML Construction
     const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
-    const typeBadgeHTML = `<span class="badge badge-${type.toLowerCase().includes('audio') ? 'audio' : 'video'}">${type.toUpperCase()}</span>`;
+    const typeBadgeHTML = `<span class="badge badge-${displayType.toLowerCase()}">${displayType}</span>`;
     
     // Check all item values for NFT Flags
     let nftDateStr = "";
