@@ -58,52 +58,64 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// ROBUST VALUE GETTER (Tries Header Names First, then Index Position)
-function getVal(item, index, ...possibleHeaders) {
+// Case & character insensitive header finder
+function getValByName(item, ...names) {
   if (!item) return "";
-  const values = Object.values(item);
   const keys = Object.keys(item);
-
-  // 1. Try finding by exact or partial key name
-  for (const header of possibleHeaders) {
-    const cleanHeader = header.toLowerCase().replace(/[^a-z0-9]/g, '');
+  for (const name of names) {
+    const target = name.toLowerCase().replace(/[^a-z0-9]/g, '');
     for (const key of keys) {
       const cleanKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
-      if (cleanKey === cleanHeader && item[key] !== undefined && item[key] !== null) {
-        const val = item[key].toString().trim();
-        if (val) return val;
+      if (cleanKey === target) {
+        const val = item[key];
+        if (val !== undefined && val !== null) {
+          const str = val.toString().trim();
+          if (str) return str;
+        }
       }
     }
   }
-
-  // 2. Fallback to column index position if key matching failed
-  if (index !== null && index !== undefined && values[index] !== undefined && values[index] !== null) {
-    return values[index].toString().trim();
-  }
-
   return "";
 }
 
-// STRICT FILE SIZE RETRIEVAL (Index 21 / 2nd to last column)
+// DYNAMIC FILE SIZE DETECTOR (Scans values for GB/MB/KB/TB pattern)
 function getFileSize(item) {
-  return getVal(item, 21, "File Size", "Size", "Filesize");
+  // 1. Try column names first
+  const named = getValByName(item, "File Size", "Size", "Filesize");
+  if (named && /^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(named.trim())) {
+    return named.trim();
+  }
+
+  // 2. Dynamic Scan: Look through EVERY cell in this row for a size string (e.g. "2.21 GB")
+  const values = Object.values(item);
+  for (const val of values) {
+    if (!val) continue;
+    const str = val.toString().trim();
+    // Regex matching numbers followed by GB, MB, KB, TB
+    if (/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(str)) {
+      return str;
+    }
+  }
+
+  // 3. Fallback to named value even if regex didn't strictly match
+  return named;
 }
 
-// FORMAT RETRIEVAL (Index 22 / Last column, with fallbacks to Trader Format / Format)
+// FORMAT DETECTOR
 function getFormat(item) {
-  const traderFmt = getVal(item, 16, "Trader Format");
+  const traderFmt = getValByName(item, "Trader Format");
   if (traderFmt) return traderFmt;
 
-  const rawFmt = getVal(item, 22, "Format");
-  if (rawFmt) return rawFmt;
+  const fmt = getValByName(item, "Format");
+  if (fmt) return fmt;
 
-  return getVal(item, 15, "Release Format");
+  return getValByName(item, "Release Format");
 }
 
 // SMART MEDIA TYPE CHECKER
 function getMediaType(item) {
-  const audioVideo = getVal(item, 0, "Audio / Video").toLowerCase();
-  const typeRaw = getVal(item, 14, "Type").toLowerCase();
+  const audioVideo = getValByName(item, "Audio / Video", "Audio/Video").toLowerCase();
+  const typeRaw = getValByName(item, "Type").toLowerCase();
   const formatRaw = getFormat(item).toLowerCase();
 
   if (
@@ -181,8 +193,8 @@ function renderCards() {
 
     // 2. Category Filter
     if (currentCategory !== 'all') {
-      const tour = getVal(item, 2, "Tour").toLowerCase();
-      const venue = getVal(item, 19, "Venue").toLowerCase();
+      const tour = getValByName(item, "Tour").toLowerCase();
+      const venue = getValByName(item, "Venue").toLowerCase();
       const locationText = `${tour} ${venue}`;
 
       if (currentCategory === 'off-broadway') {
@@ -205,10 +217,10 @@ function renderCards() {
   filtered.forEach((item, index) => {
     const card = document.createElement("div");
 
-    // Retrieve values using Index + Header Name Strategy
-    const show = getVal(item, 1, "Show") || "Unknown Show";
-    const date = getVal(item, 3, "Date");
-    const matineeEve = getVal(item, 4, "Matinée / Evening", "Matinee / Evening", "MatinÃ©e / Evening");
+    // Header Retrieval
+    const show = getValByName(item, "Show") || "Unknown Show";
+    const date = getValByName(item, "Date");
+    const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening", "MatinÃ©e / Evening");
     const showTime = matineeEve ? ` (${matineeEve})` : "";
     
     // Format badge & File Size
@@ -216,13 +228,13 @@ function renderCards() {
     const sizeVal = getFileSize(item);
     const fileSize = sizeVal ? ` [${sizeVal}]` : "";
 
-    const tour = getVal(item, 2, "Tour");
-    const venue = getVal(item, 19, "Venue");
-    const master = getVal(item, 5, "Master");
-    const cast = getVal(item, 6, "Cast");
-    const masterNotes = getVal(item, 7, "Master Notes");
-    const tradingNotes = getVal(item, 8, "Trading Notes");
-    const myNotes = getVal(item, 17, "My Notes");
+    const tour = getValByName(item, "Tour");
+    const venue = getValByName(item, "Venue");
+    const master = getValByName(item, "Master");
+    const cast = getValByName(item, "Cast");
+    const masterNotes = getValByName(item, "Master Notes");
+    const tradingNotes = getValByName(item, "Trading Notes");
+    const myNotes = getValByName(item, "My Notes");
 
     // Audio vs Video
     const displayType = getMediaType(item);
@@ -232,8 +244,8 @@ function renderCards() {
     const typeBadgeHTML = `<span class="badge badge-${displayType.toLowerCase()}">${displayType}</span>`;
     
     // NFT Logic
-    const nftDateStr = getVal(item, 9, "NFT Date");
-    const nftForeverVal = getVal(item, 10, "NFT Forever").toLowerCase();
+    const nftDateStr = getValByName(item, "NFT Date");
+    const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
     
     let nftForever = false;
     if (
@@ -316,11 +328,11 @@ function renderCards() {
 
 // Function to copy a single item's summary
 function copySingleItemSummary(item, buttonElement) {
-  const show = getVal(item, 1, "Show") || "Unknown Show";
-  const date = getVal(item, 3, "Date") || "Unknown Date";
-  const tour = getVal(item, 2, "Tour");
-  const venue = getVal(item, 19, "Venue");
-  const master = getVal(item, 5, "Master") || "Unknown Master";
+  const show = getValByName(item, "Show") || "Unknown Show";
+  const date = getValByName(item, "Date") || "Unknown Date";
+  const tour = getValByName(item, "Tour");
+  const venue = getValByName(item, "Venue");
+  const master = getValByName(item, "Master") || "Unknown Master";
   const format = getFormat(item) || getMediaType(item);
 
   const location = [tour, venue].filter(Boolean).join(" - ");
