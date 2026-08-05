@@ -6,19 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
   Papa.parse("list.csv", {
     download: true,
     header: true,
-    skipEmptyLines: true,
-    // Fix #1: Strip hidden UTF-8 BOM (\ufeff) and whitespace from header names
+    skipEmptyLines: "greedy",
     transformHeader: function(header) {
-      return header.replace(/^\ufeff/, '').trim();
+      // Strips hidden UTF-8 BOM, line returns, and whitespace from headers
+      return header.replace(/[\ufeff\u200b\r]/g, '').trim();
     },
     complete: function(results) {
       allData = results.data;
-      
-      // Fix #2: Console log the exact headers parsed from your CSV
-      if (allData.length > 0) {
-        console.log("🔍 DETECTED CSV HEADERS:", Object.keys(allData[0]));
-      }
-
       renderCards();
     },
     error: function(err) {
@@ -64,59 +58,25 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Helper to clean and compare header keys flexibly
-function cleanKey(str) {
-  return (str || "").replace(/^\ufeff/, '').trim().toLowerCase();
-}
-
-// Case-insensitive & BOM-safe header lookup
-function getVal(item, ...headers) {
+// Helper to safely get value from exact header
+function getProp(item, key) {
   if (!item) return "";
-  const keys = Object.keys(item);
-  for (const h of headers) {
-    const target = cleanKey(h);
-    const matchedKey = keys.find(k => cleanKey(k) === target);
-    if (matchedKey && item[matchedKey] !== undefined && item[matchedKey] !== null) {
-      const val = item[matchedKey].toString().trim();
-      if (val) return val;
-    }
+  if (item[key] !== undefined && item[key] !== null) {
+    return item[key].toString().trim();
   }
   return "";
 }
 
-// STRICT FILE SIZE EXTRACTOR (Ignores "Release Format")
-function getFileSize(item) {
-  if (!item) return "";
-  
-  // 1. Direct header matches first
-  const exact = getVal(item, "File Size", "File size", "Size", "Filesize", "Size (GB)", "Size (MB)");
-  if (exact) return exact;
-
-  // 2. Fallback: Search for any column name containing "size" but NOT "format"
-  for (const k in item) {
-    const kClean = cleanKey(k);
-    if (kClean.includes("size") && !kClean.includes("format")) {
-      const val = (item[k] || "").toString().trim();
-      if (val) return val;
-    }
-  }
-
-  return "";
-}
-
-// STRICT FORMAT EXTRACTOR
-function getFormat(item) {
-  return getVal(item, "Trader Format", "Format", "Release Format", "Media Format");
-}
-
-// SMART MEDIA TYPE CHECKER
+// SMART MEDIA TYPE CHECKER (Uses "Audio / Video", "Type", or format columns)
 function getMediaType(item) {
-  const typeRaw = getVal(item, "Type", "Media Type").toLowerCase();
-  const formatRaw = getFormat(item).toLowerCase();
-  
+  const audioVideo = getProp(item, "Audio / Video").toLowerCase();
+  const typeRaw = getProp(item, "Type").toLowerCase();
+  const formatRaw = (getProp(item, "Trader Format") || getProp(item, "Format") || getProp(item, "Release Format")).toLowerCase();
+
   if (
+    audioVideo.includes("audio") || 
     typeRaw.includes("audio") || 
-    formatRaw.includes("audio") ||
+    formatRaw.includes("audio") || 
     formatRaw.includes("mp3") || 
     formatRaw.includes("m4a") || 
     formatRaw.includes("wav") || 
@@ -126,7 +86,7 @@ function getMediaType(item) {
   ) {
     return "AUDIO";
   }
-  
+
   return "VIDEO";
 }
 
@@ -188,8 +148,8 @@ function renderCards() {
 
     // 2. Category Filter
     if (currentCategory !== 'all') {
-      const tour = getVal(item, "Tour").toLowerCase();
-      const venue = getVal(item, "Venue").toLowerCase();
+      const tour = getProp(item, "Tour").toLowerCase();
+      const venue = getProp(item, "Venue").toLowerCase();
       const locationText = `${tour} ${venue}`;
 
       if (currentCategory === 'off-broadway') {
@@ -212,48 +172,49 @@ function renderCards() {
   filtered.forEach((item, index) => {
     const card = document.createElement("div");
 
-    // Encora & File Headers
-    const show = getVal(item, "Show", "Show Name", "Title") || "Unknown Show";
-    const date = getVal(item, "Date");
-    const rawTime = getVal(item, "Show time", "Show Time", "Time");
-    const showTime = rawTime ? ` (${rawTime})` : "";
+    // Exact Header Mapping
+    const show = getProp(item, "Show") || "Unknown Show";
+    const date = getProp(item, "Date");
     
-    // Explicit format and size isolation
-    const format = getFormat(item);
-    const sizeVal = getFileSize(item);
+    // Matinée / Evening
+    const matineeEve = getProp(item, "Matinée / Evening") || getProp(item, "MatinÃ©e / Evening");
+    const showTime = matineeEve ? ` (${matineeEve})` : "";
+    
+    // Format strictly reads Trader Format -> Format -> Release Format
+    const format = getProp(item, "Trader Format") || getProp(item, "Format") || getProp(item, "Release Format");
+    
+    // Strictly reads "File Size"
+    const sizeVal = getProp(item, "File Size");
     const fileSize = sizeVal ? ` [${sizeVal}]` : "";
 
-    const tour = getVal(item, "Tour");
-    const venue = getVal(item, "Venue");
-    const master = getVal(item, "Master");
-    const cast = getVal(item, "Cast");
-    const masterNotes = getVal(item, "Master Notes");
-    const tradingNotes = getVal(item, "Trading Notes");
-    const myNotes = getVal(item, "My Notes", "Notes");
+    const tour = getProp(item, "Tour");
+    const venue = getProp(item, "Venue");
+    const master = getProp(item, "Master");
+    const cast = getProp(item, "Cast");
+    const masterNotes = getProp(item, "Master Notes");
+    const tradingNotes = getProp(item, "Trading Notes");
+    const myNotes = getProp(item, "My Notes");
 
-    // Determine Audio vs Video
+    // Audio vs Video
     const displayType = getMediaType(item);
 
     // Badge HTML Construction
     const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
     const typeBadgeHTML = `<span class="badge badge-${displayType.toLowerCase()}">${displayType}</span>`;
     
-    // Check all item values for NFT Flags
-    let nftDateStr = getVal(item, "NFT Date", "NFT Date/Master", "NFT");
+    // NFT Logic using exact columns: "NFT Date" and "NFT Forever"
+    const nftDateStr = getProp(item, "NFT Date");
+    const nftForeverVal = getProp(item, "NFT Forever").toLowerCase();
+    
     let nftForever = false;
-
-    for (const key in item) {
-      const kClean = cleanKey(key);
-      const val = (item[key] || "").toString().trim().toLowerCase();
-
-      if (
-        val === "nftf" || 
-        val === "nft forever" || 
-        val.includes("nft forever") ||
-        (kClean.includes("nft") && (val === "true" || val === "yes" || val === "1"))
-      ) {
-        nftForever = true;
-      }
+    if (
+      nftForeverVal === "true" || 
+      nftForeverVal === "yes" || 
+      nftForeverVal === "1" || 
+      nftForeverVal === "nftf" || 
+      nftForeverVal.includes("forever")
+    ) {
+      nftForever = true;
     }
 
     if (nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf") {
@@ -314,7 +275,7 @@ function renderCards() {
       </div>
     `;
 
-    // Attach click event for this specific card's copy button
+    // Attach click event for copy button
     const copyBtn = card.querySelector(".copy-card-btn");
     copyBtn.addEventListener("click", () => copySingleItemSummary(item, copyBtn));
 
@@ -326,12 +287,12 @@ function renderCards() {
 
 // Function to copy a single item's summary
 function copySingleItemSummary(item, buttonElement) {
-  const show = getVal(item, "Show", "Show Name", "Title") || "Unknown Show";
-  const date = getVal(item, "Date") || "Unknown Date";
-  const tour = getVal(item, "Tour");
-  const venue = getVal(item, "Venue");
-  const master = getVal(item, "Master") || "Unknown Master";
-  const format = getFormat(item) || getMediaType(item);
+  const show = getProp(item, "Show") || "Unknown Show";
+  const date = getProp(item, "Date") || "Unknown Date";
+  const tour = getProp(item, "Tour");
+  const venue = getProp(item, "Venue");
+  const master = getProp(item, "Master") || "Unknown Master";
+  const format = getProp(item, "Trader Format") || getProp(item, "Format") || getProp(item, "Release Format") || getMediaType(item);
 
   const location = [tour, venue].filter(Boolean).join(" - ");
 
