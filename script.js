@@ -198,7 +198,7 @@ function generateFormattedText() {
   lines.push("");
   lines.push("Thanks!");
 
-  return lines.join("\r\n"); // Standard CRLF line breaks for mailto URLs
+  return lines.join("\n");
 }
 
 function updateCartUI() {
@@ -251,20 +251,26 @@ function updateCartUI() {
   if (videoCountEl) videoCountEl.innerText = videos;
   if (audioCountEl) audioCountEl.innerText = audios;
 
-  // Build mailto Link securely
+  // Handled via explicit click handler to prevent URL truncation / browser hanging
   if (emailBtn) {
-    const mailToRecipient = "tradingtreelost@gmail.com";
-    const subject = `Trade Request (${tradeCart.length} Items)`;
-    const body = generateFormattedText();
+    emailBtn.href = "javascript:void(0)";
+    emailBtn.onclick = function(e) {
+      e.preventDefault();
+      
+      const mailToRecipient = "tradingtreelost@gmail.com";
+      const subject = `Trade Request (${tradeCart.length} Items)`;
+      const bodyText = generateFormattedText();
 
-    // Use URLSearchParams for reliable query encoding across all mail apps
-    const params = new URLSearchParams({
-      subject: subject,
-      body: body
-    });
+      const mailtoUrl = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
 
-    emailBtn.href = `mailto:${mailToRecipient}?${params.toString().replace(/\+/g, '%20')}`;
-    emailBtn.onclick = null; // Remove preventDefault
+      try {
+        window.location.href = mailtoUrl;
+      } catch (err) {
+        // Fallback for browsers/OS setups without a default mail app configured
+        navigator.clipboard.writeText(bodyText);
+        alert("Could not automatically open your mail app. The trade request text has been copied to your clipboard so you can paste it into an email manually!");
+      }
+    };
   }
 }
 
