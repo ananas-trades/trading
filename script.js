@@ -7,9 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     download: true,
     header: true,
     skipEmptyLines: "greedy",
+    dynamicTyping: false,
+    delimiter: "", // Auto-detect commas vs tabs
     transformHeader: function(header) {
-      // Strips hidden UTF-8 BOM, line returns, and whitespace from headers
-      return header.replace(/[\ufeff\u200b\r]/g, '').trim();
+      return header.replace(/[\ufeff\u200b\r\n]/g, '').trim();
     },
     complete: function(results) {
       allData = results.data;
@@ -58,20 +59,45 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Helper to safely get value from exact header
-function getProp(item, key) {
+// FUZZY HEADER LOOKUP
+// Finds a key in item where the key name matches any provided target names
+function getPropFuzzy(item, ...targetHeaders) {
   if (!item) return "";
-  if (item[key] !== undefined && item[key] !== null) {
-    return item[key].toString().trim();
+  const keys = Object.keys(item);
+
+  for (const target of targetHeaders) {
+    const targetClean = target.toLowerCase().replace(/[^a-z0-9]/g, '');
+    
+    for (const key of keys) {
+      const keyClean = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (keyClean === targetClean) {
+        const val = item[key];
+        if (val !== undefined && val !== null) {
+          const str = val.toString().trim();
+          if (str) return str;
+        }
+      }
+    }
   }
   return "";
 }
 
-// SMART MEDIA TYPE CHECKER (Uses "Audio / Video", "Type", or format columns)
+// STRICT FILE SIZE RETRIEVAL
+function getFileSize(item) {
+  // Looks strictly for "File Size" or "Size" column
+  return getPropFuzzy(item, "File Size", "Size", "Filesize");
+}
+
+// FORMAT RETRIEVAL
+function getFormat(item) {
+  return getPropFuzzy(item, "Trader Format", "Format", "Release Format");
+}
+
+// SMART MEDIA TYPE CHECKER
 function getMediaType(item) {
-  const audioVideo = getProp(item, "Audio / Video").toLowerCase();
-  const typeRaw = getProp(item, "Type").toLowerCase();
-  const formatRaw = (getProp(item, "Trader Format") || getProp(item, "Format") || getProp(item, "Release Format")).toLowerCase();
+  const audioVideo = getPropFuzzy(item, "Audio / Video").toLowerCase();
+  const typeRaw = getPropFuzzy(item, "Type").toLowerCase();
+  const formatRaw = getFormat(item).toLowerCase();
 
   if (
     audioVideo.includes("audio") || 
@@ -148,8 +174,8 @@ function renderCards() {
 
     // 2. Category Filter
     if (currentCategory !== 'all') {
-      const tour = getProp(item, "Tour").toLowerCase();
-      const venue = getProp(item, "Venue").toLowerCase();
+      const tour = getPropFuzzy(item, "Tour").toLowerCase();
+      const venue = getPropFuzzy(item, "Venue").toLowerCase();
       const locationText = `${tour} ${venue}`;
 
       if (currentCategory === 'off-broadway') {
@@ -172,28 +198,26 @@ function renderCards() {
   filtered.forEach((item, index) => {
     const card = document.createElement("div");
 
-    // Exact Header Mapping
-    const show = getProp(item, "Show") || "Unknown Show";
-    const date = getProp(item, "Date");
-    
-    // Matinée / Evening
-    const matineeEve = getProp(item, "Matinée / Evening") || getProp(item, "MatinÃ©e / Evening");
+    // Header values
+    const show = getPropFuzzy(item, "Show") || "Unknown Show";
+    const date = getPropFuzzy(item, "Date");
+    const matineeEve = getPropFuzzy(item, "Matinee / Evening", "Matinee", "Evening");
     const showTime = matineeEve ? ` (${matineeEve})` : "";
     
-    // Format strictly reads Trader Format -> Format -> Release Format
-    const format = getProp(item, "Trader Format") || getProp(item, "Format") || getProp(item, "Release Format");
+    // Format badge text
+    const format = getFormat(item);
     
-    // Strictly reads "File Size"
-    const sizeVal = getProp(item, "File Size");
+    // Strictly retrieve File Size
+    const sizeVal = getFileSize(item);
     const fileSize = sizeVal ? ` [${sizeVal}]` : "";
 
-    const tour = getProp(item, "Tour");
-    const venue = getProp(item, "Venue");
-    const master = getProp(item, "Master");
-    const cast = getProp(item, "Cast");
-    const masterNotes = getProp(item, "Master Notes");
-    const tradingNotes = getProp(item, "Trading Notes");
-    const myNotes = getProp(item, "My Notes");
+    const tour = getPropFuzzy(item, "Tour");
+    const venue = getPropFuzzy(item, "Venue");
+    const master = getPropFuzzy(item, "Master");
+    const cast = getPropFuzzy(item, "Cast");
+    const masterNotes = getPropFuzzy(item, "Master Notes");
+    const tradingNotes = getPropFuzzy(item, "Trading Notes");
+    const myNotes = getPropFuzzy(item, "My Notes");
 
     // Audio vs Video
     const displayType = getMediaType(item);
@@ -202,9 +226,9 @@ function renderCards() {
     const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
     const typeBadgeHTML = `<span class="badge badge-${displayType.toLowerCase()}">${displayType}</span>`;
     
-    // NFT Logic using exact columns: "NFT Date" and "NFT Forever"
-    const nftDateStr = getProp(item, "NFT Date");
-    const nftForeverVal = getProp(item, "NFT Forever").toLowerCase();
+    // NFT Logic
+    const nftDateStr = getPropFuzzy(item, "NFT Date");
+    const nftForeverVal = getPropFuzzy(item, "NFT Forever").toLowerCase();
     
     let nftForever = false;
     if (
@@ -223,7 +247,7 @@ function renderCards() {
 
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
-    // --- NFT LOGIC & BADGE BUILDING ---
+    // NFT Badge Building
     let nftBadgeHTML = '';
     let isNFTActive = false;
 
@@ -287,12 +311,12 @@ function renderCards() {
 
 // Function to copy a single item's summary
 function copySingleItemSummary(item, buttonElement) {
-  const show = getProp(item, "Show") || "Unknown Show";
-  const date = getProp(item, "Date") || "Unknown Date";
-  const tour = getProp(item, "Tour");
-  const venue = getProp(item, "Venue");
-  const master = getProp(item, "Master") || "Unknown Master";
-  const format = getProp(item, "Trader Format") || getProp(item, "Format") || getProp(item, "Release Format") || getMediaType(item);
+  const show = getPropFuzzy(item, "Show") || "Unknown Show";
+  const date = getPropFuzzy(item, "Date") || "Unknown Date";
+  const tour = getPropFuzzy(item, "Tour");
+  const venue = getPropFuzzy(item, "Venue");
+  const master = getPropFuzzy(item, "Master") || "Unknown Master";
+  const format = getFormat(item) || getMediaType(item);
 
   const location = [tour, venue].filter(Boolean).join(" - ");
 
