@@ -1120,3 +1120,122 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
+/* ============================================================
+   DRAWER DARK THEME & OVERFLOW FIX
+============================================================ */
+
+/* 1. Dark Theme Drawer Container */
+.trade-drawer {
+  background-color: #12131C !important; /* Dark theme to match page background */
+  color: #E2E8F0 !important;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* 2. Drawer Header */
+.drawer-header {
+  background-color: #1A1C29 !important;
+  border-bottom: 1px solid #2D3748 !important;
+  padding: 16px 20px !important;
+}
+
+.drawer-header h3 {
+  color: #F7FAFC !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  font-size: 1.15rem !important;
+}
+
+.close-drawer-btn {
+  color: #A0AEC0 !important;
+}
+
+.close-drawer-btn:hover {
+  color: #FFFFFF !important;
+}
+
+/* 3. Drawer Stats Bar */
+.cart-summary {
+  background-color: #171923 !important;
+  border-bottom: 1px solid #2D3748 !important;
+  color: #A0AEC0 !important;
+}
+
+/* 4. Cart Items */
+.cart-item-row {
+  background-color: #1A1C2A !important;
+  border: 1px solid #2D3748 !important;
+  border-left: 4px solid #6366F1 !important;
+}
+
+.cart-item-details strong {
+  color: #EDF2F7 !important;
+}
+
+.cart-item-details span {
+  color: #A0AEC0 !important;
+}
+
+.empty-cart-msg {
+  color: #A0AEC0 !important;
+}
+
+/* 5. Drawer Footer & Action Buttons Fix */
+.drawer-footer {
+  background-color: #171923 !important;
+  border-top: 1px solid #2D3748 !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+/* Ensure buttons take full width without wrapping or breaking */
+.drawer-footer .btn,
+.drawer-footer button,
+.drawer-footer a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 10px 14px !important;
+  border-radius: 6px !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+/* Primary Action: Email */
+.email-trade-btn {
+  background: #2563EB !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+
+.email-trade-btn:hover {
+  background: #1D4ED8 !important;
+}
+
+/* Secondary Action: Copy */
+.copy-trade-btn {
+  background: #2D3748 !important;
+  color: #EDF2F7 !important;
+  border: 1px solid #4A5568 !important;
+}
+
+.copy-trade-btn:hover {
+  background: #3A475C !important;
+}
+
+/* Tertiary Action: Clear */
+.clear-cart-btn {
+  background: transparent !important;
+  color: #FC8181 !important;
+  border: 1px solid transparent !important;
+}
+
+.clear-cart-btn:hover {
+  background: rgba(254, 178, 178, 0.1) !important;
+}
