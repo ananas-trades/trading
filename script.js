@@ -7,11 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
     download: true,
     header: true,
     skipEmptyLines: true,
+    // Fix #1: Strip hidden UTF-8 BOM (\ufeff) and whitespace from header names
     transformHeader: function(header) {
-      return header.trim();
+      return header.replace(/^\ufeff/, '').trim();
     },
     complete: function(results) {
       allData = results.data;
+      
+      // Fix #2: Console log the exact headers parsed from your CSV
+      if (allData.length > 0) {
+        console.log("🔍 DETECTED CSV HEADERS:", Object.keys(allData[0]));
+      }
+
       renderCards();
     },
     error: function(err) {
@@ -57,13 +64,18 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// CASE-INSENSITIVE HEADER LOOKUP HELPER
+// Helper to clean and compare header keys flexibly
+function cleanKey(str) {
+  return (str || "").replace(/^\ufeff/, '').trim().toLowerCase();
+}
+
+// Case-insensitive & BOM-safe header lookup
 function getVal(item, ...headers) {
   if (!item) return "";
   const keys = Object.keys(item);
   for (const h of headers) {
-    const target = h.toLowerCase().trim();
-    const matchedKey = keys.find(k => k.toLowerCase().trim() === target);
+    const target = cleanKey(h);
+    const matchedKey = keys.find(k => cleanKey(k) === target);
     if (matchedKey && item[matchedKey] !== undefined && item[matchedKey] !== null) {
       const val = item[matchedKey].toString().trim();
       if (val) return val;
@@ -72,19 +84,18 @@ function getVal(item, ...headers) {
   return "";
 }
 
-// SMART FILE SIZE EXTRACTOR (Strictly searches for columns with "size")
+// STRICT FILE SIZE EXTRACTOR (Ignores "Release Format")
 function getFileSize(item) {
   if (!item) return "";
-  const keys = Object.keys(item);
   
-  // 1. Try exact common header names
+  // 1. Direct header matches first
   const exact = getVal(item, "File Size", "File size", "Size", "Filesize", "Size (GB)", "Size (MB)");
   if (exact) return exact;
 
-  // 2. Scan all CSV keys for any column containing "size" (excluding "format")
-  for (const k of keys) {
-    const cleanKey = k.toLowerCase().trim();
-    if (cleanKey.includes("size") && !cleanKey.includes("format")) {
+  // 2. Fallback: Search for any column name containing "size" but NOT "format"
+  for (const k in item) {
+    const kClean = cleanKey(k);
+    if (kClean.includes("size") && !kClean.includes("format")) {
       const val = (item[k] || "").toString().trim();
       if (val) return val;
     }
@@ -93,7 +104,7 @@ function getFileSize(item) {
   return "";
 }
 
-// SMART FORMAT EXTRACTOR (Prioritizes Trader Format over Release Format)
+// STRICT FORMAT EXTRACTOR
 function getFormat(item) {
   return getVal(item, "Trader Format", "Format", "Release Format", "Media Format");
 }
@@ -207,7 +218,7 @@ function renderCards() {
     const rawTime = getVal(item, "Show time", "Show Time", "Time");
     const showTime = rawTime ? ` (${rawTime})` : "";
     
-    // Format vs Size isolation
+    // Explicit format and size isolation
     const format = getFormat(item);
     const sizeVal = getFileSize(item);
     const fileSize = sizeVal ? ` [${sizeVal}]` : "";
@@ -232,14 +243,14 @@ function renderCards() {
     let nftForever = false;
 
     for (const key in item) {
-      const cleanKey = key.trim().toLowerCase();
+      const kClean = cleanKey(key);
       const val = (item[key] || "").toString().trim().toLowerCase();
 
       if (
         val === "nftf" || 
         val === "nft forever" || 
         val.includes("nft forever") ||
-        (cleanKey.includes("nft") && (val === "true" || val === "yes" || val === "1"))
+        (kClean.includes("nft") && (val === "true" || val === "yes" || val === "1"))
       ) {
         nftForever = true;
       }
