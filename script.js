@@ -297,4 +297,4 @@ function renderCards() {
 
     container.appendChild(card);
   });
-} this is script .js
+}
