@@ -57,6 +57,68 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// CASE-INSENSITIVE HEADER LOOKUP HELPER
+function getVal(item, ...headers) {
+  if (!item) return "";
+  const keys = Object.keys(item);
+  for (const h of headers) {
+    const target = h.toLowerCase().trim();
+    const matchedKey = keys.find(k => k.toLowerCase().trim() === target);
+    if (matchedKey && item[matchedKey] !== undefined && item[matchedKey] !== null) {
+      const val = item[matchedKey].toString().trim();
+      if (val) return val;
+    }
+  }
+  return "";
+}
+
+// SMART FILE SIZE EXTRACTOR (Strictly searches for columns with "size")
+function getFileSize(item) {
+  if (!item) return "";
+  const keys = Object.keys(item);
+  
+  // 1. Try exact common header names
+  const exact = getVal(item, "File Size", "File size", "Size", "Filesize", "Size (GB)", "Size (MB)");
+  if (exact) return exact;
+
+  // 2. Scan all CSV keys for any column containing "size" (excluding "format")
+  for (const k of keys) {
+    const cleanKey = k.toLowerCase().trim();
+    if (cleanKey.includes("size") && !cleanKey.includes("format")) {
+      const val = (item[k] || "").toString().trim();
+      if (val) return val;
+    }
+  }
+
+  return "";
+}
+
+// SMART FORMAT EXTRACTOR (Prioritizes Trader Format over Release Format)
+function getFormat(item) {
+  return getVal(item, "Trader Format", "Format", "Release Format", "Media Format");
+}
+
+// SMART MEDIA TYPE CHECKER
+function getMediaType(item) {
+  const typeRaw = getVal(item, "Type", "Media Type").toLowerCase();
+  const formatRaw = getFormat(item).toLowerCase();
+  
+  if (
+    typeRaw.includes("audio") || 
+    formatRaw.includes("audio") ||
+    formatRaw.includes("mp3") || 
+    formatRaw.includes("m4a") || 
+    formatRaw.includes("wav") || 
+    formatRaw.includes("flac") || 
+    formatRaw.includes("tracked") ||
+    formatRaw.includes("cd")
+  ) {
+    return "AUDIO";
+  }
+  
+  return "VIDEO";
+}
+
 function parseEncoraDate(dateStr) {
   if (!dateStr) return null;
   const clean = dateStr.trim().replace(/\./g, '-');
@@ -99,27 +161,6 @@ function isNftStillActive(dateStr) {
   return false;
 }
 
-// SMART MEDIA TYPE CHECKER
-function getMediaType(item) {
-  const typeRaw = (item["Type"] || "").toLowerCase();
-  const formatRaw = (item["Trader Format"] || item["Format"] || item["Release Format"] || "").toLowerCase();
-  
-  if (
-    typeRaw.includes("audio") || 
-    formatRaw.includes("audio") ||
-    formatRaw.includes("mp3") || 
-    formatRaw.includes("m4a") || 
-    formatRaw.includes("wav") || 
-    formatRaw.includes("flac") || 
-    formatRaw.includes("tracked") ||
-    formatRaw.includes("cd")
-  ) {
-    return "AUDIO";
-  }
-  
-  return "VIDEO";
-}
-
 function renderCards() {
   const query = document.getElementById("search-input").value.toLowerCase();
   const container = document.getElementById("card-container");
@@ -136,8 +177,8 @@ function renderCards() {
 
     // 2. Category Filter
     if (currentCategory !== 'all') {
-      const tour = (item["Tour"] || "").toLowerCase();
-      const venue = (item["Venue"] || "").toLowerCase();
+      const tour = getVal(item, "Tour").toLowerCase();
+      const venue = getVal(item, "Venue").toLowerCase();
       const locationText = `${tour} ${venue}`;
 
       if (currentCategory === 'off-broadway') {
@@ -161,24 +202,23 @@ function renderCards() {
     const card = document.createElement("div");
 
     // Encora & File Headers
-    const show = item["Show"] || "Unknown Show";
-    const date = item["Date"] || "";
-    const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
+    const show = getVal(item, "Show", "Show Name", "Title") || "Unknown Show";
+    const date = getVal(item, "Date");
+    const rawTime = getVal(item, "Show time", "Show Time", "Time");
+    const showTime = rawTime ? ` (${rawTime})` : "";
     
-    // Explicitly grab Format (Trader Format first, then Format, then Release Format)
-    const format = (item["Trader Format"] || item["Format"] || item["Release Format"] || "").trim();
-    
-    // Strictly grab File Size headers only (ignores Release Format)
-    const sizeVal = (item["File Size"] || item["File size"] || item["Size"] || "").trim();
+    // Format vs Size isolation
+    const format = getFormat(item);
+    const sizeVal = getFileSize(item);
     const fileSize = sizeVal ? ` [${sizeVal}]` : "";
 
-    const tour = item["Tour"] || "";
-    const venue = item["Venue"] || "";
-    const master = item["Master"] || "";
-    const cast = item["Cast"] || "";
-    const masterNotes = item["Master Notes"] || "";
-    const tradingNotes = item["Trading Notes"] || "";
-    const myNotes = item["My Notes"] || "";
+    const tour = getVal(item, "Tour");
+    const venue = getVal(item, "Venue");
+    const master = getVal(item, "Master");
+    const cast = getVal(item, "Cast");
+    const masterNotes = getVal(item, "Master Notes");
+    const tradingNotes = getVal(item, "Trading Notes");
+    const myNotes = getVal(item, "My Notes", "Notes");
 
     // Determine Audio vs Video
     const displayType = getMediaType(item);
@@ -188,23 +228,18 @@ function renderCards() {
     const typeBadgeHTML = `<span class="badge badge-${displayType.toLowerCase()}">${displayType}</span>`;
     
     // Check all item values for NFT Flags
-    let nftDateStr = "";
+    let nftDateStr = getVal(item, "NFT Date", "NFT Date/Master", "NFT");
     let nftForever = false;
 
     for (const key in item) {
       const cleanKey = key.trim().toLowerCase();
-      const val = (item[key] || "").toString().trim();
-      const valLower = val.toLowerCase();
-
-      if (cleanKey === "nft date") {
-        nftDateStr = val;
-      }
+      const val = (item[key] || "").toString().trim().toLowerCase();
 
       if (
-        valLower === "nftf" || 
-        valLower === "nft forever" || 
-        valLower.includes("nft forever") ||
-        (cleanKey.includes("nft") && (valLower === "true" || valLower === "yes" || valLower === "1"))
+        val === "nftf" || 
+        val === "nft forever" || 
+        val.includes("nft forever") ||
+        (cleanKey.includes("nft") && (val === "true" || val === "yes" || val === "1"))
       ) {
         nftForever = true;
       }
@@ -280,16 +315,15 @@ function renderCards() {
 
 // Function to copy a single item's summary
 function copySingleItemSummary(item, buttonElement) {
-  const show = item["Show"] || "Unknown Show";
-  const date = item["Date"] || "Unknown Date";
-  const tour = item["Tour"] || "";
-  const venue = item["Venue"] || "";
-  const master = item["Master"] || "Unknown Master";
-  const format = item["Trader Format"] || item["Format"] || item["Release Format"] || "Video";
+  const show = getVal(item, "Show", "Show Name", "Title") || "Unknown Show";
+  const date = getVal(item, "Date") || "Unknown Date";
+  const tour = getVal(item, "Tour");
+  const venue = getVal(item, "Venue");
+  const master = getVal(item, "Master") || "Unknown Master";
+  const format = getFormat(item) || getMediaType(item);
 
   const location = [tour, venue].filter(Boolean).join(" - ");
-  
-  // Format formatted summary block for single bootleg
+
   let text = `${show} - ${date} (${format})`;
   if (location) text += ` | ${location}`;
   if (master) text += ` | Master: ${master}`;
