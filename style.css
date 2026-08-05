@@ -169,6 +169,15 @@ h1 {
   box-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
 }
 
+/* Custom styling for Video / Audio Combos */
+.badge-video---audio,
+.badge-video-audio {
+  background-color: #9c27b0;        /* Deep Magenta/Purple */
+  color: #ffffff;
+  border: 1px solid #e040fb;
+  box-shadow: 0 0 8px rgba(224, 64, 251, 0.4); /* Optional neon glow to match your site! */
+}
+
 /* --- CARD METADATA & NOTES --- */
 .card-meta {
   font-size: 0.88rem;
