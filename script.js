@@ -2,6 +2,10 @@ let allData = [];
 let currentFilter = 'all';
 let currentCategory = 'all';
 
+// LocalStorage Trade Cart State
+const STORAGE_KEY = "bootleg_trade_cart";
+let tradeCart = loadCartFromStorage();
+
 document.addEventListener("DOMContentLoaded", () => {
   Papa.parse("./list.csv", {
     download: true,
@@ -14,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     complete: function(results) {
       allData = results.data;
       renderCards();
+      updateCartUI(); // Initial UI sync for cart items loaded from LocalStorage
     },
     error: function(err) {
       document.getElementById('stats').innerText = "Upload your 'list.csv' file to display your collection!";
@@ -56,7 +61,207 @@ document.addEventListener("DOMContentLoaded", () => {
   scrollTopBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
+
+  // Trade Cart Drawer Listeners
+  const drawer = document.getElementById("trade-drawer");
+  const overlay = document.getElementById("drawer-overlay");
+  
+  const cartToggleBtn = document.getElementById("cart-toggle-btn");
+  if (cartToggleBtn) cartToggleBtn.addEventListener("click", openDrawer);
+  
+  const closeDrawerBtn = document.getElementById("close-drawer-btn");
+  if (closeDrawerBtn) closeDrawerBtn.addEventListener("click", closeDrawer);
+  
+  if (overlay) overlay.addEventListener("click", closeDrawer);
+  
+  const clearCartBtn = document.getElementById("clear-cart-btn");
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener("click", () => {
+      tradeCart = [];
+      saveCartToStorage();
+      updateCartUI();
+      renderCards();
+    });
+  }
+
+  const copyTradeBtn = document.getElementById("copy-trade-btn");
+  if (copyTradeBtn) copyTradeBtn.addEventListener("click", copyTradeRequest);
 });
+
+/* ============================================================
+   LOCALSTORAGE CART PERSISTENCE
+============================================================ */
+function loadCartFromStorage() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [];
+  } catch (e) {
+    console.error("Could not load trade cart from storage:", e);
+    return [];
+  }
+}
+
+function saveCartToStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tradeCart));
+  } catch (e) {
+    console.error("Could not save trade cart to storage:", e);
+  }
+}
+
+/* ============================================================
+   DRAWER & CART MANAGERS
+============================================================ */
+function openDrawer() {
+  const drawer = document.getElementById("trade-drawer");
+  const overlay = document.getElementById("drawer-overlay");
+  if (drawer) drawer.classList.add("open");
+  if (overlay) overlay.classList.add("open");
+}
+
+function closeDrawer() {
+  const drawer = document.getElementById("trade-drawer");
+  const overlay = document.getElementById("drawer-overlay");
+  if (drawer) drawer.classList.remove("open");
+  if (overlay) overlay.classList.remove("open");
+}
+
+function getItemKey(item) {
+  // Generates a unique signature for every item based on core parameters
+  const show = getValByName(item, "Show");
+  const date = getValByName(item, "Date");
+  const master = getValByName(item, "Master");
+  const format = getFormat(item);
+  return `${show}|${date}|${master}|${format}`.toLowerCase();
+}
+
+function isInCart(item) {
+  const key = getItemKey(item);
+  return tradeCart.some(c => c.key === key);
+}
+
+function toggleCartItem(item, buttonEl) {
+  const key = getItemKey(item);
+  const existingIdx = tradeCart.findIndex(c => c.key === key);
+
+  if (existingIdx > -1) {
+    tradeCart.splice(existingIdx, 1);
+    if (buttonEl) {
+      buttonEl.innerText = "+ Add to Trade";
+      buttonEl.classList.remove("in-cart");
+    }
+  } else {
+    tradeCart.push({
+      key: key,
+      show: getValByName(item, "Show") || "Unknown Show",
+      date: getValByName(item, "Date") || "Unknown Date",
+      type: getMediaType(item),
+      format: getFormat(item) || getMediaType(item),
+      tour: getValByName(item, "Tour", "Location", "City"),
+      venue: getValByName(item, "Venue", "Theater", "Theatre"),
+      master: getValByName(item, "Master")
+    });
+    if (buttonEl) {
+      buttonEl.innerText = "✓ In Request";
+      buttonEl.classList.add("in-cart");
+    }
+  }
+
+  saveCartToStorage();
+  updateCartUI();
+}
+
+function removeFromCart(key) {
+  tradeCart = tradeCart.filter(c => c.key !== key);
+  saveCartToStorage();
+  updateCartUI();
+  renderCards();
+}
+
+function updateCartUI() {
+  const container = document.getElementById("cart-items-container");
+  const countEl = document.getElementById("cart-count");
+  const videoCountEl = document.getElementById("cart-video-count");
+  const audioCountEl = document.getElementById("cart-audio-count");
+  const emailBtn = document.getElementById("email-trade-btn");
+
+  if (countEl) countEl.innerText = tradeCart.length;
+
+  let videos = 0;
+  let audios = 0;
+
+  if (!container) return;
+
+  if (tradeCart.length === 0) {
+    container.innerHTML = `<p class="empty-cart-msg">No items added yet. Click "+ Add to Trade" on any item card!</p>`;
+    if (videoCountEl) videoCountEl.innerText = "0";
+    if (audioCountEl) audioCountEl.innerText = "0";
+    if (emailBtn) emailBtn.href = "#";
+    return;
+  }
+
+  container.innerHTML = "";
+  tradeCart.forEach(item => {
+    if (item.type.includes("VIDEO")) videos++;
+    if (item.type.includes("AUDIO")) audios++;
+
+    const location = [item.tour, item.venue].filter(Boolean).join(" - ");
+    const cartCard = document.createElement("div");
+    cartCard.className = "cart-item-row";
+    
+    // Escaping backslashes and double quotes for clean inline click handler
+    const safeKey = item.key.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+
+    cartCard.innerHTML = `
+      <div class="cart-item-details">
+        <strong>${item.show}</strong>
+        <span>📅 ${item.date} (${item.format}) ${location ? `| 📍 ${location}` : ''}</span>
+      </div>
+      <button class="remove-cart-item" onclick="removeFromCart('${safeKey}')">&times;</button>
+    `;
+    container.appendChild(cartCard);
+  });
+
+  if (videoCountEl) videoCountEl.innerText = videos;
+  if (audioCountEl) audioCountEl.innerText = audios;
+
+  // Build mailto Link
+  if (emailBtn) {
+    const mailToRecipient = "tradingtreelost@gmail.com";
+    const mailSubject = encodeURIComponent(`Trade Request (${tradeCart.length} Items)`);
+    const mailBody = encodeURIComponent(generateFormattedText());
+    emailBtn.href = `mailto:${mailToRecipient}?subject=${mailSubject}&body=${mailBody}`;
+  }
+}
+
+function generateFormattedText() {
+  let text = `Hi! I'd like to initiate a trade for the following items from your collection:\n\n`;
+  tradeCart.forEach((item, i) => {
+    const location = [item.tour, item.venue].filter(Boolean).join(" - ");
+    text += `${i + 1}. ${item.show} - ${item.date} (${item.format})`;
+    if (location) text += ` | ${location}`;
+    if (item.master) text += ` | Master: ${item.master}`;
+    text += `\n`;
+  });
+  text += `\nMy Trading List / Link: [INSERT YOUR LINK HERE]\n\nThanks!`;
+  return text;
+}
+
+function copyTradeRequest() {
+  if (!tradeCart.length) return;
+  const text = generateFormattedText();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById("copy-trade-btn");
+    if (btn) {
+      btn.innerText = "✅ Copied Request!";
+      setTimeout(() => { btn.innerText = "📋 Copy Request"; }, 2000);
+    }
+  });
+}
+
+/* ============================================================
+   DATA PARSING & DETECTORS
+============================================================ */
 
 // Case & character insensitive header finder
 function getValByName(item, ...names) {
@@ -177,6 +382,9 @@ function isNftStillActive(dateStr) {
   return false;
 }
 
+/* ============================================================
+   CARD RENDERER
+============================================================ */
 function renderCards() {
   const query = document.getElementById("search-input").value.toLowerCase();
   const container = document.getElementById("card-container");
@@ -191,10 +399,10 @@ function renderCards() {
       return false;
     }
 
-    // 2. Category Filter
+    // 2. Category Filter (Expanded header detection)
     if (currentCategory !== 'all') {
-      const tour = getValByName(item, "Tour").toLowerCase();
-      const venue = getValByName(item, "Venue").toLowerCase();
+      const tour = getValByName(item, "Tour", "Location", "City").toLowerCase();
+      const venue = getValByName(item, "Venue", "Theater", "Theatre").toLowerCase();
       const locationText = `${tour} ${venue}`;
 
       if (currentCategory === 'off-broadway') {
@@ -228,8 +436,8 @@ function renderCards() {
     const sizeVal = getFileSize(item);
     const fileSize = sizeVal ? ` [${sizeVal}]` : "";
 
-    const tour = getValByName(item, "Tour");
-    const venue = getValByName(item, "Venue");
+    const tour = getValByName(item, "Tour", "Location", "City");
+    const venue = getValByName(item, "Venue", "Theater", "Theatre");
     const master = getValByName(item, "Master");
     const cast = getValByName(item, "Cast");
     const masterNotes = getValByName(item, "Master Notes");
@@ -290,6 +498,9 @@ function renderCards() {
       card.classList.add("card-standard");
     }
 
+    // Cart Check
+    const itemInCart = isInCart(item);
+
     card.innerHTML = `
       <div class="card-header">
         <div class="card-title">${show}</div>
@@ -313,11 +524,17 @@ function renderCards() {
       ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
 
       <div class="card-actions">
+        <button class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${index}">
+          ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
+        </button>
         <button class="copy-card-btn" data-index="${index}">📋 Copy Info</button>
       </div>
     `;
 
-    // Attach click event for copy button
+    // Attach click events
+    const addBtn = card.querySelector(".add-cart-btn");
+    addBtn.addEventListener("click", () => toggleCartItem(item, addBtn));
+
     const copyBtn = card.querySelector(".copy-card-btn");
     copyBtn.addEventListener("click", () => copySingleItemSummary(item, copyBtn));
 
@@ -331,8 +548,8 @@ function renderCards() {
 function copySingleItemSummary(item, buttonElement) {
   const show = getValByName(item, "Show") || "Unknown Show";
   const date = getValByName(item, "Date") || "Unknown Date";
-  const tour = getValByName(item, "Tour");
-  const venue = getValByName(item, "Venue");
+  const tour = getValByName(item, "Tour", "Location", "City");
+  const venue = getValByName(item, "Venue", "Theater", "Theatre");
   const master = getValByName(item, "Master") || "Unknown Master";
   const format = getFormat(item) || getMediaType(item);
 
