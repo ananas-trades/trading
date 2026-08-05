@@ -468,3 +468,112 @@ h1 {
   border-color: #ffffff;
   box-shadow: 0 0 20px #00f0ff, 0 0 35px #7000ff;
 }
+/* ============================================================
+   NEW FEATURES: LOCATION FILTERS, CARD COPY & SCROLL TOP
+============================================================ */
+
+/* --- CATEGORY FILTERS --- */
+.category-filters {
+  margin-top: 5px;
+}
+
+.cat-btn {
+  background: rgba(18, 18, 22, 0.85);
+  border: 1px solid #ff007f;
+  color: #b8b8b8;
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 6px rgba(255, 0, 127, 0.3);
+}
+
+.cat-btn:hover {
+  color: #ffffff;
+  border-color: #00f0ff;
+  box-shadow: 0 0 12px #ff007f;
+}
+
+.cat-btn.active {
+  background: #ff007f;
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 0 16px #ff007f, 0 0 25px rgba(255, 0, 127, 0.8);
+  font-weight: bold;
+}
+
+/* --- PER-CARD COPY BUTTON --- */
+.card-actions {
+  margin-top: auto;
+  padding-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.copy-card-btn {
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid #00f0ff;
+  color: #00f0ff;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.3);
+}
+
+.copy-card-btn:hover {
+  background: #00f0ff;
+  color: #000000;
+  box-shadow: 0 0 14px #00f0ff;
+}
+
+.copy-card-btn.copied {
+  background: #00ff66 !important;
+  color: #000000 !important;
+  border-color: #00ff66 !important;
+  box-shadow: 0 0 15px #00ff66 !important;
+}
+
+/* --- FLOATING SCROLL TO TOP BUTTON --- */
+#scroll-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #7000ff;
+  color: #ffffff;
+  border: 2px solid #00f0ff;
+  border-radius: 50px;
+  padding: 12px 18px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 15px #7000ff, 0 0 25px rgba(0, 240, 255, 0.8);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+  z-index: 1000;
+}
+
+#scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+#scroll-top-btn:hover {
+  background: #00f0ff;
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 0 20px #00f0ff, 0 0 35px #7000ff;
+}
