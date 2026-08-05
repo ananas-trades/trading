@@ -108,7 +108,7 @@ function renderCards() {
 
   const filtered = allData.filter(item => {
     // 1. Format/Type Filter (Video/Audio)
-    const mediaType = (item["Type"] || item["Format"] || "").trim();
+    const mediaType = (item["Type"] || item["Format"] || item["Trader Format"] || "").trim();
     if (currentFilter !== 'all' && !mediaType.toLowerCase().includes(currentFilter.toLowerCase())) {
       return false;
     }
@@ -143,9 +143,15 @@ function renderCards() {
     const show = item["Show"] || "Unknown Show";
     const date = item["Date"] || "";
     const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
-    const format = (item["Format"] || "").trim();
+    
+    // Checks both 'Format' and 'Trader Format' automatically
+    const format = (item["Format"] || item["Trader Format"] || "").trim();
     const type = (item["Type"] || "Video").trim();
-    const fileSize = item["File Size"] ? ` [${item["File Size"]}]` : "";
+    
+    // Checks both 'File Size' and 'Size' automatically
+    const sizeVal = item["File Size"] || item["Size"] || "";
+    const fileSize = sizeVal ? ` [${sizeVal}]` : "";
+
     const tour = item["Tour"] || "";
     const venue = item["Venue"] || "";
     const master = item["Master"] || "";
@@ -256,7 +262,7 @@ function copySingleItemSummary(item, buttonElement) {
   const tour = item["Tour"] || "";
   const venue = item["Venue"] || "";
   const master = item["Master"] || "Unknown Master";
-  const format = item["Format"] || "Video";
+  const format = item["Format"] || item["Trader Format"] || "Video";
 
   const location = [tour, venue].filter(Boolean).join(" - ");
   
