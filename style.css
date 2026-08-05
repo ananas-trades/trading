@@ -893,3 +893,49 @@ h1 {
 .card-standard {
   border-left: 4px solid #3b82f6;
 }
+/* ============================================================
+   FIX FOR TRADE REQUEST BUTTON BEING HIDDEN / COVERED
+============================================================ */
+
+/* 1. Reserve extra space at the bottom of the page so content doesn't get covered */
+body {
+  padding-bottom: 90px !important; 
+}
+
+/* 2. Style the floating Trade Request button so it stays on top of everything */
+.cart-toggle-btn {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 9999 !important; /* Forces the button above all other cards and controls */
+  
+  /* Visual styling & shadow so it pops off the page */
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 50px; /* Rounded pill shape */
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.cart-toggle-btn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px); /* Subtle hover lift */
+}
+
+/* Counter badge inside the floating button */
+.cart-toggle-btn .cart-badge {
+  background-color: #ffffff;
+  color: #2563eb;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
