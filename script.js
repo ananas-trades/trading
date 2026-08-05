@@ -10,7 +10,7 @@ let currentSubFilter = 'all';
    1. THEME SWITCHER SYSTEM (Y2K -> MATRIX -> SYNTHWAVE)
 ------------------------------------------------------------ */
 const themes = [
-  { class: '', label: '🎨 Theme: Y2K' },
+  { class: '', label: '🎨 Theme: Cyber Grid' },
   { class: 'theme-matrix', label: '🎨 Theme: Matrix' },
   { class: 'theme-synthwave', label: '🎨 Theme: Synthwave' }
 ];
