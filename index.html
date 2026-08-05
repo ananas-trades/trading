@@ -55,4 +55,35 @@
 
   <script src="script.js?v=6.0"></script>
 </body>
+  <!-- Floating Trade Cart Trigger Button -->
+<button id="cart-toggle-btn" class="cart-toggle-btn">
+  🛒 Trade Request (<span id="cart-count">0</span>)
+</button>
+
+<!-- Slide-out Trade Drawer -->
+<div id="trade-drawer" class="trade-drawer">
+  <div class="drawer-header">
+    <h2>🎭 Your Trade Request</h2>
+    <button id="close-drawer-btn" class="close-btn">&times;</button>
+  </div>
+  
+  <div class="drawer-body">
+    <div id="cart-items-container">
+      <p class="empty-cart-msg">No items added yet. Click "+ Add to Trade" on any item card!</p>
+    </div>
+  </div>
+
+  <div class="drawer-footer">
+    <div id="cart-summary-stats" class="cart-summary-stats">
+      Videos: <span id="cart-video-count">0</span> | Audios: <span id="cart-audio-count">0</span>
+    </div>
+    <div class="drawer-actions">
+      <button id="copy-trade-btn" class="action-btn">📋 Copy Request</button>
+
+      <a id="email-trade-btn" class="action-btn email-btn" href="#" target="_blank">✉️ Email Request</a>
+      <button id="clear-cart-btn" class="clear-btn">Clear All</button>
+    </div>
+  </div>
+</div>
+<div id="drawer-overlay" class="drawer-overlay"></div>
 </html>
