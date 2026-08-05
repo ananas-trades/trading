@@ -100,12 +100,10 @@ function isNftStillActive(dateStr) {
 }
 
 // SMART MEDIA TYPE CHECKER
-// Looks at the type and format columns to reliably guess AUDIO vs VIDEO
 function getMediaType(item) {
   const typeRaw = (item["Type"] || "").toLowerCase();
-  const formatRaw = (item["Format"] || item["Trader Format"] || "").toLowerCase();
+  const formatRaw = (item["Trader Format"] || item["Format"] || item["Release Format"] || "").toLowerCase();
   
-  // If explicitly labeled as audio or uses audio formats
   if (
     typeRaw.includes("audio") || 
     formatRaw.includes("audio") ||
@@ -113,12 +111,12 @@ function getMediaType(item) {
     formatRaw.includes("m4a") || 
     formatRaw.includes("wav") || 
     formatRaw.includes("flac") || 
-    formatRaw.includes("tracked")
+    formatRaw.includes("tracked") ||
+    formatRaw.includes("cd")
   ) {
     return "AUDIO";
   }
   
-  // Defaults to VIDEO for everything else (VOB, MP4, blank formats, etc)
   return "VIDEO";
 }
 
@@ -166,10 +164,12 @@ function renderCards() {
     const show = item["Show"] || "Unknown Show";
     const date = item["Date"] || "";
     const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
-    const format = (item["Format"] || item["Trader Format"] || "").trim();
     
-    // File Size logic
-    const sizeVal = item["File Size"] || item["Size"] || "";
+    // Explicitly grab Format (Trader Format first, then Format, then Release Format)
+    const format = (item["Trader Format"] || item["Format"] || item["Release Format"] || "").trim();
+    
+    // Strictly grab File Size headers only (ignores Release Format)
+    const sizeVal = (item["File Size"] || item["File size"] || item["Size"] || "").trim();
     const fileSize = sizeVal ? ` [${sizeVal}]` : "";
 
     const tour = item["Tour"] || "";
@@ -285,7 +285,7 @@ function copySingleItemSummary(item, buttonElement) {
   const tour = item["Tour"] || "";
   const venue = item["Venue"] || "";
   const master = item["Master"] || "Unknown Master";
-  const format = item["Format"] || item["Trader Format"] || "Video";
+  const format = item["Trader Format"] || item["Format"] || item["Release Format"] || "Video";
 
   const location = [tour, venue].filter(Boolean).join(" - ");
   
