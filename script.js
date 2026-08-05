@@ -104,9 +104,9 @@ function renderCards() {
   const fragment = document.createDocumentFragment();
 
   const filtered = allData.filter(item => {
-    // 1. Format Filter (Video/Audio)
-    const format = (item["Format"] || item["Type"] || "").trim();
-    if (currentFilter !== 'all' && !format.toLowerCase().includes(currentFilter.toLowerCase())) {
+    // 1. Format/Type Filter (Video/Audio)
+    const mediaType = (item["Type"] || item["Format"] || "").trim();
+    if (currentFilter !== 'all' && !mediaType.toLowerCase().includes(currentFilter.toLowerCase())) {
       return false;
     }
 
@@ -136,11 +136,13 @@ function renderCards() {
   filtered.forEach((item, index) => {
     const card = document.createElement("div");
 
-    // Encora Headers
+    // Encora & File Headers
     const show = item["Show"] || "Unknown Show";
     const date = item["Date"] || "";
     const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
-    const format = item["Format"] || "Video";
+    const format = (item["Format"] || "").trim();
+    const type = (item["Type"] || "Video").trim();
+    const fileSize = item["File Size"] ? ` [${item["File Size"]}]` : "";
     const tour = item["Tour"] || "";
     const venue = item["Venue"] || "";
     const master = item["Master"] || "";
@@ -148,6 +150,10 @@ function renderCards() {
     const masterNotes = item["Master Notes"] || "";
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
+
+    // Badge HTML Construction
+    const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
+    const typeBadgeHTML = `<span class="badge badge-${type.toLowerCase().includes('audio') ? 'audio' : 'video'}">${type.toUpperCase()}</span>`;
     
     // Check all item values for NFT Flags
     let nftDateStr = "";
@@ -176,7 +182,6 @@ function renderCards() {
       nftForever = true;
     }
 
-    const formatClass = format.toLowerCase().includes("audio") ? "badge-audio" : "badge-video";
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
     // --- NFT LOGIC & BADGE BUILDING ---
@@ -207,7 +212,10 @@ function renderCards() {
     card.innerHTML = `
       <div class="card-header">
         <div class="card-title">${show}</div>
-        <span class="badge ${formatClass}">${format}</span>
+        <div class="card-badges" style="display: flex; gap: 6px; align-items: center;">
+          ${formatBadgeHTML}
+          ${typeBadgeHTML}
+        </div>
       </div>
       
       <div class="card-meta">
