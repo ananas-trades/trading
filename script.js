@@ -92,6 +92,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const copyTradeBtn = document.getElementById("copy-trade-btn");
   if (copyTradeBtn) copyTradeBtn.addEventListener("click", copyTradeRequest);
+
+  // STABLE ONE-TIME EMAIL LISTENER
+  const emailBtn = document.getElementById("email-trade-btn");
+  if (emailBtn) {
+    emailBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (!tradeCart.length) {
+        alert("Your trade request is empty! Add items to your list first.");
+        return;
+      }
+
+      const mailToRecipient = "tradingtreelost@gmail.com";
+      const subject = `Trade Request (${tradeCart.length} Items)`;
+      const bodyText = generateFormattedText();
+      const encodedBody = encodeURIComponent(bodyText);
+
+      // Background non-blocking clipboard copy
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(bodyText).catch(() => {});
+      }
+
+      // UI Button Feedback
+      const originalText = emailBtn.innerText;
+      emailBtn.innerText = "📋 Copied & Opening Mail...";
+      setTimeout(() => { emailBtn.innerText = originalText; }, 2500);
+
+      // Trigger mailto synchronously to avoid user gesture violation
+      let mailtoUrl = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}`;
+      if (encodedBody.length < 1200) {
+        mailtoUrl += `&body=${encodedBody}`;
+      } else {
+        alert("📋 Your list is long, so the formatted request was COPIED to your clipboard!\n\nJust press Paste (Ctrl+V or Cmd+V) inside your mail app.");
+      }
+
+      window.location.href = mailtoUrl;
+    });
+  }
 });
 
 /* ============================================================
@@ -211,7 +250,6 @@ function updateCartUI() {
   const countEl = document.getElementById("cart-count");
   const videoCountEl = document.getElementById("cart-video-count");
   const audioCountEl = document.getElementById("cart-audio-count");
-  const emailBtn = document.getElementById("email-trade-btn");
 
   if (countEl) countEl.innerText = tradeCart.length;
 
@@ -224,10 +262,6 @@ function updateCartUI() {
     container.innerHTML = `<p class="empty-cart-msg">No items added yet. Click "+ Add to Trade" on any item card!</p>`;
     if (videoCountEl) videoCountEl.innerText = "0";
     if (audioCountEl) audioCountEl.innerText = "0";
-    if (emailBtn) {
-      emailBtn.href = "javascript:void(0)";
-      emailBtn.onclick = (e) => e.preventDefault();
-    }
     return;
   }
 
@@ -239,7 +273,6 @@ function updateCartUI() {
 
     const location = [item.tour, item.venue].filter(Boolean).join(" - ");
     
-    // Create container elements cleanly via JS DOM API
     const cartCard = document.createElement("div");
     cartCard.className = "cart-item-row";
 
@@ -252,10 +285,11 @@ function updateCartUI() {
 
     const removeBtn = document.createElement("button");
     removeBtn.className = "remove-cart-item";
+    removeBtn.type = "button";
     removeBtn.innerHTML = "&times;";
 
-    // Event listener attached directly to DOM node prevents removeChild errors
     removeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       e.stopPropagation();
       removeFromCart(item.key);
     });
@@ -267,35 +301,6 @@ function updateCartUI() {
 
   if (videoCountEl) videoCountEl.innerText = videos;
   if (audioCountEl) audioCountEl.innerText = audios;
-
-  // ROBUST SYNCHRONOUS MAILTO & CLIPBOARD FALLBACK
-  if (emailBtn) {
-    emailBtn.href = "javascript:void(0)";
-    emailBtn.onclick = function(e) {
-      e.preventDefault();
-      
-      const mailToRecipient = "tradingtreelost@gmail.com";
-      const subject = `Trade Request (${tradeCart.length} Items)`;
-      const bodyText = generateFormattedText();
-      const encodedBody = encodeURIComponent(bodyText);
-
-      // 1. Fire-and-forget clipboard copy in background
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(bodyText).catch(() => {});
-      }
-
-      // 2. Launch mailto synchronously to preserve the user gesture context
-      let mailtoUrl = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}`;
-
-      if (encodedBody.length < 1200) {
-        mailtoUrl += `&body=${encodedBody}`;
-      } else {
-        alert("📋 Your trade list is long, so the formatted text was COPIED to your clipboard!\n\nJust press Paste (Ctrl+V or Cmd+V) into your email body.");
-      }
-
-      window.location.assign(mailtoUrl);
-    };
-  }
 }
 
 function copyTradeRequest() {
@@ -575,10 +580,10 @@ function renderCards() {
       ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
 
       <div class="card-actions">
-        <button class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${index}">
+        <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${index}">
           ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
         </button>
-        <button class="copy-card-btn" data-index="${index}">📋 Copy Info</button>
+        <button type="button" class="copy-card-btn" data-index="${index}">📋 Copy Info</button>
       </div>
     `;
 
