@@ -591,3 +591,28 @@ h1 {
   letter-spacing: 0.5px;
   white-space: nowrap;
 }
+/* 1. Ensure the header layout wraps flex children if they don't fit */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap; /* Allows badges to move under the title if too long */
+}
+
+/* 2. Fix the badge container */
+.card-badges {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap; /* Allows long badges to wrap down */
+  max-width: 100%;  /* Keeps it from exceeding the card width */
+}
+
+/* 3. Make individual badges handle long text safely */
+.badge {
+  max-width: 100%;       /* Prevents the badge itself from pushing out of the box */
+  word-break: break-word; /* Breaks long continuous text if needed */
+  white-space: normal;   /* Allows text inside the badge to wrap to a second line */
+  box-sizing: border-box;
+}
