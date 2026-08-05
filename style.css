@@ -1,8 +1,285 @@
 /* ============================================================
-   Y2K THEMED HOVER GLOWS (NFT vs STANDARD)
+   Y2K NEON CYBER AESTHETIC - COMPLETE STYLESHEET
 ============================================================ */
 
-/* --- NFT CARDS: Aggressive Red/Crimson Tones --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #050508;
+  background-image: 
+    radial-gradient(circle at 10% 10%, rgba(112, 0, 255, 0.35) 0%, transparent 40%),
+    radial-gradient(circle at 90% 90%, rgba(0, 240, 255, 0.3) 0%, transparent 40%),
+    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
+  color: #e0e0e0;
+  font-family: 'Courier New', Courier, monospace, sans-serif;
+  min-height: 100vh;
+  padding: 25px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+h1 {
+  color: #00f0ff;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 
+    0 0 10px #ffffff,
+    0 0 20px #00f0ff,
+    0 0 40px #00f0ff,
+    0 0 80px #7000ff;
+  margin-bottom: 20px;
+}
+
+.rules-box {
+  background: rgba(15, 15, 20, 0.9);
+  border: 2px solid #7000ff;
+  border-radius: 10px;
+  padding: 20px 25px;
+  max-width: 700px;
+  margin: 0 auto 25px auto;
+  box-shadow: 0 0 25px rgba(112, 0, 255, 0.4), inset 0 0 15px rgba(112, 0, 255, 0.2);
+  text-align: left;
+}
+
+.rules-box h2 {
+  color: #00f0ff;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px #00f0ff;
+}
+
+.rules-box p, .rules-box li {
+  font-size: 0.9rem;
+  color: #d0d0d0;
+  line-height: 1.6;
+}
+
+.rules-box ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.rules-box code {
+  color: #ff007f;
+  background: rgba(255, 0, 127, 0.2);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 0, 127, 0.5);
+  text-shadow: 0 0 5px #ff007f;
+}
+
+/* --- CONTROLS & SEARCH --- */
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 380px;
+}
+
+#search-input {
+  width: 100%;
+  background: rgba(15, 15, 20, 0.9);
+  border: 2px solid #7000ff;
+  color: #ffffff;
+  padding: 12px 40px 12px 18px;
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 6px;
+  outline: none;
+  box-shadow: 0 0 12px rgba(112, 0, 255, 0.5), inset 0 0 10px rgba(112, 0, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+#search-input:focus {
+  border-color: #00f0ff;
+  box-shadow: 0 0 25px #00f0ff, inset 0 0 15px rgba(0, 240, 255, 0.6);
+}
+
+#clear-search {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #ff007f;
+  font-size: 1.3rem;
+  cursor: pointer;
+  text-shadow: 0 0 5px #ff007f;
+}
+
+.filters, .sub-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.filter-btn, .sub-filter-btn {
+  background: rgba(15, 15, 20, 0.9);
+  border: 1px solid #7000ff;
+  color: #c0c0c0;
+  padding: 9px 18px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover, .sub-filter-btn:hover {
+  color: #ffffff;
+  border-color: #00f0ff;
+  box-shadow: 0 0 15px #00f0ff;
+}
+
+.filter-btn.active, .sub-filter-btn.active {
+  background: #7000ff;
+  color: #ffffff;
+  border-color: #00f0ff;
+  box-shadow: 0 0 20px #7000ff, 0 0 35px rgba(0, 240, 255, 0.8);
+  font-weight: bold;
+}
+
+#stats {
+  font-size: 0.95rem;
+  color: #00f0ff;
+  letter-spacing: 1.5px;
+  margin: 15px 0;
+  text-shadow: 0 0 10px #00f0ff;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* --- CARD CONTAINER & GRID --- */
+#card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 25px;
+  max-width: 1450px;
+  margin: 20px auto 0 auto;
+}
+
+/* --- ITEM CARD BASE --- */
+.item-card {
+  background: rgba(14, 14, 19, 0.92);
+  backdrop-filter: blur(12px);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.25s ease-in-out, box-shadow 0.25s ease-in-out;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.card-title {
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  line-height: 1.35;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.4);
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.badge-video {
+  background: rgba(112, 0, 255, 0.4);
+  color: #e0b3ff;
+  border: 1px solid #7000ff;
+  box-shadow: 0 0 8px rgba(112, 0, 255, 0.5);
+}
+
+.badge-audio {
+  background: rgba(0, 240, 255, 0.3);
+  color: #a6f8ff;
+  border: 1px solid #00f0ff;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+}
+
+.card-meta {
+  font-size: 0.9rem;
+  color: #b0b0b0;
+  line-height: 1.6;
+}
+
+.card-cast, .card-notes {
+  font-size: 0.88rem;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 12px;
+  border-radius: 6px;
+  border-left: 3px solid #7000ff;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.card-cast strong, .card-notes strong {
+  color: #00f0ff;
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+}
+
+/* --- NFT ACTIVE & STANDARD BASE STATES --- */
+.card-nft-active {
+  border: 2px solid #ff0033;
+  box-shadow: 0 0 15px rgba(255, 0, 51, 0.6), inset 0 0 10px rgba(255, 0, 51, 0.3);
+  animation: ultra-nft-pulse 1.5s ease-in-out infinite alternate;
+}
+
+.card-standard {
+  border: 2px solid #00f0ff;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2);
+  animation: ultra-standard-pulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes ultra-nft-pulse {
+  0% { border-color: #C4001A; box-shadow: 0 0 12px rgba(196, 0, 26, 0.6), inset 0 0 8px rgba(196, 0, 26, 0.2); }
+  100% { border-color: #ff3355; box-shadow: 0 0 30px #ff0033, inset 0 0 15px rgba(255, 0, 51, 0.5); }
+}
+
+@keyframes ultra-standard-pulse {
+  0% { border-color: #00f0ff; box-shadow: 0 0 12px rgba(0, 240, 255, 0.5), inset 0 0 8px rgba(0, 240, 255, 0.2); }
+  50% { border-color: #a100ff; box-shadow: 0 0 22px rgba(161, 0, 255, 0.6), inset 0 0 12px rgba(161, 0, 255, 0.3); }
+  100% { border-color: #00f0ff; box-shadow: 0 0 22px rgba(0, 240, 255, 0.6), inset 0 0 12px rgba(0, 240, 255, 0.3); }
+}
+
+/* ============================================================
+   Y2K HOVER GLOWS (NFT vs STANDARD)
+============================================================ */
+
+/* --- NFT CARDS: Aggressive Red/Crimson Hover Tones --- */
 .card-nft-active:hover {
   animation: y2k-red-pulse 1.2s ease-in-out infinite alternate !important;
   transform: translateY(-5px);
@@ -11,15 +288,15 @@
 @keyframes y2k-red-pulse {
   0% {
     border-color: #ff0033 !important;
-    box-shadow: 0 0 25px #ff0033, inset 0 0 12px #ff0033 !important;
+    box-shadow: 0 0 30px #ff0033, inset 0 0 15px #ff0033 !important;
   }
   100% {
     border-color: #ff3366 !important;
-    box-shadow: 0 0 40px #ff0055, inset 0 0 20px #ff0055 !important;
+    box-shadow: 0 0 45px #ff0055, inset 0 0 25px #ff0055 !important;
   }
 }
 
-/* --- STANDARD CARDS: Cooler Y2K Tones (Cyan, Purple, Pink, Lime) --- */
+/* --- STANDARD CARDS: Cooler Y2K Tones Hover Cycle (Cyan, Purple, Pink) --- */
 .card-standard:hover {
   animation: y2k-cooler-rainbow 1.2s linear infinite !important;
   transform: translateY(-5px) !important;
@@ -27,19 +304,89 @@
 
 @keyframes y2k-cooler-rainbow {
   0% { 
-    border-color: #00f0ff !important; /* Cyber Cyan */
-    box-shadow: 0 0 25px #00f0ff, inset 0 0 12px #00f0ff !important; 
+    border-color: #00f0ff !important; 
+    box-shadow: 0 0 30px #00f0ff, inset 0 0 15px #00f0ff !important; 
   }
   33% { 
-    border-color: #7000ff !important; /* Electric Purple */
-    box-shadow: 0 0 25px #7000ff, inset 0 0 12px #7000ff !important; 
+    border-color: #7000ff !important; 
+    box-shadow: 0 0 30px #7000ff, inset 0 0 15px #7000ff !important; 
   }
   66% { 
-    border-color: #ff007f !important; /* Hot Pink */
-    box-shadow: 0 0 25px #ff007f, inset 0 0 12px #ff007f !important; 
+    border-color: #ff007f !important; 
+    box-shadow: 0 0 30px #ff007f, inset 0 0 15px #ff007f !important; 
   }
   100% { 
-    border-color: #00f0ff !important; /* Back to Cyan */
-    box-shadow: 0 0 25px #00f0ff, inset 0 0 12px #00f0ff !important; 
+    border-color: #00f0ff !important; 
+    box-shadow: 0 0 30px #00f0ff, inset 0 0 15px #00f0ff !important; 
   }
+}
+
+/* --- BUTTONS & UTILITIES --- */
+.mini-btn, .copy-card-btn {
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid #00f0ff;
+  color: #00f0ff;
+  font-family: inherit;
+  font-size: 0.8rem;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+}
+
+.mini-btn:hover, .copy-card-btn:hover {
+  background: #00f0ff;
+  color: #000;
+  font-weight: bold;
+  box-shadow: 0 0 15px #00f0ff;
+}
+
+.copy-card-btn {
+  width: 100%;
+  margin-top: 6px;
+}
+
+#back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #7000ff;
+  color: #ffffff;
+  border: 1px solid #00f0ff;
+  padding: 12px 18px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: bold;
+  box-shadow: 0 0 20px #7000ff;
+  z-index: 1000;
+  transition: all 0.2s ease;
+}
+
+#back-to-top:hover {
+  background: #00f0ff;
+  color: #000;
+  box-shadow: 0 0 25px #00f0ff;
+}
+
+#toast {
+  position: fixed;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #00f0ff;
+  color: #000000;
+  font-weight: bold;
+  padding: 12px 24px;
+  border-radius: 25px;
+  box-shadow: 0 0 25px #00f0ff;
+  z-index: 2000;
+  transition: opacity 0.3s ease;
+}
+
+.toast-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
