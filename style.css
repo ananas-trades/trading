@@ -625,3 +625,271 @@ h1 {
   white-space: normal;   /* Allows text inside the badge to wrap to a second line */
   box-sizing: border-box;
 }
+/* ============================================================
+   TRADE REQUEST CART & DRAWER STYLES
+============================================================ */
+
+/* Floating / Header Trade Cart Trigger Button */
+.cart-toggle-btn {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.cart-toggle-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.cart-toggle-btn .cart-badge {
+  background-color: #ffffff;
+  color: #2563eb;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* Slide-out Drawer Overlay */
+.drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 999;
+}
+
+.drawer-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Slide-out Drawer Panel */
+.trade-drawer {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trade-drawer.open {
+  right: 0;
+}
+
+.drawer-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.drawer-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #111827;
+}
+
+.close-drawer-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.close-drawer-btn:hover {
+  color: #111827;
+}
+
+/* Drawer Cart Summary Stats */
+.cart-summary {
+  padding: 12px 20px;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  gap: 16px;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+/* Cart Item List Container */
+.cart-items-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+}
+
+.empty-cart-msg {
+  color: #6b7280;
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.95rem;
+}
+
+/* Single Cart Item Row */
+.cart-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 10px;
+  background-color: #f3f4f6;
+  border-radius: 6px;
+  border-left: 4px solid #2563eb;
+}
+
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cart-item-details strong {
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.cart-item-details span {
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+.remove-cart-item {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.remove-cart-item:hover {
+  color: #dc2626;
+}
+
+/* Drawer Footer Actions */
+.drawer-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.drawer-footer .btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  box-sizing: border-box;
+}
+
+.email-trade-btn {
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.email-trade-btn:hover {
+  background-color: #059669;
+}
+
+.copy-trade-btn {
+  background-color: #f3f4f6;
+  color: #1f2937;
+  border: 1px solid #d1d5db !important;
+}
+
+.copy-trade-btn:hover {
+  background-color: #e5e7eb;
+}
+
+.clear-cart-btn {
+  background-color: transparent;
+  color: #ef4444;
+  font-size: 0.85rem;
+}
+
+.clear-cart-btn:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   CARD BUTTON & NFT STATE STYLES
+============================================================ */
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.add-cart-btn, .copy-card-btn {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.add-cart-btn:hover, .copy-card-btn:hover {
+  background-color: #f3f4f6;
+}
+
+.add-cart-btn.in-cart {
+  background-color: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+}
+
+.copy-card-btn.copied {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
+
+/* NFT Indicators */
+.nft-active {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.nft-passed {
+  color: #059669;
+  font-weight: bold;
+}
+
+.card-nft-active {
+  border-left: 4px solid #dc2626;
+}
+
+.card-standard {
+  border-left: 4px solid #3b82f6;
+}
