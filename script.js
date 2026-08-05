@@ -232,29 +232,43 @@ function updateCartUI() {
   }
 
   container.innerHTML = "";
+
   tradeCart.forEach(item => {
     if (item.type.includes("VIDEO")) videos++;
     if (item.type.includes("AUDIO")) audios++;
 
     const location = [item.tour, item.venue].filter(Boolean).join(" - ");
+    
+    // Create container elements cleanly via JS DOM API
     const cartCard = document.createElement("div");
     cartCard.className = "cart-item-row";
-    
-    const safeKey = item.key.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 
-    cartCard.innerHTML = `
-      <div class="cart-item-details">
-        <strong>${item.show}</strong>
-        <span>📅 ${item.date} (${item.format}) ${location ? `| 📍 ${location}` : ''}</span>
-      </div>
-      <button class="remove-cart-item" onclick="removeFromCart('${safeKey}')">&times;</button>
+    const detailsDiv = document.createElement("div");
+    detailsDiv.className = "cart-item-details";
+    detailsDiv.innerHTML = `
+      <strong>${item.show}</strong>
+      <span>📅 ${item.date} (${item.format}) ${location ? `| 📍 ${location}` : ''}</span>
     `;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.className = "remove-cart-item";
+    removeBtn.innerHTML = "&times;";
+
+    // Event listener instead of inline string interpolation avoids Node errors
+    removeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      removeFromCart(item.key);
+    });
+
+    cartCard.appendChild(detailsDiv);
+    cartCard.appendChild(removeBtn);
     container.appendChild(cartCard);
   });
 
   if (videoCountEl) videoCountEl.innerText = videos;
   if (audioCountEl) audioCountEl.innerText = audios;
 
+  // ROBUST MAILTO & CLIPBOARD FALLBACK
   if (emailBtn) {
     emailBtn.href = "javascript:void(0)";
     emailBtn.onclick = function(e) {
@@ -264,18 +278,23 @@ function updateCartUI() {
       const subject = `Trade Request (${tradeCart.length} Items)`;
       const bodyText = generateFormattedText();
 
-      const mailtoUrl = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+      navigator.clipboard.writeText(bodyText).then(() => {
+        const encodedBody = encodeURIComponent(bodyText);
+        let mailtoUrl = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}`;
+        
+        if (encodedBody.length < 1500) {
+          mailtoUrl += `&body=${encodedBody}`;
+        } else {
+          alert("📋 Your trade list is long, so it has been COPIED to your clipboard!\n\nJust press Paste (Ctrl+V or Cmd+V) into your email body once your mail app opens.");
+        }
 
-      try {
         window.location.href = mailtoUrl;
-      } catch (err) {
-        navigator.clipboard.writeText(bodyText);
-        alert("Could not automatically open your mail app. The trade request text has been copied to your clipboard so you can paste it into an email manually!");
-      }
+      }).catch(err => {
+        window.location.href = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}`;
+      });
     };
   }
 }
-
 function copyTradeRequest() {
   if (!tradeCart.length) return;
   const text = generateFormattedText();
