@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     download: true,
     header: true,
     skipEmptyLines: true,
+    transformHeader: function(header) {
+      return header.trim(); // 👈 Fixes trailing/leading spaces in column headers
+    },
     complete: function(results) {
       allData = results.data;
       renderCards();
