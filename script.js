@@ -1,62 +1,8 @@
-/* ============================================================
-   TRADING COLLECTION - COMPLETE SCRIPT
-============================================================ */
-
 let allData = [];
 let currentFilter = 'all';
 let currentSubFilter = 'all';
 
-/* ------------------------------------------------------------
-   1. THEME SWITCHER SYSTEM (Y2K -> MATRIX -> SYNTHWAVE)
------------------------------------------------------------- */
-const themes = [
-  { class: '', label: '🎨 Theme: Cyber Grid' },
-  { class: 'theme-matrix', label: '🎨 Theme: Matrix' },
-  { class: 'theme-synthwave', label: '🎨 Theme: Synthwave' }
-];
-
-let currentThemeIndex = 0;
-
-function initThemeSwitcher() {
-  const themeBtn = document.getElementById('theme-btn');
-  if (!themeBtn) return;
-
-  // Load Saved Theme Index from localStorage
-  const savedThemeIndex = localStorage.getItem('selectedThemeIndex');
-  if (savedThemeIndex !== null) {
-    currentThemeIndex = parseInt(savedThemeIndex, 10);
-    if (isNaN(currentThemeIndex) || currentThemeIndex >= themes.length) {
-      currentThemeIndex = 0;
-    }
-  }
-
-  // Apply Initial Theme
-  applyTheme(currentThemeIndex, themeBtn);
-
-  // Click Listener to Cycle Themes
-  themeBtn.addEventListener('click', () => {
-    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-    applyTheme(currentThemeIndex, themeBtn);
-    localStorage.setItem('selectedThemeIndex', currentThemeIndex);
-  });
-}
-
-function applyTheme(index, btnElement) {
-  const theme = themes[index];
-  document.body.className = theme.class;
-  if (btnElement) {
-    btnElement.textContent = theme.label;
-  }
-}
-
-/* ------------------------------------------------------------
-   2. INITIALIZATION & EVENT LISTENERS
------------------------------------------------------------- */
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize Theme Switcher
-  initThemeSwitcher();
-
-  // Load CSV Data
   Papa.parse("list.csv", {
     download: true,
     header: true,
@@ -66,10 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderCards();
     },
     error: function(err) {
-      const statsEl = document.getElementById('stats');
-      if (statsEl) {
-        statsEl.innerText = "Failed to load collection. Make sure list.csv exists!";
-      }
+      document.getElementById('stats').innerText = "Failed to load collection. Make sure list.csv exists!";
     }
   });
 
@@ -77,20 +20,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const clearBtn = document.getElementById("clear-search");
 
-  if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      if (clearBtn) clearBtn.style.display = searchInput.value ? "block" : "none";
-      renderCards();
-    });
-  }
+  searchInput.addEventListener("input", () => {
+    clearBtn.style.display = searchInput.value ? "block" : "none";
+    renderCards();
+  });
 
-  if (clearBtn) {
-    clearBtn.addEventListener("click", () => {
-      if (searchInput) searchInput.value = "";
-      clearBtn.style.display = "none";
-      renderCards();
-    });
-  }
+  clearBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    clearBtn.style.display = "none";
+    renderCards();
+  });
 
   // Main Format Filters (Video / Audio)
   document.querySelectorAll(".filter-btn").forEach(btn => {
@@ -127,34 +66,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Floating Back to Top Logic
   const backToTopBtn = document.getElementById("back-to-top");
-  if (backToTopBtn) {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) {
-        backToTopBtn.style.display = "block";
-      } else {
-        backToTopBtn.style.display = "none";
-      }
-    });
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      backToTopBtn.style.display = "block";
+    } else {
+      backToTopBtn.style.display = "none";
+    }
+  });
 
-    backToTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
+  backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 });
 
-/* ------------------------------------------------------------
-   3. UTILITY FUNCTIONS & DATE HELPERS
------------------------------------------------------------- */
 function showToast(message) {
   navigator.clipboard.writeText("tradingtreelost@gmail.com");
   const toast = document.getElementById("toast");
-  if (toast) {
-    toast.innerText = message;
-    toast.classList.remove("toast-hidden");
-    setTimeout(() => {
-      toast.classList.add("toast-hidden");
-    }, 2000);
-  }
+  toast.innerText = message;
+  toast.classList.remove("toast-hidden");
+  setTimeout(() => {
+    toast.classList.add("toast-hidden");
+  }, 2000);
 }
 
 function parseEncoraDate(dateStr) {
@@ -199,9 +131,6 @@ function isNftStillActive(dateStr) {
   return false;
 }
 
-/* ------------------------------------------------------------
-   4. CARD RENDERING
------------------------------------------------------------- */
 function renderCards() {
   const queryInput = document.getElementById("search-input");
   const query = queryInput ? queryInput.value.toLowerCase() : "";
@@ -345,11 +274,9 @@ function renderCards() {
       copyCardBtn.addEventListener("click", () => {
         navigator.clipboard.writeText(copyInfoText);
         const toast = document.getElementById("toast");
-        if (toast) {
-          toast.innerText = "Show details copied!";
-          toast.classList.remove("toast-hidden");
-          setTimeout(() => toast.classList.add("toast-hidden"), 2000);
-        }
+        toast.innerText = "Show details copied!";
+        toast.classList.remove("toast-hidden");
+        setTimeout(() => toast.classList.add("toast-hidden"), 2000);
       });
     }
 
