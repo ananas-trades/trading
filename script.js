@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const copyTradeBtn = document.getElementById("copy-trade-btn");
   if (copyTradeBtn) copyTradeBtn.addEventListener("click", copyTradeRequest);
 
-  // STABLE ONE-TIME EMAIL LISTENER
+  // ✉️ EMAIL REQUEST HANDLER (WITH GMAIL & MANUAL FALLBACK)
   const emailBtn = document.getElementById("email-trade-btn");
   if (emailBtn) {
     emailBtn.addEventListener("click", (e) => {
@@ -105,30 +105,33 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const mailToRecipient = "tradingtreelost@gmail.com";
+      const recipient = "tradingtreelost@gmail.com";
       const subject = `Trade Request (${tradeCart.length} Items)`;
       const bodyText = generateFormattedText();
-      const encodedBody = encodeURIComponent(bodyText);
-
-      // Background non-blocking clipboard copy
+      
+      // 1. Copy formatted trade text to clipboard immediately
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(bodyText).catch(() => {});
       }
 
-      // UI Button Feedback
-      const originalText = emailBtn.innerText;
-      emailBtn.innerText = "📋 Copied & Opening Mail...";
-      setTimeout(() => { emailBtn.innerText = originalText; }, 2500);
+      // 2. Build Webmail URL (Gmail) vs standard mailto link
+      const encodedSubject = encodeURIComponent(subject);
+      
+      const mailtoUrl = `mailto:${recipient}?subject=${encodedSubject}&body=${encodeURIComponent(bodyText)}`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodedSubject}&body=${encodeURIComponent(bodyText)}`;
 
-      // Trigger mailto synchronously to avoid user gesture violation
-      let mailtoUrl = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}`;
-      if (encodedBody.length < 1200) {
-        mailtoUrl += `&body=${encodedBody}`;
+      // 3. Ask user their preferred email method
+      const useGmail = confirm(
+        "📋 Request COPIED to your clipboard!\n\n" +
+        "• Click 'OK' to open directly in Gmail Web.\n" +
+        "• Click 'Cancel' to try opening your default Mail App."
+      );
+
+      if (useGmail) {
+        window.open(gmailUrl, "_blank");
       } else {
-        alert("📋 Your list is long, so the formatted request was COPIED to your clipboard!\n\nJust press Paste (Ctrl+V or Cmd+V) inside your mail app.");
+        window.location.href = mailtoUrl;
       }
-
-      window.location.href = mailtoUrl;
     });
   }
 });
