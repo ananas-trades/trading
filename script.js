@@ -148,22 +148,30 @@ function renderCards() {
       }
     }
 
-   // Set Base Classes
+    // Set Base Classes
     card.className = "item-card";
     if (isNFTActive) {
       card.classList.add("card-nft-active");
+      
+      // Direct hover listeners for Red/Crimson NFT active cards
+      card.addEventListener("mouseenter", () => {
+        card.style.animation = "y2k-red-pulse 1.2s ease-in-out infinite alternate";
+        card.style.transform = "translateY(-5px)";
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.animation = "ultra-nft-pulse 1.5s ease-in-out infinite alternate";
+        card.style.transform = "translateY(0)";
+      });
     } else {
       card.classList.add("card-standard");
-    }
 
-      // DIRECT HOVER LISTENERS - Overrides CSS priority issues
+      // Direct hover listeners for Y2K cooler neon cycle standard cards
       card.addEventListener("mouseenter", () => {
-        card.style.animation = "rainbow-hover-glow 2s linear infinite";
-        card.style.transform = "translateY(-4px)";
+        card.style.animation = "y2k-cooler-rainbow 1.2s linear infinite";
+        card.style.transform = "translateY(-5px)";
       });
-      
       card.addEventListener("mouseleave", () => {
-        card.style.animation = "ultra-standard-pulse 2.8s ease-in-out infinite alternate";
+        card.style.animation = "ultra-standard-pulse 3s ease-in-out infinite alternate";
         card.style.transform = "translateY(0)";
       });
     }
