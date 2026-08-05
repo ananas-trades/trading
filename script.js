@@ -1,6 +1,7 @@
 let allData = [];
 let currentFilter = 'all';
 let currentCategory = 'all';
+let searchTimeout = null;
 
 // LocalStorage Trade Cart State
 const STORAGE_KEY = "bootleg_trade_cart";
@@ -25,8 +26,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Search Input Event
-  document.getElementById("search-input").addEventListener("input", renderCards);
+  // Debounced Search Input Event (Prevents lag on fast typing)
+  document.getElementById("search-input").addEventListener("input", () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      renderCards();
+    }, 150);
+  });
 
   // Format Filter Listeners
   document.querySelectorAll(".filter-btn").forEach(btn => {
@@ -127,7 +133,6 @@ function closeDrawer() {
 }
 
 function getItemKey(item) {
-  // Generates a unique signature for every item based on core parameters
   const show = getValByName(item, "Show");
   const date = getValByName(item, "Date");
   const master = getValByName(item, "Master");
@@ -235,7 +240,6 @@ function updateCartUI() {
     const cartCard = document.createElement("div");
     cartCard.className = "cart-item-row";
     
-    // Escaping backslashes and double quotes for clean inline click handler
     const safeKey = item.key.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
 
     cartCard.innerHTML = `
@@ -251,7 +255,6 @@ function updateCartUI() {
   if (videoCountEl) videoCountEl.innerText = videos;
   if (audioCountEl) audioCountEl.innerText = audios;
 
-  // Handled via explicit click handler to prevent URL truncation / browser hanging
   if (emailBtn) {
     emailBtn.href = "javascript:void(0)";
     emailBtn.onclick = function(e) {
@@ -266,7 +269,6 @@ function updateCartUI() {
       try {
         window.location.href = mailtoUrl;
       } catch (err) {
-        // Fallback for browsers/OS setups without a default mail app configured
         navigator.clipboard.writeText(bodyText);
         alert("Could not automatically open your mail app. The trade request text has been copied to your clipboard so you can paste it into an email manually!");
       }
@@ -290,7 +292,6 @@ function copyTradeRequest() {
    DATA PARSING & DETECTORS
 ============================================================ */
 
-// Case & character insensitive header finder
 function getValByName(item, ...names) {
   if (!item) return "";
   const keys = Object.keys(item);
@@ -310,7 +311,6 @@ function getValByName(item, ...names) {
   return "";
 }
 
-// DYNAMIC FILE SIZE DETECTOR (Scans values for GB/MB/KB/TB pattern)
 function getFileSize(item) {
   const named = getValByName(item, "File Size", "Size", "Filesize");
   if (named && /^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(named.trim())) {
@@ -329,7 +329,6 @@ function getFileSize(item) {
   return named;
 }
 
-// FORMAT DETECTOR
 function getFormat(item) {
   const traderFmt = getValByName(item, "Trader Format");
   if (traderFmt) return traderFmt;
@@ -340,7 +339,6 @@ function getFormat(item) {
   return getValByName(item, "Release Format");
 }
 
-// SMART MEDIA TYPE CHECKER (Supports VIDEO / AUDIO combo)
 function getMediaType(item) {
   const audioVideo = getValByName(item, "Audio / Video", "Audio/Video").toLowerCase();
   const typeRaw = getValByName(item, "Type").toLowerCase();
@@ -410,10 +408,10 @@ function isNftStillActive(dateStr) {
 }
 
 /* ============================================================
-   CARD RENDERER
+   OPTIMIZED CARD RENDERER
 ============================================================ */
 function renderCards() {
-  const query = document.getElementById("search-input").value.toLowerCase();
+  const query = document.getElementById("search-input").value.toLowerCase().trim();
   const container = document.getElementById("card-container");
   container.innerHTML = "";
 
@@ -426,7 +424,7 @@ function renderCards() {
       return false;
     }
 
-    // 2. Category Filter (Expanded header detection)
+    // 2. Category Filter
     if (currentCategory !== 'all') {
       const tour = getValByName(item, "Tour", "Location", "City").toLowerCase();
       const venue = getValByName(item, "Venue", "Theater", "Theatre").toLowerCase();
@@ -442,9 +440,13 @@ function renderCards() {
       }
     }
 
-    // 3. Search Bar Query
-    const searchableText = Object.values(item).join(" ").toLowerCase();
-    return searchableText.includes(query);
+    // 3. Fast Targeted Search Bar Query
+    if (query) {
+      const searchableText = `${getValByName(item, "Show")} ${getValByName(item, "Date")} ${getValByName(item, "Cast")} ${getValByName(item, "Master")} ${getValByName(item, "Tour", "Location")} ${getValByName(item, "Venue")}`.toLowerCase();
+      if (!searchableText.includes(query)) return false;
+    }
+
+    return true;
   });
 
   document.getElementById('stats').innerText = `SHOWING ${filtered.length} OF ${allData.length} ITEMS`;
