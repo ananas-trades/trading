@@ -80,24 +80,20 @@ function getValByName(item, ...names) {
 
 // DYNAMIC FILE SIZE DETECTOR (Scans values for GB/MB/KB/TB pattern)
 function getFileSize(item) {
-  // 1. Try column names first
   const named = getValByName(item, "File Size", "Size", "Filesize");
   if (named && /^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(named.trim())) {
     return named.trim();
   }
 
-  // 2. Dynamic Scan: Look through EVERY cell in this row for a size string (e.g. "2.21 GB")
   const values = Object.values(item);
   for (const val of values) {
     if (!val) continue;
     const str = val.toString().trim();
-    // Regex matching numbers followed by GB, MB, KB, TB
     if (/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(str)) {
       return str;
     }
   }
 
-  // 3. Fallback to named value even if regex didn't strictly match
   return named;
 }
 
@@ -112,25 +108,29 @@ function getFormat(item) {
   return getValByName(item, "Release Format");
 }
 
-// SMART MEDIA TYPE CHECKER
+// SMART MEDIA TYPE CHECKER (Supports VIDEO / AUDIO combo)
 function getMediaType(item) {
   const audioVideo = getValByName(item, "Audio / Video", "Audio/Video").toLowerCase();
   const typeRaw = getValByName(item, "Type").toLowerCase();
   const formatRaw = getFormat(item).toLowerCase();
 
+  const isAudio = audioVideo.includes("audio") || typeRaw.includes("audio") || 
+                  formatRaw.match(/audio|mp3|m4a|wav|flac|tracked|cd/);
+                  
+  const isVideo = audioVideo.includes("video") || typeRaw.includes("video") || 
+                  formatRaw.match(/video|mp4|vob|mov|mkv|avi/);
+
   if (
-    audioVideo.includes("audio") || 
-    typeRaw.includes("audio") || 
-    formatRaw.includes("audio") || 
-    formatRaw.includes("mp3") || 
-    formatRaw.includes("m4a") || 
-    formatRaw.includes("wav") || 
-    formatRaw.includes("flac") || 
-    formatRaw.includes("tracked") ||
-    formatRaw.includes("cd")
+    audioVideo.includes("both") || 
+    audioVideo.includes("mixed") || 
+    audioVideo.includes("&") ||
+    audioVideo.includes("/") ||
+    (isAudio && isVideo)
   ) {
-    return "AUDIO";
+    return "VIDEO / AUDIO";
   }
+
+  if (isAudio) return "AUDIO";
 
   return "VIDEO";
 }
@@ -241,7 +241,8 @@ function renderCards() {
 
     // Badge HTML Construction
     const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
-    const typeBadgeHTML = `<span class="badge badge-${displayType.toLowerCase()}">${displayType}</span>`;
+    const safeTypeClass = displayType.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const typeBadgeHTML = `<span class="badge badge-${safeTypeClass}">${displayType}</span>`;
     
     // NFT Logic
     const nftDateStr = getValByName(item, "NFT Date");
@@ -292,7 +293,7 @@ function renderCards() {
     card.innerHTML = `
       <div class="card-header">
         <div class="card-title">${show}</div>
-        <div class="card-badges" style="display: flex; gap: 6px; align-items: center;">
+        <div class="card-badges" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
           ${formatBadgeHTML}
           ${typeBadgeHTML}
         </div>
