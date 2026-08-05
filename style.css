@@ -446,3 +446,32 @@ h1 {
   opacity: 0;
   pointer-events: none;
 }
+/* ============================================================
+   FORCE CARD NEON GLOWS & HOVER EFFECTS
+============================================================ */
+
+/* Base Glow for Normal Cards */
+.item-card.card-standard {
+  border: 1px solid var(--accent-primary) !important;
+  box-shadow: 0 0 10px var(--accent-primary), inset 0 0 5px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Base Glow for Active NFT Cards */
+.item-card.card-nft-active {
+  border: 2px solid #ff3366 !important;
+  box-shadow: 0 0 15px #ff3366, inset 0 0 8px rgba(255, 51, 102, 0.3) !important;
+}
+
+/* Rainbow Glow on Hover (Forces all cards to pulse rainbow on mouse hover/touch) */
+.item-card:hover {
+  animation: rainbow-hover-glow 1.2s linear infinite !important;
+  transform: translateY(-3px);
+}
+
+@keyframes rainbow-hover-glow {
+  0%   { border-color: #00f0ff !important; box-shadow: 0 0 22px #00f0ff, inset 0 0 10px #00f0ff !important; }
+  25%  { border-color: #ffe600 !important; box-shadow: 0 0 22px #ffe600, inset 0 0 10px #ffe600 !important; }
+  50%  { border-color: #ff007f !important; box-shadow: 0 0 22px #ff007f, inset 0 0 10px #ff007f !important; }
+  75%  { border-color: #00ff66 !important; box-shadow: 0 0 22px #00ff66, inset 0 0 10px #00ff66 !important; }
+  100% { border-color: #00f0ff !important; box-shadow: 0 0 22px #00f0ff, inset 0 0 10px #00f0ff !important; }
+}
