@@ -7,7 +7,7 @@
   <!-- Load PapaParse to read CSV files -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <!-- Added cache-busters -->
-  <link rel="stylesheet" href="style.css?v=4.0" />
+  <link rel="stylesheet" href="style.css?v=5.0" />
 </head>
 <body>
 
@@ -29,17 +29,33 @@
   <main class="container">
     <div class="controls">
       <input type="text" id="search-input" placeholder="Search by show, cast, date, venue..." />
+      
+      <!-- Primary Format Filters -->
       <div class="filters">
-        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn active" data-filter="all">All Formats</button>
         <button class="filter-btn" data-filter="Video">Videos</button>
         <button class="filter-btn" data-filter="Audio">Audios</button>
       </div>
+
+      <!-- Category Location Filters -->
+      <div class="filters category-filters">
+        <button class="cat-btn active" data-category="all">All Locations</button>
+        <button class="cat-btn" data-category="broadway">Broadway</button>
+        <button class="cat-btn" data-category="off-broadway">Off-Broadway</button>
+        <button class="cat-btn" data-category="west end">West End</button>
+      </div>
+
+      <!-- Export Action Button -->
+      <button id="export-btn" class="action-btn">📋 Export Summary</button>
     </div>
 
     <div id="stats">Loading collection...</div>
     <div id="card-container"></div>
   </main>
 
-  <script src="script.js?v=4.0"></script>
+  <!-- Scroll to Top Floating Button -->
+  <button id="scroll-top-btn" title="Back to Top">⬆ TOP</button>
+
+  <script src="script.js?v=5.0"></script>
 </body>
 </html>
