@@ -3,7 +3,7 @@ let currentFilter = 'all';
 let currentCategory = 'all';
 
 document.addEventListener("DOMContentLoaded", () => {
-  Papa.parse("list.csv", {
+  Papa.parse("./list.csv", {
     download: true,
     header: true,
     skipEmptyLines: "greedy",
