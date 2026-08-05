@@ -1,5 +1,7 @@
 let allData = [];
 let currentFilter = 'all';
+let currentCategory = 'all';
+let currentFilteredList = []; // Holds current visible items for export
 
 document.addEventListener("DOMContentLoaded", () => {
   Papa.parse("list.csv", {
@@ -15,8 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Search Input Event
   document.getElementById("search-input").addEventListener("input", renderCards);
 
+  // Format Filter Listeners
   document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
@@ -24,6 +28,33 @@ document.addEventListener("DOMContentLoaded", () => {
       currentFilter = e.target.getAttribute("data-filter");
       renderCards();
     });
+  });
+
+  // Category Filter Listeners (Broadway, Off-Broadway, West End)
+  document.querySelectorAll(".cat-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+      e.target.classList.add("active");
+      currentCategory = e.target.getAttribute("data-category");
+      renderCards();
+    });
+  });
+
+  // Export Summary Button Handler
+  document.getElementById("export-btn").addEventListener("click", exportSummary);
+
+  // Scroll To Top Visibility & Action
+  const scrollTopBtn = document.getElementById("scroll-top-btn");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      scrollTopBtn.classList.add("visible");
+    } else {
+      scrollTopBtn.classList.remove("visible");
+    }
+  });
+
+  scrollTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 });
 
@@ -76,18 +107,38 @@ function renderCards() {
 
   const fragment = document.createDocumentFragment();
 
-  const filtered = allData.filter(item => {
+  currentFilteredList = allData.filter(item => {
+    // 1. Format Filter (Video/Audio)
     const format = (item["Format"] || item["Type"] || "").trim();
     if (currentFilter !== 'all' && !format.toLowerCase().includes(currentFilter.toLowerCase())) {
       return false;
     }
+
+    // 2. Category Filter (Broadway / Off-Broadway / West End)
+    if (currentCategory !== 'all') {
+      const tour = (item["Tour"] || "").toLowerCase();
+      const venue = (item["Venue"] || "").toLowerCase();
+      const locationText = `${tour} ${venue}`;
+
+      if (currentCategory === 'off-broadway') {
+        if (!locationText.includes("off-broadway") && !locationText.includes("off broadway")) return false;
+      } else if (currentCategory === 'broadway') {
+        // Match broadway but exclude off-broadway
+        if (locationText.includes("off-broadway") || locationText.includes("off broadway")) return false;
+        if (!locationText.includes("broadway")) return false;
+      } else if (currentCategory === 'west end') {
+        if (!locationText.includes("west end")) return false;
+      }
+    }
+
+    // 3. Search Bar Query
     const searchableText = Object.values(item).join(" ").toLowerCase();
     return searchableText.includes(query);
   });
 
-  document.getElementById('stats').innerText = `SHOWING ${filtered.length} OF ${allData.length} ITEMS`;
+  document.getElementById('stats').innerText = `SHOWING ${currentFilteredList.length} OF ${allData.length} ITEMS`;
 
-  filtered.forEach(item => {
+  currentFilteredList.forEach(item => {
     const card = document.createElement("div");
 
     // Encora Headers
@@ -182,4 +233,48 @@ function renderCards() {
   });
 
   container.appendChild(fragment);
+}
+
+// Function to generate and export text summary
+function exportSummary() {
+  if (!currentFilteredList || currentFilteredList.length === 0) {
+    alert("No items currently displayed to export!");
+    return;
+  }
+
+  let text = `======================================\n`;
+  text += `MY TRADING LIST SUMMARY (${currentFilteredList.length} ITEMS)\n`;
+  text += `======================================\n\n`;
+
+  currentFilteredList.forEach((item, index) => {
+    const show = item["Show"] || "Unknown Show";
+    const date = item["Date"] || "Unknown Date";
+    const tour = item["Tour"] || "";
+    const venue = item["Venue"] || "";
+    const master = item["Master"] || "Unknown Master";
+    const format = item["Format"] || "Video";
+
+    const location = [tour, venue].filter(Boolean).join(" - ") || "N/A";
+
+    text += `${index + 1}. ${show} - ${date} (${format})\n`;
+    text += `   Location: ${location}\n`;
+    text += `   Master: ${master}\n\n`;
+  });
+
+  // Copy to Clipboard
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById("export-btn");
+    const origText = btn.innerText;
+    btn.innerText = "✅ COPIED TO CLIPBOARD!";
+    setTimeout(() => {
+      btn.innerText = origText;
+    }, 2500);
+  }).catch(() => {
+    // Fallback: Download as TXT file if clipboard permission is denied
+    const blob = new Blob([text], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "bootlegs_summary.txt";
+    a.click();
+  });
 }
