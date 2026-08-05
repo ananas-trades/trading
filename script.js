@@ -254,7 +254,7 @@ function updateCartUI() {
     removeBtn.className = "remove-cart-item";
     removeBtn.innerHTML = "&times;";
 
-    // Event listener instead of inline string interpolation avoids Node errors
+    // Event listener attached directly to DOM node prevents removeChild errors
     removeBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       removeFromCart(item.key);
@@ -268,7 +268,7 @@ function updateCartUI() {
   if (videoCountEl) videoCountEl.innerText = videos;
   if (audioCountEl) audioCountEl.innerText = audios;
 
-  // ROBUST MAILTO & CLIPBOARD FALLBACK
+  // ROBUST SYNCHRONOUS MAILTO & CLIPBOARD FALLBACK
   if (emailBtn) {
     emailBtn.href = "javascript:void(0)";
     emailBtn.onclick = function(e) {
@@ -277,24 +277,27 @@ function updateCartUI() {
       const mailToRecipient = "tradingtreelost@gmail.com";
       const subject = `Trade Request (${tradeCart.length} Items)`;
       const bodyText = generateFormattedText();
+      const encodedBody = encodeURIComponent(bodyText);
 
-      navigator.clipboard.writeText(bodyText).then(() => {
-        const encodedBody = encodeURIComponent(bodyText);
-        let mailtoUrl = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}`;
-        
-        if (encodedBody.length < 1500) {
-          mailtoUrl += `&body=${encodedBody}`;
-        } else {
-          alert("📋 Your trade list is long, so it has been COPIED to your clipboard!\n\nJust press Paste (Ctrl+V or Cmd+V) into your email body once your mail app opens.");
-        }
+      // 1. Fire-and-forget clipboard copy in background
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(bodyText).catch(() => {});
+      }
 
-        window.location.href = mailtoUrl;
-      }).catch(err => {
-        window.location.href = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}`;
-      });
+      // 2. Launch mailto synchronously to preserve the user gesture context
+      let mailtoUrl = `mailto:${mailToRecipient}?subject=${encodeURIComponent(subject)}`;
+
+      if (encodedBody.length < 1200) {
+        mailtoUrl += `&body=${encodedBody}`;
+      } else {
+        alert("📋 Your trade list is long, so the formatted text was COPIED to your clipboard!\n\nJust press Paste (Ctrl+V or Cmd+V) into your email body.");
+      }
+
+      window.location.assign(mailtoUrl);
     };
   }
 }
+
 function copyTradeRequest() {
   if (!tradeCart.length) return;
   const text = generateFormattedText();
