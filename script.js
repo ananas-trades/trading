@@ -74,6 +74,8 @@ function renderCards() {
   const container = document.getElementById("card-container");
   container.innerHTML = "";
 
+  const fragment = document.createDocumentFragment();
+
   const filtered = allData.filter(item => {
     const format = (item["Format"] || item["Type"] || "").trim();
     if (currentFilter !== 'all' && !format.toLowerCase().includes(currentFilter.toLowerCase())) {
@@ -152,28 +154,8 @@ function renderCards() {
     card.className = "item-card";
     if (isNFTActive) {
       card.classList.add("card-nft-active");
-      
-      // Direct hover listeners for Red/Crimson NFT active cards
-      card.addEventListener("mouseenter", () => {
-        card.style.animation = "y2k-red-pulse 1.2s ease-in-out infinite alternate";
-        card.style.transform = "translateY(-5px)";
-      });
-      card.addEventListener("mouseleave", () => {
-        card.style.animation = "ultra-nft-pulse 1.5s ease-in-out infinite alternate";
-        card.style.transform = "translateY(0)";
-      });
     } else {
       card.classList.add("card-standard");
-
-      // Direct hover listeners for Y2K cooler neon cycle standard cards
-      card.addEventListener("mouseenter", () => {
-        card.style.animation = "y2k-cooler-rainbow 1.2s linear infinite";
-        card.style.transform = "translateY(-5px)";
-      });
-      card.addEventListener("mouseleave", () => {
-        card.style.animation = "ultra-standard-pulse 3s ease-in-out infinite alternate";
-        card.style.transform = "translateY(0)";
-      });
     }
 
     card.innerHTML = `
@@ -196,6 +178,8 @@ function renderCards() {
       ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
     `;
 
-    container.appendChild(card);
+    fragment.appendChild(card);
   });
+
+  container.appendChild(fragment);
 }
