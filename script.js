@@ -178,6 +178,29 @@ function removeFromCart(key) {
   renderCards();
 }
 
+function generateFormattedText() {
+  let lines = [
+    "Hi!",
+    "I would like to initiate a trade for the following items from your collection:",
+    ""
+  ];
+
+  tradeCart.forEach((item, i) => {
+    const location = [item.tour, item.venue].filter(Boolean).join(" - ");
+    let line = `${i + 1}. ${item.show} - ${item.date} (${item.format})`;
+    if (location) line += ` | ${location}`;
+    if (item.master) line += ` | Master: ${item.master}`;
+    lines.push(line);
+  });
+
+  lines.push("");
+  lines.push("My Trading List / Link: [INSERT YOUR LINK HERE]");
+  lines.push("");
+  lines.push("Thanks!");
+
+  return lines.join("\r\n"); // Standard CRLF line breaks for mailto URLs
+}
+
 function updateCartUI() {
   const container = document.getElementById("cart-items-container");
   const countEl = document.getElementById("cart-count");
@@ -196,7 +219,10 @@ function updateCartUI() {
     container.innerHTML = `<p class="empty-cart-msg">No items added yet. Click "+ Add to Trade" on any item card!</p>`;
     if (videoCountEl) videoCountEl.innerText = "0";
     if (audioCountEl) audioCountEl.innerText = "0";
-    if (emailBtn) emailBtn.href = "#";
+    if (emailBtn) {
+      emailBtn.href = "javascript:void(0)";
+      emailBtn.onclick = (e) => e.preventDefault();
+    }
     return;
   }
 
@@ -225,26 +251,21 @@ function updateCartUI() {
   if (videoCountEl) videoCountEl.innerText = videos;
   if (audioCountEl) audioCountEl.innerText = audios;
 
-  // Build mailto Link
+  // Build mailto Link securely
   if (emailBtn) {
     const mailToRecipient = "tradingtreelost@gmail.com";
-    const mailSubject = encodeURIComponent(`Trade Request (${tradeCart.length} Items)`);
-    const mailBody = encodeURIComponent(generateFormattedText());
-    emailBtn.href = `mailto:${mailToRecipient}?subject=${mailSubject}&body=${mailBody}`;
-  }
-}
+    const subject = `Trade Request (${tradeCart.length} Items)`;
+    const body = generateFormattedText();
 
-function generateFormattedText() {
-  let text = `Hi! I'd like to initiate a trade for the following items from your collection:\n\n`;
-  tradeCart.forEach((item, i) => {
-    const location = [item.tour, item.venue].filter(Boolean).join(" - ");
-    text += `${i + 1}. ${item.show} - ${item.date} (${item.format})`;
-    if (location) text += ` | ${location}`;
-    if (item.master) text += ` | Master: ${item.master}`;
-    text += `\n`;
-  });
-  text += `\nMy Trading List / Link: [INSERT YOUR LINK HERE]\n\nThanks!`;
-  return text;
+    // Use URLSearchParams for reliable query encoding across all mail apps
+    const params = new URLSearchParams({
+      subject: subject,
+      body: body
+    });
+
+    emailBtn.href = `mailto:${mailToRecipient}?${params.toString().replace(/\+/g, '%20')}`;
+    emailBtn.onclick = null; // Remove preventDefault
+  }
 }
 
 function copyTradeRequest() {
