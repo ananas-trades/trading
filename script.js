@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     header: true,
     skipEmptyLines: true,
     transformHeader: function(header) {
-      return header.trim(); // 👈 Fixes trailing/leading spaces in column headers
+      return header.trim();
     },
     complete: function(results) {
       allData = results.data;
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Category Filter Listeners (Broadway, Off-Broadway, West End)
+  // Category Filter Listeners
   document.querySelectorAll(".cat-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
@@ -99,6 +99,29 @@ function isNftStillActive(dateStr) {
   return false;
 }
 
+// SMART MEDIA TYPE CHECKER
+// Looks at the type and format columns to reliably guess AUDIO vs VIDEO
+function getMediaType(item) {
+  const typeRaw = (item["Type"] || "").toLowerCase();
+  const formatRaw = (item["Format"] || item["Trader Format"] || "").toLowerCase();
+  
+  // If explicitly labeled as audio or uses audio formats
+  if (
+    typeRaw.includes("audio") || 
+    formatRaw.includes("audio") ||
+    formatRaw.includes("mp3") || 
+    formatRaw.includes("m4a") || 
+    formatRaw.includes("wav") || 
+    formatRaw.includes("flac") || 
+    formatRaw.includes("tracked")
+  ) {
+    return "AUDIO";
+  }
+  
+  // Defaults to VIDEO for everything else (VOB, MP4, blank formats, etc)
+  return "VIDEO";
+}
+
 function renderCards() {
   const query = document.getElementById("search-input").value.toLowerCase();
   const container = document.getElementById("card-container");
@@ -107,13 +130,13 @@ function renderCards() {
   const fragment = document.createDocumentFragment();
 
   const filtered = allData.filter(item => {
-    // 1. Format/Type Filter (Video/Audio)
-    const mediaType = (item["Type"] || item["Format"] || item["Trader Format"] || "").trim();
-    if (currentFilter !== 'all' && !mediaType.toLowerCase().includes(currentFilter.toLowerCase())) {
+    // 1. Format/Type Filter using the smart checker
+    const displayType = getMediaType(item);
+    if (currentFilter !== 'all' && displayType.toLowerCase() !== currentFilter.toLowerCase()) {
       return false;
     }
 
-    // 2. Category Filter (Broadway / Off-Broadway / West End)
+    // 2. Category Filter
     if (currentCategory !== 'all') {
       const tour = (item["Tour"] || "").toLowerCase();
       const venue = (item["Venue"] || "").toLowerCase();
@@ -143,12 +166,9 @@ function renderCards() {
     const show = item["Show"] || "Unknown Show";
     const date = item["Date"] || "";
     const showTime = item["Show time"] ? ` (${item["Show time"]})` : "";
-    
-    // Checks both 'Format' and 'Trader Format' automatically
     const format = (item["Format"] || item["Trader Format"] || "").trim();
-    const typeRaw = (item["Type"] || "Video").trim();
     
-    // Checks both 'File Size' and 'Size' automatically
+    // File Size logic
     const sizeVal = item["File Size"] || item["Size"] || "";
     const fileSize = sizeVal ? ` [${sizeVal}]` : "";
 
@@ -160,10 +180,8 @@ function renderCards() {
     const tradingNotes = item["Trading Notes"] || "";
     const myNotes = item["My Notes"] || "";
 
-    // --- ENFORCE "AUDIO" OR "VIDEO" BADGE TEXT ---
-    // If the Type or Format says "Audio", it's an Audio. Everything else defaults to Video.
-    const isAudio = typeRaw.toLowerCase().includes('audio') || format.toLowerCase().includes('audio');
-    const displayType = isAudio ? "AUDIO" : "VIDEO";
+    // Determine Audio vs Video
+    const displayType = getMediaType(item);
 
     // Badge HTML Construction
     const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
