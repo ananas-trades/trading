@@ -283,8 +283,6 @@ h1 {
 
 .item-card {
   background: var(--card-bg);
-  border: 1px solid var(--accent-primary);
-  box-shadow: 0 0 10px rgba(0,0,0,0.8);
   border-radius: 8px;
   padding: 16px;
   display: flex;
@@ -389,19 +387,80 @@ h1 {
 }
 
 /* ============================================================
-   4. RAINBOW HOVER GLOW ANIMATION (RESTORED!)
+   4. SUPER-CHARGED NEON GLOWS & PULSING ANIMATIONS
 ============================================================ */
 
+/* --- STANDARD CARDS: CYAN PULSE --- */
+.item-card, 
+.item-card.card-standard {
+  border: 2px solid var(--accent-primary) !important;
+  box-shadow: 
+    0 0 15px var(--accent-primary),
+    0 0 30px var(--accent-primary),
+    inset 0 0 12px var(--accent-primary) !important;
+  animation: pulse-glow-cyan 2.5s ease-in-out infinite alternate !important;
+}
+
+/* --- ACTIVE NFT CARDS: HOT NEON PINK PULSE --- */
+.item-card.card-nft-active {
+  border: 2px solid #ff0055 !important;
+  box-shadow: 
+    0 0 18px #ff0055,
+    0 0 35px #ff0055,
+    inset 0 0 15px #ff0055 !important;
+  animation: pulse-glow-red 1.8s ease-in-out infinite alternate !important;
+}
+
+/* Keyframes for Continuous Breathing Glow */
+@keyframes pulse-glow-cyan {
+  0% {
+    box-shadow: 
+      0 0 8px var(--accent-primary),
+      0 0 18px var(--accent-primary),
+      inset 0 0 6px var(--accent-primary) !important;
+    filter: brightness(1);
+  }
+  100% {
+    box-shadow: 
+      0 0 20px var(--accent-primary),
+      0 0 45px var(--accent-primary),
+      0 0 70px var(--accent-primary),
+      inset 0 0 18px var(--accent-primary) !important;
+    filter: brightness(1.25);
+  }
+}
+
+@keyframes pulse-glow-red {
+  0% {
+    box-shadow: 
+      0 0 10px #ff0055,
+      0 0 22px #ff0055,
+      inset 0 0 8px #ff0055 !important;
+    filter: brightness(1);
+  }
+  100% {
+    box-shadow: 
+      0 0 25px #ff0055,
+      0 0 50px #ff0055,
+      0 0 80px #ff0055,
+      inset 0 0 22px #ff0055 !important;
+    filter: brightness(1.35);
+  }
+}
+
+/* --- RAINBOW PULSE ON MOUSE HOVER --- */
 .item-card:hover {
-  animation: rainbow-hover-glow 1.2s linear infinite !important;
+  animation: rainbow-hover-glow 1s linear infinite !important;
+  transform: translateY(-4px) scale(1.01);
+  z-index: 10;
 }
 
 @keyframes rainbow-hover-glow {
-  0% { border-color: #00f0ff !important; box-shadow: 0 0 20px #00f0ff, inset 0 0 10px #00f0ff !important; }
-  25% { border-color: #ffe600 !important; box-shadow: 0 0 20px #ffe600, inset 0 0 10px #ffe600 !important; }
-  50% { border-color: #ff007f !important; box-shadow: 0 0 20px #ff007f, inset 0 0 10px #ff007f !important; }
-  75% { border-color: #00ff66 !important; box-shadow: 0 0 20px #00ff66, inset 0 0 10px #00ff66 !important; }
-  100% { border-color: #00f0ff !important; box-shadow: 0 0 20px #00f0ff, inset 0 0 10px #00f0ff !important; }
+  0%   { border-color: #00f0ff !important; box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff, inset 0 0 15px #00f0ff !important; }
+  25%  { border-color: #ffe600 !important; box-shadow: 0 0 25px #ffe600, 0 0 50px #ffe600, inset 0 0 15px #ffe600 !important; }
+  50%  { border-color: #ff007f !important; box-shadow: 0 0 25px #ff007f, 0 0 50px #ff007f, inset 0 0 15px #ff007f !important; }
+  75%  { border-color: #00ff66 !important; box-shadow: 0 0 25px #00ff66, 0 0 50px #00ff66, inset 0 0 15px #00ff66 !important; }
+  100% { border-color: #00f0ff !important; box-shadow: 0 0 25px #00f0ff, 0 0 50px #00f0ff, inset 0 0 15px #00f0ff !important; }
 }
 
 /* ============================================================
@@ -445,33 +504,4 @@ h1 {
 .toast-hidden {
   opacity: 0;
   pointer-events: none;
-}
-/* ============================================================
-   FORCE CARD NEON GLOWS & HOVER EFFECTS
-============================================================ */
-
-/* Base Glow for Normal Cards */
-.item-card.card-standard {
-  border: 1px solid var(--accent-primary) !important;
-  box-shadow: 0 0 10px var(--accent-primary), inset 0 0 5px rgba(0, 0, 0, 0.5) !important;
-}
-
-/* Base Glow for Active NFT Cards */
-.item-card.card-nft-active {
-  border: 2px solid #ff3366 !important;
-  box-shadow: 0 0 15px #ff3366, inset 0 0 8px rgba(255, 51, 102, 0.3) !important;
-}
-
-/* Rainbow Glow on Hover (Forces all cards to pulse rainbow on mouse hover/touch) */
-.item-card:hover {
-  animation: rainbow-hover-glow 1.2s linear infinite !important;
-  transform: translateY(-3px);
-}
-
-@keyframes rainbow-hover-glow {
-  0%   { border-color: #00f0ff !important; box-shadow: 0 0 22px #00f0ff, inset 0 0 10px #00f0ff !important; }
-  25%  { border-color: #ffe600 !important; box-shadow: 0 0 22px #ffe600, inset 0 0 10px #ffe600 !important; }
-  50%  { border-color: #ff007f !important; box-shadow: 0 0 22px #ff007f, inset 0 0 10px #ff007f !important; }
-  75%  { border-color: #00ff66 !important; box-shadow: 0 0 22px #00ff66, inset 0 0 10px #00ff66 !important; }
-  100% { border-color: #00f0ff !important; box-shadow: 0 0 22px #00f0ff, inset 0 0 10px #00f0ff !important; }
 }
