@@ -1239,3 +1239,8 @@ body {
 .clear-cart-btn:hover {
   background: rgba(254, 178, 178, 0.1) !important;
 }
+/* style.css */
+.item-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 180px; /* Estimated height of a card */
+}
