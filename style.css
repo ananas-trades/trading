@@ -1288,3 +1288,23 @@ body {
 .drawer-footer > *:not(:last-child) {
   margin-bottom: 12px !important; /* Fallback for browsers without flex gap */
 }
+/* FORCE FLEX GAP ON DRAWER FOOTER BUTTONS */
+.drawer-footer,
+#trade-drawer .drawer-footer,
+.trade-drawer div:has(> #copy-trade-btn),
+.trade-drawer div:has(> .copy-trade-btn) {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important; /* Forces 12px gap between EVERY button inside */
+}
+
+/* Fallback margin override on all buttons inside drawer footer */
+.drawer-footer > *,
+.trade-drawer button,
+.trade-drawer a {
+  margin-bottom: 0 !important;
+}
+
+.drawer-footer > *:not(:last-child) {
+  margin-bottom: 12px !important; /* Fallback for browsers without flex gap */
+}
