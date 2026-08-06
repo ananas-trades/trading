@@ -1244,3 +1244,27 @@ body {
   content-visibility: auto;
   contain-intrinsic-size: 1px 180px; /* Estimated height of a card */
 }
+/* ============================================================
+   PERFORMANCE & UI RESPONSIVENESS FIXES
+============================================================ */
+
+/* 1. Prevents off-screen cards from rendering until scrolled into view */
+.item-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 200px; /* Approximate card height */
+  will-change: transform, opacity;
+}
+
+/* 2. Instant visual feedback when clicking buttons (removes click delay) */
+.add-cart-btn, 
+.copy-card-btn, 
+.filter-btn, 
+.cat-btn {
+  touch-action: manipulation;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.05s ease !important;
+}
+
+.add-cart-btn:active, 
+.copy-card-btn:active {
+  transform: scale(0.96);
+}
