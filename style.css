@@ -1268,3 +1268,11 @@ body {
 .copy-card-btn:active {
   transform: scale(0.96);
 }
+/* Vertical gap fix for drawer action buttons */
+.drawer-footer .copy-trade-btn {
+  margin-top: 8px !important;
+}
+
+.drawer-footer .clear-cart-btn {
+  margin-top: 4px !important;
+}
