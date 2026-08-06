@@ -1,4 +1,5 @@
 let allData = [];
+let currentFilteredItems = []; // Keeps track of currently visible subset for Event Delegation
 let currentFilter = 'all';
 let currentCategory = 'all';
 let searchTimeout = null;
@@ -17,7 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
       return header.replace(/[\ufeff\u200b\r\n]/g, '').trim();
     },
     complete: function(results) {
-      allData = results.data;
+      // Pre-index searchable text for lightning-fast filtering
+      allData = results.data.map(item => {
+        item._searchIndex = `${getValByName(item, "Show")} ${getValByName(item, "Date")} ${getValByName(item, "Cast")} ${getValByName(item, "Master")} ${getValByName(item, "Tour", "Location")} ${getValByName(item, "Venue")}`.toLowerCase();
+        return item;
+      });
+      
       renderCards();
       updateCartUI(); // Initial UI sync for cart items loaded from LocalStorage
     },
@@ -54,7 +60,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Scroll To Top Visibility & Action
+  // OPTIMIZED EVENT DELEGATION: Single listener handles all card actions
+  const cardContainer = document.getElementById("card-container");
+  if (cardContainer) {
+    cardContainer.addEventListener("click", (e) => {
+      const addBtn = e.target.closest(".add-cart-btn");
+      const copyBtn = e.target.closest(".copy-card-btn");
+
+      if (addBtn) {
+        const idx = addBtn.getAttribute("data-index");
+        const item = currentFilteredItems[idx];
+        if (item) toggleCartItem(item, addBtn);
+      } else if (copyBtn) {
+        const idx = copyBtn.getAttribute("data-index");
+        const item = currentFilteredItems[idx];
+        if (item) copySingleItemSummary(item, copyBtn);
+      }
+    });
+  }
+
+  // Scroll To Top Visibility & Action (Optimized with { passive: true })
   const scrollTopBtn = document.getElementById("scroll-top-btn");
   window.addEventListener("scroll", () => {
     if (window.scrollY > 300) {
@@ -62,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       scrollTopBtn.classList.remove("visible");
     }
-  });
+  }, { passive: true });
 
   scrollTopBtn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -438,23 +463,21 @@ function isNftStillActive(dateStr) {
 }
 
 /* ============================================================
-   OPTIMIZED CARD RENDERER
+   HIGH-PERFORMANCE CARD RENDERER
 ============================================================ */
 function renderCards() {
   const query = document.getElementById("search-input").value.toLowerCase().trim();
   const container = document.getElementById("card-container");
-  container.innerHTML = "";
 
-  const fragment = document.createDocumentFragment();
-
-  const filtered = allData.filter(item => {
-    // 1. Format/Type Filter using the smart checker
+  // 1. Filter Data Set
+  currentFilteredItems = allData.filter(item => {
+    // Format/Type Filter
     const displayType = getMediaType(item);
     if (currentFilter !== 'all' && displayType.toLowerCase() !== currentFilter.toLowerCase()) {
       return false;
     }
 
-    // 2. Category Filter
+    // Category Filter
     if (currentCategory !== 'all') {
       const tour = getValByName(item, "Tour", "Location", "City").toLowerCase();
       const venue = getValByName(item, "Venue", "Theater", "Theatre").toLowerCase();
@@ -470,27 +493,23 @@ function renderCards() {
       }
     }
 
-    // 3. Fast Targeted Search Bar Query
+    // Fast Search via Pre-Indexed Search String
     if (query) {
-      const searchableText = `${getValByName(item, "Show")} ${getValByName(item, "Date")} ${getValByName(item, "Cast")} ${getValByName(item, "Master")} ${getValByName(item, "Tour", "Location")} ${getValByName(item, "Venue")}`.toLowerCase();
-      if (!searchableText.includes(query)) return false;
+      if (!item._searchIndex.includes(query)) return false;
     }
 
     return true;
   });
 
-  document.getElementById('stats').innerText = `SHOWING ${filtered.length} OF ${allData.length} ITEMS`;
+  document.getElementById('stats').innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
 
-  filtered.forEach((item, index) => {
-    const card = document.createElement("div");
-
-    // Header Retrieval
+  // 2. High-Speed HTML Array Map Construction
+  const cardsHtml = currentFilteredItems.map((item, index) => {
     const show = getValByName(item, "Show") || "Unknown Show";
     const date = getValByName(item, "Date");
     const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening", "MatinÃ©e / Evening");
     const showTime = matineeEve ? ` (${matineeEve})` : "";
     
-    // Format badge & File Size
     const format = getFormat(item);
     const sizeVal = getFileSize(item);
     const fileSize = sizeVal ? ` [${sizeVal}]` : "";
@@ -503,36 +522,23 @@ function renderCards() {
     const tradingNotes = getValByName(item, "Trading Notes");
     const myNotes = getValByName(item, "My Notes");
 
-    // Audio vs Video
     const displayType = getMediaType(item);
 
-    // Badge HTML Construction
     const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
     const safeTypeClass = displayType.toLowerCase().replace(/[^a-z0-9]/g, '-');
     const typeBadgeHTML = `<span class="badge badge-${safeTypeClass}">${displayType}</span>`;
     
-    // NFT Logic
     const nftDateStr = getValByName(item, "NFT Date");
     const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
     
-    let nftForever = false;
-    if (
-      nftForeverVal === "true" || 
-      nftForeverVal === "yes" || 
-      nftForeverVal === "1" || 
-      nftForeverVal === "nftf" || 
-      nftForeverVal.includes("forever")
-    ) {
-      nftForever = true;
-    }
-
-    if (nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf") {
-      nftForever = true;
-    }
+    let nftForever = (
+      nftForeverVal === "true" || nftForeverVal === "yes" || nftForeverVal === "1" || 
+      nftForeverVal === "nftf" || nftForeverVal.includes("forever") ||
+      nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf"
+    );
 
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
-    // NFT Badge Building
     let nftBadgeHTML = '';
     let isNFTActive = false;
 
@@ -549,58 +555,43 @@ function renderCards() {
       }
     }
 
-    // Set Base Classes
-    card.className = "item-card";
-    if (isNFTActive) {
-      card.classList.add("card-nft-active");
-    } else {
-      card.classList.add("card-standard");
-    }
-
-    // Cart Check
+    const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
     const itemInCart = isInCart(item);
 
-    card.innerHTML = `
-      <div class="card-header">
-        <div class="card-title">${show}</div>
-        <div class="card-badges" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-          ${formatBadgeHTML}
-          ${typeBadgeHTML}
+    return `
+      <div class="${cardClass}">
+        <div class="card-header">
+          <div class="card-title">${show}</div>
+          <div class="card-badges" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+            ${formatBadgeHTML}
+            ${typeBadgeHTML}
+          </div>
+        </div>
+        
+        <div class="card-meta">
+          ${date ? `📅 ${date}${showTime}` : ''} 
+          ${locationParts ? `📍 ${locationParts}` : ''}
+          ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
+          ${nftBadgeHTML}
+        </div>
+
+        ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
+        ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
+        ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
+        ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
+
+        <div class="card-actions">
+          <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${index}">
+            ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
+          </button>
+          <button type="button" class="copy-card-btn" data-index="${index}">📋 Copy Info</button>
         </div>
       </div>
-      
-      <div class="card-meta">
-        ${date ? `📅 ${date}${showTime}` : ''} 
-        ${locationParts ? `📍 ${locationParts}` : ''}
-        ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
-        ${nftBadgeHTML}
-      </div>
-
-      ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
-      
-      ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
-      ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
-      ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
-
-      <div class="card-actions">
-        <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${index}">
-          ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
-        </button>
-        <button type="button" class="copy-card-btn" data-index="${index}">📋 Copy Info</button>
-      </div>
     `;
+  }).join('');
 
-    // Attach click events
-    const addBtn = card.querySelector(".add-cart-btn");
-    addBtn.addEventListener("click", () => toggleCartItem(item, addBtn));
-
-    const copyBtn = card.querySelector(".copy-card-btn");
-    copyBtn.addEventListener("click", () => copySingleItemSummary(item, copyBtn));
-
-    fragment.appendChild(card);
-  });
-
-  container.appendChild(fragment);
+  // 3. Batch inject DOM content in a single hit
+  container.innerHTML = cardsHtml;
 }
 
 // Function to copy a single item's summary
