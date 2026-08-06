@@ -80,18 +80,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Scroll To Top Visibility & Action (Optimized with { passive: true })
+  // Scroll To Top Visibility & Action (Smooth & Frame-Throttled)
   const scrollTopBtn = document.getElementById("scroll-top-btn");
+  let isScrolling = false;
+
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      scrollTopBtn.classList.add("visible");
-    } else {
-      scrollTopBtn.classList.remove("visible");
+    if (!isScrolling) {
+      window.requestAnimationFrame(() => {
+        if (scrollTopBtn) {
+          if (window.scrollY > 300) {
+            scrollTopBtn.classList.add("visible");
+          } else {
+            scrollTopBtn.classList.remove("visible");
+          }
+        }
+        isScrolling = false;
+      });
+      isScrolling = true;
     }
   }, { passive: true });
 
-  scrollTopBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
+  if (scrollTopBtn) {
+    scrollTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 
   // Trade Cart Drawer Listeners
   const drawer = document.getElementById("trade-drawer");
