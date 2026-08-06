@@ -1308,3 +1308,24 @@ body {
 .drawer-footer > *:not(:last-child) {
   margin-bottom: 12px !important; /* Fallback for browsers without flex gap */
 }
+/* ============================================================
+   BUTTERY SMOOTH SCROLLING & HARDWARE ACCELERATION
+============================================================ */
+
+/* Enables smooth programmatic scrolling across the entire page */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Enables smooth momentum scrolling inside the cart drawer */
+.cart-items-container {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Offloads card rendering and transformations to GPU layer to fix scroll lag */
+.item-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
