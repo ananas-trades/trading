@@ -217,12 +217,16 @@ function toggleCartItem(item, buttonEl) {
   const existingIdx = tradeCart.findIndex(c => c.key === key);
 
   if (existingIdx > -1) {
+    // 1. Remove item from cart state
     tradeCart.splice(existingIdx, 1);
+    
+    // 2. INSTANT UI response on clicked button
     if (buttonEl) {
       buttonEl.innerText = "+ Add to Trade";
       buttonEl.classList.remove("in-cart");
     }
   } else {
+    // 1. Add item to cart state
     tradeCart.push({
       key: key,
       show: getValByName(item, "Show") || "Unknown Show",
@@ -233,14 +237,19 @@ function toggleCartItem(item, buttonEl) {
       venue: getValByName(item, "Venue", "Theater", "Theatre"),
       master: getValByName(item, "Master")
     });
+
+    // 2. INSTANT UI response on clicked button
     if (buttonEl) {
       buttonEl.innerText = "✓ In Request";
       buttonEl.classList.add("in-cart");
     }
   }
 
-  saveCartToStorage();
-  updateCartUI();
+  // 3. Defer storage writes & drawer re-renders to next animation frame for smooth UI response
+  requestAnimationFrame(() => {
+    saveCartToStorage();
+    updateCartUI();
+  });
 }
 
 function removeFromCart(key) {
