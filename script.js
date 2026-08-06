@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const copyTradeBtn = document.getElementById("copy-trade-btn");
   if (copyTradeBtn) copyTradeBtn.addEventListener("click", copyTradeRequest);
 
-  // ✉️ EMAIL REQUEST HANDLER (WITH GMAIL & MANUAL FALLBACK)
+  // ✉️ EMAIL REQUEST HANDLER (NON-BLOCKING & INSTANT UI RESPONSE)
   const emailBtn = document.getElementById("email-trade-btn");
   if (emailBtn) {
     emailBtn.addEventListener("click", (e) => {
@@ -134,29 +134,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const subject = `Trade Request (${tradeCart.length} Items)`;
       const bodyText = generateFormattedText();
       
-      // 1. Copy formatted trade text to clipboard immediately
+      const encodedSubject = encodeURIComponent(subject);
+      const encodedBody = encodeURIComponent(bodyText);
+      
+      const mailtoUrl = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodedSubject}&body=${encodedBody}`;
+
+      // 1. Copy formatted trade text to clipboard asynchronously
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(bodyText).catch(() => {});
       }
 
-      // 2. Build Webmail URL (Gmail) vs standard mailto link
-      const encodedSubject = encodeURIComponent(subject);
-      
-      const mailtoUrl = `mailto:${recipient}?subject=${encodedSubject}&body=${encodeURIComponent(bodyText)}`;
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodedSubject}&body=${encodeURIComponent(bodyText)}`;
+      // 2. Defer native alert/popup thread lock to allow instant UI response
+      setTimeout(() => {
+        const useGmail = confirm(
+          "📋 Request COPIED to your clipboard!\n\n" +
+          "• Click 'OK' to open directly in Gmail Web.\n" +
+          "• Click 'Cancel' to try opening your default Mail App."
+        );
 
-      // 3. Ask user their preferred email method
-      const useGmail = confirm(
-        "📋 Request COPIED to your clipboard!\n\n" +
-        "• Click 'OK' to open directly in Gmail Web.\n" +
-        "• Click 'Cancel' to try opening your default Mail App."
-      );
-
-      if (useGmail) {
-        window.open(gmailUrl, "_blank");
-      } else {
-        window.location.href = mailtoUrl;
-      }
+        if (useGmail) {
+          window.open(gmailUrl, "_blank");
+        } else {
+          window.location.href = mailtoUrl;
+        }
+      }, 10);
     });
   }
 });
@@ -260,26 +262,24 @@ function removeFromCart(key) {
 }
 
 function generateFormattedText() {
-  let lines = [
-    "Hi!",
-    "I would like to initiate a trade for the following items from your collection:",
-    ""
-  ];
-
-  tradeCart.forEach((item, i) => {
+  const itemsText = tradeCart.map((item, i) => {
     const location = [item.tour, item.venue].filter(Boolean).join(" - ");
     let line = `${i + 1}. ${item.show} - ${item.date} (${item.format})`;
     if (location) line += ` | ${location}`;
     if (item.master) line += ` | Master: ${item.master}`;
-    lines.push(line);
-  });
+    return line;
+  }).join("\n");
 
-  lines.push("");
-  lines.push("My Trading List / Link: [INSERT YOUR LINK HERE]");
-  lines.push("");
-  lines.push("Thanks!");
-
-  return lines.join("\n");
+  return [
+    "Hi!",
+    "I would like to initiate a trade for the following items from your collection:",
+    "",
+    itemsText,
+    "",
+    "My Trading List / Link: [INSERT YOUR LINK HERE]",
+    "",
+    "Thanks!"
+  ].join("\n");
 }
 
 function updateCartUI() {
