@@ -918,3 +918,22 @@ h1 {
   scrollbar-width: thin;
   scrollbar-color: #7000ff #0b0c10;
 }
+/* Custom Cursor & Flame Canvas Overlay */
+html, body {
+  /* Fallback custom cursor with electric blue/yellow glow */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="%2300f0ff" stroke="%23ffe600" stroke-width="1.5" d="M3 3l7 18 3-7 7-3L3 3z"/></svg>'), auto;
+}
+
+button, a, input, select, .filter-btn, .cat-btn, .item-card {
+  cursor: pointer;
+}
+
+#cursor-flame {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* Allows clicks to go directly through to your website */
+  z-index: 99999; /* Keeps the flame trailing over all page elements */
+}
