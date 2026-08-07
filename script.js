@@ -3,6 +3,7 @@ let currentFilteredItems = []; // Keeps track of currently visible subset for Ev
 let currentFilter = 'all';
 let currentCategory = 'all';
 let searchTimeout = null;
+let currentRenderToken = 0; // Guard against overlapping chunk render loops
 
 // LocalStorage Trade Cart State
 const STORAGE_KEY = "bootleg_trade_cart";
@@ -512,11 +513,14 @@ function isNftStillActive(dateStr) {
 }
 
 /* ============================================================
-   HIGH-PERFORMANCE CARD RENDERER
+   ULTRA HIGH-PERFORMANCE CHUNKED CARD RENDERER
 ============================================================ */
 function renderCards() {
   const query = document.getElementById("search-input").value.toLowerCase().trim();
   const container = document.getElementById("card-container");
+
+  // Token guard to abort stale render loops if search/filter triggers rapidly
+  const renderToken = ++currentRenderToken;
 
   // 1. Filter Data Set
   currentFilteredItems = allData.filter(item => {
@@ -552,95 +556,115 @@ function renderCards() {
 
   document.getElementById('stats').innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
 
-  // 2. High-Speed HTML Array Map Construction
-  const cardsHtml = currentFilteredItems.map((item, index) => {
-    const show = getValByName(item, "Show") || "Unknown Show";
-    const date = getValByName(item, "Date");
-    const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening", "MatinÃ©e / Evening");
-    const showTime = matineeEve ? ` (${matineeEve})` : "";
+  container.innerHTML = "";
+
+  if (currentFilteredItems.length === 0) return;
+
+  // 2. Chunked Async Rendering (Renders initial viewport instantly, defers remaining frames)
+  const chunkSize = 30;
+  let currentIndex = 0;
+
+  function renderChunk() {
+    if (renderToken !== currentRenderToken) return; // Invalidate stale renders
+
+    const nextChunk = currentFilteredItems.slice(currentIndex, currentIndex + chunkSize);
     
-    const format = getFormat(item);
-    const sizeVal = getFileSize(item);
-    const fileSize = sizeVal ? ` [${sizeVal}]` : "";
+    const chunkHtml = nextChunk.map((item, i) => {
+      const globalIndex = currentIndex + i;
+      const show = getValByName(item, "Show") || "Unknown Show";
+      const date = getValByName(item, "Date");
+      const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening", "MatinÃ©e / Evening");
+      const showTime = matineeEve ? ` (${matineeEve})` : "";
+      
+      const format = getFormat(item);
+      const sizeVal = getFileSize(item);
+      const fileSize = sizeVal ? ` [${sizeVal}]` : "";
 
-    const tour = getValByName(item, "Tour", "Location", "City");
-    const venue = getValByName(item, "Venue", "Theater", "Theatre");
-    const master = getValByName(item, "Master");
-    const cast = getValByName(item, "Cast");
-    const masterNotes = getValByName(item, "Master Notes");
-    const tradingNotes = getValByName(item, "Trading Notes");
-    const myNotes = getValByName(item, "My Notes");
+      const tour = getValByName(item, "Tour", "Location", "City");
+      const venue = getValByName(item, "Venue", "Theater", "Theatre");
+      const master = getValByName(item, "Master");
+      const cast = getValByName(item, "Cast");
+      const masterNotes = getValByName(item, "Master Notes");
+      const tradingNotes = getValByName(item, "Trading Notes");
+      const myNotes = getValByName(item, "My Notes");
 
-    const displayType = getMediaType(item);
+      const displayType = getMediaType(item);
 
-    const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
-    const safeTypeClass = displayType.toLowerCase().replace(/[^a-z0-9]/g, '-');
-    const typeBadgeHTML = `<span class="badge badge-${safeTypeClass}">${displayType}</span>`;
-    
-    const nftDateStr = getValByName(item, "NFT Date");
-    const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
-    
-    let nftForever = (
-      nftForeverVal === "true" || nftForeverVal === "yes" || nftForeverVal === "1" || 
-      nftForeverVal === "nftf" || nftForeverVal.includes("forever") ||
-      nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf"
-    );
+      const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
+      const safeTypeClass = displayType.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const typeBadgeHTML = `<span class="badge badge-${safeTypeClass}">${displayType}</span>`;
+      
+      const nftDateStr = getValByName(item, "NFT Date");
+      const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
+      
+      let nftForever = (
+        nftForeverVal === "true" || nftForeverVal === "yes" || nftForeverVal === "1" || 
+        nftForeverVal === "nftf" || nftForeverVal.includes("forever") ||
+        nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf"
+      );
 
-    const locationParts = [tour, venue].filter(Boolean).join(" - ");
+      const locationParts = [tour, venue].filter(Boolean).join(" - ");
 
-    let nftBadgeHTML = '';
-    let isNFTActive = false;
+      let nftBadgeHTML = '';
+      let isNFTActive = false;
 
-    if (nftForever) {
-      isNFTActive = true;
-      nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
-    } else if (nftDateStr !== "") {
-      if (isNftStillActive(nftDateStr)) {
+      if (nftForever) {
         isNFTActive = true;
-        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
-      } else {
-        isNFTActive = false;
-        nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDateStr})</span>`;
+        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
+      } else if (nftDateStr !== "") {
+        if (isNftStillActive(nftDateStr)) {
+          isNFTActive = true;
+          nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
+        } else {
+          isNFTActive = false;
+          nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDateStr})</span>`;
+        }
       }
-    }
 
-    const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
-    const itemInCart = isInCart(item);
+      const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
+      const itemInCart = isInCart(item);
 
-    return `
-      <div class="${cardClass}">
-        <div class="card-header">
-          <div class="card-title">${show}</div>
-          <div class="card-badges" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-            ${formatBadgeHTML}
-            ${typeBadgeHTML}
+      return `
+        <div class="${cardClass}">
+          <div class="card-header">
+            <div class="card-title">${show}</div>
+            <div class="card-badges" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+              ${formatBadgeHTML}
+              ${typeBadgeHTML}
+            </div>
+          </div>
+          
+          <div class="card-meta">
+            ${date ? `📅 ${date}${showTime}` : ''} 
+            ${locationParts ? `📍 ${locationParts}` : ''}
+            ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
+            ${nftBadgeHTML}
+          </div>
+
+          ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
+          ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
+          ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
+          ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
+
+          <div class="card-actions">
+            <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${globalIndex}">
+              ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
+            </button>
+            <button type="button" class="copy-card-btn" data-index="${globalIndex}">📋 Copy Info</button>
           </div>
         </div>
-        
-        <div class="card-meta">
-          ${date ? `📅 ${date}${showTime}` : ''} 
-          ${locationParts ? `📍 ${locationParts}` : ''}
-          ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
-          ${nftBadgeHTML}
-        </div>
+      `;
+    }).join('');
 
-        ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
-        ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
-        ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
-        ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
+    container.insertAdjacentHTML('beforeend', chunkHtml);
+    currentIndex += chunkSize;
 
-        <div class="card-actions">
-          <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${index}">
-            ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
-          </button>
-          <button type="button" class="copy-card-btn" data-index="${index}">📋 Copy Info</button>
-        </div>
-      </div>
-    `;
-  }).join('');
+    if (currentIndex < currentFilteredItems.length) {
+      requestAnimationFrame(renderChunk);
+    }
+  }
 
-  // 3. Batch inject DOM content in a single hit
-  container.innerHTML = cardsHtml;
+  renderChunk();
 }
 
 // Function to copy a single item's summary
