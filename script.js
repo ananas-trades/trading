@@ -79,7 +79,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Scroll To Top Visibility & Action (Optimized with { passive: true })
   // Scroll To Top Visibility & Action (Smooth & Frame-Throttled)
   const scrollTopBtn = document.getElementById("scroll-top-btn");
   let isScrolling = false;
@@ -241,6 +240,34 @@ function toggleCartItem(item, buttonEl) {
       buttonEl.classList.remove("in-cart");
     }
   } else {
+    // ⚠️ NFT SMART WARNING CHECK
+    const nftDateStr = getValByName(item, "NFT Date");
+    const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
+    
+    let isNFTActive = (
+      nftForeverVal === "true" || nftForeverVal === "yes" || nftForeverVal === "1" || 
+      nftForeverVal === "nftf" || nftForeverVal.includes("forever") ||
+      nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf"
+    );
+
+    if (!isNFTActive && nftDateStr !== "") {
+      isNFTActive = isNftStillActive(nftDateStr);
+    }
+
+    // If active NFT, show confirmation warning prompt
+    if (isNFTActive) {
+      const showName = getValByName(item, "Show") || "This item";
+      const nftMsg = nftDateStr ? `NFT restriction until ${nftDateStr}` : "NFT FOREVER (Not For Trade)";
+      
+      const proceed = confirm(
+        `⛔ RESTRICTED ITEM WARNING\n\n` +
+        `"${showName}" is currently under an active ${nftMsg}.\n\n` +
+        `Are you sure you want to add this to your trade request?`
+      );
+
+      if (!proceed) return; // Cancel adding to cart
+    }
+
     // 1. Add item to cart state
     tradeCart.push({
       key: key,
