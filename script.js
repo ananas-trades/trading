@@ -1,15 +1,22 @@
 let allData = [];
-let currentFilteredItems = []; // Keeps track of currently visible subset for Event Delegation
+let currentFilteredItems = [];
 let currentFilter = 'all';
 let currentCategory = 'all';
 let searchTimeout = null;
-let currentRenderToken = 0; // Guard against overlapping chunk render loops
+let currentRenderToken = 0;
+
+// Pagination configuration
+const BATCH_SIZE = 20;
+let displayedCount = 0;
+let observer = null;
 
 // LocalStorage Trade Cart State
 const STORAGE_KEY = "bootleg_trade_cart";
 let tradeCart = loadCartFromStorage();
 
 document.addEventListener("DOMContentLoaded", () => {
+  setupIntersectionObserver();
+
   Papa.parse("./list.csv", {
     download: true,
     header: true,
@@ -19,26 +26,26 @@ document.addEventListener("DOMContentLoaded", () => {
       return header.replace(/[\ufeff\u200b\r\n]/g, '').trim();
     },
     complete: function(results) {
-      // Pre-index searchable text for lightning-fast filtering
+      // Pre-index searchable text for fast low-memory filtering
       allData = results.data.map(item => {
         item._searchIndex = `${getValByName(item, "Show")} ${getValByName(item, "Date")} ${getValByName(item, "Cast")} ${getValByName(item, "Master")} ${getValByName(item, "Tour", "Location")} ${getValByName(item, "Venue")}`.toLowerCase();
         return item;
       });
       
-      renderCards();
-      updateCartUI(); // Initial UI sync for cart items loaded from LocalStorage
+      applyFiltersAndRender();
+      updateCartUI();
     },
     error: function(err) {
       document.getElementById('stats').innerText = "Upload your 'list.csv' file to display your collection!";
     }
   });
 
-  // Debounced Search Input Event (Prevents lag on fast typing)
+  // Debounced Search Input Event
   document.getElementById("search-input").addEventListener("input", () => {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
-      renderCards();
-    }, 150);
+      applyFiltersAndRender();
+    }, 100);
   });
 
   // Format Filter Listeners
@@ -47,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
       currentFilter = e.target.getAttribute("data-filter");
-      renderCards();
+      applyFiltersAndRender();
     });
   });
 
@@ -57,11 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
       currentCategory = e.target.getAttribute("data-category");
-      renderCards();
+      applyFiltersAndRender();
     });
   });
 
-  // OPTIMIZED EVENT DELEGATION: Single listener handles all card actions
+  // Event Delegation for Card Actions
   const cardContainer = document.getElementById("card-container");
   if (cardContainer) {
     cardContainer.addEventListener("click", (e) => {
@@ -69,47 +76,35 @@ document.addEventListener("DOMContentLoaded", () => {
       const copyBtn = e.target.closest(".copy-card-btn");
 
       if (addBtn) {
-        const idx = addBtn.getAttribute("data-index");
+        const idx = parseInt(addBtn.getAttribute("data-index"), 10);
         const item = currentFilteredItems[idx];
         if (item) toggleCartItem(item, addBtn);
       } else if (copyBtn) {
-        const idx = copyBtn.getAttribute("data-index");
+        const idx = parseInt(copyBtn.getAttribute("data-index"), 10);
         const item = currentFilteredItems[idx];
         if (item) copySingleItemSummary(item, copyBtn);
       }
     });
   }
 
-  // Scroll To Top Visibility & Action (Smooth & Frame-Throttled)
+  // Scroll To Top
   const scrollTopBtn = document.getElementById("scroll-top-btn");
-  let isScrolling = false;
-
-  window.addEventListener("scroll", () => {
-    if (!isScrolling) {
-      window.requestAnimationFrame(() => {
-        if (scrollTopBtn) {
-          if (window.scrollY > 300) {
-            scrollTopBtn.classList.add("visible");
-          } else {
-            scrollTopBtn.classList.remove("visible");
-          }
-        }
-        isScrolling = false;
-      });
-      isScrolling = true;
-    }
-  }, { passive: true });
-
   if (scrollTopBtn) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.add("visible");
+      } else {
+        scrollTopBtn.classList.remove("visible");
+      }
+    }, { passive: true });
+
     scrollTopBtn.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 
-  // Trade Cart Drawer Listeners
-  const drawer = document.getElementById("trade-drawer");
+  // Cart Drawer Events
   const overlay = document.getElementById("drawer-overlay");
-  
   const cartToggleBtn = document.getElementById("cart-toggle-btn");
   if (cartToggleBtn) cartToggleBtn.addEventListener("click", openDrawer);
   
@@ -124,20 +119,18 @@ document.addEventListener("DOMContentLoaded", () => {
       tradeCart = [];
       saveCartToStorage();
       updateCartUI();
-      renderCards();
+      applyFiltersAndRender();
     });
   }
 
   const copyTradeBtn = document.getElementById("copy-trade-btn");
   if (copyTradeBtn) copyTradeBtn.addEventListener("click", copyTradeRequest);
 
-  // ✉️ EMAIL REQUEST HANDLER (NON-BLOCKING & INSTANT UI RESPONSE)
+  // Email Trade Handler
   const emailBtn = document.getElementById("email-trade-btn");
   if (emailBtn) {
     emailBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      e.stopPropagation();
-
       if (!tradeCart.length) {
         alert("Your trade request is empty! Add items to your list first.");
         return;
@@ -147,44 +140,203 @@ document.addEventListener("DOMContentLoaded", () => {
       const subject = `Trade Request (${tradeCart.length} Items)`;
       const bodyText = generateFormattedText();
       
-      const encodedSubject = encodeURIComponent(subject);
-      const encodedBody = encodeURIComponent(bodyText);
-      
-      const mailtoUrl = `mailto:${recipient}?subject=${encodedSubject}&body=${encodedBody}`;
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodedSubject}&body=${encodedBody}`;
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+      const mailtoUrl = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
 
-      // 1. Copy formatted trade text to clipboard asynchronously
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(bodyText).catch(() => {});
       }
 
-      // 2. Defer native alert/popup thread lock to allow instant UI response
       setTimeout(() => {
         const useGmail = confirm(
-          "📋 Request COPIED to your clipboard!\n\n" +
-          "• Click 'OK' to open directly in Gmail Web.\n" +
-          "• Click 'Cancel' to try opening your default Mail App."
+          "📋 Request COPIED to clipboard!\n\n" +
+          "• Click 'OK' to open Gmail Web.\n" +
+          "• Click 'Cancel' for Default Mail App."
         );
-
-        if (useGmail) {
-          window.open(gmailUrl, "_blank");
-        } else {
-          window.location.href = mailtoUrl;
-        }
+        if (useGmail) window.open(gmailUrl, "_blank");
+        else window.location.href = mailtoUrl;
       }, 10);
     });
   }
 });
 
 /* ============================================================
-   LOCALSTORAGE CART PERSISTENCE
+   INTERSECTION OBSERVER (INFINITE SCROLL ENGINE)
+============================================================ */
+function setupIntersectionObserver() {
+  const sentinel = document.getElementById("scroll-sentinel");
+  if (!sentinel) return;
+
+  observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      if (displayedCount < currentFilteredItems.length) {
+        appendNextBatch();
+      }
+    }
+  }, {
+    root: null,
+    rootMargin: "400px", // Pre-loads next batch 400px before user reaches bottom
+    threshold: 0.1
+  });
+
+  observer.observe(sentinel);
+}
+
+function applyFiltersAndRender() {
+  const query = document.getElementById("search-input").value.toLowerCase().trim();
+  currentRenderToken++;
+
+  // 1. Filter Data Set
+  currentFilteredItems = allData.filter(item => {
+    const displayType = getMediaType(item);
+    if (currentFilter !== 'all' && displayType.toLowerCase() !== currentFilter.toLowerCase()) {
+      return false;
+    }
+
+    if (currentCategory !== 'all') {
+      const tour = getValByName(item, "Tour", "Location", "City").toLowerCase();
+      const venue = getValByName(item, "Venue", "Theater", "Theatre").toLowerCase();
+      const locationText = `${tour} ${venue}`;
+
+      if (currentCategory === 'off-broadway') {
+        if (!locationText.includes("off-broadway") && !locationText.includes("off broadway")) return false;
+      } else if (currentCategory === 'broadway') {
+        if (locationText.includes("off-broadway") || locationText.includes("off broadway")) return false;
+        if (!locationText.includes("broadway")) return false;
+      } else if (currentCategory === 'west end') {
+        if (!locationText.includes("west end")) return false;
+      }
+    }
+
+    if (query && !item._searchIndex.includes(query)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  document.getElementById('stats').innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
+
+  // 2. Clear Container and Render Initial Frame
+  const container = document.getElementById("card-container");
+  container.innerHTML = "";
+  displayedCount = 0;
+
+  if (currentFilteredItems.length > 0) {
+    appendNextBatch(30); // Initial fast view batch
+  }
+}
+
+function appendNextBatch(count = BATCH_SIZE) {
+  const container = document.getElementById("card-container");
+  const nextSlice = currentFilteredItems.slice(displayedCount, displayedCount + count);
+
+  if (nextSlice.length === 0) return;
+
+  const fragment = document.createDocumentFragment();
+  const tempContainer = document.createElement("div");
+
+  tempContainer.innerHTML = nextSlice.map((item, i) => {
+    const globalIndex = displayedCount + i;
+    const show = getValByName(item, "Show") || "Unknown Show";
+    const date = getValByName(item, "Date");
+    const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening");
+    const showTime = matineeEve ? ` (${matineeEve})` : "";
+    
+    const format = getFormat(item);
+    const sizeVal = getFileSize(item);
+    const fileSize = sizeVal ? ` [${sizeVal}]` : "";
+
+    const tour = getValByName(item, "Tour", "Location", "City");
+    const venue = getValByName(item, "Venue", "Theater", "Theatre");
+    const master = getValByName(item, "Master");
+    const cast = getValByName(item, "Cast");
+    const masterNotes = getValByName(item, "Master Notes");
+    const tradingNotes = getValByName(item, "Trading Notes");
+    const myNotes = getValByName(item, "My Notes");
+
+    const displayType = getMediaType(item);
+    const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
+    const safeTypeClass = displayType.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const typeBadgeHTML = `<span class="badge badge-${safeTypeClass}">${displayType}</span>`;
+    
+    const nftDateStr = getValByName(item, "NFT Date");
+    const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
+    
+    let nftForever = (
+      nftForeverVal === "true" || nftForeverVal === "yes" || nftForeverVal === "1" || 
+      nftForeverVal === "nftf" || nftForeverVal.includes("forever") ||
+      nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf"
+    );
+
+    const locationParts = [tour, venue].filter(Boolean).join(" - ");
+    let nftBadgeHTML = '';
+    let isNFTActive = false;
+
+    if (nftForever) {
+      isNFTActive = true;
+      nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
+    } else if (nftDateStr !== "") {
+      if (isNftStillActive(nftDateStr)) {
+        isNFTActive = true;
+        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
+      } else {
+        isNFTActive = false;
+        nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDateStr})</span>`;
+      }
+    }
+
+    const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
+    const itemInCart = isInCart(item);
+
+    return `
+      <div class="${cardClass}">
+        <div class="card-header">
+          <div class="card-title">${show}</div>
+          <div class="card-badges" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+            ${formatBadgeHTML}
+            ${typeBadgeHTML}
+          </div>
+        </div>
+        
+        <div class="card-meta">
+          ${date ? `📅 ${date}${showTime}` : ''} 
+          ${locationParts ? `📍 ${locationParts}` : ''}
+          ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
+          ${nftBadgeHTML}
+        </div>
+
+        ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
+        ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
+        ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
+        ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
+
+        <div class="card-actions">
+          <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${globalIndex}">
+            ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
+          </button>
+          <button type="button" class="copy-card-btn" data-index="${globalIndex}">📋 Copy Info</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  while (tempContainer.firstChild) {
+    fragment.appendChild(tempContainer.firstChild);
+  }
+
+  container.appendChild(fragment);
+  displayedCount += nextSlice.length;
+}
+
+/* ============================================================
+   LOCALSTORAGE CART & HELPERS
 ============================================================ */
 function loadCartFromStorage() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     return saved ? JSON.parse(saved) : [];
   } catch (e) {
-    console.error("Could not load trade cart from storage:", e);
     return [];
   }
 }
@@ -192,34 +344,21 @@ function loadCartFromStorage() {
 function saveCartToStorage() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tradeCart));
-  } catch (e) {
-    console.error("Could not save trade cart to storage:", e);
-  }
+  } catch (e) {}
 }
 
-/* ============================================================
-   DRAWER & CART MANAGERS
-============================================================ */
 function openDrawer() {
-  const drawer = document.getElementById("trade-drawer");
-  const overlay = document.getElementById("drawer-overlay");
-  if (drawer) drawer.classList.add("open");
-  if (overlay) overlay.classList.add("open");
+  document.getElementById("trade-drawer")?.classList.add("open");
+  document.getElementById("drawer-overlay")?.classList.add("open");
 }
 
 function closeDrawer() {
-  const drawer = document.getElementById("trade-drawer");
-  const overlay = document.getElementById("drawer-overlay");
-  if (drawer) drawer.classList.remove("open");
-  if (overlay) overlay.classList.remove("open");
+  document.getElementById("trade-drawer")?.classList.remove("open");
+  document.getElementById("drawer-overlay")?.classList.remove("open");
 }
 
 function getItemKey(item) {
-  const show = getValByName(item, "Show");
-  const date = getValByName(item, "Date");
-  const master = getValByName(item, "Master");
-  const format = getFormat(item);
-  return `${show}|${date}|${master}|${format}`.toLowerCase();
+  return `${getValByName(item, "Show")}|${getValByName(item, "Date")}|${getValByName(item, "Master")}|${getFormat(item)}`.toLowerCase();
 }
 
 function isInCart(item) {
@@ -232,16 +371,12 @@ function toggleCartItem(item, buttonEl) {
   const existingIdx = tradeCart.findIndex(c => c.key === key);
 
   if (existingIdx > -1) {
-    // 1. Remove item from cart state
     tradeCart.splice(existingIdx, 1);
-    
-    // 2. INSTANT UI response on clicked button
     if (buttonEl) {
       buttonEl.innerText = "+ Add to Trade";
       buttonEl.classList.remove("in-cart");
     }
   } else {
-    // ⚠️ NFT SMART WARNING CHECK
     const nftDateStr = getValByName(item, "NFT Date");
     const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
     
@@ -255,7 +390,6 @@ function toggleCartItem(item, buttonEl) {
       isNFTActive = isNftStillActive(nftDateStr);
     }
 
-    // If active NFT, show confirmation warning prompt
     if (isNFTActive) {
       const showName = getValByName(item, "Show") || "This item";
       const nftMsg = nftDateStr ? `NFT restriction until ${nftDateStr}` : "NFT FOREVER (Not For Trade)";
@@ -266,10 +400,9 @@ function toggleCartItem(item, buttonEl) {
         `Are you sure you want to add this to your trade request?`
       );
 
-      if (!proceed) return; // Cancel adding to cart
+      if (!proceed) return;
     }
 
-    // 1. Add item to cart state
     tradeCart.push({
       key: key,
       show: getValByName(item, "Show") || "Unknown Show",
@@ -281,25 +414,14 @@ function toggleCartItem(item, buttonEl) {
       master: getValByName(item, "Master")
     });
 
-    // 2. INSTANT UI response on clicked button
     if (buttonEl) {
       buttonEl.innerText = "✓ In Request";
       buttonEl.classList.add("in-cart");
     }
   }
 
-  // 3. Defer storage writes & drawer re-renders to next animation frame for smooth UI response
-  requestAnimationFrame(() => {
-    saveCartToStorage();
-    updateCartUI();
-  });
-}
-
-function removeFromCart(key) {
-  tradeCart = tradeCart.filter(c => c.key !== key);
   saveCartToStorage();
   updateCartUI();
-  renderCards();
 }
 
 function generateFormattedText() {
@@ -350,30 +472,24 @@ function updateCartUI() {
     if (item.type.includes("AUDIO")) audios++;
 
     const location = [item.tour, item.venue].filter(Boolean).join(" - ");
-    
     const cartCard = document.createElement("div");
     cartCard.className = "cart-item-row";
 
-    const detailsDiv = document.createElement("div");
-    detailsDiv.className = "cart-item-details";
-    detailsDiv.innerHTML = `
-      <strong>${item.show}</strong>
-      <span>📅 ${item.date} (${item.format}) ${location ? `| 📍 ${location}` : ''}</span>
+    cartCard.innerHTML = `
+      <div class="cart-item-details">
+        <strong>${item.show}</strong>
+        <span>📅 ${item.date} (${item.format}) ${location ? `| 📍 ${location}` : ''}</span>
+      </div>
+      <button type="button" class="remove-cart-item" data-key="${item.key}">&times;</button>
     `;
 
-    const removeBtn = document.createElement("button");
-    removeBtn.className = "remove-cart-item";
-    removeBtn.type = "button";
-    removeBtn.innerHTML = "&times;";
-
-    removeBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      removeFromCart(item.key);
+    cartCard.querySelector(".remove-cart-item").addEventListener("click", () => {
+      tradeCart = tradeCart.filter(c => c.key !== item.key);
+      saveCartToStorage();
+      updateCartUI();
+      applyFiltersAndRender();
     });
 
-    cartCard.appendChild(detailsDiv);
-    cartCard.appendChild(removeBtn);
     container.appendChild(cartCard);
   });
 
@@ -393,18 +509,13 @@ function copyTradeRequest() {
   });
 }
 
-/* ============================================================
-   DATA PARSING & DETECTORS
-============================================================ */
-
 function getValByName(item, ...names) {
   if (!item) return "";
   const keys = Object.keys(item);
   for (const name of names) {
     const target = name.toLowerCase().replace(/[^a-z0-9]/g, '');
     for (const key of keys) {
-      const cleanKey = key.toLowerCase().replace(/[^a-z0-9]/g, '');
-      if (cleanKey === target) {
+      if (key.toLowerCase().replace(/[^a-z0-9]/g, '') === target) {
         const val = item[key];
         if (val !== undefined && val !== null) {
           const str = val.toString().trim();
@@ -418,30 +529,15 @@ function getValByName(item, ...names) {
 
 function getFileSize(item) {
   const named = getValByName(item, "File Size", "Size", "Filesize");
-  if (named && /^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(named.trim())) {
-    return named.trim();
+  if (named && /^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(named.trim())) return named.trim();
+  for (const val of Object.values(item)) {
+    if (val && /^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(val.toString().trim())) return val.toString().trim();
   }
-
-  const values = Object.values(item);
-  for (const val of values) {
-    if (!val) continue;
-    const str = val.toString().trim();
-    if (/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(str)) {
-      return str;
-    }
-  }
-
   return named;
 }
 
 function getFormat(item) {
-  const traderFmt = getValByName(item, "Trader Format");
-  if (traderFmt) return traderFmt;
-
-  const fmt = getValByName(item, "Format");
-  if (fmt) return fmt;
-
-  return getValByName(item, "Release Format");
+  return getValByName(item, "Trader Format") || getValByName(item, "Format") || getValByName(item, "Release Format");
 }
 
 function getMediaType(item) {
@@ -449,24 +545,13 @@ function getMediaType(item) {
   const typeRaw = getValByName(item, "Type").toLowerCase();
   const formatRaw = getFormat(item).toLowerCase();
 
-  const isAudio = audioVideo.includes("audio") || typeRaw.includes("audio") || 
-                  formatRaw.match(/audio|mp3|m4a|wav|flac|tracked|cd/);
-                  
-  const isVideo = audioVideo.includes("video") || typeRaw.includes("video") || 
-                  formatRaw.match(/video|mp4|vob|mov|mkv|avi/);
+  const isAudio = audioVideo.includes("audio") || typeRaw.includes("audio") || formatRaw.match(/audio|mp3|m4a|wav|flac|tracked|cd/);
+  const isVideo = audioVideo.includes("video") || typeRaw.includes("video") || formatRaw.match(/video|mp4|vob|mov|mkv|avi/);
 
-  if (
-    audioVideo.includes("both") || 
-    audioVideo.includes("mixed") || 
-    audioVideo.includes("&") ||
-    audioVideo.includes("/") ||
-    (isAudio && isVideo)
-  ) {
+  if (audioVideo.includes("both") || audioVideo.includes("mixed") || audioVideo.includes("&") || audioVideo.includes("/") || (isAudio && isVideo)) {
     return "VIDEO / AUDIO";
   }
-
   if (isAudio) return "AUDIO";
-
   return "VIDEO";
 }
 
@@ -483,14 +568,10 @@ function parseEncoraDate(dateStr) {
       day = parseInt(parts[2], 10);
     } else if (parts[2].length === 4) {
       year = parseInt(parts[2], 10);
-      const p1 = parseInt(parts[0], 10);
-      const p2 = parseInt(parts[1], 10);
-      day = p1;
-      month = p2 - 1;
+      day = parseInt(parts[0], 10);
+      month = parseInt(parts[1], 10) - 1;
     }
-    if (year && month !== undefined && day) {
-      return new Date(year, month, day);
-    }
+    if (year && month !== undefined && day) return new Date(year, month, day);
   }
 
   const d = new Date(clean);
@@ -506,168 +587,9 @@ function isNftStillActive(dateStr) {
   if (lower.includes("forever") || lower === "nftf" || lower.includes("master")) return true;
 
   const parsedDate = parseEncoraDate(dateStr);
-  if (parsedDate) {
-    return parsedDate >= today;
-  }
-  return false;
+  return parsedDate ? parsedDate >= today : false;
 }
 
-/* ============================================================
-   ULTRA HIGH-PERFORMANCE CHUNKED CARD RENDERER
-============================================================ */
-function renderCards() {
-  const query = document.getElementById("search-input").value.toLowerCase().trim();
-  const container = document.getElementById("card-container");
-
-  // Token guard to abort stale render loops if search/filter triggers rapidly
-  const renderToken = ++currentRenderToken;
-
-  // 1. Filter Data Set
-  currentFilteredItems = allData.filter(item => {
-    // Format/Type Filter
-    const displayType = getMediaType(item);
-    if (currentFilter !== 'all' && displayType.toLowerCase() !== currentFilter.toLowerCase()) {
-      return false;
-    }
-
-    // Category Filter
-    if (currentCategory !== 'all') {
-      const tour = getValByName(item, "Tour", "Location", "City").toLowerCase();
-      const venue = getValByName(item, "Venue", "Theater", "Theatre").toLowerCase();
-      const locationText = `${tour} ${venue}`;
-
-      if (currentCategory === 'off-broadway') {
-        if (!locationText.includes("off-broadway") && !locationText.includes("off broadway")) return false;
-      } else if (currentCategory === 'broadway') {
-        if (locationText.includes("off-broadway") || locationText.includes("off broadway")) return false;
-        if (!locationText.includes("broadway")) return false;
-      } else if (currentCategory === 'west end') {
-        if (!locationText.includes("west end")) return false;
-      }
-    }
-
-    // Fast Search via Pre-Indexed Search String
-    if (query) {
-      if (!item._searchIndex.includes(query)) return false;
-    }
-
-    return true;
-  });
-
-  document.getElementById('stats').innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
-
-  container.innerHTML = "";
-
-  if (currentFilteredItems.length === 0) return;
-
-  // 2. Chunked Async Rendering (Renders initial viewport instantly, defers remaining frames)
-  const chunkSize = 30;
-  let currentIndex = 0;
-
-  function renderChunk() {
-    if (renderToken !== currentRenderToken) return; // Invalidate stale renders
-
-    const nextChunk = currentFilteredItems.slice(currentIndex, currentIndex + chunkSize);
-    
-    const chunkHtml = nextChunk.map((item, i) => {
-      const globalIndex = currentIndex + i;
-      const show = getValByName(item, "Show") || "Unknown Show";
-      const date = getValByName(item, "Date");
-      const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening", "MatinÃ©e / Evening");
-      const showTime = matineeEve ? ` (${matineeEve})` : "";
-      
-      const format = getFormat(item);
-      const sizeVal = getFileSize(item);
-      const fileSize = sizeVal ? ` [${sizeVal}]` : "";
-
-      const tour = getValByName(item, "Tour", "Location", "City");
-      const venue = getValByName(item, "Venue", "Theater", "Theatre");
-      const master = getValByName(item, "Master");
-      const cast = getValByName(item, "Cast");
-      const masterNotes = getValByName(item, "Master Notes");
-      const tradingNotes = getValByName(item, "Trading Notes");
-      const myNotes = getValByName(item, "My Notes");
-
-      const displayType = getMediaType(item);
-
-      const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : '';
-      const safeTypeClass = displayType.toLowerCase().replace(/[^a-z0-9]/g, '-');
-      const typeBadgeHTML = `<span class="badge badge-${safeTypeClass}">${displayType}</span>`;
-      
-      const nftDateStr = getValByName(item, "NFT Date");
-      const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
-      
-      let nftForever = (
-        nftForeverVal === "true" || nftForeverVal === "yes" || nftForeverVal === "1" || 
-        nftForeverVal === "nftf" || nftForeverVal.includes("forever") ||
-        nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf"
-      );
-
-      const locationParts = [tour, venue].filter(Boolean).join(" - ");
-
-      let nftBadgeHTML = '';
-      let isNFTActive = false;
-
-      if (nftForever) {
-        isNFTActive = true;
-        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
-      } else if (nftDateStr !== "") {
-        if (isNftStillActive(nftDateStr)) {
-          isNFTActive = true;
-          nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
-        } else {
-          isNFTActive = false;
-          nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDateStr})</span>`;
-        }
-      }
-
-      const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
-      const itemInCart = isInCart(item);
-
-      return `
-        <div class="${cardClass}">
-          <div class="card-header">
-            <div class="card-title">${show}</div>
-            <div class="card-badges" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-              ${formatBadgeHTML}
-              ${typeBadgeHTML}
-            </div>
-          </div>
-          
-          <div class="card-meta">
-            ${date ? `📅 ${date}${showTime}` : ''} 
-            ${locationParts ? `📍 ${locationParts}` : ''}
-            ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
-            ${nftBadgeHTML}
-          </div>
-
-          ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
-          ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
-          ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
-          ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
-
-          <div class="card-actions">
-            <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${globalIndex}">
-              ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
-            </button>
-            <button type="button" class="copy-card-btn" data-index="${globalIndex}">📋 Copy Info</button>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    container.insertAdjacentHTML('beforeend', chunkHtml);
-    currentIndex += chunkSize;
-
-    if (currentIndex < currentFilteredItems.length) {
-      requestAnimationFrame(renderChunk);
-    }
-  }
-
-  renderChunk();
-}
-
-// Function to copy a single item's summary
 function copySingleItemSummary(item, buttonElement) {
   const show = getValByName(item, "Show") || "Unknown Show";
   const date = getValByName(item, "Date") || "Unknown Date";
@@ -691,7 +613,5 @@ function copySingleItemSummary(item, buttonElement) {
       buttonElement.innerText = originalText;
       buttonElement.classList.remove("copied");
     }, 2000);
-  }).catch(err => {
-    console.error("Could not copy text: ", err);
   });
 }
