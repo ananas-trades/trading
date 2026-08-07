@@ -927,25 +927,23 @@ html, body {
 button, a, input, select, .filter-btn, .cat-btn, .item-card {
   cursor: pointer;
 }
-/* Hide default cursor across the site */
+/* Hide default mouse pointer */
 html, body, button, a, input, select {
   cursor: none !important;
 }
 
-/* Fiery Animated Cursor Styling */
+/* Fiery Pointer Container */
 #fiery-cursor {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: -50px; /* Start offscreen until moved */
+  left: -50px;
   width: 32px;
   height: 32px;
   pointer-events: none;
   z-index: 999999;
   background-size: contain;
   background-repeat: no-repeat;
-  /* Glowing electric blue & yellow fire aura */
   filter: drop-shadow(0 0 4px #ffe600) drop-shadow(0 0 8px #00f0ff);
-  /* Flickering flame animation */
   animation: flame-flicker 0.15s infinite alternate ease-in-out;
 }
 
