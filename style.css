@@ -880,3 +880,41 @@ h1 {
 .clear-cart-btn:hover {
   background: rgba(254, 178, 178, 0.1) !important;
 }
+/* ============================================================
+   CYBERPUNK NEON SCROLLBAR
+============================================================ */
+
+/* WebKit Browsers (Chrome, Edge, Safari, Opera) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0c10;
+  border-left: 1px solid rgba(112, 0, 255, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7000ff;
+  border-radius: 2px;
+  box-shadow: 0 0 10px #7000ff;
+  border: 1px solid #00f0ff;
+  transition: all 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00f0ff;
+  box-shadow: 0 0 15px #00f0ff, 0 0 25px #00f0ff;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #ff007f;
+  box-shadow: 0 0 15px #ff007f, 0 0 30px #ff007f;
+}
+
+/* Firefox Standard Properties */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #7000ff #0b0c10;
+}
