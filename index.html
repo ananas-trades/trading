@@ -11,8 +11,6 @@
 </head>
 <body>
 
-  <!-- Full-Screen Interactive Flame Trail Canvas Overlay -->
-  <canvas id="cursor-flame"></canvas>
 
   <header class="container">
     <h1>🎭 My Trading Collection</h1>
@@ -93,106 +91,6 @@
   <div id="drawer-overlay" class="drawer-overlay"></div>
 
   <script src="script.js?v=6.0"></script>
-
-  <!-- Dynamic Electric Blue & Neon Yellow Cursor Trail Script -->
-  <script>
-  (function() {
-    const canvas = document.getElementById('cursor-flame');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-
-    const particles = [];
-    const mouse = { x: -100, y: -100, isMoving: false };
-    let timeout;
-
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      mouse.isMoving = true;
-
-      clearTimeout(timeout);
-      timeout = setTimeout(() => { mouse.isMoving = false; }, 50);
-
-      const count = 4;
-      for (let i = 0; i < count; i++) {
-        particles.push(new FlameParticle(mouse.x, mouse.y));
-      }
-    });
-
-    class FlameParticle {
-      constructor(x, y) {
-        this.x = x + (Math.random() * 6 - 3);
-        this.y = y + (Math.random() * 6 - 3);
-        this.vx = (Math.random() - 0.5) * 1.5;
-        this.vy = -(Math.random() * 2 + 1);
-        this.size = Math.random() * 8 + 4;
-        this.maxLife = Math.random() * 20 + 20;
-        this.life = 0;
-        this.isCore = Math.random() > 0.4;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        this.size *= 0.94;
-        this.life++;
-      }
-
-      draw(ctx) {
-        const progress = this.life / this.maxLife;
-        const alpha = Math.max(0, 1 - progress);
-
-        ctx.save();
-        ctx.globalCompositeOperation = 'screen';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, Math.max(0, this.size), 0, Math.PI * 2);
-
-        if (this.isCore) {
-          ctx.fillStyle = `rgba(0, 240, 255, ${alpha})`;
-          ctx.shadowColor = '#00f0ff';
-        } else {
-          ctx.fillStyle = `rgba(255, 230, 0, ${alpha})`;
-          ctx.shadowColor = '#ffe600';
-        }
-
-        ctx.shadowBlur = 10;
-        ctx.fill();
-        ctx.restore();
-      }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-
-      if (!mouse.isMoving && mouse.x > 0) {
-        if (Math.random() > 0.5) {
-          particles.push(new FlameParticle(mouse.x, mouse.y));
-        }
-      }
-
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.update();
-        p.draw(ctx);
-
-        if (p.life >= p.maxLife || p.size <= 0.5) {
-          particles.splice(i, 1);
-        }
-      }
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-  })();
   </script>
 </body>
 </html>
