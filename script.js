@@ -16,6 +16,7 @@ let tradeCart = loadCartFromStorage();
 
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
+  setupFieryCursor(); // Initialize Custom Fiery Cursor Tracker
 
   Papa.parse("./list.csv", {
     download: true,
@@ -159,6 +160,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+/* ============================================================
+   FIERY CURSOR TRACKER ENGINE
+============================================================ */
+function setupFieryCursor() {
+  const cursor = document.getElementById('fiery-cursor');
+  const fireCursorSVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="%23ffe600" stroke="%23ff007f" stroke-width="1" d="M3 1l12 26 4-10 10-4L3 1z"/><path fill="%2300f0ff" stroke="%23ffffff" stroke-width="0.5" d="M3 3l10 22 3-8 8-3L3 3z"/></svg>`;
+
+  if (cursor) {
+    cursor.style.backgroundImage = `url('${fireCursorSVG}')`;
+
+    window.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    }, { passive: true });
+  }
+}
 
 /* ============================================================
    INTERSECTION OBSERVER (INFINITE SCROLL ENGINE)
