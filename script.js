@@ -763,21 +763,11 @@ function initAnalogHorrorEasterEgg() {
 }
 
 function transformCardsToVHS() {
-  const shellStyle = `
-    background: #222228 !important;
-    border: 2px solid #444450 !important;
-    border-radius: 8px !important;
-    box-shadow: inset 0 0 12px rgba(0,0,0,0.9), 0 6px 16px rgba(0, 0, 0, 0.8) !important;
-    padding: 14px !important;
-    position: relative !important;
-    color: #e0e0e0 !important;
-  `;
-
   document.querySelectorAll(".item-card").forEach(card => {
     if (card.querySelector(".vhs-inner")) return;
 
-    const title = card.querySelector(".card-title")?.innerHTML || "UNKNOWN RECORDING";
-    const meta = card.querySelector(".card-meta")?.innerHTML || "";
+    const title = card.querySelector(".card-title")?.innerText || "UNKNOWN RECORDING";
+    const meta = card.querySelector(".card-meta")?.innerText || "";
     const cast = card.querySelector(".card-cast")?.innerHTML || "No personnel logged.";
     
     // Gather all card notes for full visibility on back
@@ -788,38 +778,38 @@ function transformCardsToVHS() {
     card.innerHTML = `
       <div class="vhs-inner">
         <!-- FRONT CASSETTE FACE -->
-        <div class="vhs-front" style="${shellStyle}">
-          <div class="vhs-screw top-l"></div><div class="vhs-screw top-r"></div>
-          
-          <div class="vhs-sticker">${title}</div>
-          
-          <!-- Dual Tape Spools Window -->
-          <div class="vhs-spools-window" style="background: #0a0a0d; border: 1px solid #3a3a45; border-radius: 4px;">
+        <div class="vhs-front">
+          <div class="vhs-screw top-l"></div>
+          <div class="vhs-screw top-r"></div>
+
+          <div class="vhs-sticker">
+            <div class="card-title">${title}</div>
+          </div>
+
+          <div class="vhs-spools-window">
             <div class="vhs-spool"></div>
             <span style="font-size:0.6rem; color:#aaa; font-family:monospace; letter-spacing:1px;">T-120 VHS</span>
             <div class="vhs-spool"></div>
           </div>
 
-          <div class="vhs-meta-text" style="color: #cccccc !important;">${meta}</div>
+          <div class="vhs-meta-text">${meta}</div>
           <div class="vhs-actions" style="margin-top: 8px;">${actions}</div>
-          <div class="vhs-hint" style="font-size:0.6rem; color:#ff5555; text-align:right; margin-top:6px; font-weight:bold;">🔄 DBL-CLICK TO FLIP TAPE</div>
-          
-          <div class="vhs-screw bot-l"></div><div class="vhs-screw bot-r"></div>
+
+          <div class="vhs-screw bot-l"></div>
+          <div class="vhs-screw bot-r"></div>
         </div>
         
         <!-- BACK CASSETTE FACE -->
-        <div class="vhs-back" style="${shellStyle}">
-          <div class="vhs-screw top-l"></div><div class="vhs-screw top-r"></div>
+        <div class="vhs-back">
+          <div class="vhs-screw top-l"></div>
+          <div class="vhs-screw top-r"></div>
           
-          <div style="width: 100%; color: #ffffff !important; text-align: left;">
-            <div style="font-size:0.75rem; color:#ff4444 !important; font-weight:bold; letter-spacing:1px; margin-bottom:8px; border-bottom: 1px dashed #444;">[TAPE CONTENTS & CAST LOG]</div>
-            <div class="vhs-meta-text" style="color: #e0e0e0 !important; font-size: 0.8rem; line-height: 1.3;">${cast}</div>
-            ${notesHTML ? `<div class="vhs-meta-text" style="color:#a0a0a0 !important; font-size: 0.75rem; margin-top:8px;">${notesHTML}</div>` : ''}
-          </div>
-          
-          <div class="vhs-hint" style="font-size:0.6rem; color:#ff5555; text-align:right; margin-top:auto; font-weight:bold; width: 100%;">🔄 DBL-CLICK TO RETURN</div>
-          
-          <div class="vhs-screw bot-l"></div><div class="vhs-screw bot-r"></div>
+          <h3 class="card-title">TAPE METADATA</h3>
+          <div class="card-cast">${cast}</div>
+          ${notesHTML ? `<div class="card-notes">${notesHTML}</div>` : ''}
+
+          <div class="vhs-screw bot-l"></div>
+          <div class="vhs-screw bot-r"></div>
         </div>
       </div>
     `;
