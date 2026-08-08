@@ -16,7 +16,6 @@ let tradeCart = loadCartFromStorage();
 
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
-  setupThrillerEasterEgg();
 
   Papa.parse("./list.csv", {
     download: true,
@@ -160,39 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
-/* ============================================================
-   EASTER EGG: CRIME THRILLER MODE
-============================================================ */
-function setupThrillerEasterEgg() {
-  // Inject Creepy Eyes container into DOM
-  const eyesContainer = document.createElement("div");
-  eyesContainer.className = "creepy-eyes-container";
-  eyesContainer.innerHTML = `
-    <div class="creepy-eye"></div>
-    <div class="creepy-eye"></div>
-  `;
-  document.body.appendChild(eyesContainer);
-
-  // Select mask image or main title header element
-  const maskLogo = document.querySelector(".title-container img, .header-logo, header img, #logo, .title-container") || document.querySelector("h1");
-
-  if (maskLogo) {
-    maskLogo.style.cursor = "pointer";
-    
-    maskLogo.addEventListener("dblclick", () => {
-      document.body.classList.toggle("thriller-mode");
-
-      if (document.body.classList.contains("thriller-mode")) {
-        console.clear();
-        console.log("%c [EVIDENCE FILE #169 UNLOCKED] ", "background: #8b0000; color: #ffffff; font-size: 16px; font-weight: bold; padding: 4px;");
-        console.log("%c You shouldn't have double-clicked that... We are watching.", "color: #ff0000; font-size: 14px; font-style: italic;");
-      } else {
-        console.log("%c [EVIDENCE FILE CLOSED] ", "background: #222; color: #00ff00; padding: 2px;");
-      }
-    });
-  }
-}
 
 /* ============================================================
    INTERSECTION OBSERVER (INFINITE SCROLL ENGINE)
@@ -605,21 +571,12 @@ function getFormat(item) {
 
   // 1. Priority search across format columns
   const candidateKeys = [
-    "Format", "Trader Format", "Release Format", "File Format", 
-    "Media Format", "Container", "Extension", 
+    "Trader Format", "Release Format", "File Format", 
+    "Media Format", "Format", "Container", "Extension", 
     "Video Format", "Audio Format"
   ];
 
-  let rawFormat = "";
-  
-  // Try each candidate key and ensure it doesn't just hold a raw file size
-  for (const k of candidateKeys) {
-    const val = getValByName(item, k);
-    if (val && !/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(val.trim())) {
-      rawFormat = val;
-      break;
-    }
-  }
+  let rawFormat = candidateKeys.map(k => getValByName(item, k)).find(v => Boolean(v)) || "";
 
   // 2. Deep Fallback: If no format found in known columns, scan all fields for media extension keywords
   if (!rawFormat) {
