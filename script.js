@@ -16,6 +16,7 @@ let tradeCart = loadCartFromStorage();
 
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
+  setupThrillerEasterEgg();
 
   Papa.parse("./list.csv", {
     download: true,
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Debounced Search Input Event
-  document.getElementById("search-input").addEventListener("input", () => {
+  document.getElementById("search-input")?.addEventListener("input", () => {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
       applyFiltersAndRender();
@@ -161,6 +162,40 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ============================================================
+   EASTER EGG SETUP: THRILLER / CRIME MODE
+============================================================ */
+function setupThrillerEasterEgg() {
+  // Inject Creepy Eyes Element
+  if (!document.querySelector(".creepy-eyes-container")) {
+    const eyesContainer = document.createElement("div");
+    eyesContainer.className = "creepy-eyes-container";
+    eyesContainer.innerHTML = `
+      <div class="creepy-eye"></div>
+      <div class="creepy-eye"></div>
+    `;
+    document.body.appendChild(eyesContainer);
+  }
+
+  // Find Header Logo or Mask Title
+  const maskLogo = document.querySelector(".header-logo, header img, #logo, .mask-icon, header h1") || document.querySelector("header");
+
+  if (maskLogo) {
+    maskLogo.style.cursor = "pointer";
+    maskLogo.addEventListener("dblclick", () => {
+      document.body.classList.toggle("thriller-mode");
+
+      if (document.body.classList.contains("thriller-mode")) {
+        console.clear();
+        console.log("%c [EVIDENCE FILE #169 LOCKED] ", "background: #8b0000; color: #fff; font-size: 16px; font-weight: bold;");
+        console.log("%c You shouldn't have double-clicked that... We are watching.", "color: #ff0000; font-size: 14px; font-style: italic;");
+      } else {
+        console.log("%c [CASE FILE CLOSED] ", "background: #222; color: #00ff00;");
+      }
+    });
+  }
+}
+
+/* ============================================================
    INTERSECTION OBSERVER (INFINITE SCROLL ENGINE)
 ============================================================ */
 function setupIntersectionObserver() {
@@ -215,22 +250,26 @@ function applyFiltersAndRender() {
     return true;
   });
 
-  document.getElementById('stats').innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
+  const statsEl = document.getElementById('stats');
+  if (statsEl) statsEl.innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
 
   // 2. Clear Container and Render Initial Frame
   const container = document.getElementById("card-container");
-  container.innerHTML = "";
-  displayedCount = 0;
+  if (container) {
+    container.innerHTML = "";
+    displayedCount = 0;
 
-  if (currentFilteredItems.length > 0) {
-    appendNextBatch(30);
+    if (currentFilteredItems.length > 0) {
+      appendNextBatch(30);
+    }
   }
 }
 
 function appendNextBatch(count = BATCH_SIZE) {
   const container = document.getElementById("card-container");
-  const nextSlice = currentFilteredItems.slice(displayedCount, displayedCount + count);
+  if (!container) return;
 
+  const nextSlice = currentFilteredItems.slice(displayedCount, displayedCount + count);
   if (nextSlice.length === 0) return;
 
   const fragment = document.createDocumentFragment();
@@ -246,7 +285,7 @@ function appendNextBatch(count = BATCH_SIZE) {
     const format = getFormat(item);
     const sizeVal = getFileSize(item);
 
-    // Dynamic format badge display logic
+    // Cleaned dynamic format badge display logic
     let displayFormatStr = "";
     if (format && sizeVal) {
       displayFormatStr = `${format} [${sizeVal}]`;
@@ -571,12 +610,23 @@ function getFormat(item) {
 
   // 1. Priority search across format columns
   const candidateKeys = [
-    "Trader Format", "Release Format", "File Format", 
-    "Media Format", "Format", "Container", "Extension", 
+    "Format", "Trader Format", "Release Format", "File Format", 
+    "Media Format", "Container", "Extension", 
     "Video Format", "Audio Format"
   ];
 
-  let rawFormat = candidateKeys.map(k => getValByName(item, k)).find(v => Boolean(v)) || "";
+  let rawFormat = "";
+
+  for (const k of candidateKeys) {
+    const val = getValByName(item, k);
+    if (val) {
+      // If the value is strictly just a size string (e.g. "9.95 gb"), ignore it and look for real format strings
+      if (!/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(val.trim())) {
+        rawFormat = val;
+        break;
+      }
+    }
+  }
 
   // 2. Deep Fallback: If no format found in known columns, scan all fields for media extension keywords
   if (!rawFormat) {
@@ -607,6 +657,11 @@ function getFormat(item) {
     .replace(/[-–—/,\.\:]+/g, " ")    // Replace punctuation separators
     .replace(/\s+/g, " ")            // Collapse multi-spaces
     .trim();
+
+  // 6. Default to MP4 if cleaning left it empty but we know it's not raw size
+  if (!cleaned && (rawFormat.toUpperCase().includes("GB") || rawFormat.toUpperCase().includes("MB"))) {
+    return "MP4";
+  }
 
   return cleaned;
 }
