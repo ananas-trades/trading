@@ -696,10 +696,10 @@ function copySingleItemSummary(item, buttonElement) {
   });
 }
 /* ============================================================
-   ANALOG HORROR EASTER EGG LISTENER & EYE GENERATOR
+   ANALOG HORROR EASTER EGG & VHS TAPE TRANSFORMER
    ============================================================ */
 function initAnalogHorrorEasterEgg() {
-  // 1. Create Background Eyes Layer
+  // 1. Eye Generator
   let eyesContainer = document.getElementById("horror-eyes-container");
   if (!eyesContainer) {
     eyesContainer = document.createElement("div");
@@ -714,14 +714,12 @@ function initAnalogHorrorEasterEgg() {
     }
   }
 
-  // Eye Randomizer Loop
   setInterval(() => {
     if (!document.body.classList.contains("analog-horror-mode")) return;
 
     const pairs = document.querySelectorAll(".horror-eye-pair");
     const randomPair = pairs[Math.floor(Math.random() * pairs.length)];
     
-    // Position eyes near screen edges / background margins
     const side = Math.random() > 0.5 ? 'left' : 'right';
     const xPos = side === 'left' ? Math.random() * 15 : Math.random() * 15 + 80;
     const yPos = Math.random() * 80 + 10;
@@ -736,10 +734,10 @@ function initAnalogHorrorEasterEgg() {
 
   }, 2500);
 
-  // 2. Attach Double-Click Listener specifically to Header / Mask
+  // 2. Double-Click Mask Event
   const headerElement = document.querySelector("h1, .header-title, header");
   if (headerElement) {
-    headerElement.style.userSelect = "none"; // Avoid text selection highlight on double click
+    headerElement.style.userSelect = "none";
     
     headerElement.addEventListener("dblclick", () => {
       const isHorror = document.body.classList.toggle("analog-horror-mode");
@@ -748,11 +746,76 @@ function initAnalogHorrorEasterEgg() {
         SecurityAudio.alert();
         if (isHorror) setTimeout(() => SecurityAudio.alert(), 120);
       }
+
+      if (isHorror) {
+        transformCardsToVHS();
+      } else {
+        revertCardsFromVHS();
+      }
     });
+  }
+
+  // Double click listener to flip VHS tapes
+  document.addEventListener("dblclick", (e) => {
+    if (!document.body.classList.contains("analog-horror-mode")) return;
+
+    const card = e.target.closest(".item-card");
+    if (card && e.target.tagName !== "BUTTON") {
+      if (typeof SecurityAudio !== "undefined" && SecurityAudio.click) {
+        SecurityAudio.click();
+      }
+      card.classList.toggle("vhs-flipped");
+    }
+  });
+}
+
+// Transform standard cards into 3D VHS cassette structures
+function transformCardsToVHS() {
+  document.querySelectorAll(".item-card").forEach(card => {
+    if (card.querySelector(".vhs-inner")) return; // Already transformed
+
+    const title = card.querySelector(".card-title")?.innerHTML || "UNKNOWN SHOW";
+    const meta = card.querySelector(".card-meta")?.innerHTML || "";
+    const cast = card.querySelector(".card-cast")?.innerHTML || "No cast declassified.";
+    const notes = card.querySelector(".card-notes")?.innerHTML || "";
+    const actions = card.querySelector(".card-actions")?.innerHTML || "";
+
+    card.innerHTML = `
+      <div class="vhs-inner">
+        <!-- FRONT SIDE OF VHS -->
+        <div class="vhs-front">
+          <div>
+            <div class="vhs-sticker">${title}</div>
+            <div class="vhs-meta-text">${meta}</div>
+          </div>
+          <div class="vhs-actions" style="margin-top: 10px;">
+            ${actions}
+          </div>
+          <div class="vhs-hint">🔄 DOUBLE-CLICK TO FLIP TAPE</div>
+        </div>
+        
+        <!-- BACK SIDE OF VHS -->
+        <div class="vhs-back">
+          <div>
+            <div style="font-size:0.75rem; color:#ff3333; font-weight:bold; margin-bottom: 8px;">RECORDED CONTENT DETAILS</div>
+            <div class="vhs-meta-text" style="font-size: 0.75rem;">${cast}</div>
+            ${notes ? `<div class="vhs-meta-text" style="font-size: 0.7rem; color: #aaa; margin-top: 8px;">${notes}</div>` : ''}
+          </div>
+          <div class="vhs-hint">🔄 DOUBLE-CLICK TO RETURN</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// Revert back to original layout when Easter egg is toggled off
+function revertCardsFromVHS() {
+  if (typeof applyFiltersAndRender === "function") {
+    applyFiltersAndRender();
   }
 }
 
-// Initialize when page loads
+// Initialize on DOM load
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initAnalogHorrorEasterEgg);
 } else {
