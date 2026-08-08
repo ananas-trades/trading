@@ -82,6 +82,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // --- SECRET EASTER EGG: Double-Click Header / Emoji ---
+  const headerTitle = document.querySelector("h1, .header-title, header");
+  if (headerTitle) {
+    headerTitle.addEventListener("dblclick", () => {
+      if (typeof SecurityAudio !== "undefined") {
+        SecurityAudio.alert();
+        setTimeout(() => SecurityAudio.alert(), 150);
+      }
+
+      // Visual Glitch Distortion
+      document.body.classList.add("system-corrupted");
+
+      // Show Terminal Override Modal
+      showEasterEggModal();
+
+      // Clear glitch effect after 2 seconds
+      setTimeout(() => {
+        document.body.classList.remove("system-corrupted");
+      }, 2000);
+    });
+  }
+
   // Debounced Search Input Event with Glitch Feedback
   const searchInput = document.getElementById("search-input");
   if (searchInput) {
@@ -221,8 +243,48 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ============================================================
+   EASTER EGG MODAL & SYSTEM OVERRIDE FUNCTIONS
+   ============================================================ */
+function showEasterEggModal() {
+  let eggModal = document.getElementById("easter-egg-modal");
+  if (!eggModal) {
+    eggModal = document.createElement("div");
+    eggModal.id = "easter-egg-modal";
+    document.body.appendChild(eggModal);
+  }
+
+  eggModal.innerHTML = `
+    <div class="egg-overlay" onclick="this.parentElement.remove()">
+      <div class="egg-content" onclick="event.stopPropagation()">
+        <div class="egg-header">
+          <span>⚠️ [UNAUTHORIZED TERMINAL OVERRIDE DETECTED]</span>
+          <button onclick="document.getElementById('easter-egg-modal').remove()">&times;</button>
+        </div>
+        <div class="egg-body">
+          <p class="glitch-text">OPERATIVE CLEARANCE ELEVATED TO: LEVEL 0 [BLACK SITE ACCESS]</p>
+          <hr style="border-color: #ff3333; margin: 15px 0;">
+          <p>You double-clicked the masks. You were never meant to access this layer.</p>
+          <p class="classified-quote"><em>"The archive remembers every recording. Nothing is truly lost, only hidden."</em></p>
+          <button class="declassify-all-btn" onclick="declassifyAllRedactions(); document.getElementById('easter-egg-modal').remove();">
+            🔓 OVERRIDE SYSTEM: DECLASSIFY ALL REDACTED FILES
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function declassifyAllRedactions() {
+  if (typeof SecurityAudio !== "undefined") SecurityAudio.success();
+  document.querySelectorAll(".classified-redacted").forEach(el => {
+    el.classList.add("revealed");
+  });
+  alert("🚨 SECURITY OVERRIDE ACCEPTED: All redacted text declassified!");
+}
+
+/* ============================================================
    INTERSECTION OBSERVER (INFINITE SCROLL ENGINE)
-============================================================ */
+   ============================================================ */
 function setupIntersectionObserver() {
   const sentinel = document.getElementById("scroll-sentinel");
   if (!sentinel) return;
@@ -421,7 +483,7 @@ function appendNextBatch(count = BATCH_SIZE) {
 
 /* ============================================================
    LOCALSTORAGE CART & THRILLER HELPERS
-============================================================ */
+   ============================================================ */
 function loadCartFromStorage() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
