@@ -695,3 +695,66 @@ function copySingleItemSummary(item, buttonElement) {
     }, 2000);
   });
 }
+/* ============================================================
+   ANALOG HORROR EASTER EGG LISTENER & EYE GENERATOR
+   ============================================================ */
+function initAnalogHorrorEasterEgg() {
+  // 1. Create Background Eyes Layer
+  let eyesContainer = document.getElementById("horror-eyes-container");
+  if (!eyesContainer) {
+    eyesContainer = document.createElement("div");
+    eyesContainer.id = "horror-eyes-container";
+    document.body.appendChild(eyesContainer);
+
+    for (let i = 0; i < 7; i++) {
+      const pair = document.createElement("div");
+      pair.className = "horror-eye-pair";
+      pair.innerHTML = `<div class="horror-eye"></div><div class="horror-eye"></div>`;
+      eyesContainer.appendChild(pair);
+    }
+  }
+
+  // Eye Randomizer Loop
+  setInterval(() => {
+    if (!document.body.classList.contains("analog-horror-mode")) return;
+
+    const pairs = document.querySelectorAll(".horror-eye-pair");
+    const randomPair = pairs[Math.floor(Math.random() * pairs.length)];
+    
+    // Position eyes near screen edges / background margins
+    const side = Math.random() > 0.5 ? 'left' : 'right';
+    const xPos = side === 'left' ? Math.random() * 15 : Math.random() * 15 + 80;
+    const yPos = Math.random() * 80 + 10;
+
+    randomPair.style.top = yPos + "vh";
+    randomPair.style.left = xPos + "vw";
+    randomPair.classList.add("visible");
+
+    setTimeout(() => {
+      randomPair.classList.remove("visible");
+    }, Math.random() * 2500 + 1500);
+
+  }, 2500);
+
+  // 2. Attach Double-Click Listener specifically to Header / Mask
+  const headerElement = document.querySelector("h1, .header-title, header");
+  if (headerElement) {
+    headerElement.style.userSelect = "none"; // Avoid text selection highlight on double click
+    
+    headerElement.addEventListener("dblclick", () => {
+      const isHorror = document.body.classList.toggle("analog-horror-mode");
+
+      if (typeof SecurityAudio !== "undefined" && SecurityAudio.alert) {
+        SecurityAudio.alert();
+        if (isHorror) setTimeout(() => SecurityAudio.alert(), 120);
+      }
+    });
+  }
+}
+
+// Initialize when page loads
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initAnalogHorrorEasterEgg);
+} else {
+  initAnalogHorrorEasterEgg();
+}
