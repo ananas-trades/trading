@@ -14,6 +14,89 @@ let observer = null;
 const STORAGE_KEY = "bootleg_trade_cart";
 let tradeCart = loadCartFromStorage();
 
+/* ============================================================
+   ANALOG HORROR AUDIO ENGINE (TAPE HISS & STATIC)
+============================================================ */
+let audioCtx = null;
+let noiseNode = null;
+let gainNode = null;
+
+function startTapeHiss() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+
+  const bufferSize = audioCtx.sampleRate * 2;
+  const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  const output = noiseBuffer.getChannelData(0);
+  let lastOut = 0.0;
+  
+  for (let i = 0; i < bufferSize; i++) {
+    const white = Math.random() * 2 - 1;
+    output[i] = (lastOut + (0.02 * white)) / 1.02;
+    lastOut = output[i];
+    output[i] *= 3.5;
+  }
+
+  noiseNode = audioCtx.createBufferSource();
+  noiseNode.buffer = noiseBuffer;
+  noiseNode.loop = true;
+
+  gainNode = audioCtx.createGain();
+  gainNode.gain.value = 0.04; // Subtle creepy background rumble
+
+  noiseNode.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+  noiseNode.start();
+}
+
+function stopTapeHiss() {
+  if (noiseNode) {
+    noiseNode.stop();
+    noiseNode.disconnect();
+    noiseNode = null;
+  }
+}
+
+// Live Timecode Counter for On-Screen Display (OSD)
+setInterval(() => {
+  const tsEl = document.getElementById("vhs-timestamp");
+  if (!tsEl || !document.body.classList.contains("analog-horror-mode")) return;
+  const now = new Date();
+  const hrs = String(now.getHours()).padStart(2, '0');
+  const mins = String(now.getMinutes()).padStart(2, '0');
+  const secs = String(now.getSeconds()).padStart(2, '0');
+  const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
+  tsEl.innerText = `${hrs}:${mins}:${secs}:${ms}`;
+}, 50);
+
+/* ============================================================
+   ANALOG HORROR TITLE CORRUPTOR
+============================================================ */
+function getCorruptedText(originalText) {
+  const horrorPhrases = [
+    "DO NOT LOOK AT THE TAPE",
+    "RECOVERED FOOTAGE #04",
+    "NO SURVIVORS FOUND",
+    "PROPERTY OF COUNTY POLICE",
+    "UNAUTHORIZED TRANSMISSION",
+    "RECORDING OVERWRITE IN PROGRESS"
+  ];
+  
+  // 5% chance to replace title with creepy broadcast glitch
+  if (Math.random() < 0.05) {
+    return horrorPhrases[Math.floor(Math.random() * horrorPhrases.length)];
+  }
+  return originalText;
+}
+
+/* ============================================================
+   MAIN DOM & APPLICATION INITIALIZATION
+============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
 
@@ -741,9 +824,12 @@ function initAnalogHorrorEasterEgg() {
         if (isHorror) setTimeout(() => SecurityAudio.alert(), 120);
       }
 
+      // Audio engine toggle
       if (isHorror) {
+        startTapeHiss();
         transformCardsToVHS();
       } else {
+        stopTapeHiss();
         revertCardsFromVHS();
       }
     });
@@ -774,7 +860,8 @@ function transformCardsToVHS() {
     if (!item) return;
 
     // Extract exact data values from source object
-    const show = getValByName(item, "Show") || "UNKNOWN RECORDING";
+    const rawShow = getValByName(item, "Show") || "UNKNOWN RECORDING";
+    const show = getCorruptedText(rawShow); // Corrupt title with 5% chance
     const date = getValByName(item, "Date");
     const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening");
     const showTime = matineeEve ? ` (${matineeEve})` : "";
