@@ -1506,3 +1506,67 @@ body.analog-horror-mode .add-cart-btn.in-cart {
   color: #72db85 !important;
   border-color: #1e5e2c !important;
 }
+/* ============================================================
+   ANALOG HORROR VISUAL NOISE & OSD OVERLAYS
+============================================================ */
+
+/* 1. Glitchy Text Shift (RGB Chromatic Split) */
+body.analog-horror-mode .card-title,
+body.analog-horror-mode h1 {
+  text-shadow: -1.5px 0 0 rgba(255,0,0,0.8), 1.5px 0 0 rgba(0,255,255,0.8) !important;
+  animation: chromatic-vibrate 4s infinite linear alternate;
+}
+
+@keyframes chromatic-vibrate {
+  0% { text-shadow: -1px 0 0 rgba(255,0,0,0.8), 1px 0 0 rgba(0,255,255,0.8); }
+  95% { text-shadow: -1px 0 0 rgba(255,0,0,0.8), 1px 0 0 rgba(0,255,255,0.8); }
+  98% { text-shadow: -4px 0 0 rgba(255,0,0,0.9), 4px 0 0 rgba(0,255,255,0.9); }
+  100% { text-shadow: 1px 0 0 rgba(255,0,0,0.8), -1px 0 0 rgba(0,255,255,0.8); }
+}
+
+/* 2. Horizontal Tracking Artifact (Screen Roll/Tear) */
+body.analog-horror-mode::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  opacity: 0.6;
+  z-index: 1000;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  animation: vhs-tape-roll 8s infinite linear;
+}
+
+@keyframes vhs-tape-roll {
+  0% { top: -10px; }
+  100% { top: 105vh; }
+}
+
+/* 3. On-Screen Display (OSD) Layout */
+#vhs-osd-overlay {
+  display: none;
+  position: fixed;
+  inset: 20px;
+  pointer-events: none;
+  z-index: 998;
+  font-family: 'Courier New', monospace;
+  color: #00ff22;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-shadow: 0 0 5px #00ff22;
+}
+
+body.analog-horror-mode #vhs-osd-overlay {
+  display: block;
+}
+
+.osd-top-left { position: absolute; top: 0; left: 0; }
+.osd-top-right { position: absolute; top: 0; right: 0; }
+.osd-bottom-left { position: absolute; bottom: 0; left: 0; }
+.osd-bottom-right { 
+  position: absolute; 
+  bottom: 0; 
+  right: 0; 
+  color: #ff3333; 
+  text-shadow: 0 0 5px #ff3333; 
+}
