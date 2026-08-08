@@ -102,7 +102,7 @@ body::after {
   }
 }
 
-/* Pulsing Cyber Border Glow (for Buttons, Badges, or Cards) */
+/* Pulsing Cyber Border Glow */
 .cyber-box-pulse {
   animation: cyber-box-glow 1.8s ease-in-out infinite alternate !important;
 }
@@ -118,7 +118,7 @@ body::after {
   }
 }
 
-/* Rapid Neon Flicker Effect (for live feeds, active alerts) */
+/* Rapid Neon Flicker Effect */
 .neon-flicker {
   animation: neon-flicker-anim 3s infinite !important;
 }
@@ -265,7 +265,7 @@ h1 {
   margin: 0 auto;
 }
 
-/* --- BASE ITEM CARD (GLASSMORPHISM & PERF) --- */
+/* --- BASE ITEM CARD --- */
 .item-card {
   background: rgba(18, 18, 22, 0.85);
   backdrop-filter: blur(10px);
@@ -275,8 +275,6 @@ h1 {
   flex-direction: column;
   gap: 10px;
   transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  
-  /* Performance Optimizations */
   content-visibility: auto;
   contain-intrinsic-size: 1px 220px;
   transform: translateZ(0);
@@ -569,15 +567,14 @@ h1 {
 }
 
 /* ============================================================
-   FLOATING BUTTONS (SCROLL TO TOP & TRADE CART)
+   FLOATING BUTTONS
 ============================================================ */
 
-/* 1. SCROLL TO TOP BUTTON (Stacked Above Cart Button) */
 #scroll-top-btn {
   position: fixed !important;
-  bottom: 85px !important; /* Stacked cleanly above cart button */
+  bottom: 85px !important;
   right: 24px !important;
-  z-index: 9998 !important; /* Sits directly below cart drawer overlay */
+  z-index: 9998 !important;
   
   background: #7000ff;
   color: #ffffff;
@@ -609,12 +606,11 @@ h1 {
   box-shadow: 0 0 20px #00f0ff, 0 0 35px #7000ff;
 }
 
-/* 2. FLOATING TRADE CART TRIGGER BUTTON */
-.cart-toggle-btn {
+#cart-toggle-btn, .cart-toggle-btn, .floating-cart-btn, .trade-request-btn {
   position: fixed !important;
-  bottom: 24px !important;
-  right: 24px !important;
-  z-index: 9999 !important; /* Highest trigger priority */
+  bottom: 25px !important;
+  right: 25px !important;
+  z-index: 100000 !important;
   
   background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%) !important;
   color: #ffffff !important;
@@ -651,7 +647,6 @@ h1 {
    TRADE REQUEST DRAWER & OVERLAY
 ============================================================ */
 
-/* Drawer Dark Backdrop */
 .drawer-overlay {
   position: fixed;
   top: 0;
@@ -671,28 +666,44 @@ h1 {
   visibility: visible;
 }
 
-/* Slide-out Drawer Panel */
-.trade-drawer {
-  position: fixed;
-  top: 0;
-  right: -440px;
-  width: 100%;
-  max-width: 420px;
-  height: 100vh;
-  background-color: #12131C !important;
+#cart-drawer, .cart-drawer, #cart-panel, .cart-panel, #trade-request-panel, .trade-drawer {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  height: 100vh !important;
+  width: 380px !important;
+  max-width: 85vw !important;
+  background: #12131C !important;
   color: #E2E8F0 !important;
-  z-index: 10001;
-  display: flex;
-  flex-direction: column;
-  transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: -15px 0 35px rgba(0, 0, 0, 0.6);
+  z-index: 99999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  transition: transform 0.3s ease-in-out !important;
+  box-shadow: -15px 0 35px rgba(0, 0, 0, 0.6) !important;
+  box-sizing: border-box !important;
 }
 
+#cart-drawer:not(.open), 
+.cart-drawer:not(.open), 
+#cart-panel:not(.open), 
+.cart-panel:not(.open),
+.trade-drawer:not(.open) {
+  transform: translateX(100%) !important;
+}
+
+#cart-drawer.open, 
+.cart-drawer.open, 
+#cart-panel.open, 
+.cart-panel.open,
 .trade-drawer.open {
-  right: 0;
+  transform: translateX(0) !important;
 }
 
-/* Glowing Left Border Stripe */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
 .trade-drawer::before {
   content: "";
   position: absolute;
@@ -704,7 +715,6 @@ h1 {
   box-shadow: 0 0 12px rgba(236, 72, 153, 0.8);
 }
 
-/* Drawer Header */
 .drawer-header {
   padding: 20px 24px !important;
   background-color: #1A1C29 !important;
@@ -733,7 +743,6 @@ h1 {
   color: #FFFFFF !important;
 }
 
-/* Cart Stats Summary */
 .cart-summary {
   padding: 10px 24px;
   background-color: #171923 !important;
@@ -745,7 +754,6 @@ h1 {
   gap: 16px;
 }
 
-/* Cart Items Container */
 .cart-items-container {
   flex: 1;
   overflow-y: auto;
@@ -761,7 +769,6 @@ h1 {
   font-size: 0.95rem;
 }
 
-/* Individual Cart Row */
 .cart-item-row {
   display: flex;
   justify-content: space-between;
@@ -819,7 +826,6 @@ h1 {
   transform: scale(1.1);
 }
 
-/* Drawer Footer & Action Buttons */
 .drawer-footer {
   background-color: #171923 !important;
   border-top: 1px solid #2D3748 !important;
@@ -880,11 +886,11 @@ h1 {
 .clear-cart-btn:hover {
   background: rgba(254, 178, 178, 0.1) !important;
 }
+
 /* ============================================================
    CYBERPUNK NEON SCROLLBAR
 ============================================================ */
 
-/* WebKit Browsers (Chrome, Edge, Safari, Opera) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -913,16 +919,15 @@ h1 {
   box-shadow: 0 0 15px #ff007f, 0 0 30px #ff007f;
 }
 
-/* Firefox Standard Properties */
 * {
   scrollbar-width: thin;
   scrollbar-color: #7000ff #0b0c10;
 }
+
 /* ============================================================
    ANALOG HORROR VHS TAPE EASTER EGG
-   ============================================================ */
+============================================================ */
 
-/* CRT Monitor Background & Glitch Effect */
 body.analog-horror-mode {
   background-color: #030102 !important;
   background-image: 
@@ -939,10 +944,6 @@ body.analog-horror-mode {
   100% { opacity: 1; }
 }
 
-/* ============================================================
-   REALISTIC PHYSICAL VHS CASSETTE DESIGN
-   ============================================================ */
-
 body.analog-horror-mode .item-card {
   perspective: 1000px;
   background: transparent !important;
@@ -953,26 +954,33 @@ body.analog-horror-mode .item-card {
   cursor: pointer;
 }
 
-body.analog-horror-mode .vhs-inner {
+/* 3D Flip Card Container & Faces */
+.vhs-inner {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
 }
 
-body.analog-horror-mode .item-card.vhs-flipped .vhs-inner {
+.item-card.vhs-flipped .vhs-inner {
   transform: rotateY(180deg);
+}
+
+.vhs-front, .vhs-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Base Plastic Cassette Casing */
 body.analog-horror-mode .vhs-front,
 body.analog-horror-mode .vhs-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  /* Dark textured plastic look */
   background: 
     radial-gradient(circle at 50% 50%, #151518 0%, #09090b 100%),
     repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px) !important;
@@ -981,12 +989,8 @@ body.analog-horror-mode .vhs-back {
   box-shadow: inset 0 0 10px #000, 0 8px 20px rgba(0,0,0,0.9), 0 0 15px rgba(255,0,0,0.15);
   box-sizing: border-box;
   padding: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-/* Front VHS Top Grip Ridges */
 body.analog-horror-mode .vhs-front::before {
   content: "";
   display: block;
@@ -997,7 +1001,6 @@ body.analog-horror-mode .vhs-front::before {
   box-shadow: inset 0 1px 2px #000;
 }
 
-/* Dual Spool Windows (The iconic VHS look) */
 .vhs-spools-window {
   display: flex;
   justify-content: space-around;
@@ -1024,7 +1027,6 @@ body.analog-horror-mode .vhs-front::before {
   100% { transform: rotate(360deg); }
 }
 
-/* Paper Sticker Label */
 .vhs-sticker {
   background: #ded1bd !important;
   color: #111 !important;
@@ -1043,9 +1045,11 @@ body.analog-horror-mode .vhs-front::before {
   margin-top: 4px;
 }
 
-/* Back Face Styling */
-body.analog-horror-mode .vhs-back {
+.vhs-back {
   transform: rotateY(180deg);
+}
+
+body.analog-horror-mode .vhs-back {
   background: #080304 !important;
   border-color: #4a0d0d !important;
   box-shadow: inset 0 0 15px rgba(139, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3);
@@ -1063,7 +1067,8 @@ body.analog-horror-mode .vhs-back {
 .vhs-screw.top-r { top: 6px; right: 6px; }
 .vhs-screw.bot-l { bottom: 6px; left: 6px; }
 .vhs-screw.bot-r { bottom: 6px; right: 6px; }
-/* --- CREEPY EYES --- */
+
+/* CREEPY EYES */
 #horror-eyes-container {
   position: fixed;
   top: 0;
@@ -1080,112 +1085,16 @@ body.analog-horror-mode #horror-eyes-container {
   display: block;
 }
 
-.horror-eye-pair {
+.exact-creepy-eyes {
   position: absolute;
-  display: flex;
-  gap: 35px;
+  width: 100px;
+  height: 40px;
+  background: radial-gradient(ellipse at center, rgba(255,0,0,0.8) 0%, rgba(255,0,0,0) 70%);
   opacity: 0;
-  transition: opacity 1.2s ease-in-out;
-  filter: drop-shadow(0 0 15px #ff0000);
+  transition: opacity 0.8s ease-in-out;
+  pointer-events: none;
 }
 
-.horror-eye {
-  width: 48px;
-  height: 26px;
-  background: radial-gradient(circle at 50% 50%, #000000 22%, #660000 35%, #ff0000 52%, #220000 78%, #e6c2c2 98%);
-  border-radius: 50%;
-  position: relative;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.9), inset 0 0 8px #000;
-  animation: eyeBlink 3.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.horror-eye::before {
-  content: '';
-  position: absolute;
-  top: 5px;
-  left: 16px;
-  width: 6px;
-  height: 6px;
-  background: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 0 4px #fff;
-}
-
-.horror-eye::after {
-  content: '';
-  position: absolute;
-  top: 5px;
-  left: 23px;
-  width: 2px;
-  height: 16px;
-  background: #000;
-  border-radius: 50%;
-}
-
-@keyframes eyeBlink {
-  0%, 88%, 100% { transform: scaleY(1); }
-  94% { transform: scaleY(0.04); }
-}
-
-.horror-eye-pair.visible { opacity: 0.9; }
-
-/* FIX CART POSITION */
-#cart-toggle-btn, .cart-toggle-btn, .trade-request-btn {
-  position: fixed !important;
-  bottom: 25px !important;
-  right: 25px !important;
-  z-index: 9999 !important;
-}
-/* ============================================================
-   CART / TRADE REQUEST DRAWER OVERLAY FIX
-   ============================================================ */
-
-/* 1. Make the cart panel fixed to the right side off-screen or overlaying */
-#cart-drawer, .cart-drawer, #cart-panel, .cart-panel, #trade-request-panel {
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
-  height: 100vh !important;
-  width: 320px !important;
-  max-width: 85vw !important;
-  background: #0d060a !important;
-  border-left: 2px solid #331018 !important;
-  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.8) !important;
-  z-index: 99999 !important;
-  overflow-y: auto !important;
-  padding: 20px !important;
-  box-sizing: border-box !important;
-  
-  /* Smooth slide in/out */
-  transition: transform 0.3s ease-in-out !important;
-}
-
-/* Hide drawer off-screen when closed */
-#cart-drawer:not(.open), 
-.cart-drawer:not(.open), 
-#cart-panel:not(.open), 
-.cart-panel:not(.open) {
-  transform: translateX(100%) !important;
-}
-
-/* Show drawer when active/open class is applied */
-#cart-drawer.open, 
-.cart-drawer.open, 
-#cart-panel.open, 
-.cart-panel.open {
-  transform: translateX(0) !important;
-}
-
-/* 2. Prevent body from horizontal stretching/scrolling */
-html, body {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
-}
-
-/* 3. Floating Button to toggle Cart Open/Close */
-#cart-toggle-btn, .cart-toggle-btn, .floating-cart-btn {
-  position: fixed !important;
-  bottom: 25px !important;
-  right: 25px !important;
-  z-index: 100000 !important;
+.exact-creepy-eyes.visible {
+  opacity: 1;
 }
