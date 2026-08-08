@@ -1385,3 +1385,124 @@ body.analog-horror-mode .vhs-sticker h3 {
   text-shadow: none !important;
   font-weight: 800 !important;
 }
+/* ============================================================
+   ANALOG HORROR OVERRIDE: GRITTY VHS & EMERGENCY BROADCAST
+============================================================ */
+
+/* 1. Dark, Corrupted CRT Background & Canvas */
+body.analog-horror-mode {
+  background-color: #050406 !important;
+  color: #b8b8b8 !important;
+  font-family: 'Courier New', Courier, monospace !important;
+}
+
+/* Darken Scanlines & Static Grain */
+body.analog-horror-mode::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.75) 50%),
+    radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.95) 100%);
+  background-size: 100% 4px, 100% 100%;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.85;
+}
+
+/* 2. Header & Banner Redesign (Glitchy Emergency Broadcast) */
+body.analog-horror-mode h1,
+body.analog-horror-mode .header-title {
+  color: #d11a2a !important;
+  text-shadow: 2px 0 #000, -2px 0 #5a0000, 0 0 8px rgba(209, 26, 42, 0.6) !important;
+  font-family: 'Courier New', monospace !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
+}
+
+body.analog-horror-mode .trading-rules,
+body.analog-horror-mode #contact-box,
+body.analog-horror-mode .rules-container {
+  background: #0d0a0b !important;
+  border: 1px solid #4a1118 !important;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 10px rgba(139, 0, 0, 0.3) !important;
+  color: #a39b9b !important;
+}
+
+/* 3. Muted & Distressed Filter Buttons */
+body.analog-horror-mode .filter-btn,
+body.analog-horror-mode .cat-btn {
+  background: #120e10 !important;
+  color: #7a7072 !important;
+  border: 1px solid #2e1a1d !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-radius: 0px !important;
+  font-family: 'Courier New', monospace !important;
+}
+
+body.analog-horror-mode .filter-btn.active,
+body.analog-horror-mode .cat-btn.active {
+  background: #4a0d13 !important;
+  color: #ffffff !important;
+  border-color: #a81c2a !important;
+  box-shadow: 0 0 8px rgba(168, 28, 42, 0.5) !important;
+}
+
+/* Search Bar */
+body.analog-horror-mode #search-input {
+  background: #080607 !important;
+  color: #e0d5d5 !important;
+  border: 1px solid #5a151e !important;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* 4. VHS Cassette Shells (Aged Plastic & Red Foil) */
+body.analog-horror-mode .item-card {
+  background: #0f0c0e !important;
+  border: 2px solid #2b1114 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.95) !important;
+}
+
+/* Sticker Label Contrast Override */
+body.analog-horror-mode .vhs-sticker {
+  background: #c2b8a3 !important; /* Aged worn paper */
+  border-bottom: 2px solid #80141c !important;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.3) !important;
+}
+
+body.analog-horror-mode .vhs-sticker .card-title,
+body.analog-horror-mode .vhs-sticker * {
+  color: #0d0d0d !important;
+  text-shadow: none !important;
+  font-weight: 900 !important;
+  font-family: 'Courier New', monospace !important;
+}
+
+/* Tape Metadata & Action Buttons */
+body.analog-horror-mode .card-meta {
+  color: #8f8586 !important;
+  font-family: 'Courier New', monospace !important;
+}
+
+body.analog-horror-mode .add-cart-btn,
+body.analog-horror-mode .copy-card-btn {
+  background: #171113 !important;
+  color: #b0a3a5 !important;
+  border: 1px solid #3d1b20 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+body.analog-horror-mode .add-cart-btn:hover,
+body.analog-horror-mode .copy-card-btn:hover {
+  background: #360f14 !important;
+  color: #fff !important;
+  border-color: #8f1d28 !important;
+}
+
+body.analog-horror-mode .add-cart-btn.in-cart {
+  background: #113318 !important;
+  color: #72db85 !important;
+  border-color: #1e5e2c !important;
+}
