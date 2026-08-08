@@ -26,13 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return header.replace(/[\ufeff\u200b\r\n]/g, '').trim();
     },
     complete: function(results) {
-      // Pre-index searchable text using your exact list.csv headers
-      allData = results.data
-        .filter(item => item && Object.keys(item).length > 0)
-        .map(item => {
-          item._searchIndex = `${getValByName(item, "Show")} ${getValByName(item, "Date")} ${getValByName(item, "Cast")} ${getValByName(item, "Master")} ${getValByName(item, "Tour")} ${getValByName(item, "Venue")} ${getValByName(item, "City")} ${getValByName(item, "Master Notes")} ${getValByName(item, "Trading Notes")} ${getValByName(item, "My Notes")}`.toLowerCase();
-          return item;
-        });
+      // Pre-index searchable text for fast low-memory filtering
+      allData = results.data.map(item => {
+        item._searchIndex = `${getValByName(item, "Show")} ${getValByName(item, "Date")} ${getValByName(item, "Cast")} ${getValByName(item, "Master")} ${getValByName(item, "Tour", "Location")} ${getValByName(item, "Venue")}`.toLowerCase();
+        return item;
+      });
       
       applyFiltersAndRender();
       updateCartUI();
@@ -177,7 +175,7 @@ function setupIntersectionObserver() {
     }
   }, {
     root: null,
-    rootMargin: "400px",
+    rootMargin: "400px", // Pre-loads next batch 400px before user reaches bottom
     threshold: 0.1
   });
 
@@ -185,8 +183,7 @@ function setupIntersectionObserver() {
 }
 
 function applyFiltersAndRender() {
-  const searchInput = document.getElementById("search-input");
-  const query = searchInput ? searchInput.value.toLowerCase().trim() : "";
+  const query = document.getElementById("search-input").value.toLowerCase().trim();
   currentRenderToken++;
 
   // 1. Filter Data Set
@@ -197,10 +194,9 @@ function applyFiltersAndRender() {
     }
 
     if (currentCategory !== 'all') {
-      const tour = getValByName(item, "Tour").toLowerCase();
-      const venue = getValByName(item, "Venue").toLowerCase();
-      const city = getValByName(item, "City").toLowerCase();
-      const locationText = `${tour} ${venue} ${city}`;
+      const tour = getValByName(item, "Tour", "Location", "City").toLowerCase();
+      const venue = getValByName(item, "Venue", "Theater", "Theatre").toLowerCase();
+      const locationText = `${tour} ${venue}`;
 
       if (currentCategory === 'off-broadway') {
         if (!locationText.includes("off-broadway") && !locationText.includes("off broadway")) return false;
@@ -219,26 +215,22 @@ function applyFiltersAndRender() {
     return true;
   });
 
-  const statsEl = document.getElementById('stats');
-  if (statsEl) statsEl.innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
+  document.getElementById('stats').innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
 
   // 2. Clear Container and Render Initial Frame
   const container = document.getElementById("card-container");
-  if (container) {
-    container.innerHTML = "";
-    displayedCount = 0;
+  container.innerHTML = "";
+  displayedCount = 0;
 
-    if (currentFilteredItems.length > 0) {
-      appendNextBatch(30);
-    }
+  if (currentFilteredItems.length > 0) {
+    appendNextBatch(30); // Initial fast view batch
   }
 }
 
 function appendNextBatch(count = BATCH_SIZE) {
   const container = document.getElementById("card-container");
-  if (!container) return;
-
   const nextSlice = currentFilteredItems.slice(displayedCount, displayedCount + count);
+
   if (nextSlice.length === 0) return;
 
   const fragment = document.createDocumentFragment();
@@ -248,14 +240,22 @@ function appendNextBatch(count = BATCH_SIZE) {
     const globalIndex = displayedCount + i;
     const show = getValByName(item, "Show") || "Unknown Show";
     const date = getValByName(item, "Date");
+    const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening");
+    const showTime = matineeEve ? ` (${matineeEve})` : "";
     
     const format = getFormat(item);
     const sizeVal = getFileSize(item);
-    const fileSize = sizeVal ? ` [${sizeVal}]` : "";
 
-    const tour = getValByName(item, "Tour");
-    const venue = getValByName(item, "Venue");
-    const city = getValByName(item, "City");
+    // Dynamic format badge logic (prevents repeating file sizes)
+    let displayFormatStr = format;
+    if (sizeVal) {
+      if (!format.toUpperCase().includes(sizeVal.toUpperCase())) {
+        displayFormatStr = format ? `${format} [${sizeVal}]` : sizeVal;
+      }
+    }
+
+    const tour = getValByName(item, "Tour", "Location", "City");
+    const venue = getValByName(item, "Venue", "Theater", "Theatre");
     const master = getValByName(item, "Master");
     const cast = getValByName(item, "Cast");
     const masterNotes = getValByName(item, "Master Notes");
@@ -263,7 +263,7 @@ function appendNextBatch(count = BATCH_SIZE) {
     const myNotes = getValByName(item, "My Notes");
 
     const displayType = getMediaType(item);
-    const formatBadgeHTML = format ? `<span class="badge badge-format">${format}${fileSize}</span>` : (fileSize ? `<span class="badge badge-format">${fileSize}</span>` : '');
+    const formatBadgeHTML = displayFormatStr ? `<span class="badge badge-format">${displayFormatStr}</span>` : '';
     const safeTypeClass = displayType.toLowerCase().replace(/[^a-z0-9]/g, '-');
     const typeBadgeHTML = `<span class="badge badge-${safeTypeClass}">${displayType}</span>`;
     
@@ -276,7 +276,7 @@ function appendNextBatch(count = BATCH_SIZE) {
       nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf"
     );
 
-    const locationParts = [tour, venue, city].filter(Boolean).join(" - ");
+    const locationParts = [tour, venue].filter(Boolean).join(" - ");
     let nftBadgeHTML = '';
     let isNFTActive = false;
 
@@ -307,7 +307,7 @@ function appendNextBatch(count = BATCH_SIZE) {
         </div>
         
         <div class="card-meta">
-          ${date ? `📅 ${date}` : ''} 
+          ${date ? `📅 ${date}${showTime}` : ''} 
           ${locationParts ? `📍 ${locationParts}` : ''}
           ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
           ${nftBadgeHTML}
@@ -416,8 +416,8 @@ function toggleCartItem(item, buttonEl) {
       date: getValByName(item, "Date") || "Unknown Date",
       type: getMediaType(item),
       format: getFormat(item) || getMediaType(item),
-      tour: getValByName(item, "Tour"),
-      venue: getValByName(item, "Venue"),
+      tour: getValByName(item, "Tour", "Location", "City"),
+      venue: getValByName(item, "Venue", "Theater", "Theatre"),
       master: getValByName(item, "Master")
     });
 
@@ -536,39 +536,49 @@ function getValByName(item, ...names) {
 
 function getFileSize(item) {
   // Check exact File Size header first
-  const explicitSize = getValByName(item, "File Size");
-  if (explicitSize && /^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(explicitSize)) {
-    return explicitSize;
+  const explicitSize = getValByName(item, "File Size", "Size", "Filesize");
+  if (explicitSize && /\d+(\.\d+)?\s*(gb|mb|kb|tb)/i.test(explicitSize)) {
+    const match = explicitSize.match(/\d+(\.\d+)?\s*(gb|mb|kb|tb)/i);
+    return match ? match[0].toUpperCase() : explicitSize;
   }
 
-  // Fallback: search for size regex across remaining fields (excluding metadata)
+  // Fallback check in other keys if needed
   for (const [key, val] of Object.entries(item)) {
     if (key.startsWith("_")) continue;
-    if (val && /^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(val.toString().trim())) {
-      return val.toString().trim();
+    const strVal = val ? val.toString().trim() : "";
+    if (/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(strVal)) {
+      return strVal.toUpperCase();
     }
   }
   return "";
 }
 
 function getFormat(item) {
-  // Check Trader Format, Release Format, and Format in order of preference
-  const rawFormat = getValByName(item, "Trader Format", "Release Format", "Format");
-  // Reject if the format string is just a file size
-  if (/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(rawFormat)) {
+  let rawFormat = getValByName(item, "Trader Format") || getValByName(item, "Format") || getValByName(item, "Release Format");
+  
+  // If the raw format string is ONLY a size (e.g. "12.18 GB"), suppress it
+  if (/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(rawFormat.trim())) {
     return "";
   }
-  return rawFormat;
+
+  // Clean out redundant size tags inside parentheses like "(12.18 GB, 4K)" -> "(4K)"
+  let cleaned = rawFormat.replace(/\(\s*\d+(\.\d+)?\s*(gb|mb|kb|tb)\s*,?\s*/gi, '(')
+                         .replace(/,?\s*\d+(\.\d+)?\s*(gb|mb|kb|tb)\s*\)/gi, ')')
+                         .replace(/\(\s*\)/g, '')
+                         .trim();
+
+  return cleaned;
 }
 
 function getMediaType(item) {
+  const audioVideo = getValByName(item, "Audio / Video", "Audio/Video").toLowerCase();
   const typeRaw = getValByName(item, "Type").toLowerCase();
   const formatRaw = getFormat(item).toLowerCase();
 
-  const isAudio = typeRaw.includes("audio") || formatRaw.match(/\b(audio|mp3|m4a|wav|flac|tracked|cd)\b/);
-  const isVideo = typeRaw.includes("video") || formatRaw.match(/\b(video|mp4|vob|mov|mkv|avi)\b/);
+  const isAudio = audioVideo.includes("audio") || typeRaw.includes("audio") || formatRaw.match(/audio|mp3|m4a|wav|flac|tracked|cd/);
+  const isVideo = audioVideo.includes("video") || typeRaw.includes("video") || formatRaw.match(/video|mp4|vob|mov|mkv|avi/);
 
-  if (typeRaw.includes("both") || typeRaw.includes("mixed") || typeRaw.includes("&") || typeRaw.includes("/") || (isAudio && isVideo)) {
+  if (audioVideo.includes("both") || audioVideo.includes("mixed") || audioVideo.includes("&") || audioVideo.includes("/") || (isAudio && isVideo)) {
     return "VIDEO / AUDIO";
   }
   if (isAudio) return "AUDIO";
@@ -613,13 +623,12 @@ function isNftStillActive(dateStr) {
 function copySingleItemSummary(item, buttonElement) {
   const show = getValByName(item, "Show") || "Unknown Show";
   const date = getValByName(item, "Date") || "Unknown Date";
-  const tour = getValByName(item, "Tour");
-  const venue = getValByName(item, "Venue");
-  const city = getValByName(item, "City");
+  const tour = getValByName(item, "Tour", "Location", "City");
+  const venue = getValByName(item, "Venue", "Theater", "Theatre");
   const master = getValByName(item, "Master") || "Unknown Master";
   const format = getFormat(item) || getMediaType(item);
 
-  const location = [tour, venue, city].filter(Boolean).join(" - ");
+  const location = [tour, venue].filter(Boolean).join(" - ");
 
   let text = `${show} - ${date} (${format})`;
   if (location) text += ` | ${location}`;
