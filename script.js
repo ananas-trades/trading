@@ -246,7 +246,6 @@ function appendNextBatch(count = BATCH_SIZE) {
     const format = getFormat(item);
     const sizeVal = getFileSize(item);
 
-    // Dynamic format badge display logic
     let displayFormatStr = "";
     if (format && sizeVal) {
       displayFormatStr = `${format} [${sizeVal}]`;
@@ -298,7 +297,6 @@ function appendNextBatch(count = BATCH_SIZE) {
     const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
     const itemInCart = isInCart(item);
 
-    // Standard card structure (if horror mode is on, transform directly)
     const cardHTML = `
       <div class="${cardClass}">
         <div class="card-header">
@@ -340,7 +338,6 @@ function appendNextBatch(count = BATCH_SIZE) {
   container.appendChild(fragment);
   displayedCount += nextSlice.length;
 
-  // If in horror mode, transform newly appended cards to physical VHS cassettes immediately
   if (document.body.classList.contains("analog-horror-mode")) {
     transformCardsToVHS();
   }
@@ -698,7 +695,6 @@ function copySingleItemSummary(item, buttonElement) {
    ANALOG HORROR EASTER EGG & VHS CASSETTE TRANSFORMER
    ============================================================ */
 function initAnalogHorrorEasterEgg() {
-  // 1. Spawner for background creepy eye image
   let eyesContainer = document.getElementById("horror-eyes-container");
   if (!eyesContainer) {
     eyesContainer = document.createElement("div");
@@ -712,7 +708,6 @@ function initAnalogHorrorEasterEgg() {
     }
   }
 
-  // Fade eyes in and out on side margins
   setInterval(() => {
     if (!document.body.classList.contains("analog-horror-mode")) return;
 
@@ -734,7 +729,6 @@ function initAnalogHorrorEasterEgg() {
 
   }, 3000);
 
-  // 2. Double-Click Header Event to Toggle Analog Horror Mode
   const headerElement = document.querySelector("h1, .header-title, header");
   if (headerElement) {
     headerElement.style.userSelect = "none";
@@ -755,7 +749,6 @@ function initAnalogHorrorEasterEgg() {
     });
   }
 
-  // 3. Double-click listener on cards to flip physical VHS cassettes
   document.addEventListener("dblclick", (e) => {
     if (!document.body.classList.contains("analog-horror-mode")) return;
 
@@ -769,10 +762,19 @@ function initAnalogHorrorEasterEgg() {
   });
 }
 
-// Transform standard cards into physical 3D VHS cassettes
+// Transform standard cards into physical 3D VHS cassettes with defined charcoal plastic body
 function transformCardsToVHS() {
+  const shellStyle = `
+    background: #1a1a1e !important;
+    border: 2px solid #383842 !important;
+    border-radius: 6px !important;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 4px 12px rgba(0,0,0,0.9) !important;
+    padding: 12px !important;
+    position: relative !important;
+  `;
+
   document.querySelectorAll(".item-card").forEach(card => {
-    if (card.querySelector(".vhs-inner")) return; // Skip if already transformed
+    if (card.querySelector(".vhs-inner")) return;
 
     const title = card.querySelector(".card-title")?.innerHTML || "UNKNOWN RECORDING";
     const meta = card.querySelector(".card-meta")?.innerHTML || "";
@@ -783,15 +785,15 @@ function transformCardsToVHS() {
     card.innerHTML = `
       <div class="vhs-inner">
         <!-- FRONT CASSETTE FACE -->
-        <div class="vhs-front">
+        <div class="vhs-front" style="${shellStyle}">
           <div class="vhs-screw top-l"></div><div class="vhs-screw top-r"></div>
           
           <div class="vhs-sticker">${title}</div>
           
           <!-- Dual Tape Spools Window -->
-          <div class="vhs-spools-window">
+          <div class="vhs-spools-window" style="background: #0d0d0f; border: 1px solid #2a2a30; border-radius: 4px;">
             <div class="vhs-spool"></div>
-            <span style="font-size:0.6rem; color:#666; font-family:monospace; letter-spacing:1px;">T-120 VHS</span>
+            <span style="font-size:0.6rem; color:#888; font-family:monospace; letter-spacing:1px;">T-120 VHS</span>
             <div class="vhs-spool"></div>
           </div>
 
@@ -803,7 +805,7 @@ function transformCardsToVHS() {
         </div>
         
         <!-- BACK CASSETTE FACE -->
-        <div class="vhs-back">
+        <div class="vhs-back" style="${shellStyle}">
           <div class="vhs-screw top-l"></div><div class="vhs-screw top-r"></div>
           
           <div>
@@ -821,16 +823,14 @@ function transformCardsToVHS() {
   });
 }
 
-// Revert back to original layout when Easter egg is toggled off
 function revertCardsFromVHS() {
   if (typeof applyFiltersAndRender === "function") {
     applyFiltersAndRender();
   }
 }
 
-// Initialize on DOM load
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initAnalogHorrorEasterEgg);
 } else {
-  initAnalogHorrorEasterEgg();
+  initAnalogHorrorEasterEgg);
 }
