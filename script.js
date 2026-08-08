@@ -762,7 +762,6 @@ function initAnalogHorrorEasterEgg() {
   });
 }
 
-// Transform standard cards into physical 3D VHS cassettes with defined charcoal plastic body
 function transformCardsToVHS() {
   const shellStyle = `
     background: #1a1a1e !important;
@@ -829,8 +828,9 @@ function revertCardsFromVHS() {
   }
 }
 
+// Initializer block fixed below
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initAnalogHorrorEasterEgg);
 } else {
-  initAnalogHorrorEasterEgg);
+  initAnalogHorrorEasterEgg();
 }
