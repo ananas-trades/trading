@@ -1146,3 +1146,226 @@ body.analog-horror-mode .vhs-back {
   color: #ffffff !important;
   text-shadow: 0 0 3px #ff0000 !important;
 }
+/* ============================================================
+   ANALOG HORROR VHS TAPE EASTER EGG (HIGH-VISIBILITY CASSETTE)
+============================================================ */
+
+body.analog-horror-mode {
+  background-color: #030102 !important;
+  background-image: 
+    radial-gradient(circle at 50% 50%, #120305 0%, #020001 80%),
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%) !important;
+  background-size: 100% 100%, 100% 4px !important;
+  color: #c9a4a4 !important;
+  filter: contrast(120%) brightness(90%);
+  animation: crtFlicker 0.15s infinite alternate;
+}
+
+@keyframes crtFlicker {
+  0% { opacity: 0.97; }
+  100% { opacity: 1; }
+}
+
+body.analog-horror-mode .item-card {
+  perspective: 1000px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  height: 330px !important;
+  cursor: pointer;
+  overflow: visible !important;
+}
+
+/* 3D Flip Card Container */
+.vhs-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d !important;
+}
+
+.item-card.vhs-flipped .vhs-inner {
+  transform: rotateY(180deg);
+}
+
+.vhs-front, .vhs-back {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+  box-sizing: border-box !important;
+  padding: 16px !important;
+  border-radius: 6px !important;
+}
+
+/* ==========================================
+   BRIGHTER & HIGHER-CONTRAST VHS PLASTIC
+========================================== */
+body.analog-horror-mode .vhs-front,
+body.analog-horror-mode .vhs-back {
+  /* Slightly lighter charcoal plastic with sharper ridged texture */
+  background: 
+    repeating-linear-gradient(
+      90deg, 
+      rgba(255, 255, 255, 0.04) 0px, 
+      rgba(255, 255, 255, 0.04) 1px, 
+      transparent 1px, 
+      transparent 3px
+    ),
+    radial-gradient(circle at 30% 20%, #3a3a42 0%, #222228 60%, #15151a 100%) !important;
+  
+  /* Bold, metallic-highlighted border seam to separate from background */
+  border: 5px solid #33333d !important;
+  outline: 2px solid #555562 !important;
+  outline-offset: -2px;
+  border-radius: 6px !important;
+  
+  /* Heavy outer drop shadow + prominent red edge glow */
+  box-shadow: 
+    inset 2px 2px 5px rgba(255, 255, 255, 0.2),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.95),
+    0 12px 28px rgba(0, 0, 0, 0.95),
+    0 0 20px rgba(255, 40, 40, 0.35) !important;
+}
+
+/* Plastic Grip Top Ridge */
+body.analog-horror-mode .vhs-front::before,
+body.analog-horror-mode .vhs-back::before {
+  content: "";
+  display: block;
+  height: 12px;
+  width: 100%;
+  background: repeating-linear-gradient(90deg, #18181c 0px, #18181c 5px, #444450 5px, #444450 10px);
+  border-radius: 2px;
+  border-bottom: 2px solid #111;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.9), 0 1px 2px rgba(255,255,255,0.1);
+  margin-bottom: 8px;
+}
+
+/* Metallic Screws */
+.vhs-screw {
+  width: 9px;
+  height: 9px;
+  background: radial-gradient(circle, #bbb 20%, #666 60%, #222 100%);
+  border-radius: 50%;
+  border: 1px solid #000;
+  position: absolute;
+  z-index: 10;
+  box-shadow: inset 0 0 2px #000, 0 0 4px rgba(0,0,0,0.9);
+}
+.vhs-screw::after {
+  content: "+";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 8px;
+  color: #111;
+  font-family: monospace;
+  font-weight: bold;
+  margin-top: -2px;
+}
+.vhs-screw.top-l { top: 8px; left: 8px; }
+.vhs-screw.top-r { top: 8px; right: 8px; }
+.vhs-screw.bot-l { bottom: 8px; left: 8px; }
+.vhs-screw.bot-r { bottom: 8px; right: 8px; }
+
+/* Front Paper Label Sticker */
+.vhs-sticker {
+  background: linear-gradient(180deg, #f3ebd9 0%, #e0cfb8 100%) !important;
+  color: #111 !important;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  padding: 8px 10px;
+  border-left: 6px solid #a00000;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.2), 2px 3px 6px rgba(0,0,0,0.7);
+  border-radius: 2px;
+}
+
+/* Tape Spools Window */
+.vhs-spools-window {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #000;
+  border: 2px solid #444450;
+  border-radius: 4px;
+  padding: 8px;
+  margin: 6px 0;
+  box-shadow: inset 0 0 10px #000, 0 0 5px rgba(255, 255, 255, 0.05);
+}
+
+.vhs-spool {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 15%, #333 20%, #111 60%, #600000 70%, #000 100%);
+  border: 2px dashed #555;
+  box-shadow: 0 0 4px #000;
+  animation: spoolSpin 20s linear infinite;
+}
+
+@keyframes spoolSpin {
+  100% { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   BACK FACE - HIGH VISIBILITY CASSETTE
+========================================== */
+.vhs-back {
+  transform: rotateY(180deg) translateZ(1px) !important;
+}
+
+body.analog-horror-mode .vhs-back {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  overflow-y: auto !important;
+  z-index: 5 !important;
+}
+
+/* Recessed Inset Panel for Back Info */
+.vhs-back h3,
+.vhs-back .card-title {
+  display: block !important;
+  color: #ff4d4d !important;
+  font-family: 'Courier New', monospace !important;
+  font-size: 1rem !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  border-bottom: 2px solid #8b0000 !important;
+  padding-bottom: 4px !important;
+  margin-bottom: 8px !important;
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.8) !important;
+}
+
+.vhs-back p,
+.vhs-back div,
+.vhs-back .card-meta,
+.vhs-back .card-notes,
+.vhs-back .card-cast {
+  display: block !important;
+  font-family: 'Courier New', monospace !important;
+  font-size: 0.78rem !important;
+  color: #fce8e8 !important;
+  line-height: 1.35 !important;
+  /* Slightly darker inner block so text stands out against plastic frame */
+  background: rgba(12, 10, 14, 0.9) !important;
+  padding: 8px 10px !important;
+  border-radius: 3px !important;
+  border: 1px solid #5a151e !important;
+  border-left: 3px solid #ff2222 !important;
+  margin-bottom: 8px !important;
+  word-break: break-word !important;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.9);
+}
+
+.vhs-back strong {
+  color: #ffffff !important;
+  text-shadow: 0 0 4px #ff0000 !important;
+}
