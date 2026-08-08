@@ -766,14 +766,34 @@ function transformCardsToVHS() {
   document.querySelectorAll(".item-card").forEach(card => {
     if (card.querySelector(".vhs-inner")) return;
 
-    const title = card.querySelector(".card-title")?.innerText || "UNKNOWN RECORDING";
-    const meta = card.querySelector(".card-meta")?.innerText || "";
-    const cast = card.querySelector(".card-cast")?.innerHTML || "No personnel logged.";
-    
-    // Gather all card notes for full visibility on back
-    const notesEls = Array.from(card.querySelectorAll(".card-notes")).map(el => el.innerHTML);
-    const notesHTML = notesEls.length > 0 ? notesEls.join("<br>") : "";
+    // Retrieve global index directly from item buttons
+    const btn = card.querySelector("[data-index]");
+    if (!btn) return;
+    const globalIndex = parseInt(btn.getAttribute("data-index"), 10);
+    const item = currentFilteredItems[globalIndex];
+    if (!item) return;
+
+    // Extract exact data values from source object
+    const show = getValByName(item, "Show") || "UNKNOWN RECORDING";
+    const date = getValByName(item, "Date");
+    const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening");
+    const showTime = matineeEve ? ` (${matineeEve})` : "";
+    const tour = getValByName(item, "Tour", "Location", "City");
+    const venue = getValByName(item, "Venue", "Theater", "Theatre");
+    const master = getValByName(item, "Master");
+    const cast = getValByName(item, "Cast");
+    const masterNotes = getValByName(item, "Master Notes");
+    const tradingNotes = getValByName(item, "Trading Notes");
+    const myNotes = getValByName(item, "My Notes");
+
+    const locationParts = [tour, venue].filter(Boolean).join(" - ");
     const actions = card.querySelector(".card-actions")?.innerHTML || "";
+
+    // Build consolidated notes for cassette back face
+    let notesHTML = "";
+    if (masterNotes) notesHTML += `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>`;
+    if (tradingNotes) notesHTML += `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>`;
+    if (myNotes) notesHTML += `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>`;
 
     card.innerHTML = `
       <div class="vhs-inner">
@@ -783,7 +803,7 @@ function transformCardsToVHS() {
           <div class="vhs-screw top-r"></div>
 
           <div class="vhs-sticker">
-            <div class="card-title">${title}</div>
+            <div class="card-title">${show}</div>
           </div>
 
           <div class="vhs-spools-window">
@@ -792,7 +812,12 @@ function transformCardsToVHS() {
             <div class="vhs-spool"></div>
           </div>
 
-          <div class="vhs-meta-text">${meta}</div>
+          <div class="card-meta">
+            ${date ? `📅 ${date}${showTime}` : ''} 
+            ${locationParts ? `📍 ${locationParts}` : ''}
+            ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
+          </div>
+
           <div class="vhs-actions" style="margin-top: 8px;">${actions}</div>
 
           <div class="vhs-screw bot-l"></div>
@@ -804,9 +829,9 @@ function transformCardsToVHS() {
           <div class="vhs-screw top-l"></div>
           <div class="vhs-screw top-r"></div>
           
-          <h3 class="card-title">TAPE METADATA</h3>
-          <div class="card-cast">${cast}</div>
-          ${notesHTML ? `<div class="card-notes">${notesHTML}</div>` : ''}
+          <h3 class="card-title">${show}</h3>
+          ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
+          ${notesHTML}
 
           <div class="vhs-screw bot-l"></div>
           <div class="vhs-screw bot-r"></div>
