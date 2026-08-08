@@ -298,7 +298,8 @@ function appendNextBatch(count = BATCH_SIZE) {
     const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
     const itemInCart = isInCart(item);
 
-    return `
+    // Standard card structure (if horror mode is on, transform directly)
+    const cardHTML = `
       <div class="${cardClass}">
         <div class="card-header">
           <div class="card-title">${show}</div>
@@ -328,6 +329,8 @@ function appendNextBatch(count = BATCH_SIZE) {
         </div>
       </div>
     `;
+
+    return cardHTML;
   }).join('');
 
   while (tempContainer.firstChild) {
@@ -336,6 +339,11 @@ function appendNextBatch(count = BATCH_SIZE) {
 
   container.appendChild(fragment);
   displayedCount += nextSlice.length;
+
+  // If in horror mode, transform newly appended cards to physical VHS cassettes immediately
+  if (document.body.classList.contains("analog-horror-mode")) {
+    transformCardsToVHS();
+  }
 }
 
 /* ============================================================
@@ -544,7 +552,6 @@ function getValByName(item, ...names) {
 function getFileSize(item) {
   if (!item) return "";
 
-  // 1. Check primary size fields
   const sizeFields = ["File Size", "Size", "Filesize"];
   for (const f of sizeFields) {
     const val = getValByName(item, f);
@@ -554,7 +561,6 @@ function getFileSize(item) {
     }
   }
 
-  // 2. Fallback: Scan ALL column values in this item for a size string like "6.45 GB"
   for (const key in item) {
     const val = item[key];
     if (typeof val === 'string' && val) {
@@ -569,7 +575,6 @@ function getFileSize(item) {
 function getFormat(item) {
   if (!item) return "";
 
-  // 1. Priority search across format columns
   const candidateKeys = [
     "Trader Format", "Release Format", "File Format", 
     "Media Format", "Format", "Container", "Extension", 
@@ -578,7 +583,6 @@ function getFormat(item) {
 
   let rawFormat = candidateKeys.map(k => getValByName(item, k)).find(v => Boolean(v)) || "";
 
-  // 2. Deep Fallback: If no format found in known columns, scan all fields for media extension keywords
   if (!rawFormat) {
     const formatRegex = /\b(vob|mp4|mkv|mov|avi|iso|mp3|m4a|flac|wav|ts|m2ts|wmv|mpg|mpeg|tracked|untracked)\b/i;
     for (const key in item) {
@@ -595,17 +599,12 @@ function getFormat(item) {
 
   if (!rawFormat) return "";
 
-  // 3. Strip out sizes (e.g. "6.45 GB")
   let cleaned = rawFormat.replace(/\b\d+(\.\d+)?\s*(gb|mb|kb|tb)\b/gi, "");
-
-  // 4. Strip out pure generic words "video" or "audio" (case insensitive)
   cleaned = cleaned.replace(/\b(video|audio|both|mixed)\b/gi, "");
-
-  // 5. Clean up remaining symbols and whitespace
   cleaned = cleaned
-    .replace(/[\(\[\{\)\]\}]/g, " ")  // Remove parentheses/brackets
-    .replace(/[-–—/,\.\:]+/g, " ")    // Replace punctuation separators
-    .replace(/\s+/g, " ")            // Collapse multi-spaces
+    .replace(/[\(\[\{\)\]\}]/g, " ")
+    .replace(/[-–—/,\.\:]+/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 
   return cleaned;
@@ -615,7 +614,6 @@ function getMediaType(item) {
   const audioVideo = getValByName(item, "Audio / Video", "Audio/Video").toLowerCase();
   const typeRaw = getValByName(item, "Type").toLowerCase();
   
-  // Look at raw format or notes before cleaning for media clues
   const rawFmt = (
     getValByName(item, "Trader Format") + " " + 
     getValByName(item, "Release Format") + " " + 
@@ -695,46 +693,48 @@ function copySingleItemSummary(item, buttonElement) {
     }, 2000);
   });
 }
+
 /* ============================================================
-   ANALOG HORROR EASTER EGG & VHS TAPE TRANSFORMER
+   ANALOG HORROR EASTER EGG & VHS CASSETTE TRANSFORMER
    ============================================================ */
 function initAnalogHorrorEasterEgg() {
-  // 1. Eye Generator
+  // 1. Spawner for background creepy eye image
   let eyesContainer = document.getElementById("horror-eyes-container");
   if (!eyesContainer) {
     eyesContainer = document.createElement("div");
     eyesContainer.id = "horror-eyes-container";
     document.body.appendChild(eyesContainer);
 
-    for (let i = 0; i < 7; i++) {
-      const pair = document.createElement("div");
-      pair.className = "horror-eye-pair";
-      pair.innerHTML = `<div class="horror-eye"></div><div class="horror-eye"></div>`;
-      eyesContainer.appendChild(pair);
+    for (let i = 0; i < 5; i++) {
+      const eyeImg = document.createElement("div");
+      eyeImg.className = "exact-creepy-eyes";
+      eyesContainer.appendChild(eyeImg);
     }
   }
 
+  // Fade eyes in and out on side margins
   setInterval(() => {
     if (!document.body.classList.contains("analog-horror-mode")) return;
 
-    const pairs = document.querySelectorAll(".horror-eye-pair");
-    const randomPair = pairs[Math.floor(Math.random() * pairs.length)];
-    
-    const side = Math.random() > 0.5 ? 'left' : 'right';
-    const xPos = side === 'left' ? Math.random() * 15 : Math.random() * 15 + 80;
-    const yPos = Math.random() * 80 + 10;
+    const eyeElements = document.querySelectorAll(".exact-creepy-eyes");
+    if (!eyeElements.length) return;
+    const randomEye = eyeElements[Math.floor(Math.random() * eyeElements.length)];
 
-    randomPair.style.top = yPos + "vh";
-    randomPair.style.left = xPos + "vw";
-    randomPair.classList.add("visible");
+    const side = Math.random() > 0.5 ? 'left' : 'right';
+    const xPos = side === 'left' ? Math.random() * 10 : Math.random() * 10 + 75;
+    const yPos = Math.random() * 75 + 10;
+
+    randomEye.style.top = yPos + "vh";
+    randomEye.style.left = xPos + "vw";
+    randomEye.classList.add("visible");
 
     setTimeout(() => {
-      randomPair.classList.remove("visible");
-    }, Math.random() * 2500 + 1500);
+      randomEye.classList.remove("visible");
+    }, Math.random() * 2000 + 3000);
 
-  }, 2500);
+  }, 3000);
 
-  // 2. Double-Click Mask Event
+  // 2. Double-Click Header Event to Toggle Analog Horror Mode
   const headerElement = document.querySelector("h1, .header-title, header");
   if (headerElement) {
     headerElement.style.userSelect = "none";
@@ -755,7 +755,7 @@ function initAnalogHorrorEasterEgg() {
     });
   }
 
-  // Double click listener to flip VHS tapes
+  // 3. Double-click listener on cards to flip physical VHS cassettes
   document.addEventListener("dblclick", (e) => {
     if (!document.body.classList.contains("analog-horror-mode")) return;
 
@@ -769,39 +769,52 @@ function initAnalogHorrorEasterEgg() {
   });
 }
 
-// Transform standard cards into 3D VHS cassette structures
+// Transform standard cards into physical 3D VHS cassettes
 function transformCardsToVHS() {
   document.querySelectorAll(".item-card").forEach(card => {
-    if (card.querySelector(".vhs-inner")) return; // Already transformed
+    if (card.querySelector(".vhs-inner")) return; // Skip if already transformed
 
-    const title = card.querySelector(".card-title")?.innerHTML || "UNKNOWN SHOW";
+    const title = card.querySelector(".card-title")?.innerHTML || "UNKNOWN RECORDING";
     const meta = card.querySelector(".card-meta")?.innerHTML || "";
-    const cast = card.querySelector(".card-cast")?.innerHTML || "No cast declassified.";
+    const cast = card.querySelector(".card-cast")?.innerHTML || "No personnel logged.";
     const notes = card.querySelector(".card-notes")?.innerHTML || "";
     const actions = card.querySelector(".card-actions")?.innerHTML || "";
 
     card.innerHTML = `
       <div class="vhs-inner">
-        <!-- FRONT SIDE OF VHS -->
+        <!-- FRONT CASSETTE FACE -->
         <div class="vhs-front">
-          <div>
-            <div class="vhs-sticker">${title}</div>
-            <div class="vhs-meta-text">${meta}</div>
+          <div class="vhs-screw top-l"></div><div class="vhs-screw top-r"></div>
+          
+          <div class="vhs-sticker">${title}</div>
+          
+          <!-- Dual Tape Spools Window -->
+          <div class="vhs-spools-window">
+            <div class="vhs-spool"></div>
+            <span style="font-size:0.6rem; color:#666; font-family:monospace; letter-spacing:1px;">T-120 VHS</span>
+            <div class="vhs-spool"></div>
           </div>
-          <div class="vhs-actions" style="margin-top: 10px;">
-            ${actions}
-          </div>
-          <div class="vhs-hint">🔄 DOUBLE-CLICK TO FLIP TAPE</div>
+
+          <div class="vhs-meta-text">${meta}</div>
+          <div class="vhs-actions" style="margin-top: 6px;">${actions}</div>
+          <div class="vhs-hint" style="font-size:0.6rem; color:#ff4444; text-align:right; margin-top:4px;">🔄 DBL-CLICK TO FLIP TAPE</div>
+          
+          <div class="vhs-screw bot-l"></div><div class="vhs-screw bot-r"></div>
         </div>
         
-        <!-- BACK SIDE OF VHS -->
+        <!-- BACK CASSETTE FACE -->
         <div class="vhs-back">
+          <div class="vhs-screw top-l"></div><div class="vhs-screw top-r"></div>
+          
           <div>
-            <div style="font-size:0.75rem; color:#ff3333; font-weight:bold; margin-bottom: 8px;">RECORDED CONTENT DETAILS</div>
-            <div class="vhs-meta-text" style="font-size: 0.75rem;">${cast}</div>
-            ${notes ? `<div class="vhs-meta-text" style="font-size: 0.7rem; color: #aaa; margin-top: 8px;">${notes}</div>` : ''}
+            <div style="font-size:0.7rem; color:#ff3333; font-weight:bold; letter-spacing:1px; margin-bottom:6px;">[TAPE CONTENTS & CAST LOG]</div>
+            <div class="vhs-meta-text">${cast}</div>
+            ${notes ? `<div class="vhs-meta-text" style="color:#aaa; margin-top:6px;">${notes}</div>` : ''}
           </div>
-          <div class="vhs-hint">🔄 DOUBLE-CLICK TO RETURN</div>
+          
+          <div class="vhs-hint" style="font-size:0.6rem; color:#ff4444; text-align:right; margin-top:auto;">🔄 DBL-CLICK TO RETURN</div>
+          
+          <div class="vhs-screw bot-l"></div><div class="vhs-screw bot-r"></div>
         </div>
       </div>
     `;
