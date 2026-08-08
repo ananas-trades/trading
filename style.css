@@ -918,3 +918,318 @@ h1 {
   scrollbar-width: thin;
   scrollbar-color: #7000ff #0b0c10;
 }
+/* ============================================================
+   EVIDENCE ARCHIVE THRILLER STYLESHEET
+   ============================================================ */
+
+/* --- Root Variables & Theme Colors --- */
+:root {
+  --bg-color: #0a0a0c;
+  --card-bg: #121318;
+  --card-border: #2a1515;
+  --accent-red: #8b0000;
+  --bright-red: #ff3333;
+  --text-main: #d1d5db;
+  --text-muted: #8a8f98;
+  --glow-red: rgba(255, 51, 51, 0.15);
+  --badge-video: #3b1111;
+  --badge-audio: #11253b;
+  --font-mono: 'Courier New', Courier, monospace;
+}
+
+/* --- Base Body Settings --- */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(20, 10, 10, 0.5) 0%, rgba(5, 5, 5, 0.95) 100%),
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+  background-size: 100% 100%, 100% 4px; /* CRT scanline effect */
+}
+
+/* --- Interactive Redacted Elements --- */
+.classified-redacted {
+  background-color: #1a1a1a;
+  color: #1a1a1a;
+  border-radius: 2px;
+  padding: 0 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 0 4px #000;
+}
+
+.classified-redacted:hover {
+  background-color: #331010;
+  color: #331010;
+  box-shadow: 0 0 6px var(--bright-red);
+}
+
+.classified-redacted.revealed {
+  background-color: transparent;
+  color: var(--bright-red);
+  box-shadow: none;
+  font-family: var(--font-mono);
+  font-weight: bold;
+}
+
+/* --- Main Layout Container --- */
+#card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* --- Card Styles --- */
+.item-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-left: 3px solid var(--accent-red);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-2px);
+  border-color: #5a1515;
+  box-shadow: 0 4px 20px var(--glow-red);
+}
+
+.item-card.card-nft-active {
+  border-left-color: var(--bright-red);
+  background: linear-gradient(180deg, #180a0a 0%, var(--card-bg) 100%);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 8px;
+}
+
+.card-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.card-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.card-cast, .card-notes {
+  font-size: 0.82rem;
+  color: var(--text-main);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 10px;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.card-notes strong, .card-cast strong {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--bright-red);
+  letter-spacing: 1px;
+}
+
+/* --- Status Badges --- */
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.badge-format {
+  background: #1f1f28;
+  color: #a0a5b5;
+  border: 1px solid #333444;
+}
+
+.badge-video, .badge-video---audio {
+  background: var(--badge-video);
+  color: #ff9999;
+  border: 1px solid #661111;
+}
+
+.badge-audio {
+  background: var(--badge-audio);
+  color: #99ccff;
+  border: 1px solid #114466;
+}
+
+.nft-active {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--bright-red);
+  font-weight: bold;
+}
+
+.nft-passed {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #4cd964;
+}
+
+/* --- Card Actions / Buttons --- */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.card-actions button {
+  flex: 1;
+  padding: 8px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  border: 1px solid #3a1515;
+  background: #180808;
+  color: var(--text-main);
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.card-actions button:hover {
+  background: var(--accent-red);
+  color: #ffffff;
+  border-color: var(--bright-red);
+}
+
+.card-actions button.in-cart {
+  background: #2a0808;
+  color: var(--bright-red);
+  border-color: var(--bright-red);
+}
+
+.card-actions button.copied {
+  background: #0f2b14;
+  color: #4cd964;
+  border-color: #4cd964;
+}
+
+/* --- Evidence Drawer (Cart Overlay) --- */
+#trade-drawer {
+  position: fixed;
+  top: 0;
+  right: -420px;
+  width: 380px;
+  height: 100%;
+  background: #0d0d11;
+  border-left: 2px solid var(--accent-red);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#trade-drawer.open {
+  right: 0;
+}
+
+#drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(2px);
+  z-index: 999;
+  display: none;
+}
+
+#drawer-overlay.open {
+  display: block;
+}
+
+.cart-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #14141a;
+  border: 1px solid #22222d;
+  margin-bottom: 8px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+}
+
+.cart-item-details strong {
+  display: block;
+  color: #fff;
+}
+
+.cart-item-details span {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.remove-cart-item {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 6px;
+}
+
+.remove-cart-item:hover {
+  color: var(--bright-red);
+}
+
+/* --- Scroll To Top Button --- */
+#scroll-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #180808;
+  color: var(--bright-red);
+  border: 1px solid var(--accent-red);
+  padding: 10px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-radius: 3px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  z-index: 900;
+}
+
+#scroll-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#scroll-top-btn:hover {
+  background: var(--accent-red);
+  color: #fff;
+}
