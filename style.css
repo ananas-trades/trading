@@ -939,18 +939,20 @@ body.analog-horror-mode {
   100% { opacity: 1; }
 }
 
-/* --- VHS CASSETTE CARD TRANSFORMATION --- */
+/* ============================================================
+   REALISTIC PHYSICAL VHS CASSETTE DESIGN
+   ============================================================ */
+
 body.analog-horror-mode .item-card {
   perspective: 1000px;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
-  height: 280px; /* Fixed height for 3D flip ratio */
+  height: 320px;
   cursor: pointer;
 }
 
-/* Inner 3D Container */
 body.analog-horror-mode .vhs-inner {
   position: relative;
   width: 100%;
@@ -959,85 +961,108 @@ body.analog-horror-mode .vhs-inner {
   transform-style: preserve-3d;
 }
 
-/* Flip state on double click */
 body.analog-horror-mode .item-card.vhs-flipped .vhs-inner {
   transform: rotateY(180deg);
 }
 
-/* Common VHS Face Styling */
+/* Base Plastic Cassette Casing */
 body.analog-horror-mode .vhs-front,
 body.analog-horror-mode .vhs-back {
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  background: #0a0a0c !important;
-  border: 3px solid #1a1a1a !important;
-  border-radius: 6px;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.25), inset 0 0 12px #000;
+  /* Dark textured plastic look */
+  background: 
+    radial-gradient(circle at 50% 50%, #151518 0%, #09090b 100%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px) !important;
+  border: 4px solid #1c1c20 !important;
+  border-radius: 8px;
+  box-shadow: inset 0 0 10px #000, 0 8px 20px rgba(0,0,0,0.9), 0 0 15px rgba(255,0,0,0.15);
   box-sizing: border-box;
-  padding: 15px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow: hidden;
 }
 
-/* Front VHS Label Side */
-body.analog-horror-mode .vhs-front {
-  background: radial-gradient(circle at 10% 10%, #1c0a0d, #080304) !important;
-}
-
+/* Front VHS Top Grip Ridges */
 body.analog-horror-mode .vhs-front::before {
-  content: "T-120 VHS CASSETTE";
-  font-family: 'Courier New', monospace;
-  font-size: 0.65rem;
-  color: #ff3333;
-  letter-spacing: 2px;
-  border-bottom: 1px dashed #660000;
-  padding-bottom: 4px;
-}
-
-/* Back VHS Side (Personnel & Classified Notes) */
-body.analog-horror-mode .vhs-back {
-  background: #060203 !important;
-  border-color: #8b0000 !important;
-  transform: rotateY(180deg);
-  box-shadow: 0 0 25px rgba(255, 0, 0, 0.4), inset 0 0 15px rgba(139, 0, 0, 0.8);
-}
-
-body.analog-horror-mode .item-card:hover .vhs-front {
-  border-color: #ff3333 !important;
-  box-shadow: 0 0 25px rgba(255, 51, 51, 0.4), inset 0 0 15px rgba(139, 0, 0, 0.6) !important;
-}
-
-/* Spine details on VHS tape */
-.vhs-sticker {
-  background: #d8c3a5;
-  color: #1a0505;
-  padding: 8px 12px;
+  content: "";
+  display: block;
+  height: 8px;
+  width: 100%;
+  background: repeating-linear-gradient(90deg, #111, #111 4px, #25252a 4px, #25252a 8px);
   border-radius: 2px;
+  box-shadow: inset 0 1px 2px #000;
+}
+
+/* Dual Spool Windows (The iconic VHS look) */
+.vhs-spools-window {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #000;
+  border: 2px solid #222;
+  border-radius: 6px;
+  padding: 8px;
+  margin: 6px 0;
+  box-shadow: inset 0 0 8px #000;
+}
+
+.vhs-spool {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 15%, #222 20%, #111 60%, #660000 70%, #000 100%);
+  border: 2px dashed #444;
+  box-shadow: 0 0 4px #000;
+  animation: spoolSpin 20s linear infinite;
+}
+
+@keyframes spoolSpin {
+  100% { transform: rotate(360deg); }
+}
+
+/* Paper Sticker Label */
+.vhs-sticker {
+  background: #ded1bd !important;
+  color: #111 !important;
   font-family: 'Courier New', monospace;
   font-weight: bold;
-  border-left: 4px solid #ff0000;
-  box-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+  padding: 8px 10px;
+  border-left: 6px solid #8b0000;
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.3), 2px 2px 5px rgba(0,0,0,0.7);
+  border-radius: 2px;
 }
 
 .vhs-meta-text {
   font-family: 'Courier New', monospace;
-  font-size: 0.8rem;
-  color: #e6b8b8;
-  margin-top: 8px;
-  line-height: 1.4;
+  font-size: 0.78rem;
+  color: #d1b8b8;
+  margin-top: 4px;
 }
 
-.vhs-hint {
-  font-size: 0.65rem;
-  color: #ff6666;
-  text-align: right;
-  letter-spacing: 1px;
+/* Back Face Styling */
+body.analog-horror-mode .vhs-back {
+  transform: rotateY(180deg);
+  background: #080304 !important;
+  border-color: #4a0d0d !important;
+  box-shadow: inset 0 0 15px rgba(139, 0, 0, 0.5), 0 0 20px rgba(255, 0, 0, 0.3);
 }
 
+.vhs-screw {
+  width: 6px;
+  height: 6px;
+  background: #333;
+  border-radius: 50%;
+  border: 1px solid #111;
+  position: absolute;
+}
+.vhs-screw.top-l { top: 6px; left: 6px; }
+.vhs-screw.top-r { top: 6px; right: 6px; }
+.vhs-screw.bot-l { bottom: 6px; left: 6px; }
+.vhs-screw.bot-r { bottom: 6px; right: 6px; }
 /* --- CREEPY EYES --- */
 #horror-eyes-container {
   position: fixed;
