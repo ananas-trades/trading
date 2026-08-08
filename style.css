@@ -1233,3 +1233,61 @@ body {
   background: var(--accent-red);
   color: #fff;
 }
+/* --- EASTER EGG CORRUPTION & MODAL STYLES --- */
+body.system-corrupted {
+  animation: glitchDistortion 0.1s infinite !important;
+  filter: contrast(150%) hue-rotate(90deg) invert(10%) !important;
+}
+
+@keyframes glitchDistortion {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+  100% { transform: translate(0); }
+}
+
+#easter-egg-modal .egg-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(10, 0, 0, 0.9);
+  backdrop-filter: blur(8px);
+  z-index: 3000;
+  display: flex; justify-content: center; align-items: center;
+}
+
+#easter-egg-modal .egg-content {
+  background: #110204;
+  border: 2px solid #ff3333;
+  box-shadow: 0 0 40px rgba(255, 51, 51, 0.6);
+  width: 90%; max-width: 500px;
+  color: #ffcccc; font-family: 'Courier New', monospace;
+  border-radius: 4px; overflow: hidden;
+}
+
+#easter-egg-modal .egg-header {
+  background: #330000;
+  padding: 10px 15px;
+  display: flex; justify-content: space-between; align-items: center;
+  color: #ff3333; font-weight: bold; font-size: 0.85rem;
+  border-bottom: 1px solid #660000;
+}
+
+#easter-egg-modal .egg-header button {
+  background: none; border: none; color: #ff3333; font-size: 1.4rem; cursor: pointer;
+}
+
+#easter-egg-modal .egg-body { padding: 20px; text-align: center; }
+
+.classified-quote { color: #888; font-size: 0.85rem; margin: 15px 0; }
+
+.declassify-all-btn {
+  background: #ff3333; color: #000; font-weight: bold;
+  border: none; padding: 10px 15px; margin-top: 15px;
+  font-family: 'Courier New', monospace; cursor: pointer;
+  border-radius: 3px; box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+  transition: all 0.2s ease;
+}
+
+.declassify-all-btn:hover { background: #ffffff; color: #8b0000; }
