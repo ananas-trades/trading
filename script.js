@@ -175,7 +175,7 @@ function setupIntersectionObserver() {
     }
   }, {
     root: null,
-    rootMargin: "400px", // Pre-loads next batch 400px before user reaches bottom
+    rootMargin: "400px",
     threshold: 0.1
   });
 
@@ -223,7 +223,7 @@ function applyFiltersAndRender() {
   displayedCount = 0;
 
   if (currentFilteredItems.length > 0) {
-    appendNextBatch(30); // Initial fast view batch
+    appendNextBatch(30);
   }
 }
 
@@ -246,12 +246,14 @@ function appendNextBatch(count = BATCH_SIZE) {
     const format = getFormat(item);
     const sizeVal = getFileSize(item);
 
-    // Dynamic format badge logic (prevents repeating file sizes)
-    let displayFormatStr = format;
-    if (sizeVal) {
-      if (!format.toUpperCase().includes(sizeVal.toUpperCase())) {
-        displayFormatStr = format ? `${format} [${sizeVal}]` : sizeVal;
-      }
+    // Dynamic format badge display logic
+    let displayFormatStr = "";
+    if (format && sizeVal) {
+      displayFormatStr = `${format} [${sizeVal}]`;
+    } else if (format) {
+      displayFormatStr = format;
+    } else if (sizeVal) {
+      displayFormatStr = sizeVal;
     }
 
     const tour = getValByName(item, "Tour", "Location", "City");
@@ -365,7 +367,8 @@ function closeDrawer() {
 }
 
 function getItemKey(item) {
-  return `${getValByName(item, "Show")}|${getValByName(item, "Date")}|${getValByName(item, "Master")}|${getFormat(item)}`.toLowerCase();
+  const fmt = getFormat(item) || getFileSize(item) || getMediaType(item);
+  return `${getValByName(item, "Show")}|${getValByName(item, "Date")}|${getValByName(item, "Master")}|${fmt}`.toLowerCase();
 }
 
 function isInCart(item) {
@@ -410,12 +413,16 @@ function toggleCartItem(item, buttonEl) {
       if (!proceed) return;
     }
 
+    const fmt = getFormat(item);
+    const sz = getFileSize(item);
+    let displayFmt = (fmt && sz) ? `${fmt} [${sz}]` : (fmt || sz || getMediaType(item));
+
     tradeCart.push({
       key: key,
       show: getValByName(item, "Show") || "Unknown Show",
       date: getValByName(item, "Date") || "Unknown Date",
       type: getMediaType(item),
-      format: getFormat(item) || getMediaType(item),
+      format: displayFmt,
       tour: getValByName(item, "Tour", "Location", "City"),
       venue: getValByName(item, "Venue", "Theater", "Theatre"),
       master: getValByName(item, "Master")
@@ -535,48 +542,71 @@ function getValByName(item, ...names) {
 }
 
 function getFileSize(item) {
-  // 1. Check "File Size" first
-  let explicitSize = getValByName(item, "File Size", "Size", "Filesize");
-  if (explicitSize && /\d+(\.\d+)?\s*(gb|mb|kb|tb)/i.test(explicitSize)) {
-    const match = explicitSize.match(/\d+(\.\d+)?\s*(gb|mb|kb|tb)/i);
-    return match ? match[0].toUpperCase() : explicitSize.toUpperCase();
+  if (!item) return "";
+
+  // 1. Check primary size fields
+  const sizeFields = ["File Size", "Size", "Filesize"];
+  for (const f of sizeFields) {
+    const val = getValByName(item, f);
+    if (val) {
+      const match = val.match(/\b\d+(\.\d+)?\s*(gb|mb|kb|tb)\b/i);
+      if (match) return match[0].toUpperCase();
+    }
   }
 
-  // 2. Fallback: Check "Trader Format" for a file size
-  let traderFormat = getValByName(item, "Trader Format");
-  if (traderFormat) {
-    const match = traderFormat.match(/\d+(\.\d+)?\s*(gb|mb|kb|tb)/i);
-    if (match) return match[0].toUpperCase();
-  }
-
-  // 3. Fallback: Check "Release Format" for a file size
-  let releaseFormat = getValByName(item, "Release Format");
-  if (releaseFormat) {
-    const match = releaseFormat.match(/\d+(\.\d+)?\s*(gb|mb|kb|tb)/i);
-    if (match) return match[0].toUpperCase();
+  // 2. Fallback: Scan ALL column values in this item for a size string like "6.45 GB"
+  for (const key in item) {
+    const val = item[key];
+    if (typeof val === 'string' && val) {
+      const match = val.match(/\b\d+(\.\d+)?\s*(gb|mb|kb|tb)\b/i);
+      if (match) return match[0].toUpperCase();
+    }
   }
 
   return "";
 }
 
 function getFormat(item) {
-  // Check fields in fallback order: Trader Format -> Release Format -> Format
-  let rawFormat = getValByName(item, "Trader Format") || 
-                  getValByName(item, "Release Format") || 
-                  getValByName(item, "Format");
+  if (!item) return "";
+
+  // 1. Priority search across format columns
+  const candidateKeys = [
+    "Trader Format", "Release Format", "File Format", 
+    "Media Format", "Format", "Container", "Extension", 
+    "Video Format", "Audio Format"
+  ];
+
+  let rawFormat = candidateKeys.map(k => getValByName(item, k)).find(v => Boolean(v)) || "";
+
+  // 2. Deep Fallback: If no format found in known columns, scan all fields for media extension keywords
+  if (!rawFormat) {
+    const formatRegex = /\b(vob|mp4|mkv|mov|avi|iso|mp3|m4a|flac|wav|ts|m2ts|wmv|mpg|mpeg|tracked|untracked)\b/i;
+    for (const key in item) {
+      const val = item[key];
+      if (typeof val === 'string' && formatRegex.test(val)) {
+        const match = val.match(formatRegex);
+        if (match) {
+          rawFormat = match[0].toUpperCase();
+          break;
+        }
+      }
+    }
+  }
 
   if (!rawFormat) return "";
 
-  // If the raw format string is ONLY a size (e.g. "12.18 GB"), suppress it
-  if (/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(rawFormat.trim())) {
-    return "";
-  }
+  // 3. Strip out sizes (e.g. "6.45 GB")
+  let cleaned = rawFormat.replace(/\b\d+(\.\d+)?\s*(gb|mb|kb|tb)\b/gi, "");
 
-  // Clean out redundant size tags inside parentheses like "(12.18 GB, 4K)" -> "(4K)"
-  let cleaned = rawFormat.replace(/\(\s*\d+(\.\d+)?\s*(gb|mb|kb|tb)\s*,?\s*/gi, '(')
-                         .replace(/,?\s*\d+(\.\d+)?\s*(gb|mb|kb|tb)\s*\)/gi, ')')
-                         .replace(/\(\s*\)/g, '')
-                         .trim();
+  // 4. Strip out pure generic words "video" or "audio" (case insensitive)
+  cleaned = cleaned.replace(/\b(video|audio|both|mixed)\b/gi, "");
+
+  // 5. Clean up remaining symbols and whitespace
+  cleaned = cleaned
+    .replace(/[\(\[\{\)\]\}]/g, " ")  // Remove parentheses/brackets
+    .replace(/[-–—/,\.\:]+/g, " ")    // Replace punctuation separators
+    .replace(/\s+/g, " ")            // Collapse multi-spaces
+    .trim();
 
   return cleaned;
 }
@@ -584,10 +614,16 @@ function getFormat(item) {
 function getMediaType(item) {
   const audioVideo = getValByName(item, "Audio / Video", "Audio/Video").toLowerCase();
   const typeRaw = getValByName(item, "Type").toLowerCase();
-  const formatRaw = getFormat(item).toLowerCase();
+  
+  // Look at raw format or notes before cleaning for media clues
+  const rawFmt = (
+    getValByName(item, "Trader Format") + " " + 
+    getValByName(item, "Release Format") + " " + 
+    getValByName(item, "Format")
+  ).toLowerCase();
 
-  const isAudio = audioVideo.includes("audio") || typeRaw.includes("audio") || formatRaw.match(/audio|mp3|m4a|wav|flac|tracked|cd/);
-  const isVideo = audioVideo.includes("video") || typeRaw.includes("video") || formatRaw.match(/video|mp4|vob|mov|mkv|avi/);
+  const isAudio = audioVideo.includes("audio") || typeRaw.includes("audio") || rawFmt.match(/\b(audio|mp3|m4a|wav|flac|tracked|cd)\b/);
+  const isVideo = audioVideo.includes("video") || typeRaw.includes("video") || rawFmt.match(/\b(video|mp4|vob|mov|mkv|avi|iso)\b/);
 
   if (audioVideo.includes("both") || audioVideo.includes("mixed") || audioVideo.includes("&") || audioVideo.includes("/") || (isAudio && isVideo)) {
     return "VIDEO / AUDIO";
@@ -637,11 +673,14 @@ function copySingleItemSummary(item, buttonElement) {
   const tour = getValByName(item, "Tour", "Location", "City");
   const venue = getValByName(item, "Venue", "Theater", "Theatre");
   const master = getValByName(item, "Master") || "Unknown Master";
-  const format = getFormat(item) || getMediaType(item);
+  
+  const fmt = getFormat(item);
+  const sz = getFileSize(item);
+  const formatStr = (fmt && sz) ? `${fmt} [${sz}]` : (fmt || sz || getMediaType(item));
 
   const location = [tour, venue].filter(Boolean).join(" - ");
 
-  let text = `${show} - ${date} (${format})`;
+  let text = `${show} - ${date} (${formatStr})`;
   if (location) text += ` | ${location}`;
   if (master) text += ` | Master: ${master}`;
 
