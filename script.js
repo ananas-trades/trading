@@ -1,7 +1,3 @@
-/* ============================================================
-   EVIDENCE FILE ENGINE v3.0 [CLASSIFIED PROJECT ARCHIVE]
-   ============================================================ */
-
 let allData = [];
 let currentFilteredItems = [];
 let currentFilter = 'all';
@@ -10,52 +6,16 @@ let searchTimeout = null;
 let currentRenderToken = 0;
 
 // Pagination configuration
-const BATCH_SIZE = 25;
+const BATCH_SIZE = 20;
 let displayedCount = 0;
 let observer = null;
 
-// LocalStorage Case File / Trade Cart State
+// LocalStorage Trade Cart State
 const STORAGE_KEY = "bootleg_trade_cart";
 let tradeCart = loadCartFromStorage();
 
-// Audio Synthesizer Engine (No external sound files required)
-const SecurityAudio = {
-  ctx: null,
-  init() {
-    if (!this.ctx) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) this.ctx = new AudioCtx();
-    }
-  },
-  playBeep(freq = 440, type = 'sine', duration = 0.08) {
-    if (!this.ctx) return;
-    try {
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-      gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-      osc.start();
-      osc.stop(this.ctx.currentTime + duration);
-    } catch (e) {}
-  },
-  click() { this.playBeep(800, 'square', 0.03); },
-  alert() { this.playBeep(180, 'sawtooth', 0.25); },
-  success() { 
-    this.playBeep(523.25, 'sine', 0.08); 
-    setTimeout(() => this.playBeep(659.25, 'sine', 0.12), 80);
-  }
-};
-
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
-  injectDynamicThreatBanner();
-
-  // Initialize audio context on first human interaction
-  document.addEventListener("click", () => SecurityAudio.init(), { once: true });
 
   Papa.parse("./list.csv", {
     download: true,
@@ -66,9 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return header.replace(/[\ufeff\u200b\r\n]/g, '').trim();
     },
     complete: function(results) {
-      // Index records with encrypted case metadata tags
-      allData = results.data.map((item, index) => {
-        item._caseID = `CASE-${(index + 101).toString(16).toUpperCase()}`;
+      // Pre-index searchable text for fast low-memory filtering
+      allData = results.data.map(item => {
         item._searchIndex = `${getValByName(item, "Show")} ${getValByName(item, "Date")} ${getValByName(item, "Cast")} ${getValByName(item, "Master")} ${getValByName(item, "Tour", "Location")} ${getValByName(item, "Venue")}`.toLowerCase();
         return item;
       });
@@ -77,49 +36,21 @@ document.addEventListener("DOMContentLoaded", () => {
       updateCartUI();
     },
     error: function(err) {
-      const stats = document.getElementById('stats');
-      if (stats) stats.innerText = "[CRITICAL SYSTEM ERROR]: DATA FILE 'list.csv' NOT FOUND OR CORRUPTED.";
+      document.getElementById('stats').innerText = "Upload your 'list.csv' file to display your collection!";
     }
   });
 
-  // --- SECRET EASTER EGG: Double-Click Header / Emoji ---
-  const headerTitle = document.querySelector("h1, .header-title, header");
-  if (headerTitle) {
-    headerTitle.addEventListener("dblclick", () => {
-      if (typeof SecurityAudio !== "undefined") {
-        SecurityAudio.alert();
-        setTimeout(() => SecurityAudio.alert(), 150);
-      }
-
-      // Visual Glitch Distortion
-      document.body.classList.add("system-corrupted");
-
-      // Show Terminal Override Modal
-      showEasterEggModal();
-
-      // Clear glitch effect after 2 seconds
-      setTimeout(() => {
-        document.body.classList.remove("system-corrupted");
-      }, 2000);
-    });
-  }
-
-  // Debounced Search Input Event with Glitch Feedback
-  const searchInput = document.getElementById("search-input");
-  if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
-        SecurityAudio.click();
-        applyFiltersAndRender();
-      }, 120);
-    });
-  }
+  // Debounced Search Input Event
+  document.getElementById("search-input").addEventListener("input", () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      applyFiltersAndRender();
+    }, 100);
+  });
 
   // Format Filter Listeners
   document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
-      SecurityAudio.click();
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
       currentFilter = e.target.getAttribute("data-filter");
@@ -130,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Category Filter Listeners
   document.querySelectorAll(".cat-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
-      SecurityAudio.click();
       document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
       e.target.classList.add("active");
       currentCategory = e.target.getAttribute("data-category");
@@ -138,18 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Event Delegation for Cards (Click to Declassify Redactions & Actions)
+  // Event Delegation for Card Actions
   const cardContainer = document.getElementById("card-container");
   if (cardContainer) {
     cardContainer.addEventListener("click", (e) => {
-      // Interactive Classified Redactions
-      const redactedEl = e.target.closest(".classified-redacted");
-      if (redactedEl) {
-        SecurityAudio.click();
-        redactedEl.classList.toggle("revealed");
-        return;
-      }
-
       const addBtn = e.target.closest(".add-cart-btn");
       const copyBtn = e.target.closest(".copy-card-btn");
 
@@ -177,25 +99,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
 
     scrollTopBtn.addEventListener("click", () => {
-      SecurityAudio.click();
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 
-  // Evidence Locker (Cart Drawer) Events
+  // Cart Drawer Events
   const overlay = document.getElementById("drawer-overlay");
   const cartToggleBtn = document.getElementById("cart-toggle-btn");
-  if (cartToggleBtn) cartToggleBtn.addEventListener("click", () => { SecurityAudio.click(); openDrawer(); });
+  if (cartToggleBtn) cartToggleBtn.addEventListener("click", openDrawer);
   
   const closeDrawerBtn = document.getElementById("close-drawer-btn");
-  if (closeDrawerBtn) closeDrawerBtn.addEventListener("click", () => { SecurityAudio.click(); closeDrawer(); });
+  if (closeDrawerBtn) closeDrawerBtn.addEventListener("click", closeDrawer);
   
   if (overlay) overlay.addEventListener("click", closeDrawer);
   
   const clearCartBtn = document.getElementById("clear-cart-btn");
   if (clearCartBtn) {
     clearCartBtn.addEventListener("click", () => {
-      SecurityAudio.alert();
       tradeCart = [];
       saveCartToStorage();
       updateCartUI();
@@ -206,20 +126,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const copyTradeBtn = document.getElementById("copy-trade-btn");
   if (copyTradeBtn) copyTradeBtn.addEventListener("click", copyTradeRequest);
 
-  // Secure Email Dispatch Handler
+  // Email Trade Handler
   const emailBtn = document.getElementById("email-trade-btn");
   if (emailBtn) {
     emailBtn.addEventListener("click", (e) => {
       e.preventDefault();
       if (!tradeCart.length) {
-        SecurityAudio.alert();
-        alert("⚠️ EVIDENCE DOSSIER EMPTY. Select items to initiate secure requisition.");
+        alert("Your trade request is empty! Add items to your list first.");
         return;
       }
 
-      SecurityAudio.success();
       const recipient = "tradingtreelost@gmail.com";
-      const subject = `EVIDENCE DOSSIER REQUEST (${tradeCart.length} FILE REQUISITIONS)`;
+      const subject = `Trade Request (${tradeCart.length} Items)`;
       const bodyText = generateFormattedText();
       
       const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
@@ -231,60 +149,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
       setTimeout(() => {
         const useGmail = confirm(
-          "📂 DOSSIER COPIED TO SECURE BUFFER!\n\n" +
-          "• Click 'OK' to dispatch via Web Terminal (Gmail).\n" +
-          "• Click 'Cancel' for Native Mail Client."
+          "📋 Request COPIED to clipboard!\n\n" +
+          "• Click 'OK' to open Gmail Web.\n" +
+          "• Click 'Cancel' for Default Mail App."
         );
         if (useGmail) window.open(gmailUrl, "_blank");
         else window.location.href = mailtoUrl;
-      }, 20);
+      }, 10);
     });
   }
 });
 
 /* ============================================================
-   EASTER EGG MODAL & SYSTEM OVERRIDE FUNCTIONS
-   ============================================================ */
-function showEasterEggModal() {
-  let eggModal = document.getElementById("easter-egg-modal");
-  if (!eggModal) {
-    eggModal = document.createElement("div");
-    eggModal.id = "easter-egg-modal";
-    document.body.appendChild(eggModal);
-  }
-
-  eggModal.innerHTML = `
-    <div class="egg-overlay" onclick="this.parentElement.remove()">
-      <div class="egg-content" onclick="event.stopPropagation()">
-        <div class="egg-header">
-          <span>⚠️ [UNAUTHORIZED TERMINAL OVERRIDE DETECTED]</span>
-          <button onclick="document.getElementById('easter-egg-modal').remove()">&times;</button>
-        </div>
-        <div class="egg-body">
-          <p class="glitch-text">OPERATIVE CLEARANCE ELEVATED TO: LEVEL 0 [BLACK SITE ACCESS]</p>
-          <hr style="border-color: #ff3333; margin: 15px 0;">
-          <p>You double-clicked the masks. You were never meant to access this layer.</p>
-          <p class="classified-quote"><em>"The archive remembers every recording. Nothing is truly lost, only hidden."</em></p>
-          <button class="declassify-all-btn" onclick="declassifyAllRedactions(); document.getElementById('easter-egg-modal').remove();">
-            🔓 OVERRIDE SYSTEM: DECLASSIFY ALL REDACTED FILES
-          </button>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function declassifyAllRedactions() {
-  if (typeof SecurityAudio !== "undefined") SecurityAudio.success();
-  document.querySelectorAll(".classified-redacted").forEach(el => {
-    el.classList.add("revealed");
-  });
-  alert("🚨 SECURITY OVERRIDE ACCEPTED: All redacted text declassified!");
-}
-
-/* ============================================================
    INTERSECTION OBSERVER (INFINITE SCROLL ENGINE)
-   ============================================================ */
+============================================================ */
 function setupIntersectionObserver() {
   const sentinel = document.getElementById("scroll-sentinel");
   if (!sentinel) return;
@@ -337,36 +215,22 @@ function applyFiltersAndRender() {
     return true;
   });
 
-  // Dynamic Terminal Status Output
-  const statsEl = document.getElementById('stats');
-  if (statsEl) {
-    statsEl.innerText = `[RECORD COUNT]: ${currentFilteredItems.length} / ${allData.length} FILES RETRIEVED`;
-  }
+  document.getElementById('stats').innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
 
   // 2. Clear Container and Render Initial Frame
   const container = document.getElementById("card-container");
-  if (container) {
-    container.innerHTML = "";
-    displayedCount = 0;
+  container.innerHTML = "";
+  displayedCount = 0;
 
-    if (currentFilteredItems.length > 0) {
-      appendNextBatch(30);
-    } else {
-      container.innerHTML = `
-        <div class="empty-archive-msg" style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: #7a1d1d; border: 1px dashed #5a1010;">
-          <h3>[NO MATCHING DOSSIERS FOUND]</h3>
-          <p>Query matches no classified records in this archive level.</p>
-        </div>
-      `;
-    }
+  if (currentFilteredItems.length > 0) {
+    appendNextBatch(30);
   }
 }
 
 function appendNextBatch(count = BATCH_SIZE) {
   const container = document.getElementById("card-container");
-  if (!container) return;
-
   const nextSlice = currentFilteredItems.slice(displayedCount, displayedCount + count);
+
   if (nextSlice.length === 0) return;
 
   const fragment = document.createDocumentFragment();
@@ -374,7 +238,7 @@ function appendNextBatch(count = BATCH_SIZE) {
 
   tempContainer.innerHTML = nextSlice.map((item, i) => {
     const globalIndex = displayedCount + i;
-    const show = getValByName(item, "Show") || "UNNAMED INCIDENT";
+    const show = getValByName(item, "Show") || "Unknown Show";
     const date = getValByName(item, "Date");
     const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening");
     const showTime = matineeEve ? ` (${matineeEve})` : "";
@@ -382,6 +246,7 @@ function appendNextBatch(count = BATCH_SIZE) {
     const format = getFormat(item);
     const sizeVal = getFileSize(item);
 
+    // Dynamic format badge display logic
     let displayFormatStr = "";
     if (format && sizeVal) {
       displayFormatStr = `${format} [${sizeVal}]`;
@@ -419,26 +284,19 @@ function appendNextBatch(count = BATCH_SIZE) {
 
     if (nftForever) {
       isNFTActive = true;
-      nftBadgeHTML = `<br><span class="nft-active">⛔ SEALED PERMANENTLY (NFT FOREVER)</span>`;
+      nftBadgeHTML = `<br><span class="nft-active">⛔ NFT FOREVER</span>`;
     } else if (nftDateStr !== "") {
       if (isNftStillActive(nftDateStr)) {
         isNFTActive = true;
-        nftBadgeHTML = `<br><span class="nft-active">⛔ EMBARGOED UNTIL: ${nftDateStr}</span>`;
+        nftBadgeHTML = `<br><span class="nft-active">⛔ NFT UNTIL: ${nftDateStr}</span>`;
       } else {
         isNFTActive = false;
-        nftBadgeHTML = `<br><span class="nft-passed">✅ DECLASSIFIED (${nftDateStr})</span>`;
+        nftBadgeHTML = `<br><span class="nft-passed">✅ PAST NFT (${nftDateStr})</span>`;
       }
     }
 
     const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
     const itemInCart = isInCart(item);
-
-    // Apply interactive classified censorship to extra notes for thriller immersion
-    const applyRedaction = (text) => {
-      if (!text) return "";
-      return text.replace(/\b(kill|death|blood|murder|secret|private|leak|bootleg|unknown|lost|missing)\b/gi, 
-        '<span class="classified-redacted" title="Click to declassify">$1</span>');
-    };
 
     return `
       <div class="${cardClass}">
@@ -451,23 +309,22 @@ function appendNextBatch(count = BATCH_SIZE) {
         </div>
         
         <div class="card-meta">
-          <span style="font-size: 0.75rem; color: #6e2a2a; letter-spacing: 1px;">ID: ${item._caseID}</span><br>
-          ${date ? `📅 <strong>Date:</strong> ${date}${showTime}` : ''} 
-          ${locationParts ? `<br>📍 <strong>Location:</strong> ${locationParts}` : ''}
-          ${master ? `<br>🎥 <strong>Operative / Master:</strong> ${master}` : ''}
+          ${date ? `📅 ${date}${showTime}` : ''} 
+          ${locationParts ? `📍 ${locationParts}` : ''}
+          ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
           ${nftBadgeHTML}
         </div>
 
-        ${cast ? `<div class="card-cast"><strong>PERSONNEL / CAST:</strong> ${applyRedaction(cast)}</div>` : ''}
-        ${masterNotes ? `<div class="card-notes"><strong>OPERATIVE NOTES:</strong> ${applyRedaction(masterNotes)}</div>` : ''}
-        ${tradingNotes ? `<div class="card-notes"><strong>EXCHANGE CONDITIONS:</strong> ${applyRedaction(tradingNotes)}</div>` : ''}
-        ${myNotes ? `<div class="card-notes"><strong>ARCHIVIST REMARKS:</strong> ${applyRedaction(myNotes)}</div>` : ''}
+        ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
+        ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
+        ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
+        ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
 
         <div class="card-actions">
           <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${globalIndex}">
-            ${itemInCart ? '✓ Dossier Attached' : '+ Requisition File'}
+            ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
           </button>
-          <button type="button" class="copy-card-btn" data-index="${globalIndex}">📋 Copy Intelligence</button>
+          <button type="button" class="copy-card-btn" data-index="${globalIndex}">📋 Copy Info</button>
         </div>
       </div>
     `;
@@ -482,8 +339,8 @@ function appendNextBatch(count = BATCH_SIZE) {
 }
 
 /* ============================================================
-   LOCALSTORAGE CART & THRILLER HELPERS
-   ============================================================ */
+   LOCALSTORAGE CART & HELPERS
+============================================================ */
 function loadCartFromStorage() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
@@ -524,10 +381,9 @@ function toggleCartItem(item, buttonEl) {
   const existingIdx = tradeCart.findIndex(c => c.key === key);
 
   if (existingIdx > -1) {
-    SecurityAudio.alert();
     tradeCart.splice(existingIdx, 1);
     if (buttonEl) {
-      buttonEl.innerText = "+ Requisition File";
+      buttonEl.innerText = "+ Add to Trade";
       buttonEl.classList.remove("in-cart");
     }
   } else {
@@ -545,29 +401,26 @@ function toggleCartItem(item, buttonEl) {
     }
 
     if (isNFTActive) {
-      SecurityAudio.alert();
-      const showName = getValByName(item, "Show") || "This file";
-      const nftMsg = nftDateStr ? `ACTIVE EMBARGO UNTIL ${nftDateStr}` : "PERMANENT CLASSIFICATION";
+      const showName = getValByName(item, "Show") || "This item";
+      const nftMsg = nftDateStr ? `NFT restriction until ${nftDateStr}` : "NFT FOREVER (Not For Trade)";
       
       const proceed = confirm(
-        `⛔ SECURITY EMBARGO WARNING\n\n` +
-        `"${showName}" is restricted under [${nftMsg}].\n\n` +
-        `Attempting to add this to your dossier anyway?`
+        `⛔ RESTRICTED ITEM WARNING\n\n` +
+        `"${showName}" is currently under an active ${nftMsg}.\n\n` +
+        `Are you sure you want to add this to your trade request?`
       );
 
       if (!proceed) return;
     }
 
-    SecurityAudio.success();
     const fmt = getFormat(item);
     const sz = getFileSize(item);
     let displayFmt = (fmt && sz) ? `${fmt} [${sz}]` : (fmt || sz || getMediaType(item));
 
     tradeCart.push({
       key: key,
-      caseID: item._caseID || "FILE-RAW",
-      show: getValByName(item, "Show") || "UNNAMED INCIDENT",
-      date: getValByName(item, "Date") || "DATE UNKNOWN",
+      show: getValByName(item, "Show") || "Unknown Show",
+      date: getValByName(item, "Date") || "Unknown Date",
       type: getMediaType(item),
       format: displayFmt,
       tour: getValByName(item, "Tour", "Location", "City"),
@@ -576,7 +429,7 @@ function toggleCartItem(item, buttonEl) {
     });
 
     if (buttonEl) {
-      buttonEl.innerText = "✓ Dossier Attached";
+      buttonEl.innerText = "✓ In Request";
       buttonEl.classList.add("in-cart");
     }
   }
@@ -588,21 +441,21 @@ function toggleCartItem(item, buttonEl) {
 function generateFormattedText() {
   const itemsText = tradeCart.map((item, i) => {
     const location = [item.tour, item.venue].filter(Boolean).join(" - ");
-    let line = `${i + 1}. [${item.caseID}] ${item.show} - ${item.date} (${item.format})`;
+    let line = `${i + 1}. ${item.show} - ${item.date} (${item.format})`;
     if (location) line += ` | ${location}`;
     if (item.master) line += ` | Master: ${item.master}`;
     return line;
   }).join("\n");
 
   return [
-    "--- CLASSIFIED DOSSIER REQUISITION ---",
-    "ATTN: ARCHIVE CONTROLLER",
-    "I am requesting an evidence transfer for the following items:",
+    "Hi!",
+    "I would like to initiate a trade for the following items from your collection:",
     "",
     itemsText,
     "",
-    "SENDER DOSSIER / TRADE LINK: [INSERT YOUR LINK HERE]",
-    "--- END TRANSMISSION ---"
+    "My Trading List / Link: [INSERT YOUR LINK HERE]",
+    "",
+    "Thanks!"
   ].join("\n");
 }
 
@@ -620,7 +473,7 @@ function updateCartUI() {
   if (!container) return;
 
   if (tradeCart.length === 0) {
-    container.innerHTML = `<p class="empty-cart-msg">[EVIDENCE LOCKER EMPTY]: Select "+ Requisition File" on any record.</p>`;
+    container.innerHTML = `<p class="empty-cart-msg">No items added yet. Click "+ Add to Trade" on any item card!</p>`;
     if (videoCountEl) videoCountEl.innerText = "0";
     if (audioCountEl) audioCountEl.innerText = "0";
     return;
@@ -645,7 +498,6 @@ function updateCartUI() {
     `;
 
     cartCard.querySelector(".remove-cart-item").addEventListener("click", () => {
-      SecurityAudio.alert();
       tradeCart = tradeCart.filter(c => c.key !== item.key);
       saveCartToStorage();
       updateCartUI();
@@ -661,12 +513,11 @@ function updateCartUI() {
 
 function copyTradeRequest() {
   if (!tradeCart.length) return;
-  SecurityAudio.success();
   const text = generateFormattedText();
   navigator.clipboard.writeText(text).then(() => {
     const btn = document.getElementById("copy-trade-btn");
     if (btn) {
-      btn.innerText = "✅ Dossier Copied!";
+      btn.innerText = "✅ Copied Request!";
       setTimeout(() => { btn.innerText = "📋 Copy Request"; }, 2000);
     }
   });
@@ -693,6 +544,7 @@ function getValByName(item, ...names) {
 function getFileSize(item) {
   if (!item) return "";
 
+  // 1. Check primary size fields
   const sizeFields = ["File Size", "Size", "Filesize"];
   for (const f of sizeFields) {
     const val = getValByName(item, f);
@@ -702,6 +554,7 @@ function getFileSize(item) {
     }
   }
 
+  // 2. Fallback: Scan ALL column values in this item for a size string like "6.45 GB"
   for (const key in item) {
     const val = item[key];
     if (typeof val === 'string' && val) {
@@ -716,6 +569,7 @@ function getFileSize(item) {
 function getFormat(item) {
   if (!item) return "";
 
+  // 1. Priority search across format columns
   const candidateKeys = [
     "Trader Format", "Release Format", "File Format", 
     "Media Format", "Format", "Container", "Extension", 
@@ -724,6 +578,7 @@ function getFormat(item) {
 
   let rawFormat = candidateKeys.map(k => getValByName(item, k)).find(v => Boolean(v)) || "";
 
+  // 2. Deep Fallback: If no format found in known columns, scan all fields for media extension keywords
   if (!rawFormat) {
     const formatRegex = /\b(vob|mp4|mkv|mov|avi|iso|mp3|m4a|flac|wav|ts|m2ts|wmv|mpg|mpeg|tracked|untracked)\b/i;
     for (const key in item) {
@@ -740,12 +595,17 @@ function getFormat(item) {
 
   if (!rawFormat) return "";
 
+  // 3. Strip out sizes (e.g. "6.45 GB")
   let cleaned = rawFormat.replace(/\b\d+(\.\d+)?\s*(gb|mb|kb|tb)\b/gi, "");
+
+  // 4. Strip out pure generic words "video" or "audio" (case insensitive)
   cleaned = cleaned.replace(/\b(video|audio|both|mixed)\b/gi, "");
+
+  // 5. Clean up remaining symbols and whitespace
   cleaned = cleaned
-    .replace(/[\(\[\{\)\]\}]/g, " ")
-    .replace(/[-–—/,\.\:]+/g, " ")
-    .replace(/\s+/g, " ")
+    .replace(/[\(\[\{\)\]\}]/g, " ")  // Remove parentheses/brackets
+    .replace(/[-–—/,\.\:]+/g, " ")    // Replace punctuation separators
+    .replace(/\s+/g, " ")            // Collapse multi-spaces
     .trim();
 
   return cleaned;
@@ -755,6 +615,7 @@ function getMediaType(item) {
   const audioVideo = getValByName(item, "Audio / Video", "Audio/Video").toLowerCase();
   const typeRaw = getValByName(item, "Type").toLowerCase();
   
+  // Look at raw format or notes before cleaning for media clues
   const rawFmt = (
     getValByName(item, "Trader Format") + " " + 
     getValByName(item, "Release Format") + " " + 
@@ -807,12 +668,11 @@ function isNftStillActive(dateStr) {
 }
 
 function copySingleItemSummary(item, buttonElement) {
-  SecurityAudio.success();
-  const show = getValByName(item, "Show") || "UNNAMED INCIDENT";
-  const date = getValByName(item, "Date") || "UNKNOWN DATE";
+  const show = getValByName(item, "Show") || "Unknown Show";
+  const date = getValByName(item, "Date") || "Unknown Date";
   const tour = getValByName(item, "Tour", "Location", "City");
   const venue = getValByName(item, "Venue", "Theater", "Theatre");
-  const master = getValByName(item, "Master") || "UNIDENTIFIED OPERATIVE";
+  const master = getValByName(item, "Master") || "Unknown Master";
   
   const fmt = getFormat(item);
   const sz = getFileSize(item);
@@ -820,13 +680,13 @@ function copySingleItemSummary(item, buttonElement) {
 
   const location = [tour, venue].filter(Boolean).join(" - ");
 
-  let text = `[${item._caseID || 'FILE'}] ${show} - ${date} (${formatStr})`;
+  let text = `${show} - ${date} (${formatStr})`;
   if (location) text += ` | ${location}`;
-  if (master) text += ` | Operative: ${master}`;
+  if (master) text += ` | Master: ${master}`;
 
   navigator.clipboard.writeText(text).then(() => {
     const originalText = buttonElement.innerText;
-    buttonElement.innerText = "✅ Extracted!";
+    buttonElement.innerText = "✅ Copied!";
     buttonElement.classList.add("copied");
 
     setTimeout(() => {
@@ -834,27 +694,4 @@ function copySingleItemSummary(item, buttonElement) {
       buttonElement.classList.remove("copied");
     }, 2000);
   });
-}
-
-function injectDynamicThreatBanner() {
-  if (document.getElementById("thriller-security-bar")) return;
-  const bar = document.createElement("div");
-  bar.id = "thriller-security-bar";
-  bar.style.cssText = `
-    background: #110305;
-    color: #ff3333;
-    font-family: 'Courier New', monospace;
-    font-size: 0.75rem;
-    padding: 6px 12px;
-    border-bottom: 1px solid #660d0d;
-    display: flex;
-    justify-content: space-between;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.8);
-  `;
-  bar.innerHTML = `
-    <span>🔒 SECURITY CLEARANCE: LEVEL 4 (INTERNAL USE ONLY)</span>
-    <span>TERMINAL STATUS: ACTIVE MONITORING</span>
-  `;
-  document.body.prepend(bar);
 }
