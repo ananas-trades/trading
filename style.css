@@ -925,7 +925,7 @@ html, body {
 }
 
 /* ============================================================
-   ANALOG HORROR VHS TAPE EASTER EGG (TEXTURE & VISIBILITY FIX)
+   ANALOG HORROR VHS TAPE EASTER EGG (AUTHENTIC PLASTIC TEXTURE)
 ============================================================ */
 
 body.analog-horror-mode {
@@ -950,12 +950,12 @@ body.analog-horror-mode .item-card {
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
-  height: 320px !important;
+  height: 330px !important;
   cursor: pointer;
   overflow: visible !important;
 }
 
-/* 3D Flip Card Container & Faces */
+/* 3D Flip Card Container */
 .vhs-inner {
   position: relative;
   width: 100%;
@@ -977,50 +977,110 @@ body.analog-horror-mode .item-card {
   -webkit-backface-visibility: hidden !important;
   backface-visibility: hidden !important;
   box-sizing: border-box !important;
-  padding: 14px !important;
-  border-radius: 8px !important;
+  padding: 16px !important;
+  border-radius: 6px !important;
 }
 
-/* Base Plastic Cassette Casing (Front Face) */
-body.analog-horror-mode .vhs-front {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+/* ==========================================
+   REALISTIC VHS PLASTIC CASSETTE BASE STYLE
+========================================== */
+body.analog-horror-mode .vhs-front,
+body.analog-horror-mode .vhs-back {
+  /* Matte charcoal plastic finish + fine molded ridges */
   background: 
-    radial-gradient(circle at 50% 50%, #151518 0%, #09090b 100%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px) !important;
-  border: 4px solid #1c1c20 !important;
-  box-shadow: inset 0 0 10px #000, 0 8px 20px rgba(0,0,0,0.9), 0 0 15px rgba(255,0,0,0.15);
-  transform: rotateY(0deg) translateZ(1px);
+    repeating-linear-gradient(
+      90deg, 
+      rgba(255, 255, 255, 0.015) 0px, 
+      rgba(255, 255, 255, 0.015) 1px, 
+      transparent 1px, 
+      transparent 3px
+    ),
+    radial-gradient(circle at 30% 20%, #2a2a30 0%, #151518 60%, #0d0d10 100%) !important;
+  
+  /* Molded bevel border with plastic seam line */
+  border: 5px solid #202025 !important;
+  outline: 1px solid #08080a !important;
+  border-radius: 6px !important;
+  
+  /* Outer drop shadow + heavy inset bevel to mimic thick plastic shell */
+  box-shadow: 
+    inset 2px 2px 4px rgba(255, 255, 255, 0.08),
+    inset -3px -3px 6px rgba(0, 0, 0, 0.9),
+    0 10px 25px rgba(0, 0, 0, 0.95),
+    0 0 12px rgba(255, 0, 0, 0.2) !important;
 }
 
-body.analog-horror-mode .vhs-front::before {
+/* Plastic Grip Top Ridge */
+body.analog-horror-mode .vhs-front::before,
+body.analog-horror-mode .vhs-back::before {
   content: "";
   display: block;
-  height: 8px;
+  height: 10px;
   width: 100%;
-  background: repeating-linear-gradient(90deg, #111, #111 4px, #25252a 4px, #25252a 8px);
+  background: repeating-linear-gradient(90deg, #111 0px, #111 5px, #2b2b32 5px, #2b2b32 10px);
   border-radius: 2px;
-  box-shadow: inset 0 1px 2px #000;
+  border-bottom: 1px solid #0a0a0c;
+  box-shadow: inset 0 2px 3px rgba(0,0,0,0.9);
+  margin-bottom: 8px;
 }
 
+/* Metallic Screws */
+.vhs-screw {
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #888 20%, #444 60%, #111 100%);
+  border-radius: 50%;
+  border: 1px solid #0a0a0a;
+  position: absolute;
+  z-index: 10;
+  box-shadow: inset 0 0 2px #000, 0 0 2px rgba(0,0,0,0.8);
+}
+.vhs-screw::after {
+  content: "+";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 7px;
+  color: #1a1a1a;
+  font-family: monospace;
+  font-weight: bold;
+  margin-top: -2px;
+}
+.vhs-screw.top-l { top: 8px; left: 8px; }
+.vhs-screw.top-r { top: 8px; right: 8px; }
+.vhs-screw.bot-l { bottom: 8px; left: 8px; }
+.vhs-screw.bot-r { bottom: 8px; right: 8px; }
+
+/* Front Paper Label Sticker */
+.vhs-sticker {
+  background: linear-gradient(180deg, #eae3d2 0%, #d6c8b0 100%) !important;
+  color: #111 !important;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  padding: 8px 10px;
+  border-left: 6px solid #8b0000;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.2), 2px 3px 6px rgba(0,0,0,0.7);
+  border-radius: 2px;
+}
+
+/* Tape Spools Window */
 .vhs-spools-window {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: #000;
-  border: 2px solid #222;
-  border-radius: 6px;
+  background: #050507;
+  border: 2px solid #282830;
+  border-radius: 4px;
   padding: 8px;
   margin: 6px 0;
-  box-shadow: inset 0 0 8px #000;
+  box-shadow: inset 0 0 10px #000;
 }
 
 .vhs-spool {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: radial-gradient(circle, #fff 15%, #222 20%, #111 60%, #660000 70%, #000 100%);
+  background: radial-gradient(circle, #fff 15%, #222 20%, #111 60%, #500000 70%, #000 100%);
   border: 2px dashed #444;
   box-shadow: 0 0 4px #000;
   animation: spoolSpin 20s linear infinite;
@@ -1030,25 +1090,9 @@ body.analog-horror-mode .vhs-front::before {
   100% { transform: rotate(360deg); }
 }
 
-.vhs-sticker {
-  background: #ded1bd !important;
-  color: #111 !important;
-  font-family: 'Courier New', monospace;
-  font-weight: bold;
-  padding: 8px 10px;
-  border-left: 6px solid #8b0000;
-  box-shadow: inset 0 0 4px rgba(0,0,0,0.3), 2px 2px 5px rgba(0,0,0,0.7);
-  border-radius: 2px;
-}
-
-.vhs-meta-text {
-  font-family: 'Courier New', monospace;
-  font-size: 0.78rem;
-  color: #d1b8b8;
-  margin-top: 4px;
-}
-
-/* Base Plastic Cassette Casing (Back Face Texture Restored) */
+/* ==========================================
+   BACK FACE - AUTHENTIC TAPE CASSETTE BACK
+========================================== */
 .vhs-back {
   transform: rotateY(180deg) translateZ(1px) !important;
 }
@@ -1058,36 +1102,23 @@ body.analog-horror-mode .vhs-back {
   flex-direction: column !important;
   justify-content: flex-start !important;
   align-items: stretch !important;
-  /* Authentic Dark VHS Grain & Texture */
-  background: 
-    radial-gradient(circle at 50% 50%, #1a080a 0%, #080203 100%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 2px) !important;
-  border: 4px solid #4a0d0d !important;
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.9), inset 0 0 8px rgba(139, 0, 0, 0.5), 0 8px 20px rgba(0,0,0,0.9) !important;
-  color: #f0c2c2 !important;
   overflow-y: auto !important;
   z-index: 5 !important;
 }
 
-/* Text & Content Elements Inside VHS Back */
-.vhs-back * {
-  visibility: visible !important;
-  opacity: 1 !important;
-}
-
+/* Recessed Inset Panel for Back Info */
 .vhs-back h3,
-.vhs-back h4,
 .vhs-back .card-title {
   display: block !important;
-  color: #ff4d4d !important;
+  color: #ff3333 !important;
   font-family: 'Courier New', monospace !important;
-  font-size: 1.05rem !important;
+  font-size: 1rem !important;
   font-weight: bold !important;
   text-transform: uppercase !important;
-  border-bottom: 1px dashed #8b0000 !important;
+  border-bottom: 2px solid #4a0d0d !important;
   padding-bottom: 4px !important;
   margin-bottom: 8px !important;
-  text-shadow: 0 0 6px rgba(255, 0, 0, 0.6) !important;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.7) !important;
 }
 
 .vhs-back p,
@@ -1097,34 +1128,21 @@ body.analog-horror-mode .vhs-back {
 .vhs-back .card-cast {
   display: block !important;
   font-family: 'Courier New', monospace !important;
-  font-size: 0.8rem !important;
-  color: #e6b8b8 !important;
-  line-height: 1.4 !important;
-  background: rgba(0, 0, 0, 0.65) !important;
-  padding: 6px 8px !important;
-  border-radius: 4px !important;
-  border-left: 2px solid #ff1a1a !important;
+  font-size: 0.78rem !important;
+  color: #f0aaaa !important;
+  line-height: 1.35 !important;
+  /* Dark inset window effect printed onto plastic back */
+  background: rgba(8, 8, 12, 0.85) !important;
+  padding: 8px 10px !important;
+  border-radius: 3px !important;
+  border: 1px solid #331015 !important;
+  border-left: 3px solid #cc1111 !important;
   margin-bottom: 8px !important;
   word-break: break-word !important;
-  box-shadow: inset 0 0 4px rgba(0,0,0,0.8);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.9);
 }
 
 .vhs-back strong {
   color: #ffffff !important;
-  text-shadow: 0 0 4px #ff0000 !important;
+  text-shadow: 0 0 3px #ff0000 !important;
 }
-
-/* Screws */
-.vhs-screw {
-  width: 6px;
-  height: 6px;
-  background: #333;
-  border-radius: 50%;
-  border: 1px solid #111;
-  position: absolute;
-  z-index: 10;
-}
-.vhs-screw.top-l { top: 6px; left: 6px; }
-.vhs-screw.top-r { top: 6px; right: 6px; }
-.vhs-screw.bot-l { bottom: 6px; left: 6px; }
-.vhs-screw.bot-r { bottom: 6px; right: 6px; }
