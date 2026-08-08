@@ -1369,3 +1369,19 @@ body.analog-horror-mode .vhs-back {
   color: #ffffff !important;
   text-shadow: 0 0 4px #ff0000 !important;
 }
+/* ============================================================
+   VHS STICKER TITLE CONTRAST FIX
+============================================================ */
+
+/* Force dark text inside the light-colored VHS sticker label */
+.vhs-sticker,
+.vhs-sticker *,
+body.analog-horror-mode .vhs-sticker,
+body.analog-horror-mode .vhs-sticker .card-title,
+body.analog-horror-mode .vhs-sticker h1,
+body.analog-horror-mode .vhs-sticker h2,
+body.analog-horror-mode .vhs-sticker h3 {
+  color: #111111 !important;
+  text-shadow: none !important;
+  font-weight: 800 !important;
+}
