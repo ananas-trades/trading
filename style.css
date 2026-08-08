@@ -919,18 +919,18 @@ h1 {
   scrollbar-color: #7000ff #0b0c10;
 }
 /* ============================================================
-   ANALOG HORROR EASTER EGG (ACTIVATED VIA MASK DOUBLE-CLICK)
+   ANALOG HORROR VHS TAPE EASTER EGG
    ============================================================ */
 
-/* Analog Horror CRT Theme Transformation */
+/* CRT Monitor Background & Glitch Effect */
 body.analog-horror-mode {
   background-color: #030102 !important;
   background-image: 
     radial-gradient(circle at 50% 50%, #120305 0%, #020001 80%),
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%) !important;
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%) !important;
   background-size: 100% 100%, 100% 4px !important;
   color: #c9a4a4 !important;
-  filter: contrast(125%) brightness(90%);
+  filter: contrast(120%) brightness(90%);
   animation: crtFlicker 0.15s infinite alternate;
 }
 
@@ -939,19 +939,106 @@ body.analog-horror-mode {
   100% { opacity: 1; }
 }
 
-/* Card overrides in Horror Mode */
+/* --- VHS CASSETTE CARD TRANSFORMATION --- */
 body.analog-horror-mode .item-card {
-  background: rgba(8, 2, 4, 0.9) !important;
-  border: 1px solid #660d0d !important;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 10px rgba(0, 0, 0, 0.9) !important;
+  perspective: 1000px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  height: 280px; /* Fixed height for 3D flip ratio */
+  cursor: pointer;
 }
 
-body.analog-horror-mode .item-card:hover {
-  border-color: #ff2222 !important;
-  box-shadow: 0 0 25px rgba(255, 34, 34, 0.5), inset 0 0 15px rgba(139, 0, 0, 0.6) !important;
+/* Inner 3D Container */
+body.analog-horror-mode .vhs-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
 }
 
-/* --- BIGGER & REALISTIC BACKGROUND EYES --- */
+/* Flip state on double click */
+body.analog-horror-mode .item-card.vhs-flipped .vhs-inner {
+  transform: rotateY(180deg);
+}
+
+/* Common VHS Face Styling */
+body.analog-horror-mode .vhs-front,
+body.analog-horror-mode .vhs-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: #0a0a0c !important;
+  border: 3px solid #1a1a1a !important;
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.25), inset 0 0 12px #000;
+  box-sizing: border-box;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+/* Front VHS Label Side */
+body.analog-horror-mode .vhs-front {
+  background: radial-gradient(circle at 10% 10%, #1c0a0d, #080304) !important;
+}
+
+body.analog-horror-mode .vhs-front::before {
+  content: "T-120 VHS CASSETTE";
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  color: #ff3333;
+  letter-spacing: 2px;
+  border-bottom: 1px dashed #660000;
+  padding-bottom: 4px;
+}
+
+/* Back VHS Side (Personnel & Classified Notes) */
+body.analog-horror-mode .vhs-back {
+  background: #060203 !important;
+  border-color: #8b0000 !important;
+  transform: rotateY(180deg);
+  box-shadow: 0 0 25px rgba(255, 0, 0, 0.4), inset 0 0 15px rgba(139, 0, 0, 0.8);
+}
+
+body.analog-horror-mode .item-card:hover .vhs-front {
+  border-color: #ff3333 !important;
+  box-shadow: 0 0 25px rgba(255, 51, 51, 0.4), inset 0 0 15px rgba(139, 0, 0, 0.6) !important;
+}
+
+/* Spine details on VHS tape */
+.vhs-sticker {
+  background: #d8c3a5;
+  color: #1a0505;
+  padding: 8px 12px;
+  border-radius: 2px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  border-left: 4px solid #ff0000;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
+
+.vhs-meta-text {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: #e6b8b8;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.vhs-hint {
+  font-size: 0.65rem;
+  color: #ff6666;
+  text-align: right;
+  letter-spacing: 1px;
+}
+
+/* --- CREEPY EYES --- */
 #horror-eyes-container {
   position: fixed;
   top: 0;
@@ -959,7 +1046,7 @@ body.analog-horror-mode .item-card:hover {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 9998; /* Below modals, above background */
+  z-index: 9998;
   overflow: hidden;
   display: none;
 }
@@ -971,13 +1058,12 @@ body.analog-horror-mode #horror-eyes-container {
 .horror-eye-pair {
   position: absolute;
   display: flex;
-  gap: 35px; /* Spacing between left and right eye */
+  gap: 35px;
   opacity: 0;
-  transition: opacity 1.2s ease-in-out, transform 0.8s ease;
+  transition: opacity 1.2s ease-in-out;
   filter: drop-shadow(0 0 15px #ff0000);
 }
 
-/* Doubled Eye Dimensions (48px x 26px) */
 .horror-eye {
   width: 48px;
   height: 26px;
@@ -988,7 +1074,6 @@ body.analog-horror-mode #horror-eyes-container {
   animation: eyeBlink 3.8s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Realistic Catchlight Glint */
 .horror-eye::before {
   content: '';
   position: absolute;
@@ -1001,7 +1086,6 @@ body.analog-horror-mode #horror-eyes-container {
   box-shadow: 0 0 4px #fff;
 }
 
-/* Slit Pupil / Vein detail */
 .horror-eye::after {
   content: '';
   position: absolute;
@@ -1018,11 +1102,9 @@ body.analog-horror-mode #horror-eyes-container {
   94% { transform: scaleY(0.04); }
 }
 
-.horror-eye-pair.visible {
-  opacity: 0.9;
-}
+.horror-eye-pair.visible { opacity: 0.9; }
 
-/* --- FIX CART POSITIONING --- */
+/* FIX CART POSITION */
 #cart-toggle-btn, .cart-toggle-btn, .trade-request-btn {
   position: fixed !important;
   bottom: 25px !important;
