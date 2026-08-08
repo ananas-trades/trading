@@ -764,12 +764,13 @@ function initAnalogHorrorEasterEgg() {
 
 function transformCardsToVHS() {
   const shellStyle = `
-    background: #1a1a1e !important;
-    border: 2px solid #383842 !important;
-    border-radius: 6px !important;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 4px 12px rgba(0,0,0,0.9) !important;
-    padding: 12px !important;
+    background: #222228 !important;
+    border: 2px solid #444450 !important;
+    border-radius: 8px !important;
+    box-shadow: inset 0 0 12px rgba(0,0,0,0.9), 0 6px 16px rgba(0, 0, 0, 0.8) !important;
+    padding: 14px !important;
     position: relative !important;
+    color: #e0e0e0 !important;
   `;
 
   document.querySelectorAll(".item-card").forEach(card => {
@@ -778,7 +779,10 @@ function transformCardsToVHS() {
     const title = card.querySelector(".card-title")?.innerHTML || "UNKNOWN RECORDING";
     const meta = card.querySelector(".card-meta")?.innerHTML || "";
     const cast = card.querySelector(".card-cast")?.innerHTML || "No personnel logged.";
-    const notes = card.querySelector(".card-notes")?.innerHTML || "";
+    
+    // Gather all card notes for full visibility on back
+    const notesEls = Array.from(card.querySelectorAll(".card-notes")).map(el => el.innerHTML);
+    const notesHTML = notesEls.length > 0 ? notesEls.join("<br>") : "";
     const actions = card.querySelector(".card-actions")?.innerHTML || "";
 
     card.innerHTML = `
@@ -790,15 +794,15 @@ function transformCardsToVHS() {
           <div class="vhs-sticker">${title}</div>
           
           <!-- Dual Tape Spools Window -->
-          <div class="vhs-spools-window" style="background: #0d0d0f; border: 1px solid #2a2a30; border-radius: 4px;">
+          <div class="vhs-spools-window" style="background: #0a0a0d; border: 1px solid #3a3a45; border-radius: 4px;">
             <div class="vhs-spool"></div>
-            <span style="font-size:0.6rem; color:#888; font-family:monospace; letter-spacing:1px;">T-120 VHS</span>
+            <span style="font-size:0.6rem; color:#aaa; font-family:monospace; letter-spacing:1px;">T-120 VHS</span>
             <div class="vhs-spool"></div>
           </div>
 
-          <div class="vhs-meta-text">${meta}</div>
-          <div class="vhs-actions" style="margin-top: 6px;">${actions}</div>
-          <div class="vhs-hint" style="font-size:0.6rem; color:#ff4444; text-align:right; margin-top:4px;">🔄 DBL-CLICK TO FLIP TAPE</div>
+          <div class="vhs-meta-text" style="color: #cccccc !important;">${meta}</div>
+          <div class="vhs-actions" style="margin-top: 8px;">${actions}</div>
+          <div class="vhs-hint" style="font-size:0.6rem; color:#ff5555; text-align:right; margin-top:6px; font-weight:bold;">🔄 DBL-CLICK TO FLIP TAPE</div>
           
           <div class="vhs-screw bot-l"></div><div class="vhs-screw bot-r"></div>
         </div>
@@ -807,13 +811,13 @@ function transformCardsToVHS() {
         <div class="vhs-back" style="${shellStyle}">
           <div class="vhs-screw top-l"></div><div class="vhs-screw top-r"></div>
           
-          <div>
-            <div style="font-size:0.7rem; color:#ff3333; font-weight:bold; letter-spacing:1px; margin-bottom:6px;">[TAPE CONTENTS & CAST LOG]</div>
-            <div class="vhs-meta-text">${cast}</div>
-            ${notes ? `<div class="vhs-meta-text" style="color:#aaa; margin-top:6px;">${notes}</div>` : ''}
+          <div style="width: 100%; color: #ffffff !important; text-align: left;">
+            <div style="font-size:0.75rem; color:#ff4444 !important; font-weight:bold; letter-spacing:1px; margin-bottom:8px; border-bottom: 1px dashed #444;">[TAPE CONTENTS & CAST LOG]</div>
+            <div class="vhs-meta-text" style="color: #e0e0e0 !important; font-size: 0.8rem; line-height: 1.3;">${cast}</div>
+            ${notesHTML ? `<div class="vhs-meta-text" style="color:#a0a0a0 !important; font-size: 0.75rem; margin-top:8px;">${notesHTML}</div>` : ''}
           </div>
           
-          <div class="vhs-hint" style="font-size:0.6rem; color:#ff4444; text-align:right; margin-top:auto;">🔄 DBL-CLICK TO RETURN</div>
+          <div class="vhs-hint" style="font-size:0.6rem; color:#ff5555; text-align:right; margin-top:auto; font-weight:bold; width: 100%;">🔄 DBL-CLICK TO RETURN</div>
           
           <div class="vhs-screw bot-l"></div><div class="vhs-screw bot-r"></div>
         </div>
@@ -828,7 +832,7 @@ function revertCardsFromVHS() {
   }
 }
 
-// Initializer block fixed below
+// Initializer execution
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initAnalogHorrorEasterEgg);
 } else {
