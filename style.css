@@ -919,111 +919,120 @@ h1 {
   scrollbar-color: #7000ff #0b0c10;
 }
 /* ==========================================
-   EASTER EGG: THRILLER / CRIME MODE
+   EASTER EGG: CRIME THRILLER MODE
    ========================================== */
 
-/* Horror CRT Screen Glitch & Flicker */
+/* Subtle Ambient Screen Glow (Doesn't affect card text) */
 @keyframes crtFlicker {
-  0% { opacity: 0.97; filter: brightness(1) contrast(1.1); }
-  10% { opacity: 0.85; filter: brightness(0.8) contrast(1.4); }
-  15% { opacity: 1; filter: brightness(1.2) contrast(1); }
-  25% { opacity: 0.9; }
-  50% { opacity: 0.98; filter: brightness(0.9); }
-  70% { opacity: 0.82; filter: brightness(0.7) contrast(1.8); }
-  85% { opacity: 1; filter: brightness(1.1); }
-  100% { opacity: 0.95; }
+  0% { opacity: 0.98; }
+  25% { opacity: 0.92; }
+  50% { opacity: 1; }
+  75% { opacity: 0.94; }
+  100% { opacity: 0.97; }
+}
+
+/* Creepy Eyeball Pulse */
+@keyframes eyeGlow {
+  0%, 100% { filter: drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 14px #8b0000); }
+  50% { filter: drop-shadow(0 0 12px #ff0000) drop-shadow(0 0 25px #ff0000); }
 }
 
 @keyframes eyeBlink {
   0%, 90%, 100% { transform: scaleY(1); opacity: 0.85; }
-  95% { transform: scaleY(0.05); opacity: 0.2; }
+  95% { transform: scaleY(0.05); opacity: 0.1; }
 }
 
-@keyframes eyeGlow {
-  0%, 100% { filter: drop-shadow(0 0 8px #ff0000) drop-shadow(0 0 18px #8b0000); }
-  50% { filter: drop-shadow(0 0 15px #ff0000) drop-shadow(0 0 30px #ff0000); }
-}
-
-/* Thriller Body Overlay */
+/* Thriller Body Background - Deep Crime Scene Vignette */
 body.thriller-mode {
-  background-color: #050203 !important;
-  color: #c8c3bc !important;
+  background-color: #030102 !important;
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(100, 0, 0, 0.25) 0%, rgba(5, 1, 2, 0.95) 75%),
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%) !important;
+  background-size: 100% 100%, 100% 4px !important;
+  color: #d1c7c7 !important;
   font-family: 'Courier New', Courier, monospace !important;
-  animation: crtFlicker 0.15s infinite alternate;
-  position: relative;
-  overflow-x: hidden;
+  animation: crtFlicker 0.2s infinite alternate;
 }
 
-/* CRT Scanline Effect Overlay */
+/* Red Vignette Glow around screen edges */
 body.thriller-mode::before {
   content: " ";
   display: block;
   position: fixed;
   top: 0; left: 0; bottom: 0; right: 0;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%), 
-              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-  z-index: 99999;
-  background-size: 100% 3px, 6px 100%;
+  box-shadow: inset 0 0 100px rgba(139, 0, 0, 0.5), inset 0 0 40px #000;
   pointer-events: none;
+  z-index: 99999;
 }
 
-/* Blood Red Title & Neon Headers */
+/* Headers & Titles - Crime Classified Red */
 body.thriller-mode h1, 
 body.thriller-mode h2, 
 body.thriller-mode .title-container {
-  color: #ff0b0b !important;
-  text-shadow: 0 0 7px #8b0000, 0 0 15px #ff0000, 2px 2px 0px #000 !important;
-  letter-spacing: 3px !important;
+  color: #ff1a1a !important;
+  text-shadow: 0 0 8px #8b0000, 0 0 20px rgba(255, 0, 0, 0.6) !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  letter-spacing: 2px !important;
+}
+
+/* Item Cards - Solid dark background with sharp contrast */
+body.thriller-mode .item-card,
+body.thriller-mode [class*="card"] {
+  background: #0a0506 !important; /* Deep solid black-red background so text pops */
+  border: 1px solid #7a0d0d !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.9), 0 0 8px rgba(139, 0, 0, 0.3) !important;
+  color: #e0d5d5 !important;
   font-family: 'Courier New', Courier, monospace !important;
 }
 
-/* Card Styling: Classified Crime File Aesthetic */
-body.thriller-mode .card, 
-body.thriller-mode [class*="card"] {
-  background: #0d0809 !important;
-  border: 1px solid #660000 !important;
-  box-shadow: 0 0 12px rgba(139, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
-  color: #bfaea8 !important;
+body.thriller-mode .item-card:hover {
+  border-color: #ff2222 !important;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5) !important;
 }
 
-body.thriller-mode .card:hover {
-  border-color: #ff0000 !important;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.7) !important;
+/* Ensure Card Titles and Text stay high contrast */
+body.thriller-mode .card-title {
+  color: #ffffff !important;
+  text-shadow: 0 0 4px #8b0000 !important;
 }
 
-/* Badges turned into Crime Case Tags */
-body.thriller-mode .badge, 
-body.thriller-mode [class*="badge"] {
-  background-color: #1a0003 !important;
-  color: #ff4d4d !important;
+body.thriller-mode .card-cast,
+body.thriller-mode .card-notes,
+body.thriller-mode .card-meta {
+  color: #c9bcbc !important;
+}
+
+/* Badges */
+body.thriller-mode .badge {
+  background-color: #1a0204 !important;
+  color: #ff5555 !important;
   border: 1px solid #8b0000 !important;
-  text-shadow: 0 0 5px #ff0000 !important;
 }
 
 /* Creepy Floating Eyes Container */
 .creepy-eyes-container {
   position: fixed;
-  top: 18%;
-  right: 5%;
-  width: 120px;
-  height: 40px;
+  top: 15%;
+  right: 4%;
+  width: 90px;
+  height: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 9999;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 1.5s ease-in-out;
+  transition: opacity 1.2s ease-in-out;
 }
 
 body.thriller-mode .creepy-eyes-container {
-  opacity: 0.9;
-  animation: eyeGlow 3s infinite alternate;
+  opacity: 0.95;
+  animation: eyeGlow 2.5s infinite alternate;
 }
 
 .creepy-eye {
-  width: 28px;
-  height: 14px;
+  width: 24px;
+  height: 12px;
   background-color: #000;
   border-radius: 50%;
   position: relative;
@@ -1031,14 +1040,14 @@ body.thriller-mode .creepy-eyes-container {
   justify-content: center;
   align-items: center;
   border: 1px solid #ff0000;
-  animation: eyeBlink 4s infinite;
+  animation: eyeBlink 3.5s infinite;
 }
 
 .creepy-eye::after {
   content: "";
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   background-color: #ff0000;
   border-radius: 50%;
-  box-shadow: 0 0 8px #ff0000, 0 0 12px #ffffff;
+  box-shadow: 0 0 6px #ff0000, 0 0 10px #ffffff;
 }
