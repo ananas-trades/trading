@@ -918,3 +918,93 @@ h1 {
   scrollbar-width: thin;
   scrollbar-color: #7000ff #0b0c10;
 }
+/* ============================================================
+   ANALOG HORROR EASTER EGG (ACTIVATED VIA MASK DOUBLE-CLICK)
+   ============================================================ */
+
+/* Analog Horror CRT Theme Transformation */
+body.analog-horror-mode {
+  background-color: #030102 !important;
+  background-image: 
+    radial-gradient(circle at 50% 50%, #120305 0%, #020001 80%),
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%) !important;
+  background-size: 100% 100%, 100% 4px !important;
+  color: #c9a4a4 !important;
+  filter: contrast(125%) brightness(90%);
+  animation: crtFlicker 0.15s infinite alternate;
+}
+
+@keyframes crtFlicker {
+  0% { opacity: 0.97; }
+  100% { opacity: 1; }
+}
+
+/* Card overrides in Horror Mode */
+body.analog-horror-mode .item-card {
+  background: rgba(8, 2, 4, 0.9) !important;
+  border: 1px solid #660d0d !important;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 10px rgba(0, 0, 0, 0.9) !important;
+}
+
+body.analog-horror-mode .item-card:hover {
+  border-color: #ff2222 !important;
+  box-shadow: 0 0 25px rgba(255, 34, 34, 0.5), inset 0 0 15px rgba(139, 0, 0, 0.6) !important;
+}
+
+/* Realistic Eye Containers in Margins */
+#horror-eyes-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+  display: none;
+}
+
+body.analog-horror-mode #horror-eyes-container {
+  display: block;
+}
+
+.horror-eye-pair {
+  position: absolute;
+  display: flex;
+  gap: 22px;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out, transform 0.8s ease;
+  filter: drop-shadow(0 0 12px #ff0000);
+}
+
+/* Realistic Eye Pupil & Sclera Design */
+.horror-eye {
+  width: 22px;
+  height: 12px;
+  background: radial-gradient(circle at 50% 50%, #000 25%, #800000 35%, #ff0000 55%, #1a0000 85%, #fff 100%);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.8), inset 0 0 4px #000;
+  animation: eyeBlink 3.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.horror-eye::before {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 8px;
+  width: 3px;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 2px #fff;
+}
+
+@keyframes eyeBlink {
+  0%, 88%, 100% { transform: scaleY(1); }
+  94% { transform: scaleY(0.05); }
+}
+
+.horror-eye-pair.visible {
+  opacity: 0.85;
+}
