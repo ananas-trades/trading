@@ -535,27 +535,38 @@ function getValByName(item, ...names) {
 }
 
 function getFileSize(item) {
-  // Check exact File Size header first
-  const explicitSize = getValByName(item, "File Size", "Size", "Filesize");
+  // 1. Check "File Size" first
+  let explicitSize = getValByName(item, "File Size", "Size", "Filesize");
   if (explicitSize && /\d+(\.\d+)?\s*(gb|mb|kb|tb)/i.test(explicitSize)) {
     const match = explicitSize.match(/\d+(\.\d+)?\s*(gb|mb|kb|tb)/i);
-    return match ? match[0].toUpperCase() : explicitSize;
+    return match ? match[0].toUpperCase() : explicitSize.toUpperCase();
   }
 
-  // Fallback check in other keys if needed
-  for (const [key, val] of Object.entries(item)) {
-    if (key.startsWith("_")) continue;
-    const strVal = val ? val.toString().trim() : "";
-    if (/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(strVal)) {
-      return strVal.toUpperCase();
-    }
+  // 2. Fallback: Check "Trader Format" for a file size
+  let traderFormat = getValByName(item, "Trader Format");
+  if (traderFormat) {
+    const match = traderFormat.match(/\d+(\.\d+)?\s*(gb|mb|kb|tb)/i);
+    if (match) return match[0].toUpperCase();
   }
+
+  // 3. Fallback: Check "Release Format" for a file size
+  let releaseFormat = getValByName(item, "Release Format");
+  if (releaseFormat) {
+    const match = releaseFormat.match(/\d+(\.\d+)?\s*(gb|mb|kb|tb)/i);
+    if (match) return match[0].toUpperCase();
+  }
+
   return "";
 }
 
 function getFormat(item) {
-  let rawFormat = getValByName(item, "Trader Format") || getValByName(item, "Format") || getValByName(item, "Release Format");
-  
+  // Check fields in fallback order: Trader Format -> Release Format -> Format
+  let rawFormat = getValByName(item, "Trader Format") || 
+                  getValByName(item, "Release Format") || 
+                  getValByName(item, "Format");
+
+  if (!rawFormat) return "";
+
   // If the raw format string is ONLY a size (e.g. "12.18 GB"), suppress it
   if (/^\d+(\.\d+)?\s*(gb|mb|kb|tb)$/i.test(rawFormat.trim())) {
     return "";
