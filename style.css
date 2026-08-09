@@ -1659,3 +1659,22 @@ body.analog-horror-mode #cart-toggle-btn {
   clip-path: none !important;
   filter: none !important;
 }
+#cart-toggle-btn {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 12px 20px !important;
+  background-color: #8b0000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ff0000 !important;
+  border-radius: 6px !important;
+  font-family: monospace !important;
+  cursor: pointer !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
