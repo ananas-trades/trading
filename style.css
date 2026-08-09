@@ -1715,3 +1715,57 @@ body.analog-horror-mode #scroll-top-btn:hover {
   from { border-color: #8b0000; }
   to { border-color: #ff0000; }
 }
+/* ============================================================
+   EMERGENCY OVERRIDE: FIXED FLOATING CART FOR ANALOG HORROR
+============================================================ */
+
+/* 1. Prevent the body or wrapper from trapping position: fixed elements */
+body.analog-horror-mode {
+  position: static !important;
+  transform: none !important;
+  perspective: none !important;
+  filter: none !important; /* Move contrast/brightness filters to a background overlay instead if needed */
+}
+
+/* 2. Force Floating Buttons to stick to the Viewport in Easter Egg Mode */
+body.analog-horror-mode #cart-toggle-btn,
+body.analog-horror-mode .cart-toggle-btn,
+body.analog-horror-mode .floating-cart-btn,
+body.analog-horror-mode .trade-request-btn {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  top: auto !important;
+  left: auto !important;
+  z-index: 2147483647 !important; /* Highest possible z-index */
+  
+  /* Reset layout disruptions */
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateZ(0) !important;
+  
+  /* Styling for VHS Mode */
+  background: #0a0a0a !important;
+  color: #ff0055 !important;
+  border: 2px solid #ff0055 !important;
+  box-shadow: 0 0 15px #ff0055, inset 0 0 10px #ff0055 !important;
+}
+
+body.analog-horror-mode #scroll-top-btn {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 220px !important; /* Offset from cart button */
+  top: auto !important;
+  left: auto !important;
+  z-index: 2147483647 !important;
+  transform: translateZ(0) !important;
+}
+
+/* 3. Ensure full screen OSD & Grain layers don't block clicks */
+body.analog-horror-mode::before,
+body.analog-horror-mode::after,
+#vhs-osd-overlay {
+  pointer-events: none !important;
+}
