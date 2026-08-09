@@ -1080,23 +1080,25 @@ function initAnalogHorrorEasterEgg() {
 }
 
 function transformCardsToVHS() {
-  // Ensure trade request button is explicitly attached to <body> and pinned high z-index
-  const cartBtn = document.getElementById("cart-toggle-btn") || 
-                  document.querySelector(".cart-toggle-btn") || 
-                  document.querySelector(".floating-cart-btn") || 
-                  document.querySelector(".trade-request-btn");
+  const cartBtn = document.getElementById("cart-toggle-btn");
 
   if (cartBtn) {
+    // Ensure button is appended directly to body to bypass nested CSS transforms
     if (cartBtn.parentElement !== document.body) {
       document.body.appendChild(cartBtn);
     }
+
+    // Direct inline style overrides forcing top-layer stack visibility
     cartBtn.style.setProperty("position", "fixed", "important");
     cartBtn.style.setProperty("bottom", "24px", "important");
     cartBtn.style.setProperty("right", "24px", "important");
-    cartBtn.style.setProperty("display", "flex", "important");
+    cartBtn.style.setProperty("display", "inline-flex", "important");
     cartBtn.style.setProperty("visibility", "visible", "important");
     cartBtn.style.setProperty("opacity", "1", "important");
-    cartBtn.style.setProperty("z-index", "999999", "important");
+    cartBtn.style.setProperty("z-index", "2147483647", "important");
+    cartBtn.style.setProperty("pointer-events", "auto", "important");
+    cartBtn.style.setProperty("transform", "none", "important");
+    cartBtn.style.setProperty("filter", "none", "important");
   }
 
   document.querySelectorAll(".item-card").forEach(card => {
