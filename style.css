@@ -1594,19 +1594,26 @@ body.analog-horror-mode #vhs-osd-overlay {
 ============================================================ */
 
 .nft-horror-overlay {
-  position: fixed;
-  inset: 0;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
   background: rgba(5, 2, 4, 0.92);
   backdrop-filter: blur(8px);
   z-index: 200000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+  /* Perfect Viewport Centering */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.25s ease, visibility 0.25s ease;
 }
-
 .nft-horror-overlay.active {
   opacity: 1;
   visibility: visible;
