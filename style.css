@@ -1634,14 +1634,28 @@ body.analog-horror-mode #cart-toggle-btn {
   transform: none !important;
   filter: none !important;
 }
-/* Force floating cart button above ALL overlays */
-#cart-toggle-btn {
+/* Nuclear override for trade cart button */
+#cart-toggle-btn,
+.cart-toggle-btn {
   position: fixed !important;
-  bottom: 24px !important;
-  right: 24px !important;
-  z-index: 2147483647 !important; /* Max CSS z-index */
+  bottom: 30px !important;
+  right: 30px !important;
+  width: auto !important;
+  min-width: 140px !important;
+  height: 48px !important;
+  padding: 0 16px !important;
+  background-color: #ff0055 !important; /* Bright pink/red to make it instantly visible */
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  border-radius: 8px !important;
+  z-index: 2147483647 !important;
   display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
+  transform: none !important;
+  clip-path: none !important;
+  filter: none !important;
 }
