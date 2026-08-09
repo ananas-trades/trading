@@ -1740,3 +1740,10 @@ body.analog-horror-mode #cart-toggle-btn:hover {
   color: #000000 !important;
   box-shadow: 0 0 25px #ff0055, 0 0 40px #ff0055 !important;
 }
+/* Ensure cart button floats above VHS scanlines and dark theme */
+body.analog-horror-mode #cart-toggle-btn {
+  z-index: 100000 !important;
+  display: flex !important;
+  border: 1px solid #ff0000 !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
+}
