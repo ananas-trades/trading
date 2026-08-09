@@ -1193,3 +1193,40 @@ if (document.readyState === "loading") {
 } else {
   initAnalogHorrorEasterEgg();
 }
+function forceCartButtonExistence() {
+  let cartBtn = document.getElementById("cart-toggle-btn");
+  
+  // If the button was destroyed or doesn't exist, recreate it
+  if (!cartBtn) {
+    cartBtn = document.createElement("button");
+    cartBtn.id = "cart-toggle-btn";
+    cartBtn.className = "cart-toggle-btn";
+    cartBtn.type = "button";
+    document.body.appendChild(cartBtn);
+    
+    // Re-attach the click listener to open the drawer
+    cartBtn.addEventListener("click", openDrawer);
+  }
+
+  // Update its inner HTML
+  cartBtn.innerHTML = `🛒 Trade Request (<span id="cart-count">${tradeCart.length}</span>)`;
+
+  // Inject unavoidable inline styles directly onto the DOM element
+  cartBtn.style.cssText = `
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 2147483647 !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: #111 !important;
+    color: #fff !important;
+    border: 2px solid #ff0055 !important;
+    padding: 10px 16px !important;
+    border-radius: 6px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    pointer-events: auto !important;
+  `;
+}
