@@ -8,9 +8,92 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <!-- Cache-buster update -->
   <link rel="stylesheet" href="style.css?v=7.0" />
+
+  <!-- CREEPY EYE STYLES -->
+  <style>
+    /* Fixed overlay container for the eye (top-right area) */
+    .creepy-eye-wrapper {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      pointer-events: none; /* Prevents it from blocking clicks to elements beneath it */
+    }
+
+    .creepy-eye-container {
+      position: relative;
+      width: 100px;  /* Resized to fit nicely as a page widget */
+      height: 100px;
+      overflow: hidden;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+    }
+
+    .creepy-eye-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.08s ease-out;
+    }
+
+    /* Animated CSS Eyelids */
+    .eyelids {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .eyelids::before,
+    .eyelids::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background-color: #000000; /* Dark lid color matching VHS aesthetic */
+      animation: creepBlink 6s infinite;
+    }
+
+    .eyelids::before {
+      top: 0;
+      transform-origin: top;
+      transform: scaleY(0);
+    }
+
+    .eyelids::after {
+      bottom: 0;
+      transform-origin: bottom;
+      transform: scaleY(0);
+    }
+
+    /* Unpredictable/Irregular Blinking Sequence */
+    @keyframes creepBlink {
+      0%, 42%, 46%, 80%, 84%, 86%, 100% {
+        transform: scaleY(0); /* Open */
+      }
+      44% {
+        transform: scaleY(1); /* Single blink */
+      }
+      82%, 85% {
+        transform: scaleY(1); /* Rapid double-blink */
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- CREEPY EYE ELEMENT -->
+  <div class="creepy-eye-wrapper">
+    <div class="creepy-eye-container">
+      <img src="creepy-eye.jpg" alt="Creepy Eye" class="creepy-eye-img" id="creepy-eye-img">
+      <div class="eyelids"></div>
+    </div>
+  </div>
+
   <!-- VHS On-Screen Display Overlay -->
   <div id="vhs-osd-overlay">
     <div class="osd-top-left">PLAY ▶</div>
@@ -115,6 +198,25 @@
       </div>
     </div>
   </dialog>
+
+  <!-- SCRIPT FOR EYE MOUSE-TRACKING -->
+  <script>
+    const creepyEye = document.getElementById('creepy-eye-img');
+
+    if (creepyEye) {
+      document.addEventListener('mousemove', (e) => {
+        const rect = creepyEye.getBoundingClientRect();
+        const eyeX = rect.left + rect.width / 2;
+        const eyeY = rect.top + rect.height / 2;
+        
+        // Subtle tracking movement following the visitor's cursor
+        const offsetX = Math.max(-6, Math.min(6, (e.clientX - eyeX) / 30));
+        const offsetY = Math.max(-6, Math.min(6, (e.clientY - eyeY) / 30));
+        
+        creepyEye.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1.1)`;
+      });
+    }
+  </script>
 
   <script src="script.js?v=7.0"></script>
 </body>
