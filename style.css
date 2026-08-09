@@ -1351,7 +1351,7 @@ body.analog-horror-mode::before {
   display: none;
   position: fixed;
   inset: 20px;
-  pointer-events: none !important; /* Prevents overlay from blocking button clicks */
+  pointer-events: none !important; /* Prevents overlay container from blocking clicks */
   z-index: 14;
   font-family: 'Courier New', monospace;
   color: #00b318;
@@ -1364,7 +1364,21 @@ body.analog-horror-mode #vhs-osd-overlay {
   display: block;
 }
 
-.osd-top-left { position: absolute; top: 0; left: 0; }
+/* Make the OSD Interactive Toggle Button Receive Clicks Directly */
+.osd-top-left { 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  pointer-events: auto !important; 
+  cursor: pointer !important;
+  user-select: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.osd-top-left:hover {
+  text-shadow: 0 0 8px #00ffcc;
+}
+
 .osd-top-right { position: absolute; top: 0; right: 0; }
 .osd-bottom-left { position: absolute; bottom: 0; left: 0; }
 .osd-bottom-right { 
@@ -1373,6 +1387,44 @@ body.analog-horror-mode #vhs-osd-overlay {
   right: 0; 
   color: #b31e1e; 
   text-shadow: 0 0 3px #b31e1e; 
+}
+
+/* ============================================================
+   VHS INTERACTIVE TAPE DEGRADATION STATES
+============================================================ */
+
+/* PAUSE Mode: Freeze frame style contrast shift & darkening */
+body.vhs-paused {
+  filter: contrast(120%) brightness(85%) hue-rotate(-10deg) !important;
+}
+
+/* RECORD Mode: Heavy CRT tape degradation, color bleed, and horizontal scan jitter */
+body.vhs-recording {
+  animation: tapeDegrade 0.15s infinite alternate !important;
+}
+
+@keyframes tapeDegrade {
+  0% {
+    filter: contrast(130%) brightness(85%) sepia(20%) hue-rotate(340deg) skewX(0deg);
+  }
+  50% {
+    filter: contrast(150%) brightness(80%) sepia(40%) hue-rotate(320deg) skewX(0.4deg);
+  }
+  100% {
+    filter: contrast(120%) brightness(90%) sepia(10%) hue-rotate(350deg) skewX(-0.3deg);
+  }
+}
+
+/* Pulsing signal red indicator for RECORD OSD state */
+.osd-recording {
+  color: #ff0055 !important;
+  text-shadow: 0 0 10px #ff0055 !important;
+  animation: recBlink 1s infinite alternate;
+}
+
+@keyframes recBlink {
+  0% { opacity: 1; }
+  100% { opacity: 0.35; }
 }
 
 /* ============================================================
@@ -1684,7 +1736,6 @@ body.analog-horror-mode {
   position: static !important;
   transform: none !important;
   perspective: none !important;
-  filter: none !important;
 }
 
 /* 2. Force Floating Buttons to stick to the Viewport in Easter Egg Mode */
@@ -1732,52 +1783,4 @@ body.analog-horror-mode::before,
 body.analog-horror-mode::after,
 #vhs-osd-overlay {
   pointer-events: none !important;
-}
-/* ==========================================
-   VHS INTERACTIVE DEGRADATION EASTER EGG
-   ========================================== */
-
-/* Make the OSD PLAY text feel interactive */
-.osd-top-left {
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.2s ease, text-shadow 0.2s ease;
-}
-
-.osd-top-left:hover {
-  text-shadow: 0 0 8px #00ffcc;
-}
-
-/* PAUSE Mode: Screen contrast freeze & slight dimming */
-body.vhs-paused {
-  filter: contrast(115%) brightness(88%) hue-rotate(-10deg);
-}
-
-/* RECORD Mode: Heavy tape jitter, color bleed, and horizontal scan skew */
-body.vhs-recording {
-  animation: tapeDegrade 0.15s infinite alternate;
-}
-
-@keyframes tapeDegrade {
-  0% {
-    filter: contrast(130%) brightness(85%) sepia(20%) hue-rotate(340deg) skewX(0deg);
-  }
-  50% {
-    filter: contrast(150%) brightness(80%) sepia(40%) hue-rotate(320deg) skewX(0.4deg);
-  }
-  100% {
-    filter: contrast(120%) brightness(90%) sepia(10%) hue-rotate(350deg) skewX(-0.3deg);
-  }
-}
-
-/* Pulsing signal red indicator for RECORD state */
-.osd-recording {
-  color: #ff0055 !important;
-  text-shadow: 0 0 10px #ff0055 !important;
-  animation: recBlink 1s infinite alternate;
-}
-
-@keyframes recBlink {
-  0% { opacity: 1; }
-  100% { opacity: 0.35; }
 }
