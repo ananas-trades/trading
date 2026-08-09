@@ -1424,19 +1424,21 @@ body.analog-horror-mode #vhs-osd-overlay {
 #nft-horror-modal,
 .nft-horror-overlay {
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  transform: none;
   padding: 0;
   box-sizing: border-box;
-  background: rgba(5, 2, 4, 0.95);
+  background: rgba(5, 2, 4, 0.85);
   backdrop-filter: blur(8px);
-  z-index: 9999;
+  z-index: 99999;
 
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 
   opacity: 0;
   visibility: hidden;
@@ -1456,16 +1458,16 @@ body.analog-horror-mode #vhs-osd-overlay {
   position: relative;
   background: #0d060a;
   border: 2px solid #8b0000;
-  box-shadow: 0 0 20px rgba(139, 0, 0, 0.6);
-  width: 90vw;
+  box-shadow: 0 0 25px rgba(139, 0, 0, 0.8), inset 0 0 15px rgba(139, 0, 0, 0.3);
+  width: 90%;
   max-width: 520px;
-  padding: 24px;
+  padding: 28px 24px;
   border-radius: 6px;
   color: #fff;
-  font-family: monospace, sans-serif;
+  font-family: 'Courier New', monospace;
   text-align: center;
   box-sizing: border-box;
-  margin: 0;
+  margin: auto;
 }
 
 .nft-horror-header {
