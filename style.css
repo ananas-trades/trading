@@ -1617,3 +1617,28 @@ dialog#nft-horror-modal[open] {
     animation: none !important;
   }
 }
+/* Ensure Trade Cart Floating Button & Drawer remain visible in Analog Horror Mode */
+body.analog-horror-mode #cart-toggle-btn,
+body.analog-horror-mode .floating-cart-btn,
+body.analog-horror-mode #trade-drawer,
+body.analog-horror-mode #drawer-overlay {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 999999 !important; /* Place above CRT scanlines & horror overlays */
+}
+
+/* Red / VHS Retro styling for the Cart button when in Horror Mode */
+body.analog-horror-mode #cart-toggle-btn {
+  background: #110000 !important;
+  border: 2px solid #ff0000 !important;
+  color: #ff3333 !important;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6) !important;
+  font-family: monospace, Courier, sans-serif !important;
+}
+
+body.analog-horror-mode #trade-drawer {
+  background-color: #080000 !important;
+  border-left: 2px solid #880000 !important;
+  color: #ff3333 !important;
+}
