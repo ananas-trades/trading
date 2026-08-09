@@ -1617,3 +1617,12 @@ dialog#nft-horror-modal[open] {
     animation: none !important;
   }
 }
+/* Ensure cart button stays visible in VHS / Horror mode */
+body.analog-horror-mode #cart-toggle-btn,
+body.analog-horror-mode .floating-cart-btn,
+body.analog-horror-mode [class*="cart"] {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 999999 !important;
+}
