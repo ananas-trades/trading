@@ -406,7 +406,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Randomly scatter censorship blocks across the title
         const scrambledShow = rawShow.split('').map(char => 
-          (Math.random() < 0.35 && char !== ' ') ? '█' : char
+          (Math.random() < 0.80 && char !== ' ') ? '█' : char
         ).join('');
 
         // Apply TAINTED identifier
