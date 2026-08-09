@@ -187,9 +187,6 @@ function openNftHorrorModal(item, buttonEl) {
   
   if (!modal || !textEl) return;
 
-  // Prevent multiple triggers if modal is already open
-  if (modal.classList.contains("active")) return;
-
   pendingItemForCart = { item, buttonEl };
   triggerSensoryOverload();
 
@@ -210,7 +207,12 @@ function openNftHorrorModal(item, buttonEl) {
   textEl.className = "horror-text-phase1";
   textEl.innerText = phase1Text;
 
+  // Force modal visibility directly via JS styles
   modal.classList.add("active");
+  modal.style.display = "flex";
+  modal.style.opacity = "1";
+  modal.style.visibility = "visible";
+  modal.style.pointerEvents = "auto";
 
   // Phase 2: Sentient Shift
   setTimeout(() => {
@@ -227,7 +229,13 @@ function openNftHorrorModal(item, buttonEl) {
 
 function closeNftHorrorModal() {
   const modal = document.getElementById("nft-horror-modal");
-  if (modal) modal.classList.remove("active");
+  if (modal) {
+    modal.classList.remove("active");
+    modal.style.display = "none";
+    modal.style.opacity = "0";
+    modal.style.visibility = "hidden";
+    modal.style.pointerEvents = "none";
+  }
   
   document.body.style.overflow = "";
   document.documentElement.style.overflow = "";
