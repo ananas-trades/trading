@@ -1617,13 +1617,20 @@ dialog#nft-horror-modal[open] {
     animation: none !important;
   }
 }
-/* Force floating trade button to show up in analog horror mode */
-body.analog-horror-mode #cart-toggle-btn,
-body.analog-horror-mode .cart-toggle-btn,
-body.analog-horror-mode .floating-cart-btn,
-body.analog-horror-mode .trade-request-btn {
-  display: flex !important;
+/* Hard override to prevent horror overlays from hiding the trade cart button */
+#vhs-osd-overlay {
+  pointer-events: none !important; /* Prevents overlay from blocking button clicks */
+}
+
+body.analog-horror-mode #cart-toggle-btn {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  display: inline-flex !important;
   visibility: visible !important;
   opacity: 1 !important;
-  z-index: 999999 !important;
+  z-index: 2147483647 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+  filter: none !important;
 }
