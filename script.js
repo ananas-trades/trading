@@ -263,17 +263,17 @@ function triggerSensoryOverload() {
     const osc = sensoryAudioCtx.createOscillator();
     const gain = sensoryAudioCtx.createGain();
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(80, sensoryAudioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(30, sensoryAudioCtx.currentTime + 0.15);
+    osc.frequency.setValueAtTime(120, sensoryAudioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(30, sensoryAudioCtx.currentTime + 0.3);
     
-    gain.gain.setValueAtTime(0.08, sensoryAudioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, sensoryAudioCtx.currentTime + 0.15);
+    gain.gain.setValueAtTime(0.2, sensoryAudioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, sensoryAudioCtx.currentTime + 0.3);
 
     osc.connect(gain);
     gain.connect(sensoryAudioCtx.destination);
 
     osc.start();
-    osc.stop(sensoryAudioCtx.currentTime + 0.15);
+    osc.stop(sensoryAudioCtx.currentTime + 0.3);
   } catch (e) {
     console.warn("Audio trigger glitch suppressed:", e);
   }
@@ -282,24 +282,18 @@ function triggerSensoryOverload() {
   if (!flash) {
     flash = document.createElement("div");
     flash.className = "screen-glitch-flash";
-    flash.style.position = "fixed";
-    flash.style.top = "0";
-    flash.style.left = "0";
-    flash.style.width = "100vw";
-    flash.style.height = "100vh";
-    flash.style.pointerEvents = "none";
-    flash.style.zIndex = "99999";
-    flash.style.backgroundColor = "rgba(255, 0, 0, 0.3)";
-    flash.style.transition = "opacity 0.15s ease-out";
     document.body.appendChild(flash);
   }
 
-  flash.style.opacity = "0.8";
+  // Restart keyframe animation
+  flash.classList.remove("flash-active");
+  void flash.offsetWidth; // Force CSS reflow
+  flash.classList.add("flash-active");
 
   setTimeout(() => {
-    if (flash) flash.style.opacity = "0";
+    flash.classList.remove("flash-active");
     isGlitching = false;
-  }, 150);
+  }, 350);
 
   document.title = "⚠️ SIGNAL_LOST_0x99";
 }
