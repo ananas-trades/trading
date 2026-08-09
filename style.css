@@ -426,7 +426,7 @@ h1 {
   transform: scale(0.96);
 }
 
-/* --- NFT BADGES & CARDS --- */
+/* --- STANDARD BASE MODE NFT BADGES & CARDS --- */
 .nft-active {
   color: #ffffff;
   font-weight: bold;
@@ -493,7 +493,7 @@ h1 {
   }
 }
 
-/* --- STANDARD CARD STYLES & HOVER --- */
+/* --- BASE SITE RAINBOW HOVER GLOW --- */
 .item-card.card-standard {
   border: 2px solid #00f0ff;
   box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
@@ -912,7 +912,7 @@ h1 {
 }
 
 /* ============================================================
-   ANALOG HORROR VHS TAPE EASTER EGG (HIGH-VISIBILITY CASSETTE)
+   ANALOG HORROR VHS TAPE EASTER EGG (PLASTIC CASSETTES)
 ============================================================ */
 
 body.analog-horror-mode {
@@ -934,8 +934,9 @@ body.analog-horror-mode {
 body.analog-horror-mode .item-card {
   perspective: 1000px !important;
   background: transparent !important;
-  border: none;
-  box-shadow: none;
+  border: none !important;
+  box-shadow: none !important;
+  animation: none !important;
   padding: 0 !important;
   height: 330px !important;
   cursor: pointer;
@@ -968,7 +969,7 @@ body.analog-horror-mode .item-card {
   border-radius: 6px !important;
 }
 
-/* BRIGHTER & HIGHER-CONTRAST VHS PLASTIC */
+/* VHS PLASTIC SHELL IN EASTER EGG MODE (NO GLOW) */
 body.analog-horror-mode .vhs-front,
 body.analog-horror-mode .vhs-back {
   background: 
@@ -979,18 +980,59 @@ body.analog-horror-mode .vhs-back {
       transparent 1px, 
       transparent 3px
     ),
-    radial-gradient(circle at 30% 20%, #3a3a42 0%, #222228 60%, #15151a 100%) !important;
+    radial-gradient(circle at 30% 20%, #2a2a30 0%, #1a1a20 60%, #101014 100%) !important;
   
-  border: 5px solid #33333d !important;
-  outline: 2px solid #555562 !important;
-  outline-offset: -2px;
+  border: 4px solid #282830 !important;
+  outline: none !important;
   border-radius: 6px !important;
   
   box-shadow: 
-    inset 2px 2px 5px rgba(255, 255, 255, 0.2),
+    inset 2px 2px 5px rgba(255, 255, 255, 0.1),
     inset -4px -4px 8px rgba(0, 0, 0, 0.95),
-    0 12px 28px rgba(0, 0, 0, 0.95),
-    0 0 20px rgba(255, 40, 40, 0.35) !important;
+    0 8px 20px rgba(0, 0, 0, 0.95) !important;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+/* STANDARD TAPES IN EASTER EGG MODE: NO HOVER GLOW AT ALL */
+body.analog-horror-mode .item-card.card-standard:hover .vhs-front,
+body.analog-horror-mode .item-card.card-standard:hover .vhs-back {
+  animation: none !important;
+  border-color: #282830 !important;
+  box-shadow: 
+    inset 2px 2px 5px rgba(255, 255, 255, 0.1),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.95),
+    0 8px 20px rgba(0, 0, 0, 0.95) !important;
+}
+
+/* ANALOG HORROR MUTED BLOOD RED HOVER GLOW FOR NFT TAPES ONLY */
+body.analog-horror-mode .item-card.card-nft-active .vhs-front,
+body.analog-horror-mode .item-card.card-nft-active .vhs-back {
+  border-color: #282830 !important;
+  box-shadow: 
+    inset 2px 2px 5px rgba(255, 255, 255, 0.1),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.95),
+    0 8px 20px rgba(0, 0, 0, 0.95) !important;
+  animation: none !important;
+}
+
+body.analog-horror-mode .item-card.card-nft-active:hover .vhs-front,
+body.analog-horror-mode .item-card.card-nft-active:hover .vhs-back {
+  border: 4px solid #6b0c16 !important;
+  box-shadow: 
+    inset 2px 2px 5px rgba(255, 255, 255, 0.1),
+    inset -4px -4px 8px rgba(0, 0, 0, 0.95),
+    0 0 12px #52070e, 
+    0 0 25px rgba(82, 7, 14, 0.6) !important;
+}
+
+/* NFT BADGE IN EASTER EGG MODE */
+body.analog-horror-mode .nft-active {
+  background: rgba(60, 8, 14, 0.6) !important;
+  border: 1px solid #6b0c16 !important;
+  color: #d18d94 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  animation: none !important;
 }
 
 /* Plastic Grip Top Ridge */
@@ -1126,10 +1168,7 @@ body.analog-horror-mode .vhs-back {
   text-shadow: 0 0 4px #ff0000 !important;
 }
 
-/* ============================================================
-   VHS STICKER TITLE CONTRAST FIX
-============================================================ */
-
+/* VHS STICKER TITLE CONTRAST FIX */
 .vhs-sticker,
 .vhs-sticker *,
 body.analog-horror-mode .vhs-sticker,
@@ -1143,7 +1182,7 @@ body.analog-horror-mode .vhs-sticker h3 {
 }
 
 /* ============================================================
-   ANALOG HORROR OVERRIDE: GRITTY VHS & EMERGENCY BROADCAST
+   ANALOG HORROR OVERRIDE: GRITTY VHS UI
 ============================================================ */
 
 body.analog-horror-mode {
@@ -1169,8 +1208,8 @@ body.analog-horror-mode::after {
 /* Header & Banner Redesign */
 body.analog-horror-mode h1,
 body.analog-horror-mode .header-title {
-  color: #d11a2a !important;
-  text-shadow: 2px 0 #000, -2px 0 #5a0000, 0 0 8px rgba(209, 26, 42, 0.6) !important;
+  color: #8b131d !important;
+  text-shadow: 1px 0 #000, -1px 0 #3a0000 !important;
   font-family: 'Courier New', monospace !important;
   letter-spacing: 3px !important;
   text-transform: uppercase !important;
@@ -1180,8 +1219,8 @@ body.analog-horror-mode .trading-rules,
 body.analog-horror-mode #contact-box,
 body.analog-horror-mode .rules-container {
   background: #0d0a0b !important;
-  border: 1px solid #4a1118 !important;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 10px rgba(139, 0, 0, 0.3) !important;
+  border: 1px solid #3d1015 !important;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
   color: #a39b9b !important;
 }
 
@@ -1199,46 +1238,18 @@ body.analog-horror-mode .cat-btn {
 
 body.analog-horror-mode .filter-btn.active,
 body.analog-horror-mode .cat-btn.active {
-  background: #4a0d13 !important;
+  background: #3b0a0e !important;
   color: #ffffff !important;
-  border-color: #a81c2a !important;
-  box-shadow: 0 0 8px rgba(168, 28, 42, 0.5) !important;
+  border-color: #6b0c16 !important;
+  box-shadow: none !important;
 }
 
 /* Search Bar */
 body.analog-horror-mode #search-input {
   background: #080607 !important;
   color: #e0d5d5 !important;
-  border: 1px solid #5a151e !important;
+  border: 1px solid #3d1015 !important;
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.9) !important;
-}
-
-/* Tape Shell Base Override */
-body.analog-horror-mode .item-card {
-  background: #0f0c0e;
-  border: 2px solid #2b1114;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.95);
-}
-
-/* ANALOG HORROR NFT CARDS & BADGES GLOW RESTORATION */
-body.analog-horror-mode .item-card.card-nft-active .vhs-front,
-body.analog-horror-mode .item-card.card-nft-active .vhs-back {
-  border: 3px solid #ff0033 !important;
-  outline: 2px solid #ff1a3c !important;
-  box-shadow: 
-    0 0 25px rgba(255, 0, 51, 0.95), 
-    0 0 50px rgba(196, 0, 26, 0.8), 
-    inset 0 0 18px rgba(255, 0, 51, 0.6) !important;
-  animation: ultra-nft-pulse 1.4s ease-in-out infinite alternate !important;
-}
-
-body.analog-horror-mode .nft-active {
-  background: rgba(255, 0, 51, 0.35) !important;
-  border: 2px solid #ff0033 !important;
-  color: #ffffff !important;
-  text-shadow: 0 0 8px #ff0033, 0 0 16px #ff0033 !important;
-  box-shadow: 0 0 15px #ff0033, inset 0 0 10px #ff0033 !important;
-  animation: badge-hyper-glow 1.2s ease-in-out infinite alternate !important;
 }
 
 /* Sticker Label Override */
@@ -1273,9 +1284,9 @@ body.analog-horror-mode .copy-card-btn {
 
 body.analog-horror-mode .add-cart-btn:hover,
 body.analog-horror-mode .copy-card-btn:hover {
-  background: #360f14 !important;
+  background: #2b0b0e !important;
   color: #fff !important;
-  border-color: #8f1d28 !important;
+  border-color: #5e1118 !important;
 }
 
 body.analog-horror-mode .add-cart-btn.in-cart {
@@ -1291,15 +1302,15 @@ body.analog-horror-mode .add-cart-btn.in-cart {
 /* Glitchy Text Shift */
 body.analog-horror-mode .card-title,
 body.analog-horror-mode h1 {
-  text-shadow: -1.5px 0 0 rgba(255,0,0,0.8), 1.5px 0 0 rgba(0,255,255,0.8) !important;
+  text-shadow: -1px 0 0 rgba(180,0,0,0.6), 1px 0 0 rgba(0,180,180,0.6) !important;
   animation: chromatic-vibrate 4s infinite linear alternate;
 }
 
 @keyframes chromatic-vibrate {
-  0% { text-shadow: -1px 0 0 rgba(255,0,0,0.8), 1px 0 0 rgba(0,255,255,0.8); }
-  95% { text-shadow: -1px 0 0 rgba(255,0,0,0.8), 1px 0 0 rgba(0,255,255,0.8); }
-  98% { text-shadow: -4px 0 0 rgba(255,0,0,0.9), 4px 0 0 rgba(0,255,255,0.9); }
-  100% { text-shadow: 1px 0 0 rgba(255,0,0,0.8), -1px 0 0 rgba(0,255,255,0.8); }
+  0% { text-shadow: -1px 0 0 rgba(180,0,0,0.6), 1px 0 0 rgba(0,180,180,0.6); }
+  95% { text-shadow: -1px 0 0 rgba(180,0,0,0.6), 1px 0 0 rgba(0,180,180,0.6); }
+  98% { text-shadow: -3px 0 0 rgba(180,0,0,0.8), 3px 0 0 rgba(0,180,180,0.8); }
+  100% { text-shadow: 1px 0 0 rgba(180,0,0,0.6), -1px 0 0 rgba(0,180,180,0.6); }
 }
 
 /* Horizontal Tracking Artifact */
@@ -1310,11 +1321,10 @@ body.analog-horror-mode::before {
   left: 0; 
   width: 100vw; 
   height: 3px;
-  background: rgba(255, 255, 255, 0.4);
-  opacity: 0.6;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0.4;
   z-index: 13;
   pointer-events: none;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   animation: vhs-tape-roll 8s infinite linear;
 }
 
@@ -1331,10 +1341,10 @@ body.analog-horror-mode::before {
   pointer-events: none;
   z-index: 14;
   font-family: 'Courier New', monospace;
-  color: #00ff22;
+  color: #00b318;
   font-size: 1.1rem;
   font-weight: bold;
-  text-shadow: 0 0 5px #00ff22;
+  text-shadow: 0 0 3px #00b318;
 }
 
 body.analog-horror-mode #vhs-osd-overlay {
@@ -1348,8 +1358,8 @@ body.analog-horror-mode #vhs-osd-overlay {
   position: absolute; 
   bottom: 0; 
   right: 0; 
-  color: #ff3333; 
-  text-shadow: 0 0 5px #ff3333; 
+  color: #b31e1e; 
+  text-shadow: 0 0 3px #b31e1e; 
 }
 
 /* ============================================================
@@ -1359,7 +1369,7 @@ body.analog-horror-mode #vhs-osd-overlay {
 .screen-glitch-flash {
   position: fixed;
   inset: 0;
-  background: rgba(255, 0, 0, 0.45);
+  background: rgba(120, 0, 0, 0.45);
   mix-blend-mode: color-dodge;
   pointer-events: none;
   z-index: 9998;
@@ -1398,9 +1408,9 @@ body.analog-horror-mode #vhs-osd-overlay {
   content: "";
   width: 10px;
   height: 10px;
-  background: radial-gradient(circle, #ffffff 20%, #ff0033 60%, transparent 100%);
+  background: radial-gradient(circle, #ffffff 20%, #8b0000 60%, transparent 100%);
   border-radius: 50%;
-  box-shadow: 0 0 8px #ff0033;
+  box-shadow: 0 0 6px #8b0000;
 }
 
 .exact-creepy-eyes.visible {
@@ -1443,8 +1453,8 @@ body.analog-horror-mode #vhs-osd-overlay {
 .nft-modal-content {
   position: relative;
   background: #0d060a;
-  border: 2px solid #ff0033;
-  box-shadow: 0 0 30px rgba(255, 0, 51, 0.6);
+  border: 2px solid #8b0000;
+  box-shadow: 0 0 20px rgba(139, 0, 0, 0.6);
   width: 90%;
   max-width: 520px;
   padding: 24px;
@@ -1462,7 +1472,7 @@ body.analog-horror-mode #vhs-osd-overlay {
   justify-content: center;
   gap: 10px;
   margin-bottom: 15px;
-  border-bottom: 1px solid #ff0033;
+  border-bottom: 1px solid #8b0000;
   padding-bottom: 10px;
 }
 
@@ -1473,12 +1483,12 @@ body.analog-horror-mode #vhs-osd-overlay {
 
 @keyframes flash-warning {
   0% { opacity: 0.3; }
-  100% { opacity: 1; text-shadow: 0 0 10px #ff0033; }
+  100% { opacity: 1; text-shadow: 0 0 8px #8b0000; }
 }
 
 #nft-modal-tag,
 .modal-tag {
-  color: #ffaa00;
+  color: #b37700;
   font-weight: bold;
   font-family: monospace, sans-serif;
   font-size: 0.85rem;
@@ -1509,15 +1519,15 @@ body.analog-horror-mode #vhs-osd-overlay {
 }
 
 .horror-text-phase1 {
-  color: #ffaa00;
+  color: #b37700;
   font-size: 0.95rem;
 }
 
 .horror-text-phase2 {
-  color: #ff0033;
+  color: #a81c2a;
   font-size: 1.05rem;
   font-weight: bold;
-  text-shadow: 0 0 6px rgba(255, 0, 51, 0.6);
+  text-shadow: 0 0 5px rgba(168, 28, 42, 0.6);
   animation: text-glitch-shake 0.2s 2 ease-in-out;
 }
 
@@ -1543,8 +1553,8 @@ body.analog-horror-mode #vhs-osd-overlay {
 .abort-access-btn {
   padding: 10px 18px;
   background: #1a080c;
-  border: 1px solid #ff0033;
-  color: #ff0033;
+  border: 1px solid #6b0c16;
+  color: #b33946;
   font-family: monospace, sans-serif;
   font-size: 0.9rem;
   font-weight: bold;
@@ -1554,15 +1564,15 @@ body.analog-horror-mode #vhs-osd-overlay {
 
 #nft-force-access-btn:hover,
 .force-access-btn:hover {
-  background: #ff0033;
-  color: #000;
-  box-shadow: 0 0 15px #ff0033;
+  background: #6b0c16;
+  color: #fff;
+  box-shadow: 0 0 10px #6b0c16;
 }
 
 #nft-abort-btn:hover,
 .abort-access-btn:hover {
-  background: #444;
-  border-color: #888;
+  background: #333;
+  border-color: #666;
   color: #fff;
 }
 
