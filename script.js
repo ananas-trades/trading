@@ -19,7 +19,7 @@ let pendingItemForCart = null;
 let originalDocumentTitle = document.title;
 
 /* ============================================================
-   SURVEILLANCE & SENTIENT ARCHIVE PHRASE POOLS (21 x 21 = 441)
+   SURVEILLANCE & SENTIENT ARCHIVE PHRASE POOLS
 ============================================================ */
 const SURVEILLANCE_STATE_POOL = [
   "SYSTEM AUDIT 0x99: Unauthorized access detected. Security level elevated.",
@@ -70,7 +70,7 @@ const SENTIENT_ARCHIVE_POOL = [
 ];
 
 /* ============================================================
-   ANALOG HORROR AUDIO ENGINE (TAPE HISS & STATIC)
+   ANALOG HORROR AUDIO ENGINE
 ============================================================ */
 let audioCtx = null;
 let noiseNode = null;
@@ -102,7 +102,7 @@ function startTapeHiss() {
   noiseNode.loop = true;
 
   gainNode = audioCtx.createGain();
-  gainNode.gain.value = 0.04; // Subtle creepy background rumble
+  gainNode.gain.value = 0.04;
 
   noiseNode.connect(gainNode);
   gainNode.connect(audioCtx.destination);
@@ -117,7 +117,7 @@ function stopTapeHiss() {
   }
 }
 
-// Live Timecode Counter for On-Screen Display (OSD)
+// Live Timecode Counter
 setInterval(() => {
   const tsEl = document.getElementById("vhs-timestamp");
   if (!tsEl || !document.body.classList.contains("analog-horror-mode")) return;
@@ -152,7 +152,6 @@ function getCorruptedText(originalText) {
    SENSORY OVERLOAD & NFT HORROR INTERCEPTOR MODAL ENGINE
 ============================================================ */
 function triggerSensoryOverload() {
-  // Fast Hardware-Accelerated Glitch Flash
   requestAnimationFrame(() => {
     const flash = document.createElement("div");
     flash.className = "screen-glitch-flash";
@@ -160,7 +159,6 @@ function triggerSensoryOverload() {
     setTimeout(() => flash.remove(), 160);
   });
 
-  // Audio Drop-out Effect
   if (gainNode) {
     const prevGain = gainNode.gain.value;
     gainNode.gain.value = 0.0001;
@@ -169,10 +167,8 @@ function triggerSensoryOverload() {
     }, 500);
   }
 
-  // Browser Tab Title Hijack
   document.title = "⚠️ SIGNAL_LOST_0x99";
 
-  // Console Glitch Output
   console.clear();
   console.error("%c[CRITICAL HARDWARE FAULT] Magnetic Reader Head Jammed", "color: #ff0033; font-size: 16px; font-weight: bold;");
   console.warn("%c[SECURITY_AUDIT] Unauthorized extraction attempt on restricted block.", "color: #ffaa00; font-size: 12px;");
@@ -183,14 +179,12 @@ function openNftHorrorModal(item, buttonEl) {
   
   triggerSensoryOverload();
 
-  // Target class-based modal overlay
-  const modal = document.querySelector(".nft-horror-overlay");
-  const tagEl = document.querySelector(".modal-tag");
+  const modal = document.getElementById("nft-horror-modal");
+  const tagEl = document.getElementById("nft-modal-tag");
   const textEl = document.getElementById("nft-horror-primary-text");
   
   if (!modal || !textEl) return;
 
-  // Lock background scrolling completely across browsers
   document.body.style.overflow = "hidden";
   document.documentElement.style.overflow = "hidden";
 
@@ -224,10 +218,9 @@ function openNftHorrorModal(item, buttonEl) {
 }
 
 function closeNftHorrorModal() {
-  const modal = document.querySelector(".nft-horror-overlay");
+  const modal = document.getElementById("nft-horror-modal");
   if (modal) modal.classList.remove("active");
   
-  // Unlock scrolling
   document.body.style.overflow = "";
   document.documentElement.style.overflow = "";
   document.title = originalDocumentTitle;
@@ -284,10 +277,10 @@ document.addEventListener("DOMContentLoaded", () => {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
       applyFiltersAndRender();
-    }, 80); // FIX #3: Reduced debounce time for snappy response
+    }, 80);
   });
 
-  // Fast Delegated Filter Clicks (FIX #3: Prevents button lag)
+  // Fast Delegated Filter Clicks
   document.addEventListener("click", (e) => {
     const filterBtn = e.target.closest(".filter-btn");
     const catBtn = e.target.closest(".cat-btn");
@@ -305,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Delegated Card Actions (FIX #3: Fast execution via event delegation)
+  // Delegated Card Actions
   const cardContainer = document.getElementById("card-container");
   if (cardContainer) {
     cardContainer.addEventListener("click", (e) => {
@@ -1023,7 +1016,6 @@ function transformCardsToVHS() {
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
     const itemInCart = isInCart(item);
 
-    // FIX #1: Re-inject explicit buttons so cart operations work in horror mode
     const actionsHTML = `
       <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${globalIndex}">
         ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
@@ -1088,7 +1080,6 @@ function revertCardsFromVHS() {
   }
 }
 
-// Initializer execution
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initAnalogHorrorEasterEgg);
 } else {
