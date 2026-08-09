@@ -1720,3 +1720,35 @@ if (document.readyState === "loading") {
 } else {
   initAnalogHorrorEasterEgg();
 }
+// ==========================================
+// VHS OSD STATE TOGGLE (PLAY -> PAUSE -> RECORD)
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+  const playBtn = document.querySelector('.osd-top-left');
+  const body = document.body;
+
+  if (playBtn) {
+    const states = [
+      { text: 'PLAY ▶', bodyClass: '', osdClass: '' },
+      { text: 'PAUSE ❚❚', bodyClass: 'vhs-paused', osdClass: '' },
+      { text: 'RECORD 🔴', bodyClass: 'vhs-recording', osdClass: 'osd-recording' }
+    ];
+
+    let currentStateIndex = 0;
+
+    playBtn.addEventListener('click', () => {
+      // Clear current state classes
+      body.classList.remove('vhs-paused', 'vhs-recording');
+      playBtn.classList.remove('osd-recording');
+
+      // Cycle index
+      currentStateIndex = (currentStateIndex + 1) % states.length;
+      const newState = states[currentStateIndex];
+
+      // Apply new state
+      playBtn.textContent = newState.text;
+      if (newState.bodyClass) body.classList.add(newState.bodyClass);
+      if (newState.osdClass) playBtn.classList.add(newState.osdClass);
+    });
+  }
+});
