@@ -171,6 +171,31 @@ function getCorruptedText(originalText) {
 ============================================================ */
 let sensoryAudioCtx = null;
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function runTextTransition(element, newText) {
+  if (!element) return;
+
+  // 1. Backspace current text character by character
+  while (element.innerText.length > 0) {
+    element.innerText = element.innerText.slice(0, -1);
+    await sleep(20); 
+  }
+
+  // Brief pause before typing the new message
+  await sleep(400);
+
+  // Switch to the phase 2 horror styling class
+  element.className = "horror-text-phase2";
+
+  // 2. Type out the new text character by character
+  for (let i = 0; i < newText.length; i++) {
+    element.innerText += newText.charAt(i);
+    const typingDelay = Math.floor(Math.random() * 35) + 35; 
+    await sleep(typingDelay);
+  }
+}
+
 function triggerSensoryOverload() {
   if (isGlitching) return;
   isGlitching = true;
@@ -270,11 +295,8 @@ function openNftHorrorModal(item, buttonEl) {
     const rawPhase2 = SENTIENT_ARCHIVE_POOL[Math.floor(Math.random() * SENTIENT_ARCHIVE_POOL.length)];
     const phase2Text = rawPhase2.replace("{DATE}", formattedDateDisplay);
 
-    if (textEl) {
-      textEl.className = "horror-text-phase2";
-      textEl.innerText = phase2Text;
-    }
-  }, 3500);
+    runTextTransition(textEl, phase2Text);
+  }, 2500);
 }
 
 function closeNftHorrorModal() {
