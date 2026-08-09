@@ -15,6 +15,17 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Disable smooth scrolling when the alert is open to stop automatic jump-scrolling */
+html.modal-open {
+  scroll-behavior: auto !important;
+  overflow: hidden !important;
+}
+
+body.modal-open {
+  overflow: hidden !important;
+  touch-action: none;
+}
+
 html, body {
   overflow-x: hidden;
   max-width: 100vw;
@@ -1418,32 +1429,24 @@ body.analog-horror-mode #vhs-osd-overlay {
 }
 
 /* ============================================================
-   NFT HORROR MODAL VIEWPORT OVERLAYS
-============================================================ */
-
-/* ============================================================
-   NFT HORROR MODAL VIEWPORT OVERLAYS (FIXED SCROLL/POSITION)
+   NFT HORROR MODAL VIEWPORT OVERLAYS (PURE BLACK FULLSCREEN ALERT)
 ============================================================ */
 
 #nft-horror-modal,
 .nft-horror-overlay {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
+  inset: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  height: 100dvh !important; /* Prevents mobile/browser URL bar jumps */
+  height: 100dvh !important;
   
   margin: 0 !important;
   padding: 0 !important;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   
-  background: rgba(5, 2, 4, 0.88);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 999999 !important;
+  /* Pure black screen backdrop obscuring everything behind it */
+  background: #000000 !important;
+  z-index: 9999999 !important;
 
   display: flex !important;
   align-items: center !important;
@@ -1452,7 +1455,7 @@ body.analog-horror-mode #vhs-osd-overlay {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.25s ease, visibility 0.25s ease;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 #nft-horror-modal.active,
@@ -1462,47 +1465,23 @@ body.analog-horror-mode #vhs-osd-overlay {
   pointer-events: auto !important;
 }
 
-/* Ensure modal content stays strictly centered regardless of scroll position */
 .nft-horror-content,
 .nft-modal-content {
-  position: relative;
-  background: #0d060a;
-  border: 2px solid #8b0000;
-  box-shadow: 0 0 25px rgba(139, 0, 0, 0.8), inset 0 0 15px rgba(139, 0, 0, 0.3);
-  width: 90%;
-  max-width: 520px;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 28px 24px;
-  border-radius: 6px;
-  color: #fff;
-  font-family: 'Courier New', monospace;
-  text-align: center;
-  box-sizing: border-box;
+  position: relative !important;
+  background: #080305 !important;
+  border: 2px solid #8b0000 !important;
+  box-shadow: 0 0 35px rgba(139, 0, 0, 0.9), inset 0 0 20px rgba(139, 0, 0, 0.4) !important;
+  width: 90% !important;
+  max-width: 500px !important;
+  max-height: 85vh !important;
+  overflow-y: auto !important;
+  padding: 28px 24px !important;
+  border-radius: 6px !important;
+  color: #ffffff !important;
+  font-family: 'Courier New', monospace !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
   margin: auto !important;
-}
-#nft-horror-modal.active,
-.nft-horror-overlay.active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
-
-.nft-horror-content,
-.nft-modal-content {
-  position: relative;
-  background: #0d060a;
-  border: 2px solid #8b0000;
-  box-shadow: 0 0 25px rgba(139, 0, 0, 0.8), inset 0 0 15px rgba(139, 0, 0, 0.3);
-  width: 90%;
-  max-width: 520px;
-  padding: 28px 24px;
-  border-radius: 6px;
-  color: #fff;
-  font-family: 'Courier New', monospace;
-  text-align: center;
-  box-sizing: border-box;
-  margin: auto;
 }
 
 .nft-horror-header {
@@ -1541,7 +1520,7 @@ body.analog-horror-mode #vhs-osd-overlay {
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.85);
   border: 1px solid #2a080d;
   padding: 16px;
   border-radius: 3px;
