@@ -658,7 +658,7 @@ function appendNextBatch(count = BATCH_SIZE) {
   if (document.body.classList.contains("analog-horror-mode")) {
     transformCardsToVHS();
   }
-   forceCartButtonExistence();
+  ensureCartButtonInBody();
 }
 
 /* ============================================================
@@ -780,8 +780,29 @@ function generateFormattedText() {
   ].join("\n");
 }
 
+function ensureCartButtonInBody() {
+  let cartBtn = document.getElementById("cart-toggle-btn");
+  if (!cartBtn) {
+    cartBtn = document.createElement("button");
+    cartBtn.id = "cart-toggle-btn";
+    cartBtn.className = "cart-toggle-btn";
+    cartBtn.type = "button";
+    document.body.appendChild(cartBtn);
+    cartBtn.addEventListener("click", openDrawer);
+  } else if (cartBtn.parentElement !== document.body) {
+    document.body.appendChild(cartBtn);
+  }
+
+  const countEl = document.getElementById("cart-count");
+  if (countEl) {
+    countEl.innerText = tradeCart.length;
+  } else {
+    cartBtn.innerHTML = `🛒 Trade Request (<span id="cart-count">${tradeCart.length}</span>)`;
+  }
+}
+
 function updateCartUI() {
-   forceCartButtonExistence();
+  ensureCartButtonInBody();
   const container = document.getElementById("cart-items-container");
   const countEl = document.getElementById("cart-count");
   const videoCountEl = document.getElementById("cart-video-count");
@@ -1082,26 +1103,7 @@ function initAnalogHorrorEasterEgg() {
 }
 
 function transformCardsToVHS() {
-  const cartBtn = document.getElementById("cart-toggle-btn");
-
-  if (cartBtn) {
-    // Ensure button is appended directly to body to bypass nested CSS transforms
-    if (cartBtn.parentElement !== document.body) {
-      document.body.appendChild(cartBtn);
-    }
-
-    // Direct inline style overrides forcing top-layer stack visibility
-    cartBtn.style.setProperty("position", "fixed", "important");
-    cartBtn.style.setProperty("bottom", "24px", "important");
-    cartBtn.style.setProperty("right", "24px", "important");
-    cartBtn.style.setProperty("display", "inline-flex", "important");
-    cartBtn.style.setProperty("visibility", "visible", "important");
-    cartBtn.style.setProperty("opacity", "1", "important");
-    cartBtn.style.setProperty("z-index", "2147483647", "important");
-    cartBtn.style.setProperty("pointer-events", "auto", "important");
-    cartBtn.style.setProperty("transform", "none", "important");
-    cartBtn.style.setProperty("filter", "none", "important");
-  }
+  ensureCartButtonInBody();
 
   document.querySelectorAll(".item-card").forEach(card => {
     if (card.querySelector(".vhs-inner")) return;
@@ -1194,41 +1196,4 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initAnalogHorrorEasterEgg);
 } else {
   initAnalogHorrorEasterEgg();
-}
-function forceCartButtonExistence() {
-  let cartBtn = document.getElementById("cart-toggle-btn");
-  
-  // If the button was destroyed or doesn't exist, recreate it
-  if (!cartBtn) {
-    cartBtn = document.createElement("button");
-    cartBtn.id = "cart-toggle-btn";
-    cartBtn.className = "cart-toggle-btn";
-    cartBtn.type = "button";
-    document.body.appendChild(cartBtn);
-    
-    // Re-attach the click listener to open the drawer
-    cartBtn.addEventListener("click", openDrawer);
-  }
-
-  // Update its inner HTML
-  cartBtn.innerHTML = `🛒 Trade Request (<span id="cart-count">${tradeCart.length}</span>)`;
-
-  // Inject unavoidable inline styles directly onto the DOM element
-  cartBtn.style.cssText = `
-    position: fixed !important;
-    bottom: 20px !important;
-    right: 20px !important;
-    z-index: 2147483647 !important;
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    background: #111 !important;
-    color: #fff !important;
-    border: 2px solid #ff0055 !important;
-    padding: 10px 16px !important;
-    border-radius: 6px !important;
-    font-weight: bold !important;
-    cursor: pointer !important;
-    pointer-events: auto !important;
-  `;
 }
