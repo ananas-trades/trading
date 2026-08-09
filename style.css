@@ -1617,10 +1617,11 @@ dialog#nft-horror-modal[open] {
     animation: none !important;
   }
 }
-/* Ensure cart button stays visible in VHS / Horror mode */
+/* Force floating trade button to show up in analog horror mode */
 body.analog-horror-mode #cart-toggle-btn,
+body.analog-horror-mode .cart-toggle-btn,
 body.analog-horror-mode .floating-cart-btn,
-body.analog-horror-mode [class*="cart"] {
+body.analog-horror-mode .trade-request-btn {
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
