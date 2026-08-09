@@ -20,9 +20,6 @@ let originalDocumentTitle = document.title;
 let isGlitching = false;
 
 /* ============================================================
-   SURVEILLANCE & SENTIENT ARCHIVE PHRASE POOLS
-============================================================ */
-/* ============================================================
    EXPANDED SURVEILLANCE & SENTIENT ARCHIVE PHRASE POOLS (100 EACH)
 ============================================================ */
 
@@ -266,6 +263,172 @@ const SENTIENT_ARCHIVE_POOL = [
   "The tracking controls won't save you from what's on this tape until {DATE}.",
   "You have been staring at this card for too long... come back on {DATE}."
 ];
+
+/* ============================================================
+   WEB AUDIO VCR MECHANICAL SYNTHESIZER
+============================================================ */
+const VCRAudio = (function() {
+  let ctx = null;
+
+  function getContext() {
+    if (!ctx) {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+    return ctx;
+  }
+
+  return {
+    playClack: function() {
+      try {
+        const c = getContext();
+        const osc = c.createOscillator();
+        const gain = c.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(120, c.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, c.currentTime + 0.05);
+
+        gain.gain.setValueAtTime(0.3, c.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.05);
+
+        osc.connect(gain);
+        gain.connect(c.destination);
+
+        osc.start();
+        osc.stop(c.currentTime + 0.05);
+      } catch (e) {}
+    },
+
+    playTapeInsert: function() {
+      try {
+        const c = getContext();
+        
+        const osc = c.createOscillator();
+        const gain = c.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(60, c.currentTime);
+        osc.frequency.linearRampToValueAtTime(180, c.currentTime + 0.4);
+        osc.frequency.linearRampToValueAtTime(40, c.currentTime + 0.7);
+
+        gain.gain.setValueAtTime(0.15, c.currentTime);
+        gain.gain.linearRampToValueAtTime(0.2, c.currentTime + 0.4);
+        gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.7);
+
+        osc.connect(gain);
+        gain.connect(c.destination);
+        osc.start();
+        osc.stop(c.currentTime + 0.7);
+
+        setTimeout(() => {
+          const thunk = c.createOscillator();
+          const thunkGain = c.createGain();
+          thunk.type = 'square';
+          thunk.frequency.setValueAtTime(80, c.currentTime);
+          thunk.frequency.exponentialRampToValueAtTime(20, c.currentTime + 0.1);
+
+          thunkGain.gain.setValueAtTime(0.4, c.currentTime);
+          thunkGain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.1);
+
+          thunk.connect(thunkGain);
+          thunkGain.connect(c.destination);
+          thunk.start();
+          thunk.stop(c.currentTime + 0.1);
+        }, 500);
+      } catch (e) {}
+    },
+
+    playTapeWhine: function() {
+      try {
+        const c = getContext();
+        const osc = c.createOscillator();
+        const gain = c.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, c.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, c.currentTime + 0.15);
+        osc.frequency.exponentialRampToValueAtTime(200, c.currentTime + 0.3);
+
+        gain.gain.setValueAtTime(0.08, c.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, c.currentTime + 0.3);
+
+        osc.connect(gain);
+        gain.connect(c.destination);
+
+        osc.start();
+        osc.stop(c.currentTime + 0.3);
+      } catch (e) {}
+    },
+
+    glitchBurst: function() {
+      try {
+        const c = getContext();
+        const bufferSize = c.sampleRate * 0.15;
+        const buffer = c.createBuffer(1, bufferSize, c.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const noise = c.createBufferSource();
+        noise.buffer = buffer;
+
+        const gain = c.createGain();
+        gain.gain.setValueAtTime(0.25, c.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, c.currentTime + 0.15);
+
+        noise.connect(gain);
+        gain.connect(c.destination);
+
+        noise.start();
+      } catch (e) {}
+    }
+  };
+})();
+
+/* ============================================================
+   CART INFECTION MECHANIC ENGINE
+============================================================ */
+setInterval(() => {
+  if (!document.body.classList.contains("analog-horror-mode")) return;
+  if (!tradeCart.length) return;
+
+  const hasTainted = tradeCart.some(item => item.show.includes("[TAINTED]") || item.isInfected);
+  if (!hasTainted) return;
+
+  let mutated = false;
+  
+  for (let i = 0; i < tradeCart.length; i++) {
+    const current = tradeCart[i];
+    
+    const prevInfected = tradeCart[i - 1] && (tradeCart[i - 1].show.includes("[TAINTED]") || tradeCart[i - 1].isInfected);
+    const nextInfected = tradeCart[i + 1] && (tradeCart[i + 1].show.includes("[TAINTED]") || tradeCart[i + 1].isInfected);
+
+    if (!current.isInfected && !current.show.includes("[TAINTED]") && (prevInfected || nextInfected || Math.random() < 0.25)) {
+      current.isInfected = true;
+      const rawShow = current.show.replace(/^\[INFECTED\]\s*/, "");
+      
+      const scrambled = rawShow.split('').map(char => 
+        (Math.random() < 0.65 && char !== ' ') ? '█' : char
+      ).join('');
+
+      current.show = `[INFECTED] ${scrambled}`;
+      mutated = true;
+      
+      VCRAudio.glitchBurst();
+      break;
+    }
+  }
+
+  if (mutated) {
+    saveCartToStorage();
+    updateCartUI();
+  }
+}, 4000);
+
 /* ============================================================
    ANALOG HORROR AUDIO ENGINE
 ============================================================ */
@@ -738,6 +901,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const clearCartBtn = document.getElementById("clear-cart-btn");
   if (clearCartBtn) {
     clearCartBtn.addEventListener("click", () => {
+      if (document.body.classList.contains("analog-horror-mode")) {
+        VCRAudio.playClack();
+      }
       tradeCart = [];
       saveCartToStorage();
       updateCartUI();
@@ -752,6 +918,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (emailBtn) {
     emailBtn.addEventListener("click", (e) => {
       e.preventDefault();
+      if (document.body.classList.contains("analog-horror-mode")) {
+        VCRAudio.playClack();
+      }
       if (!tradeCart.length) {
         alert("Your trade request is empty! Add items to your list first.");
         return;
@@ -804,6 +973,10 @@ function setupIntersectionObserver() {
 }
 
 function applyFiltersAndRender() {
+  if (document.body.classList.contains("analog-horror-mode")) {
+    VCRAudio.playTapeWhine();
+  }
+
   const searchEl = document.getElementById("search-input");
   const query = searchEl ? searchEl.value.toLowerCase().trim() : "";
   currentRenderToken++;
@@ -851,6 +1024,10 @@ function applyFiltersAndRender() {
 }
 
 function appendNextBatch(count = BATCH_SIZE) {
+  if (document.body.classList.contains("analog-horror-mode") && displayedCount > 0) {
+    VCRAudio.playTapeWhine();
+  }
+
   const container = document.getElementById("card-container");
   if (!container) return;
 
@@ -985,11 +1162,17 @@ function saveCartToStorage() {
 }
 
 function openDrawer() {
+  if (document.body.classList.contains("analog-horror-mode")) {
+    VCRAudio.playClack();
+  }
   document.getElementById("trade-drawer")?.classList.add("open");
   document.getElementById("drawer-overlay")?.classList.add("open");
 }
 
 function closeDrawer() {
+  if (document.body.classList.contains("analog-horror-mode")) {
+    VCRAudio.playClack();
+  }
   document.getElementById("trade-drawer")?.classList.remove("open");
   document.getElementById("drawer-overlay")?.classList.remove("open");
 }
@@ -1005,6 +1188,10 @@ function isInCart(item) {
 }
 
 function toggleCartItem(item, buttonEl) {
+  if (document.body.classList.contains("analog-horror-mode")) {
+    VCRAudio.playClack();
+  }
+
   const key = getItemKey(item);
   const existingIdx = tradeCart.findIndex(c => c.key === key);
 
@@ -1017,7 +1204,6 @@ function toggleCartItem(item, buttonEl) {
     saveCartToStorage();
     updateCartUI();
   } else {
-    // Check if Analog Horror mode is active
     const isHorrorActive = document.body.classList.contains("analog-horror-mode");
 
     if (isHorrorActive) {
@@ -1035,13 +1221,11 @@ function toggleCartItem(item, buttonEl) {
       }
 
       if (isNFTActive) {
-        // Open modal & set pending item for Force Access resolution
         openNftHorrorModal(item, buttonEl);
         return;
       }
     }
 
-    // Direct add for normal mode OR non-NFT items in horror mode
     executeAddToCart(item, buttonEl);
   }
 }
@@ -1059,7 +1243,8 @@ function executeAddToCart(item, buttonEl) {
     format: displayFmt,
     tour: getValByName(item, "Tour", "Location", "City"),
     venue: getValByName(item, "Venue", "Theater", "Theatre"),
-    master: getValByName(item, "Master")
+    master: getValByName(item, "Master"),
+    isInfected: false
   });
 
   if (buttonEl) {
@@ -1115,14 +1300,26 @@ function updateCartUI() {
 
   container.innerHTML = "";
 
+  const hasTaintedOrInfected = tradeCart.some(c => c.show.includes("[TAINTED]") || c.isInfected);
+  
+  if (hasTaintedOrInfected && !document.getElementById("infection-banner")) {
+    const banner = document.createElement("div");
+    banner.id = "infection-banner";
+    banner.className = "infection-warning-banner";
+    banner.innerText = "⚠️ WARNING: TAINTED REEL DETECTED. SECTOR CORRUPTION SPREADING.";
+    container.prepend(banner);
+  }
+
   tradeCart.forEach(item => {
     if (item.type.includes("VIDEO")) videos++;
     if (item.type.includes("AUDIO")) audios++;
 
     const isTainted = item.show.includes("[TAINTED]");
+    const isInfected = item.isInfected;
     const location = [item.tour, item.venue].filter(Boolean).join(" - ");
+    
     const cartCard = document.createElement("div");
-    cartCard.className = `cart-item-row ${isTainted ? 'tainted-cart-item' : ''}`;
+    cartCard.className = `cart-item-row ${isTainted ? 'tainted-cart-item' : ''} ${isInfected ? 'infected-cart-item' : ''}`;
 
     if (isTainted) {
       cartCard.style.borderLeft = "4px solid #ff0000";
@@ -1131,13 +1328,16 @@ function updateCartUI() {
 
     cartCard.innerHTML = `
       <div class="cart-item-details">
-        <strong style="${isTainted ? 'color: #ff3333; font-family: monospace;' : ''}">${item.show}</strong>
+        <strong style="${(isTainted || isInfected) ? 'color: #ff3333; font-family: monospace;' : ''}">${item.show}</strong>
         <span>📅 ${item.date} (${item.format}) ${location ? `| 📍 ${location}` : ''}</span>
       </div>
       <button type="button" class="remove-cart-item" data-key="${item.key}">&times;</button>
     `;
 
     cartCard.querySelector(".remove-cart-item").addEventListener("click", () => {
+      if (document.body.classList.contains("analog-horror-mode")) {
+        VCRAudio.playClack();
+      }
       tradeCart = tradeCart.filter(c => c.key !== item.key);
       saveCartToStorage();
       updateCartUI();
@@ -1152,6 +1352,9 @@ function updateCartUI() {
 }
 
 function copyTradeRequest() {
+  if (document.body.classList.contains("analog-horror-mode")) {
+    VCRAudio.playClack();
+  }
   if (!tradeCart.length) return;
   const text = generateFormattedText();
   navigator.clipboard.writeText(text).then(() => {
@@ -1298,6 +1501,10 @@ function isNftStillActive(dateStr) {
 }
 
 function copySingleItemSummary(item, buttonElement) {
+  if (document.body.classList.contains("analog-horror-mode")) {
+    VCRAudio.playClack();
+  }
+  
   const show = getValByName(item, "Show") || "Unknown Show";
   const date = getValByName(item, "Date") || "Unknown Date";
   const tour = getValByName(item, "Tour", "Location", "City");
@@ -1379,6 +1586,7 @@ function initAnalogHorrorEasterEgg() {
       }
 
       if (isHorror) {
+        VCRAudio.playTapeInsert();
         startTapeHiss();
         transformCardsToVHS();
       } else {
@@ -1393,6 +1601,7 @@ function initAnalogHorrorEasterEgg() {
 
     const card = e.target.closest(".item-card");
     if (card && e.target.tagName !== "BUTTON") {
+      VCRAudio.playClack();
       if (typeof SecurityAudio !== "undefined" && SecurityAudio.click) {
         SecurityAudio.click();
       }
