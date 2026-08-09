@@ -1790,3 +1790,32 @@ body.analog-horror-mode #cart-toggle-btn {
   50% { opacity: 0.9; transform: translate3d(0, 0, 0) scale(0.98) skewX(-3deg); }
   100% { opacity: 0; transform: translate3d(0, 0, 0) scale(1) skewX(0deg); }
 }
+/* Cart Infection Visuals */
+.cart-item-row.infected-cart-item {
+  border-left: 4px solid #8b0000 !important;
+  background-color: rgba(139, 0, 0, 0.25) !important;
+  transition: background-color 0.8s ease, border-color 0.8s ease;
+}
+
+.cart-item-row.infected-cart-item strong {
+  color: #ff4d4d !important;
+  font-family: monospace;
+  letter-spacing: 1px;
+}
+
+.infection-warning-banner {
+  background: #2a0000;
+  border: 1px solid #ff0000;
+  color: #ff6666;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-family: monospace;
+  margin-bottom: 10px;
+  text-align: center;
+  animation: pulse-border 1.5s infinite alternate;
+}
+
+@keyframes pulse-border {
+  from { border-color: #8b0000; }
+  to { border-color: #ff0000; }
+}
