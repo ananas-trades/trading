@@ -17,6 +17,7 @@ let tradeCart = loadCartFromStorage();
 // Modal & Interceptor State variables
 let pendingItemForCart = null;
 let originalDocumentTitle = document.title;
+let isGlitching = false; // Flag to prevent rapid-fire flashing triggers
 
 /* ============================================================
    SURVEILLANCE & SENTIENT ARCHIVE PHRASE POOLS
@@ -152,12 +153,17 @@ function getCorruptedText(originalText) {
    SENSORY OVERLOAD & NFT HORROR INTERCEPTOR MODAL ENGINE
 ============================================================ */
 function triggerSensoryOverload() {
-  requestAnimationFrame(() => {
-    const flash = document.createElement("div");
-    flash.className = "screen-glitch-flash";
-    document.body.appendChild(flash);
-    setTimeout(() => flash.remove(), 160);
-  });
+  if (isGlitching) return;
+  isGlitching = true;
+
+  const flash = document.createElement("div");
+  flash.className = "screen-glitch-flash";
+  document.body.appendChild(flash);
+
+  setTimeout(() => {
+    flash.remove();
+    isGlitching = false;
+  }, 200);
 
   if (gainNode) {
     const prevGain = gainNode.gain.value;
@@ -175,15 +181,17 @@ function triggerSensoryOverload() {
 }
 
 function openNftHorrorModal(item, buttonEl) {
-  pendingItemForCart = { item, buttonEl };
-  
-  triggerSensoryOverload();
-
   const modal = document.getElementById("nft-horror-modal");
   const tagEl = document.getElementById("nft-modal-tag");
   const textEl = document.getElementById("nft-horror-primary-text");
   
   if (!modal || !textEl) return;
+
+  // Prevent multiple triggers if modal is already open
+  if (modal.classList.contains("active")) return;
+
+  pendingItemForCart = { item, buttonEl };
+  triggerSensoryOverload();
 
   document.body.style.overflow = "hidden";
   document.documentElement.style.overflow = "hidden";
