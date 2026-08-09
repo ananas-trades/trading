@@ -1376,19 +1376,31 @@ body.analog-horror-mode #vhs-osd-overlay {
 /* ============================================================
    SENSORY OVERLOAD & RED SCREEN FLASH
 ============================================================ */
+/* ============================================================
+   SENSORY OVERLOAD & RED SCREEN FLASH (FIXED)
+============================================================ */
 
 .screen-glitch-flash {
-  position: fixed;
-  inset: 0;
-  background: rgba(120, 0, 0, 0.45);
-  mix-blend-mode: color-dodge;
-  pointer-events: none;
-  z-index: 9998;
-  animation: flash-tear 0.15s ease-out forwards;
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(220, 0, 0, 0.85) !important;
+  mix-blend-mode: hard-light !important;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
+  opacity: 0;
+  transition: opacity 0.05s ease-in-out;
+}
+
+.screen-glitch-flash.flash-active {
+  opacity: 1 !important;
+  animation: flash-tear 0.35s ease-out forwards;
 }
 
 @keyframes flash-tear {
-  0% { opacity: 1; transform: scale(1.02) skewX(2deg); }
+  0% { opacity: 1; transform: scale(1.05) skewX(4deg); }
+  50% { opacity: 0.9; transform: scale(0.98) skewX(-3deg); }
   100% { opacity: 0; transform: scale(1) skewX(0deg); }
 }
 
