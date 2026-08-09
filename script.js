@@ -1723,32 +1723,54 @@ if (document.readyState === "loading") {
 // ==========================================
 // VHS OSD STATE TOGGLE (PLAY -> PAUSE -> RECORD)
 // ==========================================
-document.addEventListener('DOMContentLoaded', () => {
+let currentOsdStateIndex = 0;
+
+function resetOsdState() {
   const playBtn = document.querySelector('.osd-top-left');
   const body = document.body;
-
+  
+  currentOsdStateIndex = 0;
+  body.classList.remove('vhs-paused', 'vhs-recording');
+  
   if (playBtn) {
-    const states = [
-      { text: 'PLAY ▶', bodyClass: '', osdClass: '' },
-      { text: 'PAUSE ❚❚', bodyClass: 'vhs-paused', osdClass: '' },
-      { text: 'RECORD 🔴', bodyClass: 'vhs-recording', osdClass: 'osd-recording' }
-    ];
-
-    let currentStateIndex = 0;
-
-    playBtn.addEventListener('click', () => {
-      // Clear current state classes
-      body.classList.remove('vhs-paused', 'vhs-recording');
-      playBtn.classList.remove('osd-recording');
-
-      // Cycle index
-      currentStateIndex = (currentStateIndex + 1) % states.length;
-      const newState = states[currentStateIndex];
-
-      // Apply new state
-      playBtn.textContent = newState.text;
-      if (newState.bodyClass) body.classList.add(newState.bodyClass);
-      if (newState.osdClass) playBtn.classList.add(newState.osdClass);
-    });
+    playBtn.textContent = 'PLAY ▶';
+    playBtn.classList.remove('osd-recording');
   }
-});
+}
+
+function initVhsOsdControls() {
+  const playBtn = document.querySelector('.osd-top-left');
+  if (!playBtn) return;
+
+  playBtn.style.cursor = 'pointer';
+
+  const states = [
+    { text: 'PLAY ▶', bodyClass: '', osdClass: '' },
+    { text: 'PAUSE ❚❚', bodyClass: 'vhs-paused', osdClass: '' },
+    { text: 'RECORD 🔴', bodyClass: 'vhs-recording', osdClass: 'osd-recording' }
+  ];
+
+  playBtn.addEventListener('click', () => {
+    if (document.body.classList.contains('analog-horror-mode') && typeof VCRAudio !== 'undefined') {
+      VCRAudio.playClack();
+    }
+
+    const body = document.body;
+    body.classList.remove('vhs-paused', 'vhs-recording');
+    playBtn.classList.remove('osd-recording');
+
+    currentOsdStateIndex = (currentOsdStateIndex + 1) % states.length;
+    const newState = states[currentOsdStateIndex];
+
+    playBtn.textContent = newState.text;
+    if (newState.bodyClass) body.classList.add(newState.bodyClass);
+    if (newState.osdClass) playBtn.classList.add(newState.osdClass);
+  });
+}
+
+// Bind during initialization
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initVhsOsdControls);
+} else {
+  initVhsOsdControls();
+}
