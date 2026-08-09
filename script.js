@@ -17,7 +17,7 @@ let tradeCart = loadCartFromStorage();
 // Modal & Interceptor State variables
 let pendingItemForCart = null;
 let originalDocumentTitle = document.title;
-let isGlitching = false; // Flag to prevent rapid-fire flashing triggers
+let isGlitching = false;
 
 /* ============================================================
    SURVEILLANCE & SENTIENT ARCHIVE PHRASE POOLS
@@ -158,7 +158,6 @@ function triggerSensoryOverload() {
   if (isGlitching) return;
   isGlitching = true;
 
-  // 1. SAFE AUDIO GLITCH (Reuses AudioContext without leaking memory)
   try {
     if (!sensoryAudioCtx) {
       sensoryAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -185,11 +184,19 @@ function triggerSensoryOverload() {
     console.warn("Audio trigger glitch suppressed:", e);
   }
 
-  // 2. LIGHTWEIGHT VISUAL FLASH
   let flash = document.querySelector('.screen-glitch-flash');
   if (!flash) {
     flash = document.createElement("div");
     flash.className = "screen-glitch-flash";
+    flash.style.position = "fixed";
+    flash.style.top = "0";
+    flash.style.left = "0";
+    flash.style.width = "100vw";
+    flash.style.height = "100vh";
+    flash.style.pointerEvents = "none";
+    flash.style.zIndex = "99999";
+    flash.style.backgroundColor = "rgba(255, 0, 0, 0.3)";
+    flash.style.transition = "opacity 0.15s ease-out";
     document.body.appendChild(flash);
   }
 
@@ -201,10 +208,6 @@ function triggerSensoryOverload() {
   }, 150);
 
   document.title = "⚠️ SIGNAL_LOST_0x99";
-
-  console.clear();
-  console.error("%c[CRITICAL HARDWARE FAULT] Magnetic Reader Head Jammed", "color: #ff0033; font-size: 16px; font-weight: bold;");
-  console.warn("%c[SECURITY_AUDIT] Unauthorized extraction attempt on restricted block.", "color: #ffaa00; font-size: 12px;");
 }
 
 function ensureModalExists() {
@@ -213,28 +216,32 @@ function ensureModalExists() {
     modal = document.createElement("div");
     modal.id = "nft-horror-modal";
     modal.className = "nft-horror-overlay";
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100000;
+      pointer-events: auto;
+    `;
     modal.innerHTML = `
-      <div class="nft-horror-content">
-        <div id="nft-modal-tag" class="modal-tag">SURVEILLANCE_STATE_ALERT</div>
-        <div class="glitch-text-box">
-          <div id="nft-horror-primary-text" class="horror-text-phase1"></div>
+      <div class="nft-horror-content" style="background:#111; border:2px solid #ff0033; padding:24px; max-width:500px; width:90%; color:#fff; text-align:center;">
+        <div id="nft-modal-tag" class="modal-tag" style="color:#ff0033; font-family:monospace; margin-bottom:12px;">SURVEILLANCE_STATE_ALERT</div>
+        <div class="glitch-text-box" style="margin-bottom:20px;">
+          <div id="nft-horror-primary-text" class="horror-text-phase1" style="font-size:1.1rem; line-height:1.4;"></div>
         </div>
-        <div class="nft-horror-actions">
-          <button type="button" id="nft-force-access-btn" class="force-access-btn">FORCE OVERRIDE</button>
-          <button type="button" id="nft-abort-btn" class="abort-access-btn">ABORT</button>
+        <div class="nft-horror-actions" style="display:flex; gap:12px; justify-content:center;">
+          <button type="button" id="nft-force-access-btn" class="force-access-btn" style="background:#ff0033; color:#fff; border:none; padding:10px 16px; cursor:pointer; font-weight:bold;">FORCE OVERRIDE</button>
+          <button type="button" id="nft-abort-btn" class="abort-access-btn" style="background:#333; color:#fff; border:none; padding:10px 16px; cursor:pointer;">ABORT</button>
         </div>
       </div>
     `;
     document.body.appendChild(modal);
-
-    document.getElementById("nft-force-access-btn").addEventListener("click", () => {
-      if (pendingItemForCart) {
-        executeAddToCart(pendingItemForCart.item, pendingItemForCart.buttonEl);
-      }
-      closeNftHorrorModal();
-    });
-
-    document.getElementById("nft-abort-btn").addEventListener("click", closeNftHorrorModal);
   }
   return modal;
 }
@@ -248,7 +255,6 @@ function openNftHorrorModal(item, buttonEl) {
   triggerSensoryOverload();
 
   document.body.style.overflow = "hidden";
-  document.documentElement.style.overflow = "hidden";
 
   const nftDateStr = getValByName(item, "NFT Date");
   const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
@@ -258,7 +264,6 @@ function openNftHorrorModal(item, buttonEl) {
     formattedDateDisplay = "FOREVER";
   }
 
-  // Phase 1: Surveillance State
   const phase1Text = SURVEILLANCE_STATE_POOL[Math.floor(Math.random() * SURVEILLANCE_STATE_POOL.length)];
   if (tagEl) tagEl.innerText = "SURVEILLANCE_STATE_ALERT";
   if (textEl) {
@@ -266,16 +271,11 @@ function openNftHorrorModal(item, buttonEl) {
     textEl.innerText = phase1Text;
   }
 
-  // Force modal display visibility
   modal.classList.add("active");
   modal.style.display = "flex";
-  modal.style.opacity = "1";
-  modal.style.visibility = "visible";
-  modal.style.pointerEvents = "auto";
 
-  // Phase 2: Sentient Shift
   setTimeout(() => {
-    if (!modal.classList.contains("active")) return;
+    if (modal.style.display === "none") return;
 
     const rawPhase2 = SENTIENT_ARCHIVE_POOL[Math.floor(Math.random() * SENTIENT_ARCHIVE_POOL.length)];
     const phase2Text = rawPhase2.replace("{DATE}", formattedDateDisplay);
@@ -293,9 +293,6 @@ function closeNftHorrorModal() {
   if (modal) {
     modal.classList.remove("active");
     modal.style.display = "none";
-    modal.style.opacity = "0";
-    modal.style.visibility = "hidden";
-    modal.style.pointerEvents = "none";
   }
   
   document.body.style.overflow = "";
@@ -310,22 +307,17 @@ function closeNftHorrorModal() {
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
 
-  // Interceptor Modal Actions
-  const forceBtn = document.getElementById("nft-force-access-btn");
-  const abortBtn = document.getElementById("nft-abort-btn");
-
-  if (forceBtn) {
-    forceBtn.addEventListener("click", () => {
+  // Delegated Global Event Handler for Modal Buttons
+  document.body.addEventListener("click", (e) => {
+    if (e.target && e.target.id === "nft-force-access-btn") {
       if (pendingItemForCart) {
         executeAddToCart(pendingItemForCart.item, pendingItemForCart.buttonEl);
       }
       closeNftHorrorModal();
-    });
-  }
-
-  if (abortBtn) {
-    abortBtn.addEventListener("click", closeNftHorrorModal);
-  }
+    } else if (e.target && e.target.id === "nft-abort-btn") {
+      closeNftHorrorModal();
+    }
+  });
 
   Papa.parse("./list.csv", {
     download: true,
@@ -345,17 +337,21 @@ document.addEventListener("DOMContentLoaded", () => {
       updateCartUI();
     },
     error: function(err) {
-      document.getElementById('stats').innerText = "Upload your 'list.csv' file to display your collection!";
+      const stats = document.getElementById('stats');
+      if (stats) stats.innerText = "Upload your 'list.csv' file to display your collection!";
     }
   });
 
   // Debounced Search Input
-  document.getElementById("search-input").addEventListener("input", () => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-      applyFiltersAndRender();
-    }, 80);
-  });
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        applyFiltersAndRender();
+      }, 80);
+    });
+  }
 
   // Fast Delegated Filter Clicks
   document.addEventListener("click", (e) => {
@@ -490,7 +486,8 @@ function setupIntersectionObserver() {
 }
 
 function applyFiltersAndRender() {
-  const query = document.getElementById("search-input").value.toLowerCase().trim();
+  const searchEl = document.getElementById("search-input");
+  const query = searchEl ? searchEl.value.toLowerCase().trim() : "";
   currentRenderToken++;
 
   currentFilteredItems = allData.filter(item => {
@@ -521,21 +518,25 @@ function applyFiltersAndRender() {
     return true;
   });
 
-  document.getElementById('stats').innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
+  const stats = document.getElementById('stats');
+  if (stats) stats.innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
 
   const container = document.getElementById("card-container");
-  container.innerHTML = "";
-  displayedCount = 0;
+  if (container) {
+    container.innerHTML = "";
+    displayedCount = 0;
 
-  if (currentFilteredItems.length > 0) {
-    appendNextBatch(30);
+    if (currentFilteredItems.length > 0) {
+      appendNextBatch(30);
+    }
   }
 }
 
 function appendNextBatch(count = BATCH_SIZE) {
   const container = document.getElementById("card-container");
-  const nextSlice = currentFilteredItems.slice(displayedCount, displayedCount + count);
+  if (!container) return;
 
+  const nextSlice = currentFilteredItems.slice(displayedCount, displayedCount + count);
   if (nextSlice.length === 0) return;
 
   const fragment = document.createDocumentFragment();
@@ -602,7 +603,7 @@ function appendNextBatch(count = BATCH_SIZE) {
     const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
     const itemInCart = isInCart(item);
 
-    const cardHTML = `
+    return `
       <div class="${cardClass}">
         <div class="card-header">
           <div class="card-title">${show}</div>
@@ -632,8 +633,6 @@ function appendNextBatch(count = BATCH_SIZE) {
         </div>
       </div>
     `;
-
-    return cardHTML;
   }).join('');
 
   while (tempContainer.firstChild) {
@@ -1107,7 +1106,6 @@ function transformCardsToVHS() {
 
     card.innerHTML = `
       <div class="vhs-inner">
-        <!-- FRONT CASSETTE FACE -->
         <div class="vhs-front">
           <div class="vhs-screw top-l"></div>
           <div class="vhs-screw top-r"></div>
@@ -1134,7 +1132,6 @@ function transformCardsToVHS() {
           <div class="vhs-screw bot-r"></div>
         </div>
         
-        <!-- BACK CASSETTE FACE -->
         <div class="vhs-back">
           <div class="vhs-screw top-l"></div>
           <div class="vhs-screw top-r"></div>
