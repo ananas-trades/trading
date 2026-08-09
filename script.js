@@ -347,6 +347,11 @@ function closeNftHorrorModal() {
       modal.classList.remove("active");
     }
   }
+
+  const textEl = document.getElementById("nft-horror-primary-text");
+  if (textEl) {
+    textEl.className = "horror-text-phase1";
+  }
   
   document.title = originalDocumentTitle;
   pendingItemForCart = null;
@@ -385,7 +390,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // OVERRIDDEN FORCE ACCESS & ABORT DELEGATED CLICK LISTENER
   document.body.addEventListener("click", (e) => {
-    if (e.target && e.target.id === "nft-force-access-btn") {
+    const forceBtn = e.target ? e.target.closest("#nft-force-access-btn, .force-access-btn") : null;
+    const abortBtn = e.target ? e.target.closest("#nft-abort-btn, .abort-btn") : null;
+
+    if (forceBtn) {
       if (pendingItemForCart) {
         triggerSensoryOverload();
         if (typeof SecurityAudio !== "undefined" && SecurityAudio.alert) {
@@ -408,7 +416,7 @@ document.addEventListener("DOMContentLoaded", () => {
         executeAddToCart(corruptedItem, pendingItemForCart.buttonEl);
       }
       closeNftHorrorModal();
-    } else if (e.target && e.target.id === "nft-abort-btn") {
+    } else if (abortBtn) {
       closeNftHorrorModal();
     }
   });
