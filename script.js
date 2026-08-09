@@ -87,6 +87,7 @@ const SENTIENT_ARCHIVE_POOL = [
   "The signals are bleeding together... stay away until {DATE}.",
   "I will remember your screen resolution when {DATE} arrives."
 ];
+
 /* ============================================================
    ANALOG HORROR AUDIO ENGINE
 ============================================================ */
@@ -245,20 +246,28 @@ function openNftHorrorModal(item, buttonEl) {
     formattedDateDisplay = "FOREVER";
   }
 
+  // Pick a random header from 42 options
+  if (tagEl) {
+    const randomHeaderIndex = Math.floor(Math.random() * CREEPY_NFT_HEADERS.length);
+    tagEl.innerText = CREEPY_NFT_HEADERS[randomHeaderIndex];
+  }
+
+  // Phase 1: Surveillance Alert
   const phase1Text = SURVEILLANCE_STATE_POOL[Math.floor(Math.random() * SURVEILLANCE_STATE_POOL.length)];
-  if (tagEl) tagEl.innerText = "SURVEILLANCE_STATE_ALERT";
   if (textEl) {
     textEl.className = "horror-text-phase1";
     textEl.innerText = phase1Text;
   }
 
-  // Use Native Open Method
+  // Lock scrolling & Open Modal
+  document.body.classList.add("modal-open");
   if (typeof modal.showModal === "function") {
     modal.showModal();
   } else {
     modal.classList.add("active");
   }
 
+  // Phase 2: Sentient Archive Warning
   setTimeout(() => {
     const isOpen = modal.open || modal.classList.contains("active");
     if (!isOpen) return;
@@ -266,7 +275,6 @@ function openNftHorrorModal(item, buttonEl) {
     const rawPhase2 = SENTIENT_ARCHIVE_POOL[Math.floor(Math.random() * SENTIENT_ARCHIVE_POOL.length)];
     const phase2Text = rawPhase2.replace("{DATE}", formattedDateDisplay);
 
-    if (tagEl) tagEl.innerText = "SENTIENT_ARCHIVE_RESPONSE";
     if (textEl) {
       textEl.className = "horror-text-phase2";
       textEl.innerText = phase2Text;
@@ -276,6 +284,8 @@ function openNftHorrorModal(item, buttonEl) {
 
 function closeNftHorrorModal() {
   const modal = document.getElementById("nft-horror-modal");
+  document.body.classList.remove("modal-open");
+
   if (modal) {
     if (typeof modal.close === "function") {
       modal.close();
