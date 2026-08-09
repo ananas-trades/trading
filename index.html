@@ -9,8 +9,56 @@
   <!-- Cache-buster update -->
   <link rel="stylesheet" href="style.css?v=7.0" />
 
- 
+  <!-- VHS OSD DEGRADATION & INTERACTIVE STYLES -->
+  <style>
+    /* Clickable OSD Button */
+    .osd-top-left {
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
 
+    .osd-top-left:hover {
+      text-shadow: 0 0 8px #00ffcc;
+    }
+
+    /* Tape Degradation State 1: PAUSE */
+    body.vhs-paused {
+      filter: contrast(115%) brightness(88%) hue-rotate(-10deg);
+    }
+
+    /* Tape Degradation State 2: RECORD (Jitter & Color Bleed) */
+    body.vhs-recording {
+      animation: tapeDegrade 0.15s infinite alternate;
+    }
+
+    @keyframes tapeDegrade {
+      0% {
+        filter: contrast(130%) brightness(85%) sepia(20%) hue-rotate(340deg) skewX(0deg);
+      }
+      50% {
+        filter: contrast(150%) brightness(80%) sepia(40%) hue-rotate(320deg) skewX(0.4deg);
+      }
+      100% {
+        filter: contrast(120%) brightness(90%) sepia(10%) hue-rotate(350deg) skewX(-0.3deg);
+      }
+    }
+
+    /* Pulsing Red OSD Text for RECORD Mode */
+    .osd-recording {
+      color: #ff0055 !important;
+      text-shadow: 0 0 10px #ff0055 !important;
+      animation: recBlink 1s infinite alternate;
+    }
+
+    @keyframes recBlink {
+      0% { opacity: 1; }
+      100% { opacity: 0.35; }
+    }
+  </style>
+</head>
+
+<body>
   <!-- VHS On-Screen Display Overlay -->
   <div id="vhs-osd-overlay">
     <div class="osd-top-left">PLAY ▶</div>
@@ -116,7 +164,34 @@
     </div>
   </dialog>
 
- 
+  <!-- VHS PLAY/PAUSE/RECORD TOGGLE EASTER EGG SCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const playBtn = document.querySelector('.osd-top-left');
+      const body = document.body;
+
+      if (playBtn) {
+        const states = [
+          { text: 'PLAY ▶', bodyClass: '', osdClass: '' },
+          { text: 'PAUSE ❚❚', bodyClass: 'vhs-paused', osdClass: '' },
+          { text: 'RECORD 🔴', bodyClass: 'vhs-recording', osdClass: 'osd-recording' }
+        ];
+
+        let currentStateIndex = 0;
+
+        playBtn.addEventListener('click', () => {
+          body.classList.remove('vhs-paused', 'vhs-recording');
+          playBtn.classList.remove('osd-recording');
+
+          currentStateIndex = (currentStateIndex + 1) % states.length;
+          const newState = states[currentStateIndex];
+
+          playBtn.textContent = newState.text;
+          if (newState.bodyClass) body.classList.add(newState.bodyClass);
+          if (newState.osdClass) playBtn.classList.add(newState.osdClass);
+        });
+      }
+    });
   </script>
 
   <script src="script.js?v=7.0"></script>
