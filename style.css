@@ -1867,3 +1867,28 @@ body.analog-horror-mode #vhs-osd-overlay {
   border-color: #888;
   color: #fff;
 }
+/* Force absolute break out of layout flow */
+body > #nft-horror-modal,
+.nft-horror-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  z-index: 9999999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Ensure the modal content stays centered and sized properly */
+.nft-horror-content {
+  position: relative !important;
+  margin: auto !important;
+  box-sizing: border-box;
+}
