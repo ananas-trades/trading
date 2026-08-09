@@ -282,8 +282,17 @@ function triggerSensoryOverload() {
   if (!flash) {
     flash = document.createElement("div");
     flash.className = "screen-glitch-flash";
-    document.body.appendChild(flash);
+    // Append directly to <html> to escape any body/container stacking contexts
+    document.documentElement.appendChild(flash);
   }
+
+  // Pin directly to current window scroll position
+  flash.style.position = 'fixed';
+  flash.style.top = '0px';
+  flash.style.left = '0px';
+  flash.style.width = '100vw';
+  flash.style.height = '100vh';
+  flash.style.zIndex = '2147483647';
 
   // Restart keyframe animation
   flash.classList.remove("flash-active");
@@ -297,7 +306,6 @@ function triggerSensoryOverload() {
 
   document.title = "⚠️ SIGNAL_LOST_0x99";
 }
-
 function openNftHorrorModal(item, buttonEl) {
   const modal = document.getElementById("nft-horror-modal");
   const tagEl = document.getElementById("nft-modal-tag");
