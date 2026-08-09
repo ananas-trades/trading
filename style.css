@@ -1765,47 +1765,67 @@ body.analog-horror-mode #vhs-osd-overlay {
   opacity: 0.85;
 }
 /* ============================================================
-   NFT HORROR MODAL VIEWPORT OVERLAYS
+   NFT HORROR MODAL VIEWPORT OVERLAYS (CLEAN & CONSOLIDATED)
 ============================================================ */
+
+/* Main Fullscreen Backdrop Overlay */
+#nft-horror-modal,
 .nft-horror-overlay {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  background: rgba(5, 2, 4, 0.94) !important;
+  margin: 0 !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+  background: rgba(5, 2, 4, 0.95) !important;
   backdrop-filter: blur(8px);
-  z-index: 999999 !important;
+  z-index: 999999 !important; /* Must sit above everything else */
 
+  /* Flex Layout Centering */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  flex-direction: column !important;
 
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+  /* State Management: Hidden by default */
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
   transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
+/* Active State Triggered by JS */
+#nft-horror-modal.active,
 .nft-horror-overlay.active {
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
 }
 
-.nft-horror-content {
-  background: #0d060a;
-  border: 2px solid #ff0033;
-  box-shadow: 0 0 30px rgba(255, 0, 51, 0.4);
-  width: 90%;
-  max-width: 520px;
-  padding: 24px;
-  border-radius: 6px;
-  color: #fff;
-  font-family: monospace;
-  text-align: center;
+/* Modal Inner Box (Handles both class naming variations) */
+.nft-horror-content,
+.nft-modal-content {
+  position: relative !important;
+  background: #0d060a !important;
+  border: 2px solid #ff0033 !important;
+  box-shadow: 0 0 30px rgba(255, 0, 51, 0.6) !important;
+  width: 90% !important;
+  max-width: 520px !important;
+  padding: 24px !important;
+  border-radius: 6px !important;
+  color: #fff !important;
+  font-family: monospace, sans-serif !important;
+  text-align: center !important;
+  z-index: 1000000 !important;
+  box-sizing: border-box !important;
+  margin: auto !important;
 }
 
+/* Modal Header Section */
 .nft-horror-header {
   display: flex;
   align-items: center;
@@ -1816,12 +1836,19 @@ body.analog-horror-mode #vhs-osd-overlay {
   padding-bottom: 10px;
 }
 
+/* Header Tag / Alert Indicator */
+#nft-modal-tag,
 .modal-tag {
-  color: #ff0033;
+  color: #ffaa00 !important;
   font-weight: bold;
-  letter-spacing: 1px;
+  font-family: monospace, sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  display: block !important;
 }
 
+/* Text Container Box */
 .glitch-text-box {
   min-height: 80px;
   display: flex;
@@ -1830,134 +1857,75 @@ body.analog-horror-mode #vhs-osd-overlay {
   margin-bottom: 20px;
 }
 
-.horror-text-phase1 {
-  color: #ffaa00;
-  font-size: 0.95rem;
-}
-
-.horror-text-phase2 {
-  color: #ff0033;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.nft-horror-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-}
-
-.force-access-btn, .abort-access-btn {
-  padding: 10px 16px;
-  background: #1a080c;
-  border: 1px solid #ff0033;
-  color: #ff0033;
-  font-family: monospace;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.force-access-btn:hover {
-  background: #ff0033;
-  color: #000;
-}
-
-.abort-access-btn:hover {
-  background: #444;
-  border-color: #888;
-  color: #fff;
-}
-/* Force absolute break out of layout flow */
-body > #nft-horror-modal,
-.nft-horror-overlay {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  transform: none !important;
-  z-index: 9999999 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Ensure the modal content stays centered and sized properly */
-.nft-horror-content {
-  position: relative !important;
-  margin: auto !important;
-  box-sizing: border-box;
-}
-/* Ensure modal overlay covers everything */
-#nft-horror-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(10, 0, 0, 0.92); /* Dark red-black background */
-  display: none; /* JS will toggle to flex */
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 999999 !important; /* Must sit ABOVE screen flash elements */
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-#nft-horror-modal.active {
-  display: flex !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Modal Inner Box */
-.nft-modal-content {
-  background: #000;
-  border: 2px solid #ff0033;
-  box-shadow: 0 0 20px #ff0033;
-  padding: 30px;
-  max-width: 500px;
-  width: 90%;
-  text-align: center;
-  z-index: 1000000 !important;
-}
-
-/* Modal Header Tag */
-#nft-modal-tag {
-  color: #ffaa00;
-  font-family: monospace;
-  font-size: 0.85rem;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
-}
-
-/* Modal Primary Text Styling */
+/* Primary Horror Text Styling */
 #nft-horror-primary-text,
 .horror-text-phase1,
 .horror-text-phase2 {
-  color: #ff0033 !important;
   font-family: monospace, sans-serif;
-  font-size: 1.1rem;
   line-height: 1.5;
   min-height: 60px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   display: block !important;
   visibility: visible !important;
 }
 
-/* Flash effect must sit BELOW modal */
+.horror-text-phase1 {
+  color: #ffaa00 !important;
+  font-size: 0.95rem;
+}
+
+.horror-text-phase2 {
+  color: #ff0033 !important;
+  font-size: 1.05rem;
+  font-weight: bold;
+}
+
+/* Action Buttons Container */
+.nft-horror-actions,
+.nft-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+/* Buttons (Supports both ID and Class strategies) */
+#nft-force-access-btn,
+#nft-abort-btn,
+.force-access-btn, 
+.abort-access-btn {
+  padding: 10px 18px;
+  background: #1a080c;
+  border: 1px solid #ff0033;
+  color: #ff0033;
+  font-family: monospace, sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#nft-force-access-btn:hover,
+.force-access-btn:hover {
+  background: #ff0033 !important;
+  color: #000 !important;
+}
+
+#nft-abort-btn:hover,
+.abort-access-btn:hover {
+  background: #444 !important;
+  border-color: #888 !important;
+  color: #fff !important;
+}
+
+/* Red Flash Effect (Must sit lower than the modal layer) */
 .screen-glitch-flash {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: red;
-  z-index: 99998 !important; /* Lower than modal */
-  pointer-events: none;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: red !important;
+  z-index: 99998 !important; /* Sitting right below z-index 999999 */
+  pointer-events: none !important;
 }
