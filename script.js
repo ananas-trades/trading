@@ -186,41 +186,41 @@ function triggerBreachOverlay() {
     left: "0",
     width: "100vw",
     height: "100vh",
-    backgroundColor: "rgba(255, 0, 0, 0.95)",
+    backgroundColor: "rgba(220, 0, 0, 0.95)",
     color: "#ffffff",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    fontFamily: "monospace, Courier, sans-serif",
-    fontSize: "clamp(1.2rem, 3vw, 2.5rem)",
+    fontFamily: "Arial, Helvetica, sans-serif",
+    fontSize: "clamp(2rem, 5vw, 4rem)",
     fontWeight: "900",
-    letterSpacing: "2px",
+    letterSpacing: "1px",
     zIndex: "2147483647",
     pointerEvents: "none",
     textAlign: "center",
     padding: "20px",
     boxSizing: "border-box",
-    textShadow: "0 0 10px #000, 2px 2px 0px #000",
+    textShadow: "3px 3px 0px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000",
     opacity: "1",
     transition: "opacity 0.6s ease-out"
   });
 
-  breach.innerHTML = `<div>⚠️ SYSTEM INTEGRITY VIOLATED<br><span style="font-size: 0.8em; color: #ffcccc;">// TAINTED RECORD INJECTED ⚠️</span></div>`;
+  breach.innerHTML = `
+    <div style="margin-bottom: 12px;">⚠️ ACCESS FORCED ⚠️</div>
+    <div style="font-size: 0.45em; color: #ffcccc; letter-spacing: 2px;">
+      ITEM CORRUPTED & ADDED TO CART
+    </div>
+  `;
 
-  // Attach directly into <dialog> if open so it renders above native modal top layer
-  const activeDialog = document.querySelector("dialog[open]");
-  const parentTarget = activeDialog || document.body;
-  parentTarget.appendChild(breach);
+  // Always mount directly to document.body
+  document.body.appendChild(breach);
 
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      setTimeout(() => {
-        breach.style.opacity = "0";
-        setTimeout(() => breach.remove(), 10000);
-      }, 8000);
-    });
-  });
+  // Smooth 2.5-second hold before fade out
+  setTimeout(() => {
+    breach.style.opacity = "0";
+    setTimeout(() => breach.remove(), 600);
+  }, 2500);
 }
 
 async function runTextTransition(element, newText) {
@@ -408,20 +408,23 @@ document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
   ensureCartButtonInBody();
 
-  // OVERRIDDEN FORCE ACCESS & ABORT DELEGATED CLICK LISTENER
+  // DELEGATED CLICK LISTENER
   document.body.addEventListener("click", (e) => {
     const forceBtn = e.target ? e.target.closest("#nft-force-access-btn, .force-access-btn") : null;
     const abortBtn = e.target ? e.target.closest("#nft-abort-btn, .abort-btn") : null;
 
     if (forceBtn) {
-      // 1. Immediately trigger audio + full screen breach overlay flash inside active container
+      // 1. Close modal FIRST so body becomes primary render target
+      closeNftHorrorModal();
+
+      // 2. Trigger audio & breach overlay directly on body
       triggerSensoryOverload();
       if (typeof SecurityAudio !== "undefined" && SecurityAudio.alert) {
         SecurityAudio.alert();
       }
       triggerBreachOverlay();
 
-      // 2. Corrupt item title (80% scramble) and append to cart
+      // 3. Corrupt item title (80% scramble) and append to cart
       if (pendingItemForCart) {
         const corruptedItem = { ...pendingItemForCart.item };
         const rawShow = getValByName(corruptedItem, "Show") || "UNAUTHORIZED_RECORDING";
@@ -434,11 +437,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         executeAddToCart(corruptedItem, pendingItemForCart.buttonEl);
       }
-      
-      // 3. Close horror modal cleanly after brief tick
-      setTimeout(() => {
-        closeNftHorrorModal();
-      }, 50);
     } else if (abortBtn) {
       closeNftHorrorModal();
     }
