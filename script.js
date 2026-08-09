@@ -176,22 +176,28 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 async function runTextTransition(element, newText) {
   if (!element) return;
 
-  // 1. Backspace current text character by character
-  while (element.innerText.length > 0) {
-    element.innerText = element.innerText.slice(0, -1);
-    await sleep(20); 
+  // Enforce bounding box styles to prevent container overflow
+  element.style.whiteSpace = "pre-wrap";
+  element.style.overflowWrap = "anywhere";
+  element.style.wordBreak = "break-word";
+  element.style.maxWidth = "100%";
+  element.style.boxSizing = "border-box";
+
+  // Backspace current text character by character
+  while (element.textContent.length > 0) {
+    element.textContent = element.textContent.slice(0, -1);
+    await sleep(15); 
   }
 
-  // Brief pause before typing the new message
-  await sleep(400);
+  await sleep(300);
 
-  // Switch to the phase 2 horror styling class
+  // Switch to phase 2 horror styling class
   element.className = "horror-text-phase2";
 
-  // 2. Type out the new text character by character
+  // Type out new text character by character
   for (let i = 0; i < newText.length; i++) {
-    element.innerText += newText.charAt(i);
-    const typingDelay = Math.floor(Math.random() * 35) + 35; 
+    element.textContent += newText.charAt(i);
+    const typingDelay = Math.floor(Math.random() * 30) + 25; 
     await sleep(typingDelay);
   }
 }
@@ -278,7 +284,12 @@ function openNftHorrorModal(item, buttonEl) {
   const phase1Text = SURVEILLANCE_STATE_POOL[Math.floor(Math.random() * SURVEILLANCE_STATE_POOL.length)];
   if (textEl) {
     textEl.className = "horror-text-phase1";
-    textEl.innerText = phase1Text;
+    textEl.style.whiteSpace = "pre-wrap";
+    textEl.style.overflowWrap = "anywhere";
+    textEl.style.wordBreak = "break-word";
+    textEl.style.maxWidth = "100%";
+    textEl.style.boxSizing = "border-box";
+    textEl.textContent = phase1Text;
   }
 
   document.body.classList.add("modal-open");
