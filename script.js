@@ -22,7 +22,6 @@ let isGlitching = false;
 /* ============================================================
    SURVEILLANCE & SENTIENT ARCHIVE PHRASE POOLS
 ============================================================ */
-// Global Array of 42 Creepy Headers for Easter Egg Modal
 const CREEPY_NFT_HEADERS = [
   "ERR_TEMPORAL_RESTRICTION", "SYSTEM_AUDIT_IN_PROGRESS", "MEMORY_LEAK_WARNING", 
   "INDEX_CORRUPT // LOCK_ACTIVE", "LOG_ENTRY_UNAUTHORIZED", "CRITICAL_PARITY_MISMATCH", 
@@ -246,20 +245,17 @@ function openNftHorrorModal(item, buttonEl) {
     formattedDateDisplay = "FOREVER";
   }
 
-  // Pick a random header from 42 options
   if (tagEl) {
     const randomHeaderIndex = Math.floor(Math.random() * CREEPY_NFT_HEADERS.length);
     tagEl.innerText = CREEPY_NFT_HEADERS[randomHeaderIndex];
   }
 
-  // Phase 1: Surveillance Alert
   const phase1Text = SURVEILLANCE_STATE_POOL[Math.floor(Math.random() * SURVEILLANCE_STATE_POOL.length)];
   if (textEl) {
     textEl.className = "horror-text-phase1";
     textEl.innerText = phase1Text;
   }
 
-  // Lock scrolling & Open Modal
   document.body.classList.add("modal-open");
   if (typeof modal.showModal === "function") {
     modal.showModal();
@@ -267,7 +263,6 @@ function openNftHorrorModal(item, buttonEl) {
     modal.classList.add("active");
   }
 
-  // Phase 2: Sentient Archive Warning
   setTimeout(() => {
     const isOpen = modal.open || modal.classList.contains("active");
     if (!isOpen) return;
@@ -299,12 +294,36 @@ function closeNftHorrorModal() {
 }
 
 /* ============================================================
+   FLOATING CART BUTTON MOUNT GUARANTEE
+============================================================ */
+function ensureCartButtonInBody() {
+  let cartBtn = document.getElementById("cart-toggle-btn");
+  if (!cartBtn) {
+    cartBtn = document.createElement("button");
+    cartBtn.id = "cart-toggle-btn";
+    cartBtn.className = "cart-toggle-btn";
+    cartBtn.type = "button";
+    document.body.appendChild(cartBtn);
+    cartBtn.addEventListener("click", openDrawer);
+  } else if (cartBtn.parentElement !== document.body) {
+    document.body.appendChild(cartBtn);
+  }
+
+  const countEl = document.getElementById("cart-count");
+  if (countEl) {
+    countEl.innerText = tradeCart.length;
+  } else {
+    cartBtn.innerHTML = `🛒 Trade Request (<span id="cart-count">${tradeCart.length}</span>)`;
+  }
+}
+
+/* ============================================================
    MAIN DOM & APPLICATION INITIALIZATION
 ============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
+  ensureCartButtonInBody();
 
-  // Delegated Global Event Handler for Modal Buttons & Backdrop Click
   document.body.addEventListener("click", (e) => {
     if (e.target && e.target.id === "nft-force-access-btn") {
       if (pendingItemForCart) {
@@ -355,7 +374,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Debounced Search Input
   const searchInput = document.getElementById("search-input");
   if (searchInput) {
     searchInput.addEventListener("input", () => {
@@ -366,7 +384,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Fast Delegated Filter Clicks
   document.addEventListener("click", (e) => {
     const filterBtn = e.target.closest(".filter-btn");
     const catBtn = e.target.closest(".cat-btn");
@@ -384,7 +401,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Delegated Card Actions
   const cardContainer = document.getElementById("card-container");
   if (cardContainer) {
     cardContainer.addEventListener("click", (e) => {
@@ -403,7 +419,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Scroll To Top
   const scrollTopBtn = document.getElementById("scroll-top-btn");
   if (scrollTopBtn) {
     window.addEventListener("scroll", () => {
@@ -419,7 +434,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Cart Drawer Events
   const overlay = document.getElementById("drawer-overlay");
   const cartToggleBtn = document.getElementById("cart-toggle-btn");
   if (cartToggleBtn) cartToggleBtn.addEventListener("click", openDrawer);
@@ -442,7 +456,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const copyTradeBtn = document.getElementById("copy-trade-btn");
   if (copyTradeBtn) copyTradeBtn.addEventListener("click", copyTradeRequest);
 
-  // Email Trade Handler
   const emailBtn = document.getElementById("email-trade-btn");
   if (emailBtn) {
     emailBtn.addEventListener("click", (e) => {
@@ -780,27 +793,6 @@ function generateFormattedText() {
   ].join("\n");
 }
 
-function ensureCartButtonInBody() {
-  let cartBtn = document.getElementById("cart-toggle-btn");
-  if (!cartBtn) {
-    cartBtn = document.createElement("button");
-    cartBtn.id = "cart-toggle-btn";
-    cartBtn.className = "cart-toggle-btn";
-    cartBtn.type = "button";
-    document.body.appendChild(cartBtn);
-    cartBtn.addEventListener("click", openDrawer);
-  } else if (cartBtn.parentElement !== document.body) {
-    document.body.appendChild(cartBtn);
-  }
-
-  const countEl = document.getElementById("cart-count");
-  if (countEl) {
-    countEl.innerText = tradeCart.length;
-  } else {
-    cartBtn.innerHTML = `🛒 Trade Request (<span id="cart-count">${tradeCart.length}</span>)`;
-  }
-}
-
 function updateCartUI() {
   ensureCartButtonInBody();
   const container = document.getElementById("cart-items-container");
@@ -1073,6 +1065,8 @@ function initAnalogHorrorEasterEgg() {
     
     headerElement.addEventListener("dblclick", () => {
       const isHorror = document.body.classList.toggle("analog-horror-mode");
+
+      ensureCartButtonInBody();
 
       if (typeof SecurityAudio !== "undefined" && SecurityAudio.alert) {
         SecurityAudio.alert();
