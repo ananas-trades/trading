@@ -1413,7 +1413,7 @@ body.analog-horror-mode #vhs-osd-overlay {
 }
 
 /* ============================================================
-   STALKER EYES IN MARGINS
+   STALKER EYES IN BACKGROUND (ANALOG HORROR MODE)
 ============================================================ */
 
 #horror-eyes-container {
@@ -1421,6 +1421,29 @@ body.analog-horror-mode #vhs-osd-overlay {
   inset: 0;
   pointer-events: none;
   z-index: 15;
+}
+
+/* Full screen background image overlay for the stalker eyes */
+body.analog-horror-mode .bg-eyes,
+body.analog-horror-mode #bg-eyes-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('analog-eyes.jpg') !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: contain !important;
+  mix-blend-mode: screen !important;
+  opacity: 0.85 !important;
+  pointer-events: none !important;
+  z-index: 14 !important;
+  animation: eyePulse 4s infinite ease-in-out !important;
+}
+
+@keyframes eyePulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.03); }
 }
 
 .exact-creepy-eyes {
@@ -1715,6 +1738,7 @@ body.analog-horror-mode #scroll-top-btn:hover {
   from { border-color: #8b0000; }
   to { border-color: #ff0000; }
 }
+
 /* ============================================================
    EMERGENCY OVERRIDE: FIXED FLOATING CART FOR ANALOG HORROR
 ============================================================ */
@@ -1724,16 +1748,10 @@ body.analog-horror-mode {
   position: static !important;
   transform: none !important;
   perspective: none !important;
-  filter: none !important; /* Move contrast/brightness filters to a background overlay instead if needed */
+  filter: none !important;
 }
 
 /* 2. Force Floating Buttons to stick to the Viewport in Easter Egg Mode */
-body.analog-horror-mode #cart-toggle-btn,
-body.analog-horror-mode .cart-toggle-btn,
-/* ============================================================
-   ANALOG HORROR MODE: NFT-STYLE BLOOD-RED GLOW CART
-============================================================ */
-
 body.analog-horror-mode #cart-toggle-btn,
 body.analog-horror-mode .cart-toggle-btn {
   position: fixed !important;
@@ -1754,7 +1772,7 @@ body.analog-horror-mode .cart-toggle-btn {
   transition: all 0.25s ease !important;
 }
 
-/* HOVER STATE: MATTCHING ACTIVE NFT HOVER GLOW */
+/* HOVER STATE: MATCHING ACTIVE NFT HOVER GLOW */
 body.analog-horror-mode #cart-toggle-btn:hover,
 body.analog-horror-mode .cart-toggle-btn:hover {
   background: #2b0b0e !important;
@@ -1772,6 +1790,7 @@ body.analog-horror-mode .cart-toggle-btn .cart-badge {
   border: 1px solid #8b0000 !important;
   box-shadow: 0 0 6px rgba(255, 0, 0, 0.5) !important;
 }
+
 /* 3. Ensure full screen OSD & Grain layers don't block clicks */
 body.analog-horror-mode::before,
 body.analog-horror-mode::after,
