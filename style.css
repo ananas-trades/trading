@@ -1759,3 +1759,34 @@ body.analog-horror-mode #cart-toggle-btn {
   border: 1px solid #ff0000 !important;
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
 }
+/* ============================================================
+   SENSORY OVERLOAD & RED SCREEN FLASH (VIEWPORT FIXED)
+============================================================ */
+
+.screen-glitch-flash {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(220, 0, 0, 0.85) !important;
+  mix-blend-mode: hard-light !important;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
+  opacity: 0;
+  transition: opacity 0.05s ease-in-out;
+  transform: translate3d(0, 0, 0) !important; /* Force new stacking context */
+}
+
+.screen-glitch-flash.flash-active {
+  opacity: 1 !important;
+  animation: flash-tear 0.35s ease-out forwards;
+}
+
+@keyframes flash-tear {
+  0% { opacity: 1; transform: translate3d(0, 0, 0) scale(1.05) skewX(4deg); }
+  50% { opacity: 0.9; transform: translate3d(0, 0, 0) scale(0.98) skewX(-3deg); }
+  100% { opacity: 0; transform: translate3d(0, 0, 0) scale(1) skewX(0deg); }
+}
