@@ -658,6 +658,7 @@ function appendNextBatch(count = BATCH_SIZE) {
   if (document.body.classList.contains("analog-horror-mode")) {
     transformCardsToVHS();
   }
+   forceCartButtonExistence();
 }
 
 /* ============================================================
