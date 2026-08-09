@@ -175,32 +175,50 @@ const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 function triggerBreachOverlay() {
   const breach = document.createElement("div");
-  breach.style.position = "fixed";
-  breach.style.top = "0";
-  breach.style.left = "0";
-  breach.style.width = "100vw";
-  breach.style.height = "100vh";
-  breach.style.backgroundColor = "rgba(255, 0, 0, 0.85)";
-  breach.style.color = "#000";
-  breach.style.display = "flex";
-  breach.style.alignItems = "center";
-  breach.style.justifyContent = "center";
-  breach.style.fontFamily = "monospace";
-  breach.style.fontSize = "1.8rem";
-  breach.style.fontWeight = "bold";
-  breach.style.zIndex = "999999";
-  breach.style.pointerEvents = "none";
-  breach.style.textAlign = "center";
-  breach.style.padding = "20px";
-  breach.innerText = "⚠️ SYSTEM INTEGRITY VIOLATED // TAINTED RECORD INJECTED ⚠️";
+  breach.className = "breach-overlay-active";
+  
+  // Inline styles to guarantee high-priority rendering over open modals
+  Object.assign(breach.style, {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100vw",
+    height: "100vh",
+    backgroundColor: "rgba(255, 0, 0, 0.92)",
+    color: "#ffffff",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontFamily: "monospace, Courier, sans-serif",
+    fontSize: "clamp(1.2rem, 3vw, 2.5rem)",
+    fontWeight: "900",
+    letterSpacing: "2px",
+    zIndex: "2147483647", // Maximum integer z-index
+    pointerEvents: "none",
+    textAlign: "center",
+    padding: "20px",
+    boxSizing: "border-box",
+    textShadow: "0 0 10px #000, 2px 2px 0px #000",
+    opacity: "1",
+    transition: "opacity 0.4s ease-out"
+  });
 
-  document.body.appendChild(breach);
+  breach.innerHTML = `<div>⚠️ SYSTEM INTEGRITY VIOLATED<br><span style="font-size: 0.8em; color: #ffcccc;">// TAINTED RECORD INJECTED ⚠️</span></div>`;
 
-  setTimeout(() => {
-    breach.style.transition = "opacity 0.4s ease-out";
-    breach.style.opacity = "0";
-    setTimeout(() => breach.remove(), 400);
-  }, 350);
+  // Append to active dialog if open, otherwise fallback to document body
+  const openModal = document.querySelector("dialog[open], .modal.active");
+  const targetParent = openModal || document.body;
+  targetParent.appendChild(breach);
+
+  // Force DOM repaint before starting fade-out animation
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        breach.style.opacity = "0";
+        setTimeout(() => breach.remove(), 400);
+      }, 400);
+    });
+  });
 }
 
 async function runTextTransition(element, newText) {
@@ -404,7 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const corruptedItem = { ...pendingItemForCart.item };
         const rawShow = getValByName(corruptedItem, "Show") || "UNAUTHORIZED_RECORDING";
         
-        // Randomly scatter censorship blocks across the title
+        // Randomly scatter censorship blocks across 80% of non-space characters
         const scrambledShow = rawShow.split('').map(char => 
           (Math.random() < 0.80 && char !== ' ') ? '█' : char
         ).join('');
@@ -412,10 +430,15 @@ document.addEventListener("DOMContentLoaded", () => {
         // Apply TAINTED identifier
         corruptedItem["Show"] = `[TAINTED] ⚠️ ${scrambledShow}`;
 
+        // Trigger breach flash BEFORE closing modal
         triggerBreachOverlay();
         executeAddToCart(corruptedItem, pendingItemForCart.buttonEl);
       }
-      closeNftHorrorModal();
+      
+      // Delay closing modal slightly so the breach flash displays cleanly on top
+      setTimeout(() => {
+        closeNftHorrorModal();
+      }, 100);
     } else if (abortBtn) {
       closeNftHorrorModal();
     }
