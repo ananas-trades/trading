@@ -1630,3 +1630,23 @@ body.analog-horror-mode #vhs-osd-overlay {
 #nft-horror-modal.active {
   display: flex !important;
 }
+/* ==========================================
+   NFT HORROR MODAL (NATIVE DIALOG FIX)
+   ========================================== */
+
+/* Resets native dialog default borders/backgrounds and centers on screen */
+dialog#nft-horror-modal {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: auto;
+  max-width: 600px;
+  width: 90%;
+  box-sizing: border-box;
+}
+
+/* Fullscreen dimmed backdrop that locks to the viewport without scrolling */
+dialog#nft-horror-modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px); /* Adds a subtle blur effect behind the modal */
+}
