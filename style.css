@@ -1730,39 +1730,48 @@ body.analog-horror-mode {
 /* 2. Force Floating Buttons to stick to the Viewport in Easter Egg Mode */
 body.analog-horror-mode #cart-toggle-btn,
 body.analog-horror-mode .cart-toggle-btn,
-body.analog-horror-mode .floating-cart-btn,
-body.analog-horror-mode .trade-request-btn {
+/* ============================================================
+   ANALOG HORROR MODE: NFT-STYLE BLOOD-RED GLOW CART
+============================================================ */
+
+body.analog-horror-mode #cart-toggle-btn,
+body.analog-horror-mode .cart-toggle-btn {
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
-  top: auto !important;
-  left: auto !important;
-  z-index: 2147483647 !important; /* Highest possible z-index */
-  
-  /* Reset layout disruptions */
+  z-index: 2147483647 !important;
   display: flex !important;
   visibility: visible !important;
   opacity: 1 !important;
   pointer-events: auto !important;
   transform: translateZ(0) !important;
   
-  /* Styling for VHS Mode */
-  background: #0a0a0a !important;
-  color: #ff0055 !important;
-  border: 2px solid #ff0055 !important;
-  box-shadow: 0 0 15px #ff0055, inset 0 0 10px #ff0055 !important;
+  /* MATCHING NFT TAPE BASE COLOR & BORDER */
+  background: #180305 !important;
+  color: #d18d94 !important;
+  border: 2px solid #6b0c16 !important;
+  box-shadow: 0 0 12px #52070e, 0 0 25px rgba(82, 7, 14, 0.6), inset 0 0 8px rgba(107, 12, 22, 0.5) !important;
+  transition: all 0.25s ease !important;
 }
 
-body.analog-horror-mode #scroll-top-btn {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 220px !important; /* Offset from cart button */
-  top: auto !important;
-  left: auto !important;
-  z-index: 2147483647 !important;
-  transform: translateZ(0) !important;
+/* HOVER STATE: MATTCHING ACTIVE NFT HOVER GLOW */
+body.analog-horror-mode #cart-toggle-btn:hover,
+body.analog-horror-mode .cart-toggle-btn:hover {
+  background: #2b0b0e !important;
+  color: #ffffff !important;
+  border-color: #8b0000 !important;
+  box-shadow: 0 0 18px #ff0000, 0 0 35px #8b0000, 0 0 50px rgba(139, 0, 0, 0.8), inset 0 0 12px #ff0000 !important;
+  transform: translateY(-2px) translateZ(0) !important;
 }
 
+/* CART BADGE MATCHING NFT THEME */
+body.analog-horror-mode #cart-toggle-btn .cart-badge,
+body.analog-horror-mode .cart-toggle-btn .cart-badge {
+  background: #6b0c16 !important;
+  color: #fce8e8 !important;
+  border: 1px solid #8b0000 !important;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5) !important;
+}
 /* 3. Ensure full screen OSD & Grain layers don't block clicks */
 body.analog-horror-mode::before,
 body.analog-horror-mode::after,
