@@ -1642,3 +1642,70 @@ body.analog-horror-mode #trade-drawer {
   border-left: 2px solid #880000 !important;
   color: #ff3333 !important;
 }
+/* ============================================================
+   ANALOG HORROR MODE READABILITY & CART FIX
+============================================================ */
+
+/* High-contrast readable text and backgrounds */
+body.analog-horror-mode {
+  background-color: #050505 !important;
+  color: #00ff66 !important; /* Green CRT terminal glow for base text */
+}
+
+/* Trading Rules Box & Headers */
+body.analog-horror-mode header,
+body.analog-horror-mode .rules-container,
+body.analog-horror-mode #stats {
+  background: rgba(15, 0, 0, 0.85) !important;
+  border: 1px solid #ff3333 !important;
+  color: #ff4444 !important;
+  text-shadow: 0 0 4px rgba(255, 0, 0, 0.6) !important;
+}
+
+body.analog-horror-mode h1,
+body.analog-horror-mode .card-title {
+  color: #ffffff !important;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Card details & meta text */
+body.analog-horror-mode .card-meta,
+body.analog-horror-mode .card-cast,
+body.analog-horror-mode .card-notes {
+  color: #d1d5db !important;
+}
+
+/* Pin Floating Cart Button to bottom-right corner */
+#cart-toggle-btn,
+.floating-cart-btn {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 999999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Cart Button Horror Theme */
+body.analog-horror-mode #cart-toggle-btn,
+body.analog-horror-mode .floating-cart-btn {
+  background: #180000 !important;
+  border: 2px solid #ff0000 !important;
+  color: #ff3333 !important;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.8), inset 0 0 8px rgba(255, 0, 0, 0.4) !important;
+  font-family: monospace, Courier, sans-serif !important;
+}
+
+/* Trade Drawer Overlay & Panel */
+body.analog-horror-mode #trade-drawer {
+  background-color: #0d0000 !important;
+  border-left: 2px solid #ff0000 !important;
+  color: #ffaaaa !important;
+  z-index: 1000000 !important;
+}
+
+body.analog-horror-mode #drawer-overlay {
+  z-index: 999999 !important;
+  background: rgba(0, 0, 0, 0.85) !important;
+}
