@@ -1080,6 +1080,25 @@ function initAnalogHorrorEasterEgg() {
 }
 
 function transformCardsToVHS() {
+  // Ensure trade request button is explicitly attached to <body> and pinned high z-index
+  const cartBtn = document.getElementById("cart-toggle-btn") || 
+                  document.querySelector(".cart-toggle-btn") || 
+                  document.querySelector(".floating-cart-btn") || 
+                  document.querySelector(".trade-request-btn");
+
+  if (cartBtn) {
+    if (cartBtn.parentElement !== document.body) {
+      document.body.appendChild(cartBtn);
+    }
+    cartBtn.style.setProperty("position", "fixed", "important");
+    cartBtn.style.setProperty("bottom", "24px", "important");
+    cartBtn.style.setProperty("right", "24px", "important");
+    cartBtn.style.setProperty("display", "flex", "important");
+    cartBtn.style.setProperty("visibility", "visible", "important");
+    cartBtn.style.setProperty("opacity", "1", "important");
+    cartBtn.style.setProperty("z-index", "999999", "important");
+  }
+
   document.querySelectorAll(".item-card").forEach(card => {
     if (card.querySelector(".vhs-inner")) return;
 
