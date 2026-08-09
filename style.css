@@ -578,14 +578,15 @@ h1 {
 }
 
 /* ============================================================
-   FLOATING BUTTONS
+   FLOATING BUTTONS (STANDARD & BASE STATE)
 ============================================================ */
 
 #scroll-top-btn {
-  position: fixed;
-  bottom: 85px;
-  right: 24px;
-  z-index: 998;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 220px !important; /* Offset from cart toggle button */
+  z-index: 999999 !important;
+  transform: translateZ(0);
   
   background: #7000ff;
   color: #ffffff;
@@ -600,14 +601,12 @@ h1 {
   
   opacity: 0;
   visibility: hidden;
-  transform: translateY(20px);
   transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease;
 }
 
 #scroll-top-btn.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
 }
 
 #scroll-top-btn:hover {
@@ -618,10 +617,11 @@ h1 {
 }
 
 #cart-toggle-btn, .cart-toggle-btn, .floating-cart-btn, .trade-request-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  z-index: 999;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 999999 !important;
+  transform: translateZ(0);
   
   background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
   color: #ffffff;
@@ -640,7 +640,7 @@ h1 {
 }
 
 .cart-toggle-btn:hover {
-  transform: translateY(-4px) scale(1.03);
+  transform: translateY(-4px) scale(1.03) translateZ(0);
   box-shadow: 0 12px 25px rgba(59, 130, 246, 0.6), 0 0 25px rgba(6, 182, 212, 0.5);
 }
 
@@ -1200,6 +1200,13 @@ body.analog-horror-mode {
   background-color: #050406 !important;
   color: #b8b8b8 !important;
   font-family: 'Courier New', Courier, monospace !important;
+  transform: none !important; /* Prevents body-level transform from trapping fixed children */
+  perspective: none !important;
+}
+
+/* Screen glitch/shake container rule */
+body.analog-horror-mode > main {
+  /* Move any scanlines or CRT screen glitch transforms here instead of body */
 }
 
 /* Scanlines & Static Grain */
@@ -1349,7 +1356,7 @@ body.analog-horror-mode::before {
   display: none;
   position: fixed;
   inset: 20px;
-  pointer-events: none;
+  pointer-events: none !important; /* Prevents overlay from blocking button clicks */
   z-index: 14;
   font-family: 'Courier New', monospace;
   color: #00b318;
@@ -1374,15 +1381,15 @@ body.analog-horror-mode #vhs-osd-overlay {
 }
 
 /* ============================================================
-   SENSORY OVERLOAD & RED SCREEN FLASH
-============================================================ */
-/* ============================================================
-   SENSORY OVERLOAD & RED SCREEN FLASH (FIXED)
+   SENSORY OVERLOAD & RED SCREEN FLASH (VIEWPORT FIXED)
 ============================================================ */
 
 .screen-glitch-flash {
   position: fixed !important;
-  inset: 0 !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
   background: rgba(220, 0, 0, 0.85) !important;
@@ -1391,6 +1398,7 @@ body.analog-horror-mode #vhs-osd-overlay {
   z-index: 2147483647 !important;
   opacity: 0;
   transition: opacity 0.05s ease-in-out;
+  transform: translate3d(0, 0, 0) !important; /* Force new stacking context */
 }
 
 .screen-glitch-flash.flash-active {
@@ -1399,9 +1407,9 @@ body.analog-horror-mode #vhs-osd-overlay {
 }
 
 @keyframes flash-tear {
-  0% { opacity: 1; transform: scale(1.05) skewX(4deg); }
-  50% { opacity: 0.9; transform: scale(0.98) skewX(-3deg); }
-  100% { opacity: 0; transform: scale(1) skewX(0deg); }
+  0% { opacity: 1; transform: translate3d(0, 0, 0) scale(1.05) skewX(4deg); }
+  50% { opacity: 0.9; transform: translate3d(0, 0, 0) scale(0.98) skewX(-3deg); }
+  100% { opacity: 0; transform: translate3d(0, 0, 0) scale(1) skewX(0deg); }
 }
 
 /* ============================================================
@@ -1629,167 +1637,55 @@ dialog#nft-horror-modal[open] {
     animation: none !important;
   }
 }
-/* Hard override to prevent horror overlays from hiding the trade cart button */
-#vhs-osd-overlay {
-  pointer-events: none !important; /* Prevents overlay from blocking button clicks */
-}
 
-body.analog-horror-mode #cart-toggle-btn {
-  position: fixed !important;
-  bottom: 24px !important;
-  right: 24px !important;
-  display: inline-flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  z-index: 2147483647 !important;
-  pointer-events: auto !important;
-  transform: none !important;
-  filter: none !important;
-}
-/* Base Floating Cart Button (Normal Glow Mode) */
-#cart-toggle-btn,
-.cart-toggle-btn {
-  position: fixed !important;
-  bottom: 24px !important;
-  right: 24px !important;
-  z-index: 2147483647 !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  padding: 12px 20px !important;
-  background: rgba(15, 15, 25, 0.9) !important;
-  color: #00f0ff !important;
-  border: 2px solid #00f0ff !important;
-  border-radius: 8px !important;
-  font-family: inherit !important;
-  font-weight: bold !important;
-  cursor: pointer !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  box-shadow: 0 0 12px #00f0ff, inset 0 0 8px #00f0ff !important;
-  transition: all 0.3s ease !important;
-}
-
-#cart-toggle-btn:hover {
-  background: #00f0ff !important;
-  color: #000000 !important;
-  box-shadow: 0 0 20px #00f0ff, 0 0 35px #00f0ff !important;
-}
-
-/* Analog Horror Easter Egg Mode (VHS Red Glow) */
-body.analog-horror-mode #cart-toggle-btn {
-  position: fixed !important;
-  bottom: 24px !important;
-  right: 24px !important;
-  z-index: 2147483647 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  background: #0a0a0a !important;
-  color: #ff0055 !important;
-  border: 2px solid #ff0055 !important;
-  box-shadow: 0 0 15px #ff0055, inset 0 0 10px #ff0055 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-}
-
-body.analog-horror-mode #cart-toggle-btn:hover {
-  background: #ff0055 !important;
-  color: #000000 !important;
-  box-shadow: 0 0 25px #ff0055, 0 0 40px #ff0055 !important;
-}
-/* Base floating button styling */
-#cart-toggle-btn {
-  position: fixed !important;
-  bottom: 24px !important;
-  right: 24px !important;
-  z-index: 2147483647 !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  padding: 12px 20px !important;
-  background: rgba(15, 15, 25, 0.9) !important;
-  color: #00f0ff !important;
-  border: 2px solid #00f0ff !important;
-  border-radius: 8px !important;
-  font-family: inherit !important;
-  font-weight: bold !important;
-  cursor: pointer !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  box-shadow: 0 0 12px #00f0ff, inset 0 0 8px #00f0ff !important;
-  transition: all 0.3s ease !important;
-}
-
-#cart-toggle-btn:hover {
-  background: #00f0ff !important;
-  color: #000000 !important;
-  box-shadow: 0 0 20px #00f0ff, 0 0 35px #00f0ff !important;
-}
-
-/* Force visibility in Analog Horror Easter Egg Mode */
-body.analog-horror-mode #cart-toggle-btn {
-  position: fixed !important;
-  bottom: 24px !important;
-  right: 24px !important;
-  z-index: 2147483647 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  transform: none !important;
-  background: #0a0a0a !important;
-  color: #ff0055 !important;
-  border: 2px solid #ff0055 !important;
-  box-shadow: 0 0 15px #ff0055, inset 0 0 10px #ff0055 !important;
-}
-
-body.analog-horror-mode #cart-toggle-btn:hover {
-  background: #ff0055 !important;
-  color: #000000 !important;
-  box-shadow: 0 0 25px #ff0055, 0 0 40px #ff0055 !important;
-}
-/* Ensure cart button floats above VHS scanlines and dark theme */
-body.analog-horror-mode #cart-toggle-btn {
-  z-index: 100000 !important;
-  display: flex !important;
-  border: 1px solid #ff0000 !important;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6) !important;
-}
 /* ============================================================
-   SENSORY OVERLOAD & RED SCREEN FLASH (VIEWPORT FIXED)
+   ANALOG HORROR MODE FLOATING BUTTON OVERRIDES
 ============================================================ */
 
-.screen-glitch-flash {
+body.analog-horror-mode #cart-toggle-btn,
+body.analog-horror-mode .cart-toggle-btn {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  background: rgba(220, 0, 0, 0.85) !important;
-  mix-blend-mode: hard-light !important;
-  pointer-events: none !important;
+  bottom: 20px !important;
+  right: 20px !important;
   z-index: 2147483647 !important;
-  opacity: 0;
-  transition: opacity 0.05s ease-in-out;
-  transform: translate3d(0, 0, 0) !important; /* Force new stacking context */
-}
-
-.screen-glitch-flash.flash-active {
+  display: flex !important;
+  visibility: visible !important;
   opacity: 1 !important;
-  animation: flash-tear 0.35s ease-out forwards;
+  pointer-events: auto !important;
+  transform: translateZ(0) !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  background: #0a0a0a !important;
+  color: #ff0055 !important;
+  border: 2px solid #ff0055 !important;
+  box-shadow: 0 0 15px #ff0055, inset 0 0 10px #ff0055 !important;
 }
 
-@keyframes flash-tear {
-  0% { opacity: 1; transform: translate3d(0, 0, 0) scale(1.05) skewX(4deg); }
-  50% { opacity: 0.9; transform: translate3d(0, 0, 0) scale(0.98) skewX(-3deg); }
-  100% { opacity: 0; transform: translate3d(0, 0, 0) scale(1) skewX(0deg); }
+body.analog-horror-mode #cart-toggle-btn:hover,
+body.analog-horror-mode .cart-toggle-btn:hover {
+  background: #ff0055 !important;
+  color: #000000 !important;
+  box-shadow: 0 0 25px #ff0055, 0 0 40px #ff0055 !important;
 }
+
+body.analog-horror-mode #scroll-top-btn {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 220px !important;
+  z-index: 2147483647 !important;
+  transform: translateZ(0) !important;
+  background: #1f0508 !important;
+  color: #ff4d6d !important;
+  border: 2px solid #8b0000 !important;
+  box-shadow: 0 0 12px #8b0000 !important;
+}
+
+body.analog-horror-mode #scroll-top-btn:hover {
+  background: #8b0000 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 20px #ff0033 !important;
+}
+
 /* Cart Infection Visuals */
 .cart-item-row.infected-cart-item {
   border-left: 4px solid #8b0000 !important;
