@@ -177,7 +177,6 @@ function triggerBreachOverlay() {
   const breach = document.createElement("div");
   breach.className = "breach-overlay-active";
   
-  // Inline styles to guarantee high-priority rendering over open modals
   Object.assign(breach.style, {
     position: "fixed",
     top: "0",
@@ -193,30 +192,27 @@ function triggerBreachOverlay() {
     fontSize: "clamp(1.2rem, 3vw, 2.5rem)",
     fontWeight: "900",
     letterSpacing: "2px",
-    zIndex: "2147483647", // Maximum integer z-index
+    zIndex: "2147483647",
     pointerEvents: "none",
     textAlign: "center",
     padding: "20px",
     boxSizing: "border-box",
     textShadow: "0 0 10px #000, 2px 2px 0px #000",
     opacity: "1",
-    transition: "opacity 0.4s ease-out"
+    transition: "opacity 0.6s ease-out"
   });
 
   breach.innerHTML = `<div>⚠️ SYSTEM INTEGRITY VIOLATED<br><span style="font-size: 0.8em; color: #ffcccc;">// TAINTED RECORD INJECTED ⚠️</span></div>`;
 
-  // Append to active dialog if open, otherwise fallback to document body
-  const openModal = document.querySelector("dialog[open], .modal.active");
-  const targetParent = openModal || document.body;
-  targetParent.appendChild(breach);
+  // Always append directly to document.body to prevent modal tearing from deleting overlay
+  document.body.appendChild(breach);
 
-  // Force DOM repaint before starting fade-out animation
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       setTimeout(() => {
         breach.style.opacity = "0";
-        setTimeout(() => breach.remove(), 500);
-      }, 13000);
+        setTimeout(() => breach.remove(), 600);
+      }, 2000); // Holds full screen red warning for 2 full seconds
     });
   });
 }
@@ -412,17 +408,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const abortBtn = e.target ? e.target.closest("#nft-abort-btn, .abort-btn") : null;
 
     if (forceBtn) {
-      if (pendingItemForCart) {
-        triggerSensoryOverload();
-        if (typeof SecurityAudio !== "undefined" && SecurityAudio.alert) {
-          SecurityAudio.alert();
-        }
+      // 1. Immediately trigger audio + full screen breach overlay flash
+      triggerSensoryOverload();
+      if (typeof SecurityAudio !== "undefined" && SecurityAudio.alert) {
+        SecurityAudio.alert();
+      }
+      triggerBreachOverlay();
 
-        // Clone item and corrupt title format
+      // 2. Corrupt item title (80% scramble) and append to cart
+      if (pendingItemForCart) {
         const corruptedItem = { ...pendingItemForCart.item };
         const rawShow = getValByName(corruptedItem, "Show") || "UNAUTHORIZED_RECORDING";
         
-        // Randomly scatter censorship blocks across 80% of non-space characters
+        // Scatter censorship blocks across 80% of non-space characters
         const scrambledShow = rawShow.split('').map(char => 
           (Math.random() < 0.80 && char !== ' ') ? '█' : char
         ).join('');
@@ -430,15 +428,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // Apply TAINTED identifier
         corruptedItem["Show"] = `[TAINTED] ⚠️ ${scrambledShow}`;
 
-        // Trigger breach flash BEFORE closing modal
-        triggerBreachOverlay();
         executeAddToCart(corruptedItem, pendingItemForCart.buttonEl);
       }
       
-      // Delay closing modal slightly so the breach flash displays cleanly on top
-      setTimeout(() => {
-        closeNftHorrorModal();
-      }, 100);
+      // 3. Close horror modal cleanly
+      closeNftHorrorModal();
     } else if (abortBtn) {
       closeNftHorrorModal();
     }
