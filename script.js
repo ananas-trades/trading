@@ -210,46 +210,12 @@ function triggerSensoryOverload() {
   document.title = "⚠️ SIGNAL_LOST_0x99";
 }
 
-function ensureModalExists() {
-  let modal = document.getElementById("nft-horror-modal");
-  if (!modal) {
-    modal = document.createElement("div");
-    modal.id = "nft-horror-modal";
-    modal.className = "nft-horror-overlay";
-    modal.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100000;
-      pointer-events: auto;
-    `;
-    modal.innerHTML = `
-      <div class="nft-horror-content" style="background:#111; border:2px solid #ff0033; padding:24px; max-width:500px; width:90%; color:#fff; text-align:center;">
-        <div id="nft-modal-tag" class="modal-tag" style="color:#ff0033; font-family:monospace; margin-bottom:12px;">SURVEILLANCE_STATE_ALERT</div>
-        <div class="glitch-text-box" style="margin-bottom:20px;">
-          <div id="nft-horror-primary-text" class="horror-text-phase1" style="font-size:1.1rem; line-height:1.4;"></div>
-        </div>
-        <div class="nft-horror-actions" style="display:flex; gap:12px; justify-content:center;">
-          <button type="button" id="nft-force-access-btn" class="force-access-btn" style="background:#ff0033; color:#fff; border:none; padding:10px 16px; cursor:pointer; font-weight:bold;">FORCE OVERRIDE</button>
-          <button type="button" id="nft-abort-btn" class="abort-access-btn" style="background:#333; color:#fff; border:none; padding:10px 16px; cursor:pointer;">ABORT</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
-  }
-  return modal;
-}
-
 function openNftHorrorModal(item, buttonEl) {
-  const modal = ensureModalExists();
+  const modal = document.getElementById("nft-horror-modal");
   const tagEl = document.getElementById("nft-modal-tag");
   const textEl = document.getElementById("nft-horror-primary-text");
+
+  if (!modal) return;
 
   pendingItemForCart = { item, buttonEl };
   triggerSensoryOverload();
@@ -272,10 +238,9 @@ function openNftHorrorModal(item, buttonEl) {
   }
 
   modal.classList.add("active");
-  modal.style.display = "flex";
 
   setTimeout(() => {
-    if (modal.style.display === "none") return;
+    if (!modal.classList.contains("active")) return;
 
     const rawPhase2 = SENTIENT_ARCHIVE_POOL[Math.floor(Math.random() * SENTIENT_ARCHIVE_POOL.length)];
     const phase2Text = rawPhase2.replace("{DATE}", formattedDateDisplay);
@@ -292,7 +257,6 @@ function closeNftHorrorModal() {
   const modal = document.getElementById("nft-horror-modal");
   if (modal) {
     modal.classList.remove("active");
-    modal.style.display = "none";
   }
   
   document.body.style.overflow = "";
@@ -1126,7 +1090,7 @@ function transformCardsToVHS() {
             ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
           </div>
 
-          <div class="vhs-actions" style="margin-top: 8px;">${actionsHTML}</div>
+          <div class="card-actions" style="margin-top: 8px;">${actionsHTML}</div>
 
           <div class="vhs-screw bot-l"></div>
           <div class="vhs-screw bot-r"></div>
