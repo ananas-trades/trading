@@ -220,8 +220,6 @@ function openNftHorrorModal(item, buttonEl) {
   pendingItemForCart = { item, buttonEl };
   triggerSensoryOverload();
 
-  document.body.style.overflow = "hidden";
-
   const nftDateStr = getValByName(item, "NFT Date");
   const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
   
@@ -237,10 +235,16 @@ function openNftHorrorModal(item, buttonEl) {
     textEl.innerText = phase1Text;
   }
 
-  modal.classList.add("active");
+  // Use Native Open Method
+  if (typeof modal.showModal === "function") {
+    modal.showModal();
+  } else {
+    modal.classList.add("active");
+  }
 
   setTimeout(() => {
-    if (!modal.classList.contains("active")) return;
+    const isOpen = modal.open || modal.classList.contains("active");
+    if (!isOpen) return;
 
     const rawPhase2 = SENTIENT_ARCHIVE_POOL[Math.floor(Math.random() * SENTIENT_ARCHIVE_POOL.length)];
     const phase2Text = rawPhase2.replace("{DATE}", formattedDateDisplay);
@@ -256,11 +260,13 @@ function openNftHorrorModal(item, buttonEl) {
 function closeNftHorrorModal() {
   const modal = document.getElementById("nft-horror-modal");
   if (modal) {
-    modal.classList.remove("active");
+    if (typeof modal.close === "function") {
+      modal.close();
+    } else {
+      modal.classList.remove("active");
+    }
   }
   
-  document.body.style.overflow = "";
-  document.documentElement.style.overflow = "";
   document.title = originalDocumentTitle;
   pendingItemForCart = null;
 }
@@ -271,7 +277,7 @@ function closeNftHorrorModal() {
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
 
-  // Delegated Global Event Handler for Modal Buttons
+  // Delegated Global Event Handler for Modal Buttons & Backdrop Click
   document.body.addEventListener("click", (e) => {
     if (e.target && e.target.id === "nft-force-access-btn") {
       if (pendingItemForCart) {
@@ -282,6 +288,22 @@ document.addEventListener("DOMContentLoaded", () => {
       closeNftHorrorModal();
     }
   });
+
+  const nftModal = document.getElementById("nft-horror-modal");
+  if (nftModal) {
+    nftModal.addEventListener("click", (event) => {
+      const rect = nftModal.getBoundingClientRect();
+      const isInDialog = 
+        rect.top <= event.clientY &&
+        event.clientY <= rect.top + rect.height &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.left + rect.width;
+
+      if (!isInDialog) {
+        closeNftHorrorModal();
+      }
+    });
+  }
 
   Papa.parse("./list.csv", {
     download: true,
