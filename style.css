@@ -1892,3 +1892,72 @@ body > #nft-horror-modal,
   margin: auto !important;
   box-sizing: border-box;
 }
+/* Ensure modal overlay covers everything */
+#nft-horror-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(10, 0, 0, 0.92); /* Dark red-black background */
+  display: none; /* JS will toggle to flex */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999 !important; /* Must sit ABOVE screen flash elements */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#nft-horror-modal.active {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Modal Inner Box */
+.nft-modal-content {
+  background: #000;
+  border: 2px solid #ff0033;
+  box-shadow: 0 0 20px #ff0033;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  z-index: 1000000 !important;
+}
+
+/* Modal Header Tag */
+#nft-modal-tag {
+  color: #ffaa00;
+  font-family: monospace;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+/* Modal Primary Text Styling */
+#nft-horror-primary-text,
+.horror-text-phase1,
+.horror-text-phase2 {
+  color: #ff0033 !important;
+  font-family: monospace, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  min-height: 60px;
+  margin-bottom: 25px;
+  display: block !important;
+  visibility: visible !important;
+}
+
+/* Flash effect must sit BELOW modal */
+.screen-glitch-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: red;
+  z-index: 99998 !important; /* Lower than modal */
+  pointer-events: none;
+}
