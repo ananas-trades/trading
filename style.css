@@ -1764,3 +1764,106 @@ body.analog-horror-mode #vhs-osd-overlay {
 .exact-creepy-eyes.visible {
   opacity: 0.85;
 }
+/* ============================================================
+   NFT HORROR MODAL VIEWPORT OVERLAYS
+============================================================ */
+.nft-horror-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(5, 2, 4, 0.94) !important;
+  backdrop-filter: blur(8px);
+  z-index: 999999 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.nft-horror-overlay.active {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.nft-horror-content {
+  background: #0d060a;
+  border: 2px solid #ff0033;
+  box-shadow: 0 0 30px rgba(255, 0, 51, 0.4);
+  width: 90%;
+  max-width: 520px;
+  padding: 24px;
+  border-radius: 6px;
+  color: #fff;
+  font-family: monospace;
+  text-align: center;
+}
+
+.nft-horror-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ff0033;
+  padding-bottom: 10px;
+}
+
+.modal-tag {
+  color: #ff0033;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.glitch-text-box {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.horror-text-phase1 {
+  color: #ffaa00;
+  font-size: 0.95rem;
+}
+
+.horror-text-phase2 {
+  color: #ff0033;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.nft-horror-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.force-access-btn, .abort-access-btn {
+  padding: 10px 16px;
+  background: #1a080c;
+  border: 1px solid #ff0033;
+  color: #ff0033;
+  font-family: monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.force-access-btn:hover {
+  background: #ff0033;
+  color: #000;
+}
+
+.abort-access-btn:hover {
+  background: #444;
+  border-color: #888;
+  color: #fff;
+}
