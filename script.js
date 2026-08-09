@@ -381,7 +381,6 @@ function closeNftHorrorModal() {
   }
   
   document.title = originalDocumentTitle;
-  pendingItemForCart = null;
 }
 
 /* ============================================================
@@ -440,9 +439,11 @@ document.addEventListener("DOMContentLoaded", () => {
         corruptedItem["Show"] = `[TAINTED] ⚠️ ${scrambledShow}`;
 
         executeAddToCart(corruptedItem, pendingItemForCart.buttonEl);
+        pendingItemForCart = null;
       }
     } else if (abortBtn) {
       closeNftHorrorModal();
+      pendingItemForCart = null;
     }
   });
 
@@ -458,6 +459,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!isInDialog) {
         closeNftHorrorModal();
+        pendingItemForCart = null;
       }
     });
   }
@@ -854,11 +856,13 @@ function toggleCartItem(item, buttonEl) {
       }
 
       if (isNFTActive) {
+        // Open modal & set pending item for Force Access resolution
         openNftHorrorModal(item, buttonEl);
         return;
       }
     }
 
+    // Direct add for normal mode OR non-NFT items in horror mode
     executeAddToCart(item, buttonEl);
   }
 }
