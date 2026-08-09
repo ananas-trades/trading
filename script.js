@@ -6,7 +6,7 @@ let searchTimeout = null;
 let currentRenderToken = 0;
 
 // Pagination configuration
-const BATCH_SIZE = 20;
+const BATCH_SIZE = 25;
 let displayedCount = 0;
 let observer = null;
 
@@ -477,17 +477,24 @@ function stopTapeHiss() {
   }
 }
 
-// Live Timecode Counter
-setInterval(() => {
-  const tsEl = document.getElementById("vhs-timestamp");
-  if (!tsEl || !document.body.classList.contains("analog-horror-mode")) return;
-  const now = new Date();
-  const hrs = String(now.getHours()).padStart(2, '0');
-  const mins = String(now.getMinutes()).padStart(2, '0');
-  const secs = String(now.getSeconds()).padStart(2, '0');
-  const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
-  tsEl.innerText = `${hrs}:${mins}:${secs}:${ms}`;
-}, 50);
+// Live Timecode Counter - Smooth RAF Throttle
+let lastTimecodeUpdate = 0;
+function updateTimecode(timestamp) {
+  if (timestamp - lastTimecodeUpdate >= 50) {
+    const tsEl = document.getElementById("vhs-timestamp");
+    if (tsEl && document.body.classList.contains("analog-horror-mode")) {
+      const now = new Date();
+      const hrs = String(now.getHours()).padStart(2, '0');
+      const mins = String(now.getMinutes()).padStart(2, '0');
+      const secs = String(now.getSeconds()).padStart(2, '0');
+      const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
+      tsEl.innerText = `${hrs}:${mins}:${secs}:${ms}`;
+    }
+    lastTimecodeUpdate = timestamp;
+  }
+  requestAnimationFrame(updateTimecode);
+}
+requestAnimationFrame(updateTimecode);
 
 /* ============================================================
    ANALOG HORROR TITLE CORRUPTOR
@@ -876,11 +883,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const scrollTopBtn = document.getElementById("scroll-top-btn");
   if (scrollTopBtn) {
+    let ticking = false;
     window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) {
-        scrollTopBtn.classList.add("visible");
-      } else {
-        scrollTopBtn.classList.remove("visible");
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (window.scrollY > 300) {
+            scrollTopBtn.classList.add("visible");
+          } else {
+            scrollTopBtn.classList.remove("visible");
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     }, { passive: true });
 
@@ -1035,9 +1049,8 @@ function appendNextBatch(count = BATCH_SIZE) {
   if (nextSlice.length === 0) return;
 
   const fragment = document.createDocumentFragment();
-  const tempContainer = document.createElement("div");
 
-  tempContainer.innerHTML = nextSlice.map((item, i) => {
+  nextSlice.forEach((item, i) => {
     const globalIndex = displayedCount + i;
     const show = getValByName(item, "Show") || "Unknown Show";
     const date = getValByName(item, "Date");
@@ -1098,49 +1111,48 @@ function appendNextBatch(count = BATCH_SIZE) {
     const cardClass = `item-card ${isNFTActive ? 'card-nft-active' : 'card-standard'}`;
     const itemInCart = isInCart(item);
 
-    return `
-      <div class="${cardClass}">
-        <div class="card-header">
-          <div class="card-title">${show}</div>
-          <div class="card-badges" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-            ${formatBadgeHTML}
-            ${typeBadgeHTML}
-          </div>
-        </div>
-        
-        <div class="card-meta">
-          ${date ? `📅 ${date}${showTime}` : ''} 
-          ${locationParts ? `📍 ${locationParts}` : ''}
-          ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
-          ${nftBadgeHTML}
-        </div>
-
-        ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
-        ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
-        ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
-        ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
-
-        <div class="card-actions">
-          <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${globalIndex}">
-            ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
-          </button>
-          <button type="button" class="copy-card-btn" data-index="${globalIndex}">📋 Copy Info</button>
+    const card = document.createElement("div");
+    card.className = cardClass;
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="card-title">${show}</div>
+        <div class="card-badges" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+          ${formatBadgeHTML}
+          ${typeBadgeHTML}
         </div>
       </div>
+      
+      <div class="card-meta">
+        ${date ? `📅 ${date}${showTime}` : ''} 
+        ${locationParts ? `📍 ${locationParts}` : ''}
+        ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
+        ${nftBadgeHTML}
+      </div>
+
+      ${cast ? `<div class="card-cast"><strong>CAST:</strong> ${cast}</div>` : ''}
+      ${masterNotes ? `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>` : ''}
+      ${tradingNotes ? `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>` : ''}
+      ${myNotes ? `<div class="card-notes"><strong>NOTES:</strong> ${myNotes}</div>` : ''}
+
+      <div class="card-actions">
+        <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${globalIndex}">
+          ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
+        </button>
+        <button type="button" class="copy-card-btn" data-index="${globalIndex}">📋 Copy Info</button>
+      </div>
     `;
-  }).join('');
+    fragment.appendChild(card);
+  });
 
-  while (tempContainer.firstChild) {
-    fragment.appendChild(tempContainer.firstChild);
-  }
+  requestAnimationFrame(() => {
+    container.appendChild(fragment);
+    displayedCount += nextSlice.length;
 
-  container.appendChild(fragment);
-  displayedCount += nextSlice.length;
-
-  if (document.body.classList.contains("analog-horror-mode")) {
-    transformCardsToVHS();
-  }
-  ensureCartButtonInBody();
+    if (document.body.classList.contains("analog-horror-mode")) {
+      transformCardsToVHS();
+    }
+    ensureCartButtonInBody();
+  });
 }
 
 /* ============================================================
@@ -1298,8 +1310,7 @@ function updateCartUI() {
     return;
   }
 
-  container.innerHTML = "";
-
+  const fragment = document.createDocumentFragment();
   const hasTaintedOrInfected = tradeCart.some(c => c.show.includes("[TAINTED]") || c.isInfected);
   
   if (hasTaintedOrInfected && !document.getElementById("infection-banner")) {
@@ -1307,7 +1318,7 @@ function updateCartUI() {
     banner.id = "infection-banner";
     banner.className = "infection-warning-banner";
     banner.innerText = "⚠️ WARNING: TAINTED REEL DETECTED. SECTOR CORRUPTION SPREADING.";
-    container.prepend(banner);
+    fragment.appendChild(banner);
   }
 
   tradeCart.forEach(item => {
@@ -1344,11 +1355,15 @@ function updateCartUI() {
       applyFiltersAndRender();
     });
 
-    container.appendChild(cartCard);
+    fragment.appendChild(cartCard);
   });
 
-  if (videoCountEl) videoCountEl.innerText = videos;
-  if (audioCountEl) audioCountEl.innerText = audios;
+  requestAnimationFrame(() => {
+    container.innerHTML = "";
+    container.appendChild(fragment);
+    if (videoCountEl) videoCountEl.innerText = videos;
+    if (audioCountEl) audioCountEl.innerText = audios;
+  });
 }
 
 function copyTradeRequest() {
