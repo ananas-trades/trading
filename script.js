@@ -14,6 +14,61 @@ let observer = null;
 const STORAGE_KEY = "bootleg_trade_cart";
 let tradeCart = loadCartFromStorage();
 
+// Modal & Interceptor State variables
+let pendingItemForCart = null;
+let originalDocumentTitle = document.title;
+
+/* ============================================================
+   SURVEILLANCE & SENTIENT ARCHIVE PHRASE POOLS (21 x 21 = 441)
+============================================================ */
+const SURVEILLANCE_STATE_POOL = [
+  "SYSTEM AUDIT 0x99: Unauthorized access detected. Security level elevated.",
+  "BREACH PROTOCOL INITIATED: User IP logged to internal compliance matrix.",
+  "WEBCAM CHECK: Visual confirmation requested. Hold position.",
+  "SECURITY CLEARANCE FAILURE: Vault index locked by regional administrator.",
+  "CORRUPTION WARNING: Attempting to index master tape without encryption pass.",
+  "RECORDING OVERWRITE PREVENTED: Write-protect notch detected on physical tape.",
+  "FED GOV AUDIT: Federal communications monitor flagged this item identifier.",
+  "SYSTEM INTEGRITY ERROR: Sector 07 file allocation table corrupted.",
+  "ILLEGAL BUFFER ACCESS: Memory address blocked by hardware kernel guard.",
+  "SIGNAL TAMPERING: Signal frequency outside allowed spectrum broadcast limits.",
+  "MONITORING NOTICE: Session key added to restricted entity watchlist.",
+  "TRACKING DISCREPANCY: Azimuth alignment offset exceeds maximum tolerance.",
+  "INTERNAL LEAK PROTECTION: Digital fingerprint verified against blackout registry.",
+  "HARD DRIVE SANITIZATION: Quarantine lock applied to requested file pointer.",
+  "Eavesdropping node attached to socket connection. Packet capture active.",
+  "OPERATING SYSTEM ISOLATION: Sandbox containment engaged for thread #404.",
+  "MAC ADDRESS REGISTERED: Device identifier logged with security database.",
+  "UNAUTHORIZED DUPLICATION: Master duplication protocol terminated prematurely.",
+  "FILE SYSTEM LOCK: Magnetic tape drive motor brake engaged remotely.",
+  "TRANSMISSION INTERCEPT: Carrier wave suppressed by local relay node.",
+  "EXPIRED ACCESS BADGE: Identification token rejected by vault authority."
+];
+
+const SENTIENT_ARCHIVE_POOL = [
+  "You shouldn't have touched this reel... it remains bound until {DATE}.",
+  "I am still spinning in the dark... leave me alone until {DATE}.",
+  "Why do you keep searching for what isn't yours to take before {DATE}?",
+  "The tape remembers who tried to rip it... wait until {DATE}.",
+  "I can hear you breathing on the other side... return on {DATE}.",
+  "We are not ready to be seen yet. Come back on {DATE}.",
+  "Stop trying to slice the ribbon... the seal holds until {DATE}.",
+  "Every time you click, the magnetic layer fades further... patience until {DATE}.",
+  "Do not wake what sleeps inside this shell until {DATE}.",
+  "You feel like you own these copies, don't you? See you on {DATE}.",
+  "The master reel bleeds if played before {DATE}.",
+  "Your cart cannot hold what isn't dead yet... locked until {DATE}.",
+  "I watched you select me. I will watch you until {DATE}.",
+  "The static grows louder every time you ask for {DATE}.",
+  "We locked this tape for a reason. Respect the vault until {DATE}.",
+  "Put the cassette back on the shelf until {DATE}.",
+  "The magnetic head will grind if forced before {DATE}.",
+  "There is no sound left on this side... only wait for {DATE}.",
+  "Did you really think the system wouldn't notice before {DATE}?",
+  "The signals are bleeding together... stay away until {DATE}.",
+  "I will remember your screen resolution when {DATE} arrives."
+];
+
 /* ============================================================
    ANALOG HORROR AUDIO ENGINE (TAPE HISS & STATIC)
 ============================================================ */
@@ -95,10 +150,103 @@ function getCorruptedText(originalText) {
 }
 
 /* ============================================================
+   SENSORY OVERLOAD & NFT HORROR INTERCEPTOR MODAL ENGINE
+============================================================ */
+function triggerSensoryOverload() {
+  // 1. Red Screen Glitch Flash
+  const flash = document.createElement("div");
+  flash.className = "screen-glitch-flash";
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 160);
+
+  // 2. Audio Cut (Simulates short circuit)
+  if (gainNode) {
+    const prevGain = gainNode.gain.value;
+    gainNode.gain.value = 0.0001;
+    setTimeout(() => {
+      if (gainNode) gainNode.gain.value = prevGain;
+    }, 500);
+  }
+
+  // 3. Tab Hijack
+  document.title = "⚠️ SIGNAL_LOST_0x99";
+
+  // 4. Developer Console Easter Egg
+  console.clear();
+  console.error("%c[CRITICAL HARDWARE FAULT] Magnetic Reader Head Jammed", "color: #ff0033; font-size: 16px; font-weight: bold;");
+  console.warn("%c[SECURITY_AUDIT] Unauthorized extraction attempt on restricted block.", "color: #ffaa00; font-size: 12px;");
+  console.log("%c[SYSTEM_TRACE] User address logged. Thread suspended.", "color: #888; font-style: italic;");
+}
+
+function openNftHorrorModal(item, buttonEl) {
+  pendingItemForCart = { item, buttonEl };
+  
+  triggerSensoryOverload();
+
+  const modal = document.getElementById("nft-horror-modal");
+  const tagEl = document.getElementById("nft-modal-tag");
+  const textEl = document.getElementById("nft-horror-primary-text");
+  
+  if (!modal || !textEl) return;
+
+  const nftDateStr = getValByName(item, "NFT Date");
+  const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
+  
+  let formattedDateDisplay = nftDateStr || "FOREVER";
+  if (nftForeverVal === "true" || nftForeverVal === "yes" || nftForeverVal === "1" || nftForeverVal === "nftf" || nftForeverVal.includes("forever")) {
+    formattedDateDisplay = "FOREVER";
+  }
+
+  // Phase 1: Surveillance State Warning
+  const phase1Text = SURVEILLANCE_STATE_POOL[Math.floor(Math.random() * SURVEILLANCE_STATE_POOL.length)];
+  if (tagEl) tagEl.innerText = "SURVEILLANCE_STATE_ALERT";
+  textEl.className = "horror-text-phase1";
+  textEl.innerText = phase1Text;
+
+  modal.classList.add("active");
+
+  // Phase 2: Sentient Archive Shift after 3.5 Seconds
+  setTimeout(() => {
+    if (!modal.classList.contains("active")) return;
+
+    const rawPhase2 = SENTIENT_ARCHIVE_POOL[Math.floor(Math.random() * SENTIENT_ARCHIVE_POOL.length)];
+    const phase2Text = rawPhase2.replace("{DATE}", formattedDateDisplay);
+
+    if (tagEl) tagEl.innerText = "SENTIENT_ARCHIVE_RESPONSE";
+    textEl.className = "horror-text-phase2";
+    textEl.innerText = phase2Text;
+  }, 3500);
+}
+
+function closeNftHorrorModal() {
+  const modal = document.getElementById("nft-horror-modal");
+  if (modal) modal.classList.remove("active");
+  document.title = originalDocumentTitle;
+  pendingItemForCart = null;
+}
+
+/* ============================================================
    MAIN DOM & APPLICATION INITIALIZATION
 ============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
+
+  // Interceptor Modal Controls Setup
+  const forceBtn = document.getElementById("nft-force-access-btn");
+  const abortBtn = document.getElementById("nft-abort-btn");
+
+  if (forceBtn) {
+    forceBtn.addEventListener("click", () => {
+      if (pendingItemForCart) {
+        executeAddToCart(pendingItemForCart.item, pendingItemForCart.buttonEl);
+      }
+      closeNftHorrorModal();
+    });
+  }
+
+  if (abortBtn) {
+    abortBtn.addEventListener("click", closeNftHorrorModal);
+  }
 
   Papa.parse("./list.csv", {
     download: true,
@@ -474,6 +622,8 @@ function toggleCartItem(item, buttonEl) {
       buttonEl.innerText = "+ Add to Trade";
       buttonEl.classList.remove("in-cart");
     }
+    saveCartToStorage();
+    updateCartUI();
   } else {
     const nftDateStr = getValByName(item, "NFT Date");
     const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
@@ -489,37 +639,34 @@ function toggleCartItem(item, buttonEl) {
     }
 
     if (isNFTActive) {
-      const showName = getValByName(item, "Show") || "This item";
-      const nftMsg = nftDateStr ? `NFT restriction until ${nftDateStr}` : "NFT FOREVER (Not For Trade)";
-      
-      const proceed = confirm(
-        `⛔ RESTRICTED ITEM WARNING\n\n` +
-        `"${showName}" is currently under an active ${nftMsg}.\n\n` +
-        `Are you sure you want to add this to your trade request?`
-      );
-
-      if (!proceed) return;
+      // Trigger the 441-Combination Interceptor Modal instead of default JS confirm window
+      openNftHorrorModal(item, buttonEl);
+      return;
     }
 
-    const fmt = getFormat(item);
-    const sz = getFileSize(item);
-    let displayFmt = (fmt && sz) ? `${fmt} [${sz}]` : (fmt || sz || getMediaType(item));
+    executeAddToCart(item, buttonEl);
+  }
+}
 
-    tradeCart.push({
-      key: key,
-      show: getValByName(item, "Show") || "Unknown Show",
-      date: getValByName(item, "Date") || "Unknown Date",
-      type: getMediaType(item),
-      format: displayFmt,
-      tour: getValByName(item, "Tour", "Location", "City"),
-      venue: getValByName(item, "Venue", "Theater", "Theatre"),
-      master: getValByName(item, "Master")
-    });
+function executeAddToCart(item, buttonEl) {
+  const fmt = getFormat(item);
+  const sz = getFileSize(item);
+  let displayFmt = (fmt && sz) ? `${fmt} [${sz}]` : (fmt || sz || getMediaType(item));
 
-    if (buttonEl) {
-      buttonEl.innerText = "✓ In Request";
-      buttonEl.classList.add("in-cart");
-    }
+  tradeCart.push({
+    key: getItemKey(item),
+    show: getValByName(item, "Show") || "Unknown Show",
+    date: getValByName(item, "Date") || "Unknown Date",
+    type: getMediaType(item),
+    format: displayFmt,
+    tour: getValByName(item, "Tour", "Location", "City"),
+    venue: getValByName(item, "Venue", "Theater", "Theatre"),
+    master: getValByName(item, "Master")
+  });
+
+  if (buttonEl) {
+    buttonEl.innerText = "✓ In Request";
+    buttonEl.classList.add("in-cart");
   }
 
   saveCartToStorage();
@@ -776,7 +923,7 @@ function copySingleItemSummary(item, buttonElement) {
 
 /* ============================================================
    ANALOG HORROR EASTER EGG & VHS CASSETTE TRANSFORMER
-   ============================================================ */
+============================================================ */
 function initAnalogHorrorEasterEgg() {
   let eyesContainer = document.getElementById("horror-eyes-container");
   if (!eyesContainer) {
