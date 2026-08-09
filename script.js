@@ -217,8 +217,8 @@ function triggerBreachOverlay() {
     requestAnimationFrame(() => {
       setTimeout(() => {
         breach.style.opacity = "0";
-        setTimeout(() => breach.remove(), 600);
-      }, 2000);
+        setTimeout(() => breach.remove(), 10000);
+      }, 8000);
     });
   });
 }
