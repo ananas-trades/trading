@@ -1608,3 +1608,25 @@ body.analog-horror-mode #vhs-osd-overlay {
     animation: none !important;
   }
 }
+/* Target the overlay wrapper surrounding your modal dialog */
+#nft-horror-modal {
+  display: none; /* or visibility: hidden, depending on your setup */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999; /* Ensures it sits on top of all other elements */
+  
+  /* Flexbox centers the alert box directly in the middle of the screen */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  background-color: rgba(0, 0, 0, 0.75); /* Dark semi-transparent background */
+}
+
+/* Ensure active class overrides display when open */
+#nft-horror-modal.active {
+  display: flex !important;
+}
