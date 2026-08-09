@@ -1204,11 +1204,6 @@ body.analog-horror-mode {
   perspective: none !important;
 }
 
-/* Screen glitch/shake container rule */
-body.analog-horror-mode > main {
-  /* Move any scanlines or CRT screen glitch transforms here instead of body */
-}
-
 /* Scanlines & Static Grain */
 body.analog-horror-mode::after {
   content: "";
@@ -1410,65 +1405,6 @@ body.analog-horror-mode #vhs-osd-overlay {
   0% { opacity: 1; transform: translate3d(0, 0, 0) scale(1.05) skewX(4deg); }
   50% { opacity: 0.9; transform: translate3d(0, 0, 0) scale(0.98) skewX(-3deg); }
   100% { opacity: 0; transform: translate3d(0, 0, 0) scale(1) skewX(0deg); }
-}
-
-/* ============================================================
-   STALKER EYES IN BACKGROUND (ANALOG HORROR MODE)
-============================================================ */
-
-#horror-eyes-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 15;
-}
-
-/* Full screen background image overlay for the stalker eyes */
-body.analog-horror-mode .bg-eyes,
-body.analog-horror-mode #bg-eyes-overlay {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url('analog-eyes.jpg') !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  background-size: contain !important;
-  mix-blend-mode: screen !important;
-  opacity: 0.85 !important;
-  pointer-events: none !important;
-  z-index: 14 !important;
-  animation: eyePulse 4s infinite ease-in-out !important;
-}
-
-@keyframes eyePulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.85; transform: scale(1.03); }
-}
-
-.exact-creepy-eyes {
-  position: absolute;
-  width: 32px;
-  height: 10px;
-  opacity: 0;
-  transition: opacity 1.5s ease-in-out;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.exact-creepy-eyes::before,
-.exact-creepy-eyes::after {
-  content: "";
-  width: 10px;
-  height: 10px;
-  background: radial-gradient(circle, #ffffff 20%, #8b0000 60%, transparent 100%);
-  border-radius: 50%;
-  box-shadow: 0 0 6px #8b0000;
-}
-
-.exact-creepy-eyes.visible {
-  opacity: 0.85;
 }
 
 /* ============================================================
