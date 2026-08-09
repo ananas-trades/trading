@@ -174,6 +174,9 @@ let sensoryAudioCtx = null;
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 function triggerBreachOverlay() {
+  const existing = document.querySelectorAll(".breach-overlay-active");
+  existing.forEach(el => el.remove());
+
   const breach = document.createElement("div");
   breach.className = "breach-overlay-active";
   
@@ -183,9 +186,10 @@ function triggerBreachOverlay() {
     left: "0",
     width: "100vw",
     height: "100vh",
-    backgroundColor: "rgba(255, 0, 0, 0.92)",
+    backgroundColor: "rgba(255, 0, 0, 0.95)",
     color: "#ffffff",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     fontFamily: "monospace, Courier, sans-serif",
@@ -204,15 +208,17 @@ function triggerBreachOverlay() {
 
   breach.innerHTML = `<div>⚠️ SYSTEM INTEGRITY VIOLATED<br><span style="font-size: 0.8em; color: #ffcccc;">// TAINTED RECORD INJECTED ⚠️</span></div>`;
 
-  // Always append directly to document.body to prevent modal tearing from deleting overlay
-  document.body.appendChild(breach);
+  // Attach directly into <dialog> if open so it renders above native modal top layer
+  const activeDialog = document.querySelector("dialog[open]");
+  const parentTarget = activeDialog || document.body;
+  parentTarget.appendChild(breach);
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       setTimeout(() => {
         breach.style.opacity = "0";
         setTimeout(() => breach.remove(), 600);
-      }, 2000); // Holds full screen red warning for 2 full seconds
+      }, 2000);
     });
   });
 }
@@ -408,7 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const abortBtn = e.target ? e.target.closest("#nft-abort-btn, .abort-btn") : null;
 
     if (forceBtn) {
-      // 1. Immediately trigger audio + full screen breach overlay flash
+      // 1. Immediately trigger audio + full screen breach overlay flash inside active container
       triggerSensoryOverload();
       if (typeof SecurityAudio !== "undefined" && SecurityAudio.alert) {
         SecurityAudio.alert();
@@ -420,19 +426,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const corruptedItem = { ...pendingItemForCart.item };
         const rawShow = getValByName(corruptedItem, "Show") || "UNAUTHORIZED_RECORDING";
         
-        // Scatter censorship blocks across 80% of non-space characters
         const scrambledShow = rawShow.split('').map(char => 
           (Math.random() < 0.80 && char !== ' ') ? '█' : char
         ).join('');
 
-        // Apply TAINTED identifier
         corruptedItem["Show"] = `[TAINTED] ⚠️ ${scrambledShow}`;
 
         executeAddToCart(corruptedItem, pendingItemForCart.buttonEl);
       }
       
-      // 3. Close horror modal cleanly
-      closeNftHorrorModal();
+      // 3. Close horror modal cleanly after brief tick
+      setTimeout(() => {
+        closeNftHorrorModal();
+      }, 50);
     } else if (abortBtn) {
       closeNftHorrorModal();
     }
