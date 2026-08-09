@@ -142,7 +142,6 @@ function getCorruptedText(originalText) {
     "RECORDING OVERWRITE IN PROGRESS"
   ];
   
-  // 5% chance to replace title with creepy broadcast glitch
   if (Math.random() < 0.05) {
     return horrorPhrases[Math.floor(Math.random() * horrorPhrases.length)];
   }
@@ -153,13 +152,15 @@ function getCorruptedText(originalText) {
    SENSORY OVERLOAD & NFT HORROR INTERCEPTOR MODAL ENGINE
 ============================================================ */
 function triggerSensoryOverload() {
-  // 1. Red Screen Glitch Flash
-  const flash = document.createElement("div");
-  flash.className = "screen-glitch-flash";
-  document.body.appendChild(flash);
-  setTimeout(() => flash.remove(), 160);
+  // Fast Hardware-Accelerated Glitch Flash
+  requestAnimationFrame(() => {
+    const flash = document.createElement("div");
+    flash.className = "screen-glitch-flash";
+    document.body.appendChild(flash);
+    setTimeout(() => flash.remove(), 160);
+  });
 
-  // 2. Audio Cut (Simulates short circuit)
+  // Audio Drop-out Effect
   if (gainNode) {
     const prevGain = gainNode.gain.value;
     gainNode.gain.value = 0.0001;
@@ -168,14 +169,13 @@ function triggerSensoryOverload() {
     }, 500);
   }
 
-  // 3. Tab Hijack
+  // Browser Tab Title Hijack
   document.title = "⚠️ SIGNAL_LOST_0x99";
 
-  // 4. Developer Console Easter Egg
+  // Console Glitch Output
   console.clear();
   console.error("%c[CRITICAL HARDWARE FAULT] Magnetic Reader Head Jammed", "color: #ff0033; font-size: 16px; font-weight: bold;");
   console.warn("%c[SECURITY_AUDIT] Unauthorized extraction attempt on restricted block.", "color: #ffaa00; font-size: 12px;");
-  console.log("%c[SYSTEM_TRACE] User address logged. Thread suspended.", "color: #888; font-style: italic;");
 }
 
 function openNftHorrorModal(item, buttonEl) {
@@ -189,6 +189,10 @@ function openNftHorrorModal(item, buttonEl) {
   
   if (!modal || !textEl) return;
 
+  // FIX #2: Lock scroll & auto-focus modal to prevent scrolling up/down
+  document.body.style.overflow = "hidden";
+  window.scrollTo({ top: window.scrollY, behavior: "instant" });
+
   const nftDateStr = getValByName(item, "NFT Date");
   const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
   
@@ -197,7 +201,7 @@ function openNftHorrorModal(item, buttonEl) {
     formattedDateDisplay = "FOREVER";
   }
 
-  // Phase 1: Surveillance State Warning
+  // Phase 1: Surveillance State
   const phase1Text = SURVEILLANCE_STATE_POOL[Math.floor(Math.random() * SURVEILLANCE_STATE_POOL.length)];
   if (tagEl) tagEl.innerText = "SURVEILLANCE_STATE_ALERT";
   textEl.className = "horror-text-phase1";
@@ -205,7 +209,7 @@ function openNftHorrorModal(item, buttonEl) {
 
   modal.classList.add("active");
 
-  // Phase 2: Sentient Archive Shift after 3.5 Seconds
+  // Phase 2: Sentient Shift
   setTimeout(() => {
     if (!modal.classList.contains("active")) return;
 
@@ -221,6 +225,9 @@ function openNftHorrorModal(item, buttonEl) {
 function closeNftHorrorModal() {
   const modal = document.getElementById("nft-horror-modal");
   if (modal) modal.classList.remove("active");
+  
+  // Unlock scrolling upon exit
+  document.body.style.overflow = "";
   document.title = originalDocumentTitle;
   pendingItemForCart = null;
 }
@@ -231,7 +238,7 @@ function closeNftHorrorModal() {
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
 
-  // Interceptor Modal Controls Setup
+  // Interceptor Modal Actions
   const forceBtn = document.getElementById("nft-force-access-btn");
   const abortBtn = document.getElementById("nft-abort-btn");
 
@@ -252,12 +259,11 @@ document.addEventListener("DOMContentLoaded", () => {
     download: true,
     header: true,
     skipEmptyLines: "greedy",
-    delimiter: "", // Auto-detect tab vs comma
+    delimiter: "",
     transformHeader: function(header) {
       return header.replace(/[\ufeff\u200b\r\n]/g, '').trim();
     },
     complete: function(results) {
-      // Pre-index searchable text for fast low-memory filtering
       allData = results.data.map(item => {
         item._searchIndex = `${getValByName(item, "Show")} ${getValByName(item, "Date")} ${getValByName(item, "Cast")} ${getValByName(item, "Master")} ${getValByName(item, "Tour", "Location")} ${getValByName(item, "Venue")}`.toLowerCase();
         return item;
@@ -271,35 +277,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Debounced Search Input Event
+  // Debounced Search Input
   document.getElementById("search-input").addEventListener("input", () => {
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
       applyFiltersAndRender();
-    }, 100);
+    }, 80); // FIX #3: Reduced debounce time for snappy response
   });
 
-  // Format Filter Listeners
-  document.querySelectorAll(".filter-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
+  // Fast Delegated Filter Clicks (FIX #3: Prevents button lag)
+  document.addEventListener("click", (e) => {
+    const filterBtn = e.target.closest(".filter-btn");
+    const catBtn = e.target.closest(".cat-btn");
+
+    if (filterBtn) {
       document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-      e.target.classList.add("active");
-      currentFilter = e.target.getAttribute("data-filter");
+      filterBtn.classList.add("active");
+      currentFilter = filterBtn.getAttribute("data-filter");
       applyFiltersAndRender();
-    });
-  });
-
-  // Category Filter Listeners
-  document.querySelectorAll(".cat-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
+    } else if (catBtn) {
       document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
-      e.target.classList.add("active");
-      currentCategory = e.target.getAttribute("data-category");
+      catBtn.classList.add("active");
+      currentCategory = catBtn.getAttribute("data-category");
       applyFiltersAndRender();
-    });
+    }
   });
 
-  // Event Delegation for Card Actions
+  // Delegated Card Actions (FIX #3: Fast execution via event delegation)
   const cardContainer = document.getElementById("card-container");
   if (cardContainer) {
     cardContainer.addEventListener("click", (e) => {
@@ -417,7 +421,6 @@ function applyFiltersAndRender() {
   const query = document.getElementById("search-input").value.toLowerCase().trim();
   currentRenderToken++;
 
-  // 1. Filter Data Set
   currentFilteredItems = allData.filter(item => {
     const displayType = getMediaType(item);
     if (currentFilter !== 'all' && displayType.toLowerCase() !== currentFilter.toLowerCase()) {
@@ -448,7 +451,6 @@ function applyFiltersAndRender() {
 
   document.getElementById('stats').innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
 
-  // 2. Clear Container and Render Initial Frame
   const container = document.getElementById("card-container");
   container.innerHTML = "";
   displayedCount = 0;
@@ -639,7 +641,6 @@ function toggleCartItem(item, buttonEl) {
     }
 
     if (isNFTActive) {
-      // Trigger the 441-Combination Interceptor Modal instead of default JS confirm window
       openNftHorrorModal(item, buttonEl);
       return;
     }
@@ -971,7 +972,6 @@ function initAnalogHorrorEasterEgg() {
         if (isHorror) setTimeout(() => SecurityAudio.alert(), 120);
       }
 
-      // Audio engine toggle
       if (isHorror) {
         startTapeHiss();
         transformCardsToVHS();
@@ -999,16 +999,14 @@ function transformCardsToVHS() {
   document.querySelectorAll(".item-card").forEach(card => {
     if (card.querySelector(".vhs-inner")) return;
 
-    // Retrieve global index directly from item buttons
     const btn = card.querySelector("[data-index]");
     if (!btn) return;
     const globalIndex = parseInt(btn.getAttribute("data-index"), 10);
     const item = currentFilteredItems[globalIndex];
     if (!item) return;
 
-    // Extract exact data values from source object
     const rawShow = getValByName(item, "Show") || "UNKNOWN RECORDING";
-    const show = getCorruptedText(rawShow); // Corrupt title with 5% chance
+    const show = getCorruptedText(rawShow);
     const date = getValByName(item, "Date");
     const matineeEve = getValByName(item, "Matinée / Evening", "Matinee / Evening");
     const showTime = matineeEve ? ` (${matineeEve})` : "";
@@ -1021,9 +1019,16 @@ function transformCardsToVHS() {
     const myNotes = getValByName(item, "My Notes");
 
     const locationParts = [tour, venue].filter(Boolean).join(" - ");
-    const actions = card.querySelector(".card-actions")?.innerHTML || "";
+    const itemInCart = isInCart(item);
 
-    // Build consolidated notes for cassette back face
+    // FIX #1: Re-inject explicit buttons so cart operations work in horror mode
+    const actionsHTML = `
+      <button type="button" class="add-cart-btn ${itemInCart ? 'in-cart' : ''}" data-index="${globalIndex}">
+        ${itemInCart ? '✓ In Request' : '+ Add to Trade'}
+      </button>
+      <button type="button" class="copy-card-btn" data-index="${globalIndex}">📋 Copy Info</button>
+    `;
+
     let notesHTML = "";
     if (masterNotes) notesHTML += `<div class="card-notes"><strong>MASTER NOTES:</strong> ${masterNotes}</div>`;
     if (tradingNotes) notesHTML += `<div class="card-notes"><strong>TRADING NOTES:</strong> ${tradingNotes}</div>`;
@@ -1052,7 +1057,7 @@ function transformCardsToVHS() {
             ${master ? `<br>🎥 <strong>Master:</strong> ${master}` : ''}
           </div>
 
-          <div class="vhs-actions" style="margin-top: 8px;">${actions}</div>
+          <div class="vhs-actions" style="margin-top: 8px;">${actionsHTML}</div>
 
           <div class="vhs-screw bot-l"></div>
           <div class="vhs-screw bot-r"></div>
