@@ -780,6 +780,7 @@ function generateFormattedText() {
 }
 
 function updateCartUI() {
+   forceCartButtonExistence();
   const container = document.getElementById("cart-items-container");
   const countEl = document.getElementById("cart-count");
   const videoCountEl = document.getElementById("cart-video-count");
