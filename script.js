@@ -152,26 +152,53 @@ function getCorruptedText(originalText) {
 /* ============================================================
    SENSORY OVERLOAD & NFT HORROR INTERCEPTOR MODAL ENGINE
 ============================================================ */
+let sensoryAudioCtx = null;
+
 function triggerSensoryOverload() {
   if (isGlitching) return;
   isGlitching = true;
 
-  const flash = document.createElement("div");
-  flash.className = "screen-glitch-flash";
-  document.body.appendChild(flash);
+  // 1. SAFE AUDIO GLITCH (Reuses AudioContext without leaking memory)
+  try {
+    if (!sensoryAudioCtx) {
+      sensoryAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (sensoryAudioCtx.state === 'suspended') {
+      sensoryAudioCtx.resume();
+    }
+
+    const osc = sensoryAudioCtx.createOscillator();
+    const gain = sensoryAudioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(80, sensoryAudioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(30, sensoryAudioCtx.currentTime + 0.15);
+    
+    gain.gain.setValueAtTime(0.08, sensoryAudioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, sensoryAudioCtx.currentTime + 0.15);
+
+    osc.connect(gain);
+    gain.connect(sensoryAudioCtx.destination);
+
+    osc.start();
+    osc.stop(sensoryAudioCtx.currentTime + 0.15);
+  } catch (e) {
+    console.warn("Audio trigger glitch suppressed:", e);
+  }
+
+  // 2. LIGHTWEIGHT VISUAL FLASH
+  let flash = document.querySelector('.screen-glitch-flash');
+  if (!flash) {
+    flash = document.createElement("div");
+    flash.className = "screen-glitch-flash";
+    document.body.appendChild(flash);
+  }
+
+  flash.style.opacity = "0.8";
 
   setTimeout(() => {
-    flash.remove();
+    if (flash) flash.style.opacity = "0";
     isGlitching = false;
-  }, 200);
-
-  if (gainNode) {
-    const prevGain = gainNode.gain.value;
-    gainNode.gain.value = 0.0001;
-    setTimeout(() => {
-      if (gainNode) gainNode.gain.value = prevGain;
-    }, 500);
-  }
+  }, 150);
 
   document.title = "⚠️ SIGNAL_LOST_0x99";
 
@@ -180,12 +207,42 @@ function triggerSensoryOverload() {
   console.warn("%c[SECURITY_AUDIT] Unauthorized extraction attempt on restricted block.", "color: #ffaa00; font-size: 12px;");
 }
 
+function ensureModalExists() {
+  let modal = document.getElementById("nft-horror-modal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "nft-horror-modal";
+    modal.className = "nft-horror-overlay";
+    modal.innerHTML = `
+      <div class="nft-horror-content">
+        <div id="nft-modal-tag" class="modal-tag">SURVEILLANCE_STATE_ALERT</div>
+        <div class="glitch-text-box">
+          <div id="nft-horror-primary-text" class="horror-text-phase1"></div>
+        </div>
+        <div class="nft-horror-actions">
+          <button type="button" id="nft-force-access-btn" class="force-access-btn">FORCE OVERRIDE</button>
+          <button type="button" id="nft-abort-btn" class="abort-access-btn">ABORT</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    document.getElementById("nft-force-access-btn").addEventListener("click", () => {
+      if (pendingItemForCart) {
+        executeAddToCart(pendingItemForCart.item, pendingItemForCart.buttonEl);
+      }
+      closeNftHorrorModal();
+    });
+
+    document.getElementById("nft-abort-btn").addEventListener("click", closeNftHorrorModal);
+  }
+  return modal;
+}
+
 function openNftHorrorModal(item, buttonEl) {
-  const modal = document.getElementById("nft-horror-modal");
+  const modal = ensureModalExists();
   const tagEl = document.getElementById("nft-modal-tag");
   const textEl = document.getElementById("nft-horror-primary-text");
-  
-  if (!modal || !textEl) return;
 
   pendingItemForCart = { item, buttonEl };
   triggerSensoryOverload();
@@ -204,10 +261,12 @@ function openNftHorrorModal(item, buttonEl) {
   // Phase 1: Surveillance State
   const phase1Text = SURVEILLANCE_STATE_POOL[Math.floor(Math.random() * SURVEILLANCE_STATE_POOL.length)];
   if (tagEl) tagEl.innerText = "SURVEILLANCE_STATE_ALERT";
-  textEl.className = "horror-text-phase1";
-  textEl.innerText = phase1Text;
+  if (textEl) {
+    textEl.className = "horror-text-phase1";
+    textEl.innerText = phase1Text;
+  }
 
-  // Force modal visibility directly via JS styles
+  // Force modal display visibility
   modal.classList.add("active");
   modal.style.display = "flex";
   modal.style.opacity = "1";
@@ -222,8 +281,10 @@ function openNftHorrorModal(item, buttonEl) {
     const phase2Text = rawPhase2.replace("{DATE}", formattedDateDisplay);
 
     if (tagEl) tagEl.innerText = "SENTIENT_ARCHIVE_RESPONSE";
-    textEl.className = "horror-text-phase2";
-    textEl.innerText = phase2Text;
+    if (textEl) {
+      textEl.className = "horror-text-phase2";
+      textEl.innerText = phase2Text;
+    }
   }, 3500);
 }
 
