@@ -6,11 +6,18 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #7000ff #0b0c10;
 }
 
 html {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -22,7 +29,7 @@ body {
   font-family: 'Courier New', Courier, monospace, sans-serif;
   min-height: 100vh;
   padding: 20px;
-  padding-bottom: 100px !important; /* Space for floating buttons */
+  padding-bottom: 100px; /* Space for floating buttons */
 }
 
 /* ============================================================
@@ -34,16 +41,13 @@ body::before {
   content: " ";
   display: block;
   position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  inset: 0;
   background: linear-gradient(
     rgba(18, 16, 16, 0) 50%, 
     rgba(0, 0, 0, 0.35) 50%
   );
   background-size: 100% 4px;
-  z-index: 9990; /* Sits above standard content, below drawer overlays */
+  z-index: 10;
   pointer-events: none;
   opacity: 0.6;
 }
@@ -53,13 +57,10 @@ body::after {
   content: " ";
   display: block;
   position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  inset: 0;
   background: rgba(18, 16, 16, 0.03);
   opacity: 0;
-  z-index: 9991;
+  z-index: 11;
   pointer-events: none;
   animation: crt-flicker 0.15s infinite;
 }
@@ -76,7 +77,7 @@ body::after {
 
 /* Cyber Title Neon Glow Pulse */
 .cyber-glow-pulse {
-  animation: cyber-text-pulse 2s ease-in-out infinite alternate !important;
+  animation: cyber-text-pulse 2s ease-in-out infinite alternate;
 }
 
 @keyframes cyber-text-pulse {
@@ -104,7 +105,7 @@ body::after {
 
 /* Pulsing Cyber Border Glow */
 .cyber-box-pulse {
-  animation: cyber-box-glow 1.8s ease-in-out infinite alternate !important;
+  animation: cyber-box-glow 1.8s ease-in-out infinite alternate;
 }
 
 @keyframes cyber-box-glow {
@@ -120,7 +121,7 @@ body::after {
 
 /* Rapid Neon Flicker Effect */
 .neon-flicker {
-  animation: neon-flicker-anim 3s infinite !important;
+  animation: neon-flicker-anim 3s infinite;
 }
 
 @keyframes neon-flicker-anim {
@@ -275,7 +276,6 @@ h1 {
   flex-direction: column;
   gap: 10px;
   transition: transform 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  content-visibility: auto;
   contain-intrinsic-size: 1px 220px;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -428,20 +428,20 @@ h1 {
 
 /* --- NFT BADGES & CARDS --- */
 .nft-active {
-  color: #ffffff !important;
-  font-weight: bold !important;
-  background: rgba(220, 0, 30, 0.45) !important;
-  padding: 4px 10px !important;
-  border: 2px solid #ff1a3c !important;
-  display: inline-block !important;
-  margin-top: 8px !important;
-  letter-spacing: 1.5px !important;
+  color: #ffffff;
+  font-weight: bold;
+  background: rgba(220, 0, 30, 0.45);
+  padding: 4px 10px;
+  border: 2px solid #ff1a3c;
+  display: inline-block;
+  margin-top: 8px;
+  letter-spacing: 1.5px;
   text-shadow: 
     0 0 4px #ffffff,
     0 0 10px #ff0033,
     0 0 20px #C4001A,
-    0 0 30px #ff0033 !important;
-  animation: badge-hyper-glow 1.2s ease-in-out infinite alternate !important;
+    0 0 30px #ff0033;
+  animation: badge-hyper-glow 1.2s ease-in-out infinite alternate;
 }
 
 @keyframes badge-hyper-glow {
@@ -456,26 +456,26 @@ h1 {
 }
 
 .nft-passed {
-  color: #d8d8d8 !important;
-  font-size: 0.82rem !important;
-  padding: 3px 6px !important;
-  border: 1px solid #C0C0C0 !important;
-  background: rgba(192, 192, 192, 0.12) !important;
-  display: inline-block !important;
-  margin-top: 6px !important;
-  opacity: 0.9 !important;
+  color: #d8d8d8;
+  font-size: 0.82rem;
+  padding: 3px 6px;
+  border: 1px solid #C0C0C0;
+  background: rgba(192, 192, 192, 0.12);
+  display: inline-block;
+  margin-top: 6px;
+  opacity: 0.9;
   box-shadow: 0 0 5px rgba(192, 192, 192, 0.3);
 }
 
 .item-card.card-nft-active {
-  border: 2px solid #ff0033 !important;
-  animation: ultra-nft-pulse 1.4s ease-in-out infinite alternate !important;
+  border: 2px solid #ff0033;
+  animation: ultra-nft-pulse 1.4s ease-in-out infinite alternate;
 }
 
 .item-card.card-nft-active:hover {
-  animation: none !important;
-  border-color: #ff007f !important;
-  box-shadow: 0 0 20px #ff007f, 0 0 40px #ff007f, 0 0 60px #ff0033, inset 0 0 15px #ff007f !important;
+  animation: none;
+  border-color: #ff007f;
+  box-shadow: 0 0 20px #ff007f, 0 0 40px #ff007f, 0 0 60px #ff0033, inset 0 0 15px #ff007f;
 }
 
 @keyframes ultra-nft-pulse {
@@ -501,7 +501,7 @@ h1 {
 }
 
 .item-card.card-standard:hover {
-  animation: rainbow-hover-glow 1.5s linear infinite !important;
+  animation: rainbow-hover-glow 1.5s linear infinite;
 }
 
 @keyframes ultra-standard-pulse {
@@ -571,10 +571,10 @@ h1 {
 ============================================================ */
 
 #scroll-top-btn {
-  position: fixed !important;
-  bottom: 85px !important;
-  right: 24px !important;
-  z-index: 9998 !important;
+  position: fixed;
+  bottom: 85px;
+  right: 24px;
+  z-index: 998;
   
   background: #7000ff;
   color: #ffffff;
@@ -607,40 +607,40 @@ h1 {
 }
 
 #cart-toggle-btn, .cart-toggle-btn, .floating-cart-btn, .trade-request-btn {
-  position: fixed !important;
-  bottom: 25px !important;
-  right: 25px !important;
-  z-index: 100000 !important;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 999;
   
-  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  padding: 12px 22px !important;
-  border-radius: 50px !important;
+  background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 12px 22px;
+  border-radius: 50px;
   font-family: inherit;
-  font-weight: 700 !important;
-  font-size: 0.95rem !important;
+  font-weight: 700;
+  font-size: 0.95rem;
   cursor: pointer;
-  display: flex !important;
+  display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4), 0 0 15px rgba(99, 102, 241, 0.3) !important;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4), 0 0 15px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .cart-toggle-btn:hover {
-  transform: translateY(-4px) scale(1.03) !important;
-  box-shadow: 0 12px 25px rgba(59, 130, 246, 0.6), 0 0 25px rgba(6, 182, 212, 0.5) !important;
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 25px rgba(59, 130, 246, 0.6), 0 0 25px rgba(6, 182, 212, 0.5);
 }
 
 .cart-toggle-btn .cart-badge {
-  background: #ffffff !important;
-  color: #4f46e5 !important;
-  border-radius: 999px !important;
-  padding: 2px 9px !important;
-  font-size: 0.85rem !important;
-  font-weight: 800 !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  background: #ffffff;
+  color: #4f46e5;
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* ============================================================
@@ -649,16 +649,13 @@ h1 {
 
 .drawer-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   backdrop-filter: blur(4px);
-  background-color: rgba(15, 23, 42, 0.6) !important;
+  background-color: rgba(15, 23, 42, 0.6);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 10000;
+  z-index: 1000;
 }
 
 .drawer-overlay.open {
@@ -667,20 +664,20 @@ h1 {
 }
 
 #cart-drawer, .cart-drawer, #cart-panel, .cart-panel, #trade-request-panel, .trade-drawer {
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
-  height: 100vh !important;
-  width: 380px !important;
-  max-width: 85vw !important;
-  background: #12131C !important;
-  color: #E2E8F0 !important;
-  z-index: 99999 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  transition: transform 0.3s ease-in-out !important;
-  box-shadow: -15px 0 35px rgba(0, 0, 0, 0.6) !important;
-  box-sizing: border-box !important;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 380px;
+  max-width: 85vw;
+  background: #12131C;
+  color: #E2E8F0;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+  box-shadow: -15px 0 35px rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
 }
 
 #cart-drawer:not(.open), 
@@ -688,7 +685,7 @@ h1 {
 #cart-panel:not(.open), 
 .cart-panel:not(.open),
 .trade-drawer:not(.open) {
-  transform: translateX(100%) !important;
+  transform: translateX(100%);
 }
 
 #cart-drawer.open, 
@@ -696,12 +693,7 @@ h1 {
 #cart-panel.open, 
 .cart-panel.open,
 .trade-drawer.open {
-  transform: translateX(0) !important;
-}
-
-html, body {
-  overflow-x: hidden !important;
-  max-width: 100vw !important;
+  transform: translateX(0);
 }
 
 .trade-drawer::before {
@@ -716,9 +708,9 @@ html, body {
 }
 
 .drawer-header {
-  padding: 20px 24px !important;
-  background-color: #1A1C29 !important;
-  border-bottom: 1px solid #2D3748 !important;
+  padding: 20px 24px;
+  background-color: #1A1C29;
+  border-bottom: 1px solid #2D3748;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -726,9 +718,9 @@ html, body {
 
 .drawer-header h3 {
   margin: 0;
-  font-size: 1.2rem !important;
+  font-size: 1.2rem;
   font-weight: 800;
-  color: #F7FAFC !important;
+  color: #F7FAFC;
 }
 
 .close-drawer-btn {
@@ -736,20 +728,20 @@ html, body {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #A0AEC0 !important;
+  color: #A0AEC0;
 }
 
 .close-drawer-btn:hover {
-  color: #FFFFFF !important;
+  color: #FFFFFF;
 }
 
 .cart-summary {
   padding: 10px 24px;
-  background-color: #171923 !important;
-  border-bottom: 1px solid #2D3748 !important;
+  background-color: #171923;
+  border-bottom: 1px solid #2D3748;
   font-weight: 600;
   font-size: 0.85rem;
-  color: #A0AEC0 !important;
+  color: #A0AEC0;
   display: flex;
   gap: 16px;
 }
@@ -763,7 +755,7 @@ html, body {
 }
 
 .empty-cart-msg {
-  color: #A0AEC0 !important;
+  color: #A0AEC0;
   text-align: center;
   margin-top: 40px;
   font-size: 0.95rem;
@@ -775,17 +767,17 @@ html, body {
   align-items: center;
   padding: 14px 16px;
   margin-bottom: 12px;
-  background-color: #1A1C2A !important;
+  background-color: #1A1C2A;
   border-radius: 10px;
-  border: 1px solid #2D3748 !important;
-  border-left: 4px solid #6366F1 !important;
+  border: 1px solid #2D3748;
+  border-left: 4px solid #6366F1;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
 }
 
 .cart-item-row:hover {
   transform: translateX(-3px);
-  border-left-color: #ec4899 !important;
+  border-left-color: #ec4899;
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
 }
 
@@ -796,12 +788,12 @@ html, body {
 }
 
 .cart-item-details strong {
-  color: #EDF2F7 !important;
+  color: #EDF2F7;
   font-size: 0.95rem;
 }
 
 .cart-item-details span {
-  color: #A0AEC0 !important;
+  color: #A0AEC0;
   font-size: 0.8rem;
 }
 
@@ -827,37 +819,37 @@ html, body {
 }
 
 .drawer-footer {
-  background-color: #171923 !important;
-  border-top: 1px solid #2D3748 !important;
-  padding: 16px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 12px !important;
+  background-color: #171923;
+  border-top: 1px solid #2D3748;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .drawer-footer .btn,
 .drawer-footer button,
 .drawer-footer a {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-  padding: 10px 14px !important;
-  border-radius: 6px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border-radius: 6px;
   font-family: inherit;
-  font-size: 0.85rem !important;
-  font-weight: 700 !important;
-  white-space: nowrap !important;
-  text-decoration: none !important;
-  cursor: pointer !important;
-  margin: 0 !important;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  margin: 0;
 }
 
 .email-trade-btn {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-  color: #ffffff !important;
-  border: none !important;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
   transition: all 0.2s ease;
 }
@@ -868,23 +860,23 @@ html, body {
 }
 
 .copy-trade-btn {
-  background: #2D3748 !important;
-  color: #EDF2F7 !important;
-  border: 1px solid #4A5568 !important;
+  background: #2D3748;
+  color: #EDF2F7;
+  border: 1px solid #4A5568;
 }
 
 .copy-trade-btn:hover {
-  background: #3A475C !important;
+  background: #3A475C;
 }
 
 .clear-cart-btn {
-  background: transparent !important;
-  color: #FC8181 !important;
-  border: 1px solid transparent !important;
+  background: transparent;
+  color: #FC8181;
+  border: 1px solid transparent;
 }
 
 .clear-cart-btn:hover {
-  background: rgba(254, 178, 178, 0.1) !important;
+  background: rgba(254, 178, 178, 0.1);
 }
 
 /* ============================================================
@@ -919,233 +911,6 @@ html, body {
   box-shadow: 0 0 15px #ff007f, 0 0 30px #ff007f;
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #7000ff #0b0c10;
-}
-
-/* ============================================================
-   ANALOG HORROR VHS TAPE EASTER EGG (AUTHENTIC PLASTIC TEXTURE)
-============================================================ */
-
-body.analog-horror-mode {
-  background-color: #030102 !important;
-  background-image: 
-    radial-gradient(circle at 50% 50%, #120305 0%, #020001 80%),
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%) !important;
-  background-size: 100% 100%, 100% 4px !important;
-  color: #c9a4a4 !important;
-  filter: contrast(120%) brightness(90%);
-  animation: crtFlicker 0.15s infinite alternate;
-}
-
-@keyframes crtFlicker {
-  0% { opacity: 0.97; }
-  100% { opacity: 1; }
-}
-
-body.analog-horror-mode .item-card {
-  perspective: 1000px !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  height: 330px !important;
-  cursor: pointer;
-  overflow: visible !important;
-}
-
-/* 3D Flip Card Container */
-.vhs-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform-style: preserve-3d !important;
-}
-
-.item-card.vhs-flipped .vhs-inner {
-  transform: rotateY(180deg);
-}
-
-.vhs-front, .vhs-back {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  -webkit-backface-visibility: hidden !important;
-  backface-visibility: hidden !important;
-  box-sizing: border-box !important;
-  padding: 16px !important;
-  border-radius: 6px !important;
-}
-
-/* ==========================================
-   REALISTIC VHS PLASTIC CASSETTE BASE STYLE
-========================================== */
-body.analog-horror-mode .vhs-front,
-body.analog-horror-mode .vhs-back {
-  /* Matte charcoal plastic finish + fine molded ridges */
-  background: 
-    repeating-linear-gradient(
-      90deg, 
-      rgba(255, 255, 255, 0.015) 0px, 
-      rgba(255, 255, 255, 0.015) 1px, 
-      transparent 1px, 
-      transparent 3px
-    ),
-    radial-gradient(circle at 30% 20%, #2a2a30 0%, #151518 60%, #0d0d10 100%) !important;
-  
-  /* Molded bevel border with plastic seam line */
-  border: 5px solid #202025 !important;
-  outline: 1px solid #08080a !important;
-  border-radius: 6px !important;
-  
-  /* Outer drop shadow + heavy inset bevel to mimic thick plastic shell */
-  box-shadow: 
-    inset 2px 2px 4px rgba(255, 255, 255, 0.08),
-    inset -3px -3px 6px rgba(0, 0, 0, 0.9),
-    0 10px 25px rgba(0, 0, 0, 0.95),
-    0 0 12px rgba(255, 0, 0, 0.2) !important;
-}
-
-/* Plastic Grip Top Ridge */
-body.analog-horror-mode .vhs-front::before,
-body.analog-horror-mode .vhs-back::before {
-  content: "";
-  display: block;
-  height: 10px;
-  width: 100%;
-  background: repeating-linear-gradient(90deg, #111 0px, #111 5px, #2b2b32 5px, #2b2b32 10px);
-  border-radius: 2px;
-  border-bottom: 1px solid #0a0a0c;
-  box-shadow: inset 0 2px 3px rgba(0,0,0,0.9);
-  margin-bottom: 8px;
-}
-
-/* Metallic Screws */
-.vhs-screw {
-  width: 8px;
-  height: 8px;
-  background: radial-gradient(circle, #888 20%, #444 60%, #111 100%);
-  border-radius: 50%;
-  border: 1px solid #0a0a0a;
-  position: absolute;
-  z-index: 10;
-  box-shadow: inset 0 0 2px #000, 0 0 2px rgba(0,0,0,0.8);
-}
-.vhs-screw::after {
-  content: "+";
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 7px;
-  color: #1a1a1a;
-  font-family: monospace;
-  font-weight: bold;
-  margin-top: -2px;
-}
-.vhs-screw.top-l { top: 8px; left: 8px; }
-.vhs-screw.top-r { top: 8px; right: 8px; }
-.vhs-screw.bot-l { bottom: 8px; left: 8px; }
-.vhs-screw.bot-r { bottom: 8px; right: 8px; }
-
-/* Front Paper Label Sticker */
-.vhs-sticker {
-  background: linear-gradient(180deg, #eae3d2 0%, #d6c8b0 100%) !important;
-  color: #111 !important;
-  font-family: 'Courier New', monospace;
-  font-weight: bold;
-  padding: 8px 10px;
-  border-left: 6px solid #8b0000;
-  box-shadow: inset 0 0 6px rgba(0,0,0,0.2), 2px 3px 6px rgba(0,0,0,0.7);
-  border-radius: 2px;
-}
-
-/* Tape Spools Window */
-.vhs-spools-window {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  background: #050507;
-  border: 2px solid #282830;
-  border-radius: 4px;
-  padding: 8px;
-  margin: 6px 0;
-  box-shadow: inset 0 0 10px #000;
-}
-
-.vhs-spool {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff 15%, #222 20%, #111 60%, #500000 70%, #000 100%);
-  border: 2px dashed #444;
-  box-shadow: 0 0 4px #000;
-  animation: spoolSpin 20s linear infinite;
-}
-
-@keyframes spoolSpin {
-  100% { transform: rotate(360deg); }
-}
-
-/* ==========================================
-   BACK FACE - AUTHENTIC TAPE CASSETTE BACK
-========================================== */
-.vhs-back {
-  transform: rotateY(180deg) translateZ(1px) !important;
-}
-
-body.analog-horror-mode .vhs-back {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-  align-items: stretch !important;
-  overflow-y: auto !important;
-  z-index: 5 !important;
-}
-
-/* Recessed Inset Panel for Back Info */
-.vhs-back h3,
-.vhs-back .card-title {
-  display: block !important;
-  color: #ff3333 !important;
-  font-family: 'Courier New', monospace !important;
-  font-size: 1rem !important;
-  font-weight: bold !important;
-  text-transform: uppercase !important;
-  border-bottom: 2px solid #4a0d0d !important;
-  padding-bottom: 4px !important;
-  margin-bottom: 8px !important;
-  text-shadow: 0 0 5px rgba(255, 0, 0, 0.7) !important;
-}
-
-.vhs-back p,
-.vhs-back div,
-.vhs-back .card-meta,
-.vhs-back .card-notes,
-.vhs-back .card-cast {
-  display: block !important;
-  font-family: 'Courier New', monospace !important;
-  font-size: 0.78rem !important;
-  color: #f0aaaa !important;
-  line-height: 1.35 !important;
-  /* Dark inset window effect printed onto plastic back */
-  background: rgba(8, 8, 12, 0.85) !important;
-  padding: 8px 10px !important;
-  border-radius: 3px !important;
-  border: 1px solid #331015 !important;
-  border-left: 3px solid #cc1111 !important;
-  margin-bottom: 8px !important;
-  word-break: break-word !important;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.9);
-}
-
-.vhs-back strong {
-  color: #ffffff !important;
-  text-shadow: 0 0 3px #ff0000 !important;
-}
 /* ============================================================
    ANALOG HORROR VHS TAPE EASTER EGG (HIGH-VISIBILITY CASSETTE)
 ============================================================ */
@@ -1203,12 +968,9 @@ body.analog-horror-mode .item-card {
   border-radius: 6px !important;
 }
 
-/* ==========================================
-   BRIGHTER & HIGHER-CONTRAST VHS PLASTIC
-========================================== */
+/* BRIGHTER & HIGHER-CONTRAST VHS PLASTIC */
 body.analog-horror-mode .vhs-front,
 body.analog-horror-mode .vhs-back {
-  /* Slightly lighter charcoal plastic with sharper ridged texture */
   background: 
     repeating-linear-gradient(
       90deg, 
@@ -1219,13 +981,11 @@ body.analog-horror-mode .vhs-back {
     ),
     radial-gradient(circle at 30% 20%, #3a3a42 0%, #222228 60%, #15151a 100%) !important;
   
-  /* Bold, metallic-highlighted border seam to separate from background */
   border: 5px solid #33333d !important;
   outline: 2px solid #555562 !important;
   outline-offset: -2px;
   border-radius: 6px !important;
   
-  /* Heavy outer drop shadow + prominent red edge glow */
   box-shadow: 
     inset 2px 2px 5px rgba(255, 255, 255, 0.2),
     inset -4px -4px 8px rgba(0, 0, 0, 0.95),
@@ -1313,9 +1073,7 @@ body.analog-horror-mode .vhs-back::before {
   100% { transform: rotate(360deg); }
 }
 
-/* ==========================================
-   BACK FACE - HIGH VISIBILITY CASSETTE
-========================================== */
+/* BACK FACE - HIGH VISIBILITY CASSETTE */
 .vhs-back {
   transform: rotateY(180deg) translateZ(1px) !important;
 }
@@ -1329,7 +1087,6 @@ body.analog-horror-mode .vhs-back {
   z-index: 5 !important;
 }
 
-/* Recessed Inset Panel for Back Info */
 .vhs-back h3,
 .vhs-back .card-title {
   display: block !important;
@@ -1354,7 +1111,6 @@ body.analog-horror-mode .vhs-back {
   font-size: 0.78rem !important;
   color: #fce8e8 !important;
   line-height: 1.35 !important;
-  /* Slightly darker inner block so text stands out against plastic frame */
   background: rgba(12, 10, 14, 0.9) !important;
   padding: 8px 10px !important;
   border-radius: 3px !important;
@@ -1369,11 +1125,11 @@ body.analog-horror-mode .vhs-back {
   color: #ffffff !important;
   text-shadow: 0 0 4px #ff0000 !important;
 }
+
 /* ============================================================
    VHS STICKER TITLE CONTRAST FIX
 ============================================================ */
 
-/* Force dark text inside the light-colored VHS sticker label */
 .vhs-sticker,
 .vhs-sticker *,
 body.analog-horror-mode .vhs-sticker,
@@ -1385,18 +1141,18 @@ body.analog-horror-mode .vhs-sticker h3 {
   text-shadow: none !important;
   font-weight: 800 !important;
 }
+
 /* ============================================================
    ANALOG HORROR OVERRIDE: GRITTY VHS & EMERGENCY BROADCAST
 ============================================================ */
 
-/* 1. Dark, Corrupted CRT Background & Canvas */
 body.analog-horror-mode {
   background-color: #050406 !important;
   color: #b8b8b8 !important;
   font-family: 'Courier New', Courier, monospace !important;
 }
 
-/* Darken Scanlines & Static Grain */
+/* Scanlines & Static Grain */
 body.analog-horror-mode::after {
   content: "";
   position: fixed;
@@ -1406,11 +1162,11 @@ body.analog-horror-mode::after {
     radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.95) 100%);
   background-size: 100% 4px, 100% 100%;
   pointer-events: none;
-  z-index: 999;
+  z-index: 12;
   opacity: 0.85;
 }
 
-/* 2. Header & Banner Redesign (Glitchy Emergency Broadcast) */
+/* Header & Banner Redesign */
 body.analog-horror-mode h1,
 body.analog-horror-mode .header-title {
   color: #d11a2a !important;
@@ -1429,7 +1185,7 @@ body.analog-horror-mode .rules-container {
   color: #a39b9b !important;
 }
 
-/* 3. Muted & Distressed Filter Buttons */
+/* Filter Buttons */
 body.analog-horror-mode .filter-btn,
 body.analog-horror-mode .cat-btn {
   background: #120e10 !important;
@@ -1457,16 +1213,16 @@ body.analog-horror-mode #search-input {
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.9) !important;
 }
 
-/* 4. VHS Cassette Shells (Aged Plastic & Red Foil) */
+/* Tape Shells */
 body.analog-horror-mode .item-card {
   background: #0f0c0e !important;
   border: 2px solid #2b1114 !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.95) !important;
 }
 
-/* Sticker Label Contrast Override */
+/* Sticker Label Override */
 body.analog-horror-mode .vhs-sticker {
-  background: #c2b8a3 !important; /* Aged worn paper */
+  background: #c2b8a3 !important;
   border-bottom: 2px solid #80141c !important;
   box-shadow: inset 0 0 5px rgba(0,0,0,0.3) !important;
 }
@@ -1506,11 +1262,12 @@ body.analog-horror-mode .add-cart-btn.in-cart {
   color: #72db85 !important;
   border-color: #1e5e2c !important;
 }
+
 /* ============================================================
    ANALOG HORROR VISUAL NOISE & OSD OVERLAYS
 ============================================================ */
 
-/* 1. Glitchy Text Shift (RGB Chromatic Split) */
+/* Glitchy Text Shift */
 body.analog-horror-mode .card-title,
 body.analog-horror-mode h1 {
   text-shadow: -1.5px 0 0 rgba(255,0,0,0.8), 1.5px 0 0 rgba(0,255,255,0.8) !important;
@@ -1524,14 +1281,17 @@ body.analog-horror-mode h1 {
   100% { text-shadow: 1px 0 0 rgba(255,0,0,0.8), -1px 0 0 rgba(0,255,255,0.8); }
 }
 
-/* 2. Horizontal Tracking Artifact (Screen Roll/Tear) */
+/* Horizontal Tracking Artifact */
 body.analog-horror-mode::before {
   content: "";
   position: fixed;
-  top: 0; left: 0; width: 100vw; height: 3px;
+  top: 0; 
+  left: 0; 
+  width: 100vw; 
+  height: 3px;
   background: rgba(255, 255, 255, 0.4);
   opacity: 0.6;
-  z-index: 1000;
+  z-index: 13;
   pointer-events: none;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   animation: vhs-tape-roll 8s infinite linear;
@@ -1542,13 +1302,13 @@ body.analog-horror-mode::before {
   100% { top: 105vh; }
 }
 
-/* 3. On-Screen Display (OSD) Layout */
+/* On-Screen Display (OSD) Layout */
 #vhs-osd-overlay {
   display: none;
   position: fixed;
   inset: 20px;
   pointer-events: none;
-  z-index: 998;
+  z-index: 14;
   font-family: 'Courier New', monospace;
   color: #00ff22;
   font-size: 1.1rem;
@@ -1570,6 +1330,7 @@ body.analog-horror-mode #vhs-osd-overlay {
   color: #ff3333; 
   text-shadow: 0 0 5px #ff3333; 
 }
+
 /* ============================================================
    SENSORY OVERLOAD & RED SCREEN FLASH
 ============================================================ */
@@ -1580,153 +1341,13 @@ body.analog-horror-mode #vhs-osd-overlay {
   background: rgba(255, 0, 0, 0.45);
   mix-blend-mode: color-dodge;
   pointer-events: none;
-  z-index: 999999;
+  z-index: 9998;
   animation: flash-tear 0.15s ease-out forwards;
 }
 
 @keyframes flash-tear {
   0% { opacity: 1; transform: scale(1.02) skewX(2deg); }
   100% { opacity: 0; transform: scale(1) skewX(0deg); }
-}
-
-/* ============================================================
-   441-COMBINATION NFT HORROR INTERCEPTOR MODAL
-============================================================ */
-
-.nft-horror-overlay {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  background: rgba(5, 2, 4, 0.92);
-  backdrop-filter: blur(8px);
-  z-index: 200000;
-
-  /* Perfect Viewport Centering */
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.25s ease, visibility 0.25s ease;
-}
-.nft-horror-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.nft-horror-content {
-  background: #0d0608;
-  border: 2px solid #ff0033;
-  box-shadow: 0 0 30px #ff0033, inset 0 0 15px rgba(255, 0, 51, 0.4);
-  width: 90%;
-  max-width: 580px;
-  padding: 24px;
-  border-radius: 4px;
-  font-family: 'Courier New', monospace;
-  position: relative;
-}
-
-.nft-horror-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border-bottom: 1px solid #4a0d15;
-  padding-bottom: 12px;
-  margin-bottom: 18px;
-}
-
-.warning-symbol {
-  font-size: 1.6rem;
-  animation: flash-warning 0.8s infinite alternate;
-}
-
-@keyframes flash-warning {
-  0% { opacity: 0.3; }
-  100% { opacity: 1; text-shadow: 0 0 10px #ff0033; }
-}
-
-.modal-tag {
-  color: #ff3355;
-  font-size: 0.85rem;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-
-.glitch-text-box {
-  min-height: 110px;
-  background: rgba(0, 0, 0, 0.7);
-  border: 1px solid #2a080d;
-  padding: 16px;
-  border-radius: 3px;
-  margin-bottom: 20px;
-}
-
-.horror-text-phase1 {
-  color: #ff8899;
-  font-size: 0.92rem;
-  line-height: 1.5;
-  letter-spacing: 0.5px;
-}
-
-.horror-text-phase2 {
-  color: #33ff77;
-  font-size: 0.92rem;
-  line-height: 1.5;
-  letter-spacing: 0.5px;
-  text-shadow: 0 0 6px rgba(51, 255, 119, 0.6);
-  animation: text-glitch-shake 0.2s 2 ease-in-out;
-}
-
-@keyframes text-glitch-shake {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-3px, 2px); }
-  50% { transform: translate(3px, -2px); }
-  75% { transform: translate(-2px, -1px); }
-  100% { transform: translate(0, 0); }
-}
-
-.nft-horror-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-}
-
-.force-access-btn {
-  background: #3a000a;
-  border: 1px solid #ff0033;
-  color: #ff3355;
-  padding: 10px 16px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.force-access-btn:hover {
-  background: #ff0033;
-  color: #ffffff;
-  box-shadow: 0 0 15px #ff0033;
-}
-
-.abort-access-btn {
-  background: #111;
-  border: 1px solid #444;
-  color: #aaa;
-  padding: 10px 16px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
-.abort-access-btn:hover {
-  background: #222;
-  color: #fff;
 }
 
 /* ============================================================
@@ -1737,7 +1358,7 @@ body.analog-horror-mode #vhs-osd-overlay {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 9995;
+  z-index: 15;
 }
 
 .exact-creepy-eyes {
@@ -1764,68 +1385,56 @@ body.analog-horror-mode #vhs-osd-overlay {
 .exact-creepy-eyes.visible {
   opacity: 0.85;
 }
+
 /* ============================================================
-   NFT HORROR MODAL VIEWPORT OVERLAYS (CLEAN & CONSOLIDATED)
+   NFT HORROR MODAL VIEWPORT OVERLAYS
 ============================================================ */
 
-/* Main Fullscreen Backdrop Overlay */
 #nft-horror-modal,
 .nft-horror-overlay {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  margin: 0 !important;
-  padding: 20px !important;
-  box-sizing: border-box !important;
-  background: rgba(5, 2, 4, 0.95) !important;
+  position: fixed;
+  inset: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  background: rgba(5, 2, 4, 0.95);
   backdrop-filter: blur(8px);
-  z-index: 999999 !important; /* Must sit above everything else */
+  z-index: 9999;
 
-  /* Flex Layout Centering */
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-direction: column !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
-  /* State Management: Hidden by default */
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
   transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
-/* Active State Triggered by JS */
 #nft-horror-modal.active,
 .nft-horror-overlay.active {
-  opacity: 1 !important;
-  visibility: visible !important;
-  pointer-events: auto !important;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-/* Modal Inner Box (Handles both class naming variations) */
 .nft-horror-content,
 .nft-modal-content {
-  position: relative !important;
-  background: #0d060a !important;
-  border: 2px solid #ff0033 !important;
-  box-shadow: 0 0 30px rgba(255, 0, 51, 0.6) !important;
-  width: 90% !important;
-  max-width: 520px !important;
-  padding: 24px !important;
-  border-radius: 6px !important;
-  color: #fff !important;
-  font-family: monospace, sans-serif !important;
-  text-align: center !important;
-  z-index: 1000000 !important;
-  box-sizing: border-box !important;
-  margin: auto !important;
+  position: relative;
+  background: #0d060a;
+  border: 2px solid #ff0033;
+  box-shadow: 0 0 30px rgba(255, 0, 51, 0.6);
+  width: 90%;
+  max-width: 520px;
+  padding: 24px;
+  border-radius: 6px;
+  color: #fff;
+  font-family: monospace, sans-serif;
+  text-align: center;
+  box-sizing: border-box;
+  margin: auto;
 }
 
-/* Modal Header Section */
 .nft-horror-header {
   display: flex;
   align-items: center;
@@ -1836,51 +1445,69 @@ body.analog-horror-mode #vhs-osd-overlay {
   padding-bottom: 10px;
 }
 
-/* Header Tag / Alert Indicator */
+.warning-symbol {
+  font-size: 1.6rem;
+  animation: flash-warning 0.8s infinite alternate;
+}
+
+@keyframes flash-warning {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; text-shadow: 0 0 10px #ff0033; }
+}
+
 #nft-modal-tag,
 .modal-tag {
-  color: #ffaa00 !important;
+  color: #ffaa00;
   font-weight: bold;
   font-family: monospace, sans-serif;
   font-size: 0.85rem;
   letter-spacing: 2px;
-  margin-bottom: 10px;
-  display: block !important;
+  display: block;
 }
 
-/* Text Container Box */
 .glitch-text-box {
   min-height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #2a080d;
+  padding: 16px;
+  border-radius: 3px;
 }
 
-/* Primary Horror Text Styling */
 #nft-horror-primary-text,
 .horror-text-phase1,
 .horror-text-phase2 {
   font-family: monospace, sans-serif;
   line-height: 1.5;
   min-height: 60px;
-  margin-bottom: 20px;
-  display: block !important;
-  visibility: visible !important;
+  display: block;
+  visibility: visible;
 }
 
 .horror-text-phase1 {
-  color: #ffaa00 !important;
+  color: #ffaa00;
   font-size: 0.95rem;
 }
 
 .horror-text-phase2 {
-  color: #ff0033 !important;
+  color: #ff0033;
   font-size: 1.05rem;
   font-weight: bold;
+  text-shadow: 0 0 6px rgba(255, 0, 51, 0.6);
+  animation: text-glitch-shake 0.2s 2 ease-in-out;
 }
 
-/* Action Buttons Container */
+@keyframes text-glitch-shake {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3px, 2px); }
+  50% { transform: translate(3px, -2px); }
+  75% { transform: translate(-2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
 .nft-horror-actions,
 .nft-modal-actions {
   display: flex;
@@ -1889,7 +1516,6 @@ body.analog-horror-mode #vhs-osd-overlay {
   margin-top: 15px;
 }
 
-/* Buttons (Supports both ID and Class strategies) */
 #nft-force-access-btn,
 #nft-abort-btn,
 .force-access-btn, 
@@ -1907,25 +1533,29 @@ body.analog-horror-mode #vhs-osd-overlay {
 
 #nft-force-access-btn:hover,
 .force-access-btn:hover {
-  background: #ff0033 !important;
-  color: #000 !important;
+  background: #ff0033;
+  color: #000;
+  box-shadow: 0 0 15px #ff0033;
 }
 
 #nft-abort-btn:hover,
 .abort-access-btn:hover {
-  background: #444 !important;
-  border-color: #888 !important;
-  color: #fff !important;
+  background: #444;
+  border-color: #888;
+  color: #fff;
 }
 
-/* Red Flash Effect (Must sit lower than the modal layer) */
-.screen-glitch-flash {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  background: red !important;
-  z-index: 99998 !important; /* Sitting right below z-index 999999 */
-  pointer-events: none !important;
+/* Accessibility: Safe motion controls */
+@media (prefers-reduced-motion: reduce) {
+  body::after,
+  .neon-flicker,
+  .cyber-glow-pulse,
+  .cyber-box-pulse,
+  .item-card.card-standard,
+  .item-card.card-nft-active,
+  .nft-active,
+  .warning-symbol,
+  .screen-glitch-flash {
+    animation: none !important;
+  }
 }
