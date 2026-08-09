@@ -299,6 +299,9 @@ function triggerSensoryOverload() {
   void flash.offsetWidth; // Force CSS reflow
   flash.classList.add("flash-active");
 
+  // IMMEDIATELY SCROLL TO THE TOP/TEXT
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
   setTimeout(() => {
     flash.classList.remove("flash-active");
     isGlitching = false;
@@ -306,6 +309,7 @@ function triggerSensoryOverload() {
 
   document.title = "⚠️ SIGNAL_LOST_0x99";
 }
+
 function openNftHorrorModal(item, buttonEl) {
   const modal = document.getElementById("nft-horror-modal");
   const tagEl = document.getElementById("nft-modal-tag");
@@ -314,6 +318,10 @@ function openNftHorrorModal(item, buttonEl) {
   if (!modal) return;
 
   pendingItemForCart = { item, buttonEl };
+
+  // 1. Scroll window to top before opening modal
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
   triggerSensoryOverload();
 
   const nftDateStr = getValByName(item, "NFT Date");
@@ -345,6 +353,11 @@ function openNftHorrorModal(item, buttonEl) {
     modal.showModal();
   } else {
     modal.classList.add("active");
+  }
+
+  // 2. Center modal text in view inside scroll container
+  if (textEl) {
+    textEl.scrollIntoView({ behavior: 'instant', block: 'center' });
   }
 
   setTimeout(() => {
