@@ -183,15 +183,16 @@ function openNftHorrorModal(item, buttonEl) {
   
   triggerSensoryOverload();
 
-  const modal = document.getElementById("nft-horror-modal");
-  const tagEl = document.getElementById("nft-modal-tag");
+  // Target class-based modal overlay
+  const modal = document.querySelector(".nft-horror-overlay");
+  const tagEl = document.querySelector(".modal-tag");
   const textEl = document.getElementById("nft-horror-primary-text");
   
   if (!modal || !textEl) return;
 
-  // FIX #2: Lock scroll & auto-focus modal to prevent scrolling up/down
+  // Lock background scrolling completely across browsers
   document.body.style.overflow = "hidden";
-  window.scrollTo({ top: window.scrollY, behavior: "instant" });
+  document.documentElement.style.overflow = "hidden";
 
   const nftDateStr = getValByName(item, "NFT Date");
   const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
@@ -223,11 +224,12 @@ function openNftHorrorModal(item, buttonEl) {
 }
 
 function closeNftHorrorModal() {
-  const modal = document.getElementById("nft-horror-modal");
+  const modal = document.querySelector(".nft-horror-overlay");
   if (modal) modal.classList.remove("active");
   
-  // Unlock scrolling upon exit
+  // Unlock scrolling
   document.body.style.overflow = "";
+  document.documentElement.style.overflow = "";
   document.title = originalDocumentTitle;
   pendingItemForCart = null;
 }
