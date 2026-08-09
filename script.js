@@ -167,23 +167,51 @@ function getCorruptedText(originalText) {
 }
 
 /* ============================================================
-   SENSORY OVERLOAD & NFT HORROR INTERCEPTOR MODAL ENGINE
+   SENSORY OVERLOAD & OVERRIDE FLASH HELPERS
 ============================================================ */
 let sensoryAudioCtx = null;
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+function triggerBreachOverlay() {
+  const breach = document.createElement("div");
+  breach.style.position = "fixed";
+  breach.style.top = "0";
+  breach.style.left = "0";
+  breach.style.width = "100vw";
+  breach.style.height = "100vh";
+  breach.style.backgroundColor = "rgba(255, 0, 0, 0.85)";
+  breach.style.color = "#000";
+  breach.style.display = "flex";
+  breach.style.alignItems = "center";
+  breach.style.justifyContent = "center";
+  breach.style.fontFamily = "monospace";
+  breach.style.fontSize = "1.8rem";
+  breach.style.fontWeight = "bold";
+  breach.style.zIndex = "999999";
+  breach.style.pointerEvents = "none";
+  breach.style.textAlign = "center";
+  breach.style.padding = "20px";
+  breach.innerText = "⚠️ SYSTEM INTEGRITY VIOLATED // TAINTED RECORD INJECTED ⚠️";
+
+  document.body.appendChild(breach);
+
+  setTimeout(() => {
+    breach.style.transition = "opacity 0.4s ease-out";
+    breach.style.opacity = "0";
+    setTimeout(() => breach.remove(), 400);
+  }, 350);
+}
+
 async function runTextTransition(element, newText) {
   if (!element) return;
 
-  // Enforce bounding box styles to prevent container overflow
   element.style.whiteSpace = "pre-wrap";
   element.style.overflowWrap = "anywhere";
   element.style.wordBreak = "break-word";
   element.style.maxWidth = "100%";
   element.style.boxSizing = "border-box";
 
-  // Backspace current text character by character
   while (element.textContent.length > 0) {
     element.textContent = element.textContent.slice(0, -1);
     await sleep(15); 
@@ -191,10 +219,8 @@ async function runTextTransition(element, newText) {
 
   await sleep(300);
 
-  // Switch to phase 2 horror styling class
   element.className = "horror-text-phase2";
 
-  // Type out new text character by character
   for (let i = 0; i < newText.length; i++) {
     element.textContent += newText.charAt(i);
     const typingDelay = Math.floor(Math.random() * 30) + 25; 
@@ -357,10 +383,29 @@ document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
   ensureCartButtonInBody();
 
+  // OVERRIDDEN FORCE ACCESS & ABORT DELEGATED CLICK LISTENER
   document.body.addEventListener("click", (e) => {
     if (e.target && e.target.id === "nft-force-access-btn") {
       if (pendingItemForCart) {
-        executeAddToCart(pendingItemForCart.item, pendingItemForCart.buttonEl);
+        triggerSensoryOverload();
+        if (typeof SecurityAudio !== "undefined" && SecurityAudio.alert) {
+          SecurityAudio.alert();
+        }
+
+        // Clone item and corrupt title format
+        const corruptedItem = { ...pendingItemForCart.item };
+        const rawShow = getValByName(corruptedItem, "Show") || "UNAUTHORIZED_RECORDING";
+        
+        // Randomly scatter censorship blocks across the title
+        const scrambledShow = rawShow.split('').map(char => 
+          (Math.random() < 0.35 && char !== ' ') ? '█' : char
+        ).join('');
+
+        // Apply TAINTED identifier
+        corruptedItem["Show"] = `[TAINTED] ⚠️ ${scrambledShow}`;
+
+        triggerBreachOverlay();
+        executeAddToCart(corruptedItem, pendingItemForCart.buttonEl);
       }
       closeNftHorrorModal();
     } else if (e.target && e.target.id === "nft-abort-btn") {
@@ -853,13 +898,19 @@ function updateCartUI() {
     if (item.type.includes("VIDEO")) videos++;
     if (item.type.includes("AUDIO")) audios++;
 
+    const isTainted = item.show.includes("[TAINTED]");
     const location = [item.tour, item.venue].filter(Boolean).join(" - ");
     const cartCard = document.createElement("div");
-    cartCard.className = "cart-item-row";
+    cartCard.className = `cart-item-row ${isTainted ? 'tainted-cart-item' : ''}`;
+
+    if (isTainted) {
+      cartCard.style.borderLeft = "4px solid #ff0000";
+      cartCard.style.backgroundColor = "rgba(255, 0, 0, 0.1)";
+    }
 
     cartCard.innerHTML = `
       <div class="cart-item-details">
-        <strong>${item.show}</strong>
+        <strong style="${isTainted ? 'color: #ff3333; font-family: monospace;' : ''}">${item.show}</strong>
         <span>📅 ${item.date} (${item.format}) ${location ? `| 📍 ${location}` : ''}</span>
       </div>
       <button type="button" class="remove-cart-item" data-key="${item.key}">&times;</button>
