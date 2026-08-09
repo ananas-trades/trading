@@ -213,10 +213,8 @@ function triggerBreachOverlay() {
     </div>
   `;
 
-  // Always mount directly to document.body
   document.body.appendChild(breach);
 
-  // Smooth 2.5-second hold before fade out
   setTimeout(() => {
     breach.style.opacity = "0";
     setTimeout(() => breach.remove(), 600);
@@ -282,11 +280,9 @@ function triggerSensoryOverload() {
   if (!flash) {
     flash = document.createElement("div");
     flash.className = "screen-glitch-flash";
-    // Append directly to <html> to escape any body/container stacking contexts
     document.documentElement.appendChild(flash);
   }
 
-  // Pin directly to current window scroll position
   flash.style.position = 'fixed';
   flash.style.top = '0px';
   flash.style.left = '0px';
@@ -294,12 +290,10 @@ function triggerSensoryOverload() {
   flash.style.height = '100vh';
   flash.style.zIndex = '2147483647';
 
-  // Restart keyframe animation
   flash.classList.remove("flash-active");
-  void flash.offsetWidth; // Force CSS reflow
+  void flash.offsetWidth; 
   flash.classList.add("flash-active");
 
-  // IMMEDIATELY SCROLL TO THE TOP/TEXT
   window.scrollTo({ top: 0, behavior: 'instant' });
 
   setTimeout(() => {
@@ -319,7 +313,6 @@ function openNftHorrorModal(item, buttonEl) {
 
   pendingItemForCart = { item, buttonEl };
 
-  // 1. Scroll window to top before opening modal
   window.scrollTo({ top: 0, behavior: 'instant' });
 
   triggerSensoryOverload();
@@ -355,7 +348,6 @@ function openNftHorrorModal(item, buttonEl) {
     modal.classList.add("active");
   }
 
-  // 2. Center modal text in view inside scroll container
   if (textEl) {
     textEl.scrollIntoView({ behavior: 'instant', block: 'center' });
   }
@@ -429,17 +421,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const abortBtn = e.target ? e.target.closest("#nft-abort-btn, .abort-btn") : null;
 
     if (forceBtn) {
-      // 1. Close modal FIRST so body becomes primary render target
       closeNftHorrorModal();
 
-      // 2. Trigger audio & breach overlay directly on body
       triggerSensoryOverload();
       if (typeof SecurityAudio !== "undefined" && SecurityAudio.alert) {
         SecurityAudio.alert();
       }
       triggerBreachOverlay();
 
-      // 3. Corrupt item title (80% scramble) and append to cart
       if (pendingItemForCart) {
         const corruptedItem = { ...pendingItemForCart.item };
         const rawShow = getValByName(corruptedItem, "Show") || "UNAUTHORIZED_RECORDING";
@@ -847,22 +836,27 @@ function toggleCartItem(item, buttonEl) {
     saveCartToStorage();
     updateCartUI();
   } else {
-    const nftDateStr = getValByName(item, "NFT Date");
-    const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
-    
-    let isNFTActive = (
-      nftForeverVal === "true" || nftForeverVal === "yes" || nftForeverVal === "1" || 
-      nftForeverVal === "nftf" || nftForeverVal.includes("forever") ||
-      nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf"
-    );
+    // Check if Analog Horror mode is active
+    const isHorrorActive = document.body.classList.contains("analog-horror-mode");
 
-    if (!isNFTActive && nftDateStr !== "") {
-      isNFTActive = isNftStillActive(nftDateStr);
-    }
+    if (isHorrorActive) {
+      const nftDateStr = getValByName(item, "NFT Date");
+      const nftForeverVal = getValByName(item, "NFT Forever").toLowerCase();
+      
+      let isNFTActive = (
+        nftForeverVal === "true" || nftForeverVal === "yes" || nftForeverVal === "1" || 
+        nftForeverVal === "nftf" || nftForeverVal.includes("forever") ||
+        nftDateStr.toLowerCase().includes("forever") || nftDateStr.toLowerCase() === "nftf"
+      );
 
-    if (isNFTActive) {
-      openNftHorrorModal(item, buttonEl);
-      return;
+      if (!isNFTActive && nftDateStr !== "") {
+        isNFTActive = isNftStillActive(nftDateStr);
+      }
+
+      if (isNFTActive) {
+        openNftHorrorModal(item, buttonEl);
+        return;
+      }
     }
 
     executeAddToCart(item, buttonEl);
