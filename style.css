@@ -1429,42 +1429,58 @@ body.analog-horror-mode #vhs-osd-overlay {
 }
 
 /* ============================================================
-   NFT HORROR MODAL VIEWPORT OVERLAYS (PURE BLACK FULLSCREEN ALERT)
+   NFT HORROR MODAL (UNIFIED & VIEWPORT FIXED)
 ============================================================ */
 
+/* Lock body scrolling when the modal opens */
+body.modal-open {
+  overflow: hidden !important;
+}
+
+/* Fullscreen Backdrop / Container */
 #nft-horror-modal,
-.nft-horror-overlay {
+.nft-horror-overlay,
+dialog#nft-horror-modal {
   position: fixed !important;
   inset: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
   height: 100dvh !important;
-  
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
-  
-  /* Pure black screen backdrop obscuring everything behind it */
-  background: #000000 !important;
+  background: rgba(0, 0, 0, 0.92) !important;
+  border: none !important;
   z-index: 9999999 !important;
 
+  /* Perfect Viewport Centering */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 
+  /* Hidden by default */
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
+/* Backdrop fix if using HTML <dialog> */
+dialog#nft-horror-modal::backdrop {
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(4px);
+}
+
+/* Activated State (JS adds .active) */
 #nft-horror-modal.active,
-.nft-horror-overlay.active {
+.nft-horror-overlay.active,
+dialog#nft-horror-modal[open] {
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
 }
 
+/* Modal Inner Box */
 .nft-horror-content,
 .nft-modal-content {
   position: relative !important;
@@ -1594,59 +1610,10 @@ body.analog-horror-mode #vhs-osd-overlay {
   color: #fff;
 }
 
-/* Accessibility: Safe motion controls */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-  body::after,
-  .neon-flicker,
-  .cyber-glow-pulse,
-  .cyber-box-pulse,
-  .item-card.card-standard,
-  .item-card.card-nft-active,
-  .nft-active,
   .warning-symbol,
-  .screen-glitch-flash {
+  .horror-text-phase2 {
     animation: none !important;
   }
-}
-/* Target the overlay wrapper surrounding your modal dialog */
-#nft-horror-modal {
-  display: none; /* or visibility: hidden, depending on your setup */
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 99999; /* Ensures it sits on top of all other elements */
-  
-  /* Flexbox centers the alert box directly in the middle of the screen */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  background-color: rgba(0, 0, 0, 0.75); /* Dark semi-transparent background */
-}
-
-/* Ensure active class overrides display when open */
-#nft-horror-modal.active {
-  display: flex !important;
-}
-/* ==========================================
-   NFT HORROR MODAL (NATIVE DIALOG FIX)
-   ========================================== */
-
-/* Resets native dialog default borders/backgrounds and centers on screen */
-dialog#nft-horror-modal {
-  border: none;
-  background: transparent;
-  padding: 0;
-  margin: auto;
-  max-width: 600px;
-  width: 90%;
-  box-sizing: border-box;
-}
-
-/* Fullscreen dimmed backdrop that locks to the viewport without scrolling */
-dialog#nft-horror-modal::backdrop {
-  background-color: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(4px); /* Adds a subtle blur effect behind the modal */
 }
