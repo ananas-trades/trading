@@ -19,6 +19,10 @@ let pendingItemForCart = null;
 let originalDocumentTitle = document.title;
 let isGlitching = false;
 
+// Tape Degradation & VCR State Tracking Variables
+let degradationInterval = null;
+let isVhsPaused = false;
+
 /* ============================================================
    EXPANDED SURVEILLANCE & SENTIENT ARCHIVE PHRASE POOLS (100 EACH)
 ============================================================ */
@@ -392,8 +396,8 @@ const VCRAudio = (function() {
 /* ============================================================
    CART INFECTION MECHANIC ENGINE
 ============================================================ */
-setInterval(() => {
-  if (!document.body.classList.contains("analog-horror-mode")) return;
+function runInfectionCycle() {
+  if (!document.body.classList.contains("analog-horror-mode") || isVhsPaused) return;
   if (!tradeCart.length) return;
 
   const hasTainted = tradeCart.some(item => item.show.includes("[TAINTED]") || item.isInfected);
@@ -427,7 +431,40 @@ setInterval(() => {
     saveCartToStorage();
     updateCartUI();
   }
-}, 4000);
+}
+
+/* ============================================================
+   TAPE DEGRADATION CONTROLLER
+============================================================ */
+function startTapeDegradation() {
+  stopTapeDegradation(); // Clear any existing interval to prevent stacking
+
+  const isRecording = document.body.classList.contains("vhs-recording");
+  const intervalSpeed = isRecording ? 1200 : 2500; // Accelerated decay when recording
+
+  degradationInterval = setInterval(() => {
+    if (isVhsPaused || !document.body.classList.contains("analog-horror-mode")) return;
+
+    // 1. Shift scanlines dynamically
+    const offset = (Math.random() * 12 - 6).toFixed(2);
+    document.documentElement.style.setProperty('--vhs-tracking-offset', `${offset}px`);
+
+    // 2. Random micro-glitch burst
+    if (Math.random() < (isRecording ? 0.45 : 0.20)) {
+      VCRAudio.glitchBurst();
+    }
+
+    // 3. Trigger Cart Infection
+    runInfectionCycle();
+  }, intervalSpeed);
+}
+
+function stopTapeDegradation() {
+  if (degradationInterval) {
+    clearInterval(degradationInterval);
+    degradationInterval = null;
+  }
+}
 
 /* ============================================================
    ANALOG HORROR AUDIO ENGINE
@@ -444,6 +481,8 @@ function startTapeHiss() {
   if (audioCtx.state === 'suspended') {
     audioCtx.resume();
   }
+
+  if (noiseNode) return; // Prevent duplicate hiss loops
 
   const bufferSize = audioCtx.sampleRate * 2;
   const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
@@ -483,12 +522,15 @@ function updateTimecode(timestamp) {
   if (timestamp - lastTimecodeUpdate >= 50) {
     const tsEl = document.getElementById("vhs-timestamp");
     if (tsEl && document.body.classList.contains("analog-horror-mode")) {
-      const now = new Date();
-      const hrs = String(now.getHours()).padStart(2, '0');
-      const mins = String(now.getMinutes()).padStart(2, '0');
-      const secs = String(now.getSeconds()).padStart(2, '0');
-      const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
-      tsEl.innerText = `${hrs}:${mins}:${secs}:${ms}`;
+      // Freeze timecode UI when paused
+      if (!isVhsPaused) {
+        const now = new Date();
+        const hrs = String(now.getHours()).padStart(2, '0');
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        const secs = String(now.getSeconds()).padStart(2, '0');
+        const ms = String(Math.floor(now.getMilliseconds() / 10)).padStart(2, '0');
+        tsEl.innerText = `${hrs}:${mins}:${secs}:${ms}`;
+      }
     }
     lastTimecodeUpdate = timestamp;
   }
@@ -1601,11 +1643,14 @@ function initAnalogHorrorEasterEgg() {
       }
 
       if (isHorror) {
+        isVhsPaused = false;
         VCRAudio.playTapeInsert();
         startTapeHiss();
+        startTapeDegradation();
         transformCardsToVHS();
       } else {
         stopTapeHiss();
+        stopTapeDegradation();
         revertCardsFromVHS();
       }
     });
@@ -1720,6 +1765,7 @@ if (document.readyState === "loading") {
 } else {
   initAnalogHorrorEasterEgg();
 }
+
 /* ============================================================
    VHS OSD STATE TOGGLE (PLAY -> PAUSE -> RECORD)
 ============================================================ */
@@ -1727,7 +1773,6 @@ function initVhsOsdToggle() {
   const playBtn = document.querySelector('.osd-top-left');
   if (!playBtn) return;
 
-  // Ensure button receives pointer events and shows interactive cursor
   playBtn.style.pointerEvents = 'auto';
   playBtn.style.cursor = 'pointer';
 
@@ -1742,28 +1787,38 @@ function initVhsOsdToggle() {
   playBtn.addEventListener('click', (e) => {
     e.stopPropagation();
 
-    // Sound effect trigger when in analog horror mode
     if (document.body.classList.contains("analog-horror-mode") && typeof VCRAudio !== "undefined") {
       VCRAudio.playClack();
     }
 
-    // Clean up active classes from previous state
     const currentState = states[currentStateIndex];
     if (currentState.bodyClass) document.body.classList.remove(currentState.bodyClass);
     if (currentState.osdClass) playBtn.classList.remove(currentState.osdClass);
 
-    // Advance to next state
     currentStateIndex = (currentStateIndex + 1) % states.length;
     const newState = states[currentStateIndex];
 
-    // Apply new state text and classes
     playBtn.textContent = newState.text;
     if (newState.bodyClass) document.body.classList.add(newState.bodyClass);
     if (newState.osdClass) playBtn.classList.add(newState.osdClass);
+
+    // Dynamic Degradation and Audio Control State Handling
+    if (newState.text.includes("PAUSE")) {
+      isVhsPaused = true;
+      stopTapeDegradation();
+      stopTapeHiss();
+    } else if (newState.text.includes("PLAY")) {
+      isVhsPaused = false;
+      startTapeHiss();
+      startTapeDegradation();
+    } else if (newState.text.includes("RECORD")) {
+      isVhsPaused = false;
+      startTapeHiss();
+      startTapeDegradation();
+    }
   });
 }
 
-// Safe initialization check regardless of script loading order
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initVhsOsdToggle);
 } else {
