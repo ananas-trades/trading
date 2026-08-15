@@ -2029,3 +2029,31 @@ body.analog-horror-mode::after,
   margin-bottom: 0 !important;
   gap: 8px !important;
 }
+/* ==========================================
+   Y2K WATERMARK (FOOTER)
+   ========================================== */
+
+.y2k-watermark {
+  text-align: center;
+  padding: 25px 0 15px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #666688;
+  opacity: 0.75;
+  user-select: none;
+  transition: opacity 0.3s ease;
+}
+
+/* Glowing accent on 'ananas' */
+.y2k-watermark span {
+  color: #00f0ff;
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.6);
+}
+
+/* Subtle glow up when hovered */
+.y2k-watermark:hover {
+  opacity: 1;
+}
