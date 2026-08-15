@@ -43,7 +43,16 @@
   <main class="container">
     <div class="controls">
       <input type="text" id="search-input" placeholder="Search by show, cast, date, venue..." />
-      
+<!-- Encora CSV Comparison Tool -->
+<div class="encora-compare-box">
+  <label for="encora-file-input" class="encora-upload-btn">
+    📂 Compare Encora CSV
+  </label>
+  <input type="file" id="encora-file-input" accept=".csv" style="display: none;" />
+  <span id="encora-status-msg" class="encora-status"></span>
+  <button type="button" id="clear-encora-btn" class="clear-encora-btn" style="display: none;">✕ Reset Filter</button>
+</div>
+      
       <!-- Primary Format Filters -->
       <div class="filters">
         <button type="button" class="filter-btn active" data-filter="all">All Formats</button>
