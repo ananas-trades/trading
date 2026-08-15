@@ -1917,3 +1917,33 @@ body.analog-horror-mode::after,
   right: 20px;
   z-index: 9998;
 }
+/* ==========================================
+   HEADER TITLE & BADGE ALIGNMENT FIX
+   ========================================== */
+.rules-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.rules-header h2 {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
+/* Fix filter buttons jumping lines and spacing weirdly */
+.controls .filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.filter-btn, .cat-btn {
+  margin: 0;
+  vertical-align: middle;
+}
