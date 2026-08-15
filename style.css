@@ -1933,7 +1933,21 @@ body.analog-horror-mode::after,
   padding: 0;
   line-height: 1.2;
 }
+/* Stack Scroll to Top button above the Trade Cart button */
+#scroll-top-btn {
+  position: fixed;
+  bottom: 80px; /* Positioned right above the cart button */
+  right: 20px;
+  z-index: 9999; /* Ensures it sits on top of all other elements */
+}
 
+/* Ensure the cart trigger button stays below the top button */
+#cart-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9998;
+}
 /* Fix filter buttons jumping lines and spacing weirdly */
 .controls .filters {
   display: flex;
