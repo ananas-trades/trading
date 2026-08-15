@@ -2006,3 +2006,26 @@ body.analog-horror-mode::after,
 .controls {
   gap: 12px !important;
 }
+/* ==========================================
+   FORCE REDUCE VERTICAL GAPS
+   ========================================== */
+
+/* Reduce gap between search bar and filter rows */
+.controls {
+  gap: 6px !important;
+  margin-bottom: 10px !important;
+}
+
+/* Remove extra spacing built into the search box */
+#search-input {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Reduce gap between the two filter rows */
+.filters, 
+.category-filters {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  gap: 8px !important;
+}
