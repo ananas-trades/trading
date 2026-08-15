@@ -1824,3 +1824,66 @@ if (document.readyState === "loading") {
 } else {
   initVhsOsdToggle();
 }
+// ==========================================
+// ENCORA CSV AUTO-COMPARISON FEATURE
+// ==========================================
+
+const encoraFileInput = document.getElementById('encora-file-input');
+const encoraStatusMsg = document.getElementById('encora-status-msg');
+const clearEncoraBtn = document.getElementById('clear-encora-btn');
+
+if (encoraFileInput) {
+  encoraFileInput.addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    encoraStatusMsg.textContent = 'Parsing Encora list...';
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: function (results) {
+        const userList = results.data;
+        
+        // Build a Set of unique keys from the user's Encora export
+        const userItemKeys = new Set(
+          userList.map(item => {
+            const show = (item['Show'] || item['show'] || '').trim().toLowerCase();
+            const date = (item['Date'] || item['date'] || '').trim().toLowerCase();
+            const type = (item['Type'] || item['Format'] || item['media'] || '').trim().toLowerCase();
+            return `${show}|${date}|${type}`;
+          })
+        );
+
+        // Filter your site's master collection (assumes your site array is `collectionData`)
+        // Keeps only items that DO NOT exist in userItemKeys
+        const unownedItems = collectionData.filter(item => {
+          const show = (item.Show || '').trim().toLowerCase();
+          const date = (item.Date || '').trim().toLowerCase();
+          const type = (item.Type || item.Format || '').trim().toLowerCase();
+          const itemKey = `${show}|${date}|${type}`;
+          
+          return !userItemKeys.has(itemKey);
+        });
+
+        // Update grid display with unowned items
+        renderCards(unownedItems);
+        
+        // Update status text
+        encoraStatusMsg.textContent = `⚡ Displaying ${unownedItems.length} items missing from your Encora list!`;
+        clearEncoraBtn.style.display = 'inline-block';
+      },
+      error: function () {
+        encoraStatusMsg.textContent = '❌ Failed to read CSV file.';
+      }
+    });
+  });
+
+  // Reset filter back to full collection
+  clearEncoraBtn.addEventListener('click', function () {
+    encoraFileInput.value = '';
+    encoraStatusMsg.textContent = '';
+    clearEncoraBtn.style.display = 'none';
+    renderCards(collectionData);
+  });
+}
