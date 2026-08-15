@@ -1784,3 +1784,84 @@ body.analog-horror-mode::after,
 #vhs-osd-overlay {
   pointer-events: none !important;
 }
+/* ==========================================
+   Y2K "LASAGNA APPROVED" BADGE
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
+
+.y2k-approved-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 18px;
+  font-family: 'Orbitron', 'Arial Black', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #ffffff;
+  
+  /* Metallic Gel / Chrome Background */
+  background: linear-gradient(135deg, #11111d 0%, #220033 50%, #001122 100%);
+  border: 2px solid #00f0ff;
+  border-radius: 20px; /* Bubble capsule shape */
+  
+  /* Y2K Holographic Neon Glow & Shadow */
+  box-shadow: 
+    0 0 10px rgba(0, 240, 255, 0.6),
+    0 0 20px rgba(255, 0, 128, 0.4),
+    inset 0 0 8px rgba(255, 255, 255, 0.3);
+  
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  user-select: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* Floating Animation */
+  animation: y2k-float 3s ease-in-out infinite alternate;
+}
+
+/* Chrome Gradient Text */
+.y2k-approved-badge span {
+  background: linear-gradient(180deg, #ffffff 0%, #00f0ff 45%, #ff007f 80%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.8));
+}
+
+/* Y2K Star / Sparkle Icon */
+.y2k-approved-badge::before {
+  content: '★';
+  font-size: 1rem;
+  color: #ff007f;
+  text-shadow: 0 0 5px #ff007f, 0 0 10px #00f0ff;
+}
+
+.y2k-approved-badge::after {
+  content: '★';
+  font-size: 1rem;
+  color: #00f0ff;
+  text-shadow: 0 0 5px #00f0ff, 0 0 10px #ff007f;
+}
+
+/* Hover Effect */
+.y2k-approved-badge:hover {
+  transform: scale(1.08) rotate(-1deg);
+  box-shadow: 
+    0 0 15px rgba(0, 240, 255, 0.9),
+    0 0 30px rgba(255, 0, 128, 0.7),
+    inset 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+/* Floating Keyframe Animation */
+@keyframes y2k-float {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
