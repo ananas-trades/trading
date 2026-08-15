@@ -2057,3 +2057,35 @@ body.analog-horror-mode::after,
 .y2k-watermark:hover {
   opacity: 1;
 }
+/* ==========================================
+   FORCE SCROLL TO TOP BUTTON VISIBILITY
+   ========================================== */
+
+#scroll-top-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: fixed !important;
+  bottom: 80px !important; /* Stacked directly above the Trade Request button */
+  right: 20px !important;
+  z-index: 99999 !important; /* Higher than drawer & overlay */
+  padding: 8px 14px !important;
+  font-family: 'Courier New', monospace !important;
+  font-weight: bold !important;
+  font-size: 0.8rem !important;
+  color: #00f0ff !important;
+  background: #0f0f1a !important;
+  border: 2px solid #00f0ff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5) !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+#scroll-top-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.9) !important;
+  background: #1a1a2e !important;
+}
