@@ -2089,3 +2089,57 @@ body.analog-horror-mode::after,
   box-shadow: 0 0 15px rgba(0, 240, 255, 0.9) !important;
   background: #1a1a2e !important;
 }
+/* ==========================================
+   ENCORA COMPARISON TOOL STYLING
+   ========================================== */
+
+.encora-compare-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+
+.encora-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  background: #110022;
+  border: 2px solid #ff007f;
+  border-radius: 6px;
+  color: #ff007f;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 0.8rem;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(255, 0, 128, 0.4);
+  transition: all 0.2s ease;
+}
+
+.encora-upload-btn:hover {
+  background: #ff007f;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(255, 0, 128, 0.8);
+}
+
+.encora-status {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: #00f0ff;
+  text-shadow: 0 0 5px rgba(0, 240, 255, 0.5);
+}
+
+.clear-encora-btn {
+  background: transparent;
+  border: 1px solid #666688;
+  color: #8888aa;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.clear-encora-btn:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+}
