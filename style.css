@@ -2002,3 +2002,7 @@ body.analog-horror-mode::after,
   white-space: nowrap !important;
   vertical-align: middle !important;
 }
+/* Tighten space between search bar and filter rows */
+.controls {
+  gap: 12px !important;
+}
