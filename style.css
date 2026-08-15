@@ -168,11 +168,12 @@ h1 {
 }
 
 .controls {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 6px !important;
-  width: 100% !important;
-  margin-bottom: 10px !important;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
 }
 
 #search-input {
@@ -183,13 +184,10 @@ h1 {
   font-family: inherit;
   font-size: 0.95rem;
   border-radius: 4px;
-  width: 100% !important;
+  width: 280px;
   outline: none;
   box-shadow: 0 0 8px rgba(112, 0, 255, 0.4), inset 0 0 8px rgba(112, 0, 255, 0.3);
   transition: all 0.3s ease;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  box-sizing: border-box !important;
 }
 
 #search-input:focus {
@@ -197,43 +195,20 @@ h1 {
   box-shadow: 0 0 15px #00f0ff, inset 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
-.filters,
-.category-filters {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 8px !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.filter-btn,
-.cat-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-  vertical-align: middle !important;
+.filter-btn {
   background: rgba(18, 18, 22, 0.85);
-  padding: 8px 14px;
+  border: 1px solid #7000ff;
+  color: #b8b8b8;
+  padding: 10px 18px;
   font-family: inherit;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
-  touch-action: manipulation;
-}
-
-.filter-btn {
-  border: 1px solid #7000ff;
-  color: #b8b8b8;
   box-shadow: 0 0 6px rgba(112, 0, 255, 0.3);
+  touch-action: manipulation;
 }
 
 .filter-btn:hover {
@@ -250,10 +225,33 @@ h1 {
   font-weight: bold;
 }
 
+#stats {
+  font-size: 0.85rem;
+  color: #00f0ff;
+  letter-spacing: 1px;
+  margin-top: 8px;
+  text-shadow: 0 0 8px #00f0ff;
+}
+
+/* --- CATEGORY FILTERS --- */
+.category-filters {
+  margin-top: 5px;
+}
+
 .cat-btn {
+  background: rgba(18, 18, 22, 0.85);
   border: 1px solid #ff007f;
   color: #b8b8b8;
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   box-shadow: 0 0 6px rgba(255, 0, 127, 0.3);
+  touch-action: manipulation;
 }
 
 .cat-btn:hover {
@@ -268,14 +266,6 @@ h1 {
   border-color: #ffffff;
   box-shadow: 0 0 16px #ff007f, 0 0 25px rgba(255, 0, 127, 0.8);
   font-weight: bold;
-}
-
-#stats {
-  font-size: 0.85rem;
-  color: #00f0ff;
-  letter-spacing: 1px;
-  margin-top: 8px;
-  text-shadow: 0 0 8px #00f0ff;
 }
 
 /* --- CARD CONTAINER & LAYOUT --- */
@@ -560,20 +550,10 @@ h1 {
   text-align: left;
 }
 
-.rules-header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
-  margin-bottom: 12px !important;
-}
-
-.rules-header h2 {
+.rules-box h2 {
   color: #00f0ff;
   font-size: 1.1rem;
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1.2 !important;
+  margin-bottom: 8px;
   text-transform: uppercase;
   text-shadow: 0 0 5px #00f0ff;
 }
@@ -598,43 +578,49 @@ h1 {
 }
 
 /* ============================================================
-   FLOATING BUTTONS (STACKED CONTROL ROUTING)
+   FLOATING BUTTONS (STANDARD & BASE STATE)
 ============================================================ */
 
 #scroll-top-btn {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
   position: fixed !important;
-  bottom: 80px !important; /* Stacked right above cart toggle */
-  right: 20px !important;
-  z-index: 99999 !important;
-  padding: 8px 14px !important;
-  font-family: 'Courier New', monospace !important;
-  font-weight: bold !important;
-  font-size: 0.8rem !important;
-  color: #00f0ff !important;
-  background: #0f0f1a !important;
-  border: 2px solid #00f0ff !important;
-  border-radius: 8px !important;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5) !important;
-  cursor: pointer !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  bottom: 20px !important;
+  right: 220px !important; /* Offset from cart toggle button */
+  z-index: 999999 !important;
+  transform: translateZ(0);
+  
+  background: #7000ff;
+  color: #ffffff;
+  border: 2px solid #00f0ff;
+  border-radius: 50px;
+  padding: 10px 16px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 15px #7000ff, 0 0 25px rgba(0, 240, 255, 0.8);
+  
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease;
+}
+
+#scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
 }
 
 #scroll-top-btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.9) !important;
-  background: #1a1a2e !important;
+  background: #00f0ff;
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 0 20px #00f0ff, 0 0 35px #7000ff;
 }
 
 #cart-toggle-btn, .cart-toggle-btn, .floating-cart-btn, .trade-request-btn {
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
-  z-index: 9998 !important;
+  z-index: 999999 !important;
   transform: translateZ(0);
   
   background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
@@ -693,7 +679,6 @@ h1 {
   top: 0;
   right: 0;
   height: 100vh;
-  max-height: 100vh;
   width: 380px;
   max-width: 85vw;
   background: #12131C;
@@ -772,31 +757,12 @@ h1 {
   gap: 16px;
 }
 
-.drawer-body,
 .cart-items-container {
   flex: 1;
   overflow-y: auto;
   padding: 16px 20px;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-}
-
-.drawer-body::-webkit-scrollbar {
-  width: 8px;
-}
-
-.drawer-body::-webkit-scrollbar-track {
-  background: #0f0f1a;
-}
-
-.drawer-body::-webkit-scrollbar-thumb {
-  background: #00f0ff;
-  border-radius: 4px;
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
-}
-
-.drawer-body::-webkit-scrollbar-thumb:hover {
-  background: #ff007f;
 }
 
 .empty-cart-msg {
@@ -864,7 +830,6 @@ h1 {
 }
 
 .drawer-footer {
-  flex-shrink: 0;
   background-color: #171923;
   border-top: 1px solid #2D3748;
   padding: 16px;
@@ -970,9 +935,6 @@ body.analog-horror-mode {
   color: #c9a4a4 !important;
   filter: contrast(120%) brightness(90%);
   animation: crtFlicker 0.15s infinite alternate;
-  position: static !important;
-  transform: none !important;
-  perspective: none !important;
 }
 
 @keyframes crtFlicker {
@@ -1235,8 +1197,11 @@ body.analog-horror-mode .vhs-sticker h3 {
 ============================================================ */
 
 body.analog-horror-mode {
+  background-color: #050406 !important;
   color: #b8b8b8 !important;
   font-family: 'Courier New', Courier, monospace !important;
+  transform: none !important; /* Prevents body-level transform from trapping fixed children */
+  perspective: none !important;
 }
 
 /* Scanlines & Static Grain */
@@ -1386,7 +1351,7 @@ body.analog-horror-mode::before {
   display: none;
   position: fixed;
   inset: 20px;
-  pointer-events: none !important;
+  pointer-events: none !important; /* Prevents overlay container from blocking clicks */
   z-index: 14;
   font-family: 'Courier New', monospace;
   color: #00b318;
@@ -1480,7 +1445,7 @@ body.vhs-recording {
   z-index: 2147483647 !important;
   opacity: 0;
   transition: opacity 0.05s ease-in-out;
-  transform: translate3d(0, 0, 0) !important;
+  transform: translate3d(0, 0, 0) !important; /* Force new stacking context */
 }
 
 .screen-glitch-flash.flash-active {
@@ -1498,6 +1463,12 @@ body.vhs-recording {
    NFT HORROR MODAL (UNIFIED & VIEWPORT FIXED)
 ============================================================ */
 
+/* Lock body scrolling when the modal opens */
+body.modal-open {
+  overflow: hidden !important;
+}
+
+/* Fullscreen Backdrop / Container */
 #nft-horror-modal,
 .nft-horror-overlay,
 dialog#nft-horror-modal {
@@ -1513,21 +1484,25 @@ dialog#nft-horror-modal {
   border: none !important;
   z-index: 9999999 !important;
 
+  /* Perfect Viewport Centering */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 
+  /* Hidden by default */
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
+/* Backdrop fix if using HTML <dialog> */
 dialog#nft-horror-modal::backdrop {
   background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(4px);
 }
 
+/* Activated State (JS adds .active) */
 #nft-horror-modal.active,
 .nft-horror-overlay.active,
 dialog#nft-horror-modal[open] {
@@ -1536,6 +1511,7 @@ dialog#nft-horror-modal[open] {
   pointer-events: auto !important;
 }
 
+/* Modal Inner Box */
 .nft-horror-content,
 .nft-modal-content {
   position: relative !important;
@@ -1665,6 +1641,7 @@ dialog#nft-horror-modal[open] {
   color: #fff;
 }
 
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   .warning-symbol,
   .horror-text-phase2 {
@@ -1689,34 +1666,23 @@ body.analog-horror-mode .cart-toggle-btn {
   transform: translateZ(0) !important;
   filter: none !important;
   mix-blend-mode: normal !important;
-  background: #180305 !important;
-  color: #d18d94 !important;
-  border: 2px solid #6b0c16 !important;
-  box-shadow: 0 0 12px #52070e, 0 0 25px rgba(82, 7, 14, 0.6), inset 0 0 8px rgba(107, 12, 22, 0.5) !important;
-  transition: all 0.25s ease !important;
+  background: #0a0a0a !important;
+  color: #ff0055 !important;
+  border: 2px solid #ff0055 !important;
+  box-shadow: 0 0 15px #ff0055, inset 0 0 10px #ff0055 !important;
 }
 
 body.analog-horror-mode #cart-toggle-btn:hover,
 body.analog-horror-mode .cart-toggle-btn:hover {
-  background: #2b0b0e !important;
-  color: #ffffff !important;
-  border-color: #8b0000 !important;
-  box-shadow: 0 0 18px #ff0000, 0 0 35px #8b0000, 0 0 50px rgba(139, 0, 0, 0.8), inset 0 0 12px #ff0000 !important;
-  transform: translateY(-2px) translateZ(0) !important;
-}
-
-body.analog-horror-mode #cart-toggle-btn .cart-badge,
-body.analog-horror-mode .cart-toggle-btn .cart-badge {
-  background: #6b0c16 !important;
-  color: #fce8e8 !important;
-  border: 1px solid #8b0000 !important;
-  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5) !important;
+  background: #ff0055 !important;
+  color: #000000 !important;
+  box-shadow: 0 0 25px #ff0055, 0 0 40px #ff0055 !important;
 }
 
 body.analog-horror-mode #scroll-top-btn {
   position: fixed !important;
-  bottom: 80px !important;
-  right: 20px !important;
+  bottom: 20px !important;
+  right: 220px !important;
   z-index: 2147483647 !important;
   transform: translateZ(0) !important;
   background: #1f0508 !important;
@@ -1761,12 +1727,63 @@ body.analog-horror-mode #scroll-top-btn:hover {
   to { border-color: #ff0000; }
 }
 
+/* ============================================================
+   EMERGENCY OVERRIDE: FIXED FLOATING CART FOR ANALOG HORROR
+============================================================ */
+
+/* 1. Prevent the body or wrapper from trapping position: fixed elements */
+body.analog-horror-mode {
+  position: static !important;
+  transform: none !important;
+  perspective: none !important;
+}
+
+/* 2. Force Floating Buttons to stick to the Viewport in Easter Egg Mode */
+body.analog-horror-mode #cart-toggle-btn,
+body.analog-horror-mode .cart-toggle-btn {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateZ(0) !important;
+  
+  /* MATCHING NFT TAPE BASE COLOR & BORDER */
+  background: #180305 !important;
+  color: #d18d94 !important;
+  border: 2px solid #6b0c16 !important;
+  box-shadow: 0 0 12px #52070e, 0 0 25px rgba(82, 7, 14, 0.6), inset 0 0 8px rgba(107, 12, 22, 0.5) !important;
+  transition: all 0.25s ease !important;
+}
+
+/* HOVER STATE: MATCHING ACTIVE NFT HOVER GLOW */
+body.analog-horror-mode #cart-toggle-btn:hover,
+body.analog-horror-mode .cart-toggle-btn:hover {
+  background: #2b0b0e !important;
+  color: #ffffff !important;
+  border-color: #8b0000 !important;
+  box-shadow: 0 0 18px #ff0000, 0 0 35px #8b0000, 0 0 50px rgba(139, 0, 0, 0.8), inset 0 0 12px #ff0000 !important;
+  transform: translateY(-2px) translateZ(0) !important;
+}
+
+/* CART BADGE MATCHING NFT THEME */
+body.analog-horror-mode #cart-toggle-btn .cart-badge,
+body.analog-horror-mode .cart-toggle-btn .cart-badge {
+  background: #6b0c16 !important;
+  color: #fce8e8 !important;
+  border: 1px solid #8b0000 !important;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5) !important;
+}
+
+/* 3. Ensure full screen OSD & Grain layers don't block clicks */
 body.analog-horror-mode::before,
 body.analog-horror-mode::after,
 #vhs-osd-overlay {
   pointer-events: none !important;
 }
-
 /* ==========================================
    Y2K "LASAGNA APPROVED" BADGE
    ========================================== */
@@ -1786,10 +1803,12 @@ body.analog-horror-mode::after,
   letter-spacing: 1.5px;
   color: #ffffff;
   
+  /* Metallic Gel / Chrome Background */
   background: linear-gradient(135deg, #11111d 0%, #220033 50%, #001122 100%);
   border: 2px solid #00f0ff;
-  border-radius: 20px;
+  border-radius: 20px; /* Bubble capsule shape */
   
+  /* Y2K Holographic Neon Glow & Shadow */
   box-shadow: 
     0 0 10px rgba(0, 240, 255, 0.6),
     0 0 20px rgba(255, 0, 128, 0.4),
@@ -1800,9 +1819,12 @@ body.analog-horror-mode::after,
   cursor: default;
   user-select: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* Floating Animation */
   animation: y2k-float 3s ease-in-out infinite alternate;
 }
 
+/* Chrome Gradient Text */
 .y2k-approved-badge span {
   background: linear-gradient(180deg, #ffffff 0%, #00f0ff 45%, #ff007f 80%, #ffffff 100%);
   -webkit-background-clip: text;
@@ -1810,6 +1832,7 @@ body.analog-horror-mode::after,
   filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.8));
 }
 
+/* Y2K Star / Sparkle Icon */
 .y2k-approved-badge::before {
   content: '★';
   font-size: 1rem;
@@ -1824,6 +1847,7 @@ body.analog-horror-mode::after,
   text-shadow: 0 0 5px #00f0ff, 0 0 10px #ff007f;
 }
 
+/* Hover Effect */
 .y2k-approved-badge:hover {
   transform: scale(1.08) rotate(-1deg);
   box-shadow: 
@@ -1832,11 +1856,179 @@ body.analog-horror-mode::after,
     inset 0 0 12px rgba(255, 255, 255, 0.6);
 }
 
+/* Floating Keyframe Animation */
 @keyframes y2k-float {
-  0% { transform: translateY(0px); }
-  100% { transform: translateY(-4px); }
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-4px);
+  }
+}
+/* Ensure the drawer is a flexbox container with full height */
+.trade-drawer {
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
 }
 
+/* Allow the drawer body to scroll when items overflow */
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+/* Styled Y2K Neon Scrollbar for the cart */
+.drawer-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.drawer-body::-webkit-scrollbar-track {
+  background: #0f0f1a;
+}
+
+.drawer-body::-webkit-scrollbar-thumb {
+  background: #00f0ff;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
+}
+
+.drawer-body::-webkit-scrollbar-thumb:hover {
+  background: #ff007f;
+}
+
+/* Keep the footer pinned at the bottom */
+.drawer-footer {
+  flex-shrink: 0;
+}
+/* Stack Scroll to Top button above the Trade Cart button */
+#scroll-top-btn {
+  position: fixed;
+  bottom: 80px; /* Positioned right above the cart button */
+  right: 20px;
+  z-index: 9999; /* Ensures it sits on top of all other elements */
+}
+
+/* Ensure the cart trigger button stays below the top button */
+#cart-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9998;
+}
+/* ==========================================
+   HEADER TITLE & BADGE ALIGNMENT FIX
+   ========================================== */
+.rules-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.rules-header h2 {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+/* Stack Scroll to Top button above the Trade Cart button */
+#scroll-top-btn {
+  position: fixed;
+  bottom: 80px; /* Positioned right above the cart button */
+  right: 20px;
+  z-index: 9999; /* Ensures it sits on top of all other elements */
+}
+
+/* Ensure the cart trigger button stays below the top button */
+#cart-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9998;
+}
+/* ==========================================
+   ULTIMATE LAYOUT & FILTER FIX
+   ========================================== */
+
+/* Fix Rules Box Title & Y2K Badge */
+.rules-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+.rules-header h2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2 !important;
+}
+
+/* Fix Filter Row Spacing & Misalignment */
+.controls {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+#search-input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.filters, 
+.category-filters {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.filter-btn, 
+.cat-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+}
+/* Tighten space between search bar and filter rows */
+.controls {
+  gap: 12px !important;
+}
+/* ==========================================
+   FORCE REDUCE VERTICAL GAPS
+   ========================================== */
+
+/* Reduce gap between search bar and filter rows */
+.controls {
+  gap: 6px !important;
+  margin-bottom: 10px !important;
+}
+
+/* Remove extra spacing built into the search box */
+#search-input {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Reduce gap between the two filter rows */
+.filters, 
+.category-filters {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  gap: 8px !important;
+}
 /* ==========================================
    Y2K WATERMARK (FOOTER)
    ========================================== */
@@ -1855,11 +2047,45 @@ body.analog-horror-mode::after,
   transition: opacity 0.3s ease;
 }
 
+/* Glowing accent on 'ananas' */
 .y2k-watermark span {
   color: #00f0ff;
   text-shadow: 0 0 5px rgba(0, 240, 255, 0.6);
 }
 
+/* Subtle glow up when hovered */
 .y2k-watermark:hover {
   opacity: 1;
+}
+/* ==========================================
+   FORCE SCROLL TO TOP BUTTON VISIBILITY
+   ========================================== */
+
+#scroll-top-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: fixed !important;
+  bottom: 80px !important; /* Stacked directly above the Trade Request button */
+  right: 20px !important;
+  z-index: 99999 !important; /* Higher than drawer & overlay */
+  padding: 8px 14px !important;
+  font-family: 'Courier New', monospace !important;
+  font-weight: bold !important;
+  font-size: 0.8rem !important;
+  color: #00f0ff !important;
+  background: #0f0f1a !important;
+  border: 2px solid #00f0ff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5) !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+#scroll-top-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.9) !important;
+  background: #1a1a2e !important;
 }
