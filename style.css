@@ -1948,16 +1948,57 @@ body.analog-horror-mode::after,
   right: 20px;
   z-index: 9998;
 }
-/* Fix filter buttons jumping lines and spacing weirdly */
-.controls .filters {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+/* ==========================================
+   ULTIMATE LAYOUT & FILTER FIX
+   ========================================== */
+
+/* Fix Rules Box Title & Y2K Badge */
+.rules-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
 }
 
-.filter-btn, .cat-btn {
-  margin: 0;
-  vertical-align: middle;
+.rules-header h2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2 !important;
+}
+
+/* Fix Filter Row Spacing & Misalignment */
+.controls {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  width: 100% !important;
+}
+
+#search-input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.filters, 
+.category-filters {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.filter-btn, 
+.cat-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
 }
