@@ -2338,3 +2338,71 @@ body.analog-horror-mode::after,
   font-size: 0.7rem;
   opacity: 0.8;
 }
+/* Hide VHS Stage by default; only show in Analog Horror Mode */
+#vhsStage {
+  display: none;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+body.analog-horror-mode #vhsStage,
+body.analog-mode #vhsStage {
+  display: block;
+}
+
+/* Metallic Walkman Style VCR Deck */
+.vcr-deck {
+  background: linear-gradient(145deg, #e6e6e6, #8e9095);
+  border: 3px solid #333;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.8), 0 8px 15px rgba(0,0,0,0.6);
+  position: relative;
+  max-width: 320px;
+}
+
+.vcr-slot {
+  background: #111;
+  border: 2px inset #555;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.vcr-slot.drag-over {
+  border-color: #00ff41;
+  box-shadow: 0 0 10px #00ff41;
+  background: #1b2e1b;
+}
+
+/* Screencap Drawer - hidden by default, expands on tape drop */
+.tape-details-drawer {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.3s ease;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid #00ff41;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.tape-details-drawer.expanded {
+  max-height: 400px;
+  opacity: 1;
+  padding: 15px;
+}
+
+.screencaps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.screencaps-grid img {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid #333;
+}
