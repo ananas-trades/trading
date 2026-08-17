@@ -1,99 +1,102 @@
 /* ============================================================
-   REALISTIC CASSETTE PLAYER INTERACTION CONTROLLER
+   REALISTIC CASSETTE PLAYER INTERACTION CONTROLLER
 ============================================================ */
 document.addEventListener("DOMContentLoaded", () => {
-  initVhsStageEvents();
+  initVhsStageEvents();
 });
 
 function initVhsStageEvents() {
-  const vcrSlot = document.getElementById("vcrSlot");
-  const drawer = document.getElementById("tapeDetailsDrawer");
-  const screencapsGrid = document.getElementById("screencapsGrid");
-  const vcrStatusText = document.getElementById("vcrStatusText");
+  const vcrSlot = document.getElementById("vcrSlot");
+  const drawer = document.getElementById("tapeDetailsDrawer");
+  const screencapsGrid = document.getElementById("screencapsGrid");
+  const vcrStatusText = document.getElementById("vcrStatusText");
 
-  // 1. Delegate dragstart globally to support dynamic cards/tapes loaded via CSV
-  document.addEventListener("dragstart", (e) => {
-    const target = e.target.closest(".card, .item-card, .vhs-tape, [data-screencaps]");
-    if (!target) return;
+  // 1. Delegate dragstart globally to support dynamic cards/tapes loaded via CSV
+  document.addEventListener("dragstart", (e) => {
+    const target = e.target.closest(".card, .item-card, .vhs-tape, [data-screencaps]");
+    if (!target) return;
 
-    // Grab title & screencaps data attributes or fall back to text content
-    const title = target.getAttribute("data-title") || target.querySelector("h3, .title")?.innerText || "CASSETTE TAPE";
-    const screencaps = target.getAttribute("data-screencaps") || target.getAttribute("data-photos") || "";
+    const title = target.getAttribute("data-title") || target.querySelector("h3, .title, .card-title")?.innerText || "CASSETTE TAPE";
+    const screencaps = target.getAttribute("data-screencaps") || target.getAttribute("data-photos") || "";
 
-    const payload = JSON.stringify({ title, screencaps });
-    e.dataTransfer.setData("application/json", payload);
-    e.dataTransfer.setData("text/plain", payload);
-    target.style.opacity = "0.5";
-  });
+    const payload = JSON.stringify({ title, screencaps });
+    e.dataTransfer.setData("application/json", payload);
+    e.dataTransfer.setData("text/plain", payload);
+    target.style.opacity = "0.5";
+  });
 
-  document.addEventListener("dragend", (e) => {
-    const target = e.target.closest(".card, .item-card, .vhs-tape, [data-screencaps]");
-    if (target) target.style.opacity = "1";
-  });
+  document.addEventListener("dragend", (e) => {
+    const target = e.target.closest(".card, .item-card, .vhs-tape, [data-screencaps]");
+    if (target) target.style.opacity = "1";
+  });
 
-  // Ensure card elements are set as draggable dynamically on hover
-  document.addEventListener("mouseover", (e) => {
-    const target = e.target.closest(".card, .item-card, .vhs-tape");
-    if (target && !target.hasAttribute("draggable")) {
-      target.setAttribute("draggable", "true");
-    }
-  });
+  // Ensure card elements are set as draggable dynamically on hover
+  document.addEventListener("mouseover", (e) => {
+    const target = e.target.closest(".card, .item-card, .vhs-tape");
+    if (target && !target.hasAttribute("draggable")) {
+      target.setAttribute("draggable", "true");
+    }
+  });
 
-  if (!vcrSlot) return;
+  if (!vcrSlot) return;
 
-  // 2. Drag Over / Enter Events
-  vcrSlot.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "copy";
-    vcrSlot.classList.add("drag-over");
-  });
+  // 2. Drag Over / Enter Events
+  vcrSlot.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "copy";
+    vcrSlot.classList.add("drag-over");
+  });
 
-  vcrSlot.addEventListener("dragleave", () => {
-    vcrSlot.classList.remove("drag-over");
-  });
+  vcrSlot.addEventListener("dragleave", () => {
+    vcrSlot.classList.remove("drag-over");
+  });
 
-  // 3. Drop Event to Play Tape & Open Drawer
-  vcrSlot.addEventListener("drop", (e) => {
-    e.preventDefault();
-    vcrSlot.classList.remove("drag-over");
+  // 3. Drop Event to Play Tape & Open Drawer
+  vcrSlot.addEventListener("drop", (e) => {
+    e.preventDefault();
+    vcrSlot.classList.remove("drag-over");
 
-    let rawData = e.dataTransfer.getData("application/json") || e.dataTransfer.getData("text/plain");
-    if (!rawData) return;
+    let rawData = e.dataTransfer.getData("application/json") || e.dataTransfer.getData("text/plain");
+    if (!rawData) return;
 
-    try {
-      const data = JSON.parse(rawData);
+    try {
+      const data = JSON.parse(rawData);
 
-      // Update Header Text
-      if (vcrStatusText) {
-        vcrStatusText.innerText = `PLAYING // ${data.title.toUpperCase()}`;
-      }
+      // Update Header Text
+      if (vcrStatusText) {
+        vcrStatusText.innerText = `PLAYING // ${data.title.toUpperCase()}`;
+      }
 
-      // Populate Screencap Images inside Drawer
-      if (screencapsGrid) {
-        screencapsGrid.innerHTML = "";
-        const urls = data.screencaps ? data.screencaps.split(",").filter(Boolean) : [];
+      // Populate Screencap Images inside Drawer
+      if (screencapsGrid) {
+        screencapsGrid.innerHTML = "";
+        const urls = data.screencaps ? data.screencaps.split(",").filter(Boolean) : [];
 
-        if (urls.length > 0) {
-          urls.forEach((url) => {
-            const img = document.createElement("img");
-            img.src = url.trim();
-            img.alt = "Tape Screencap";
-            screencapsGrid.appendChild(img);
-          });
-        } else {
-          screencapsGrid.innerHTML = `<p style="color: #00ff41; grid-column: 1/-1; text-align: center;">[ NO SCREENCAPS AVAILABLE FOR ${data.title.toUpperCase()} ]</p>`;
-        }
-      }
+        if (urls.length > 0) {
+          urls.forEach((url) => {
+            const img = document.createElement("img");
+            img.src = url.trim();
+            img.alt = "Tape Screencap";
+            screencapsGrid.appendChild(img);
+          });
+        } else {
+          screencapsGrid.innerHTML = `<p style="color: #00ff41; grid-column: 1/-1; text-align: center;">[ NO SCREENCAPS AVAILABLE FOR ${data.title.toUpperCase()} ]</p>`;
+        }
+      }
 
-      // Expand Drawer to show photos
-      if (drawer) {
-        drawer.classList.add("expanded");
-      }
-    } catch (err) {
-      console.error("Failed to parse dropped tape data", err);
-    }
-  });
+      // Expand Drawer to show photos
+      if (drawer) {
+        drawer.classList.add("expanded");
+      }
+    } catch (err) {
+      console.error("Failed to parse dropped tape data", err);
+    }
+  });
 }
+
+/* ============================================================
+   GLOBAL STATE & VARIABLES
+============================================================ */
 let allData = [];
 let currentFilteredItems = [];
 let currentFilter = 'all';
