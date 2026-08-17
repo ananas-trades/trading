@@ -86,7 +86,6 @@ body::after {
    REUSABLE NEON GLOW & PULSE ANIMATIONS
 ============================================================ */
 
-/* Cyber Title Neon Glow Pulse */
 .cyber-glow-pulse {
   animation: cyber-text-pulse 2s ease-in-out infinite alternate;
 }
@@ -114,7 +113,6 @@ body::after {
   }
 }
 
-/* Pulsing Cyber Border Glow */
 .cyber-box-pulse {
   animation: cyber-box-glow 1.8s ease-in-out infinite alternate;
 }
@@ -130,7 +128,6 @@ body::after {
   }
 }
 
-/* Rapid Neon Flicker Effect */
 .neon-flicker {
   animation: neon-flicker-anim 3s infinite;
 }
@@ -168,12 +165,11 @@ h1 {
 }
 
 .controls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 15px;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  width: 100% !important;
+  margin-bottom: 10px !important;
 }
 
 #search-input {
@@ -184,10 +180,13 @@ h1 {
   font-family: inherit;
   font-size: 0.95rem;
   border-radius: 4px;
-  width: 280px;
+  width: 100% !important;
   outline: none;
   box-shadow: 0 0 8px rgba(112, 0, 255, 0.4), inset 0 0 8px rgba(112, 0, 255, 0.3);
   transition: all 0.3s ease;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  box-sizing: border-box !important;
 }
 
 #search-input:focus {
@@ -195,10 +194,28 @@ h1 {
   box-shadow: 0 0 15px #00f0ff, inset 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
-.filter-btn {
+.filters, 
+.category-filters {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.filter-btn, 
+.cat-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
   background: rgba(18, 18, 22, 0.85);
-  border: 1px solid #7000ff;
-  color: #b8b8b8;
   padding: 10px 18px;
   font-family: inherit;
   font-size: 0.9rem;
@@ -207,8 +224,13 @@ h1 {
   transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
-  box-shadow: 0 0 6px rgba(112, 0, 255, 0.3);
   touch-action: manipulation;
+}
+
+.filter-btn {
+  border: 1px solid #7000ff;
+  color: #b8b8b8;
+  box-shadow: 0 0 6px rgba(112, 0, 255, 0.3);
 }
 
 .filter-btn:hover {
@@ -225,33 +247,12 @@ h1 {
   font-weight: bold;
 }
 
-#stats {
-  font-size: 0.85rem;
-  color: #00f0ff;
-  letter-spacing: 1px;
-  margin-top: 8px;
-  text-shadow: 0 0 8px #00f0ff;
-}
-
-/* --- CATEGORY FILTERS --- */
-.category-filters {
-  margin-top: 5px;
-}
-
 .cat-btn {
-  background: rgba(18, 18, 22, 0.85);
   border: 1px solid #ff007f;
   color: #b8b8b8;
   padding: 8px 14px;
-  font-family: inherit;
   font-size: 0.85rem;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
-  letter-spacing: 1px;
   box-shadow: 0 0 6px rgba(255, 0, 127, 0.3);
-  touch-action: manipulation;
 }
 
 .cat-btn:hover {
@@ -266,6 +267,14 @@ h1 {
   border-color: #ffffff;
   box-shadow: 0 0 16px #ff007f, 0 0 25px rgba(255, 0, 127, 0.8);
   font-weight: bold;
+}
+
+#stats {
+  font-size: 0.85rem;
+  color: #00f0ff;
+  letter-spacing: 1px;
+  margin-top: 8px;
+  text-shadow: 0 0 8px #00f0ff;
 }
 
 /* --- CARD CONTAINER & LAYOUT --- */
@@ -291,10 +300,16 @@ h1 {
   transform: translateZ(0);
   backface-visibility: hidden;
   will-change: transform, opacity;
+  cursor: grab !important;
+  user-select: none;
 }
 
 .item-card:hover {
   transform: translateY(-4px);
+}
+
+.item-card:active {
+  cursor: grabbing !important;
 }
 
 /* --- CARD HEADER & BADGES --- */
@@ -437,7 +452,7 @@ h1 {
   transform: scale(0.96);
 }
 
-/* --- STANDARD BASE MODE NFT BADGES & CARDS --- */
+/* --- NFT BADGES & CARDS --- */
 .nft-active {
   color: #ffffff;
   font-weight: bold;
@@ -504,7 +519,6 @@ h1 {
   }
 }
 
-/* --- BASE SITE RAINBOW HOVER GLOW --- */
 .item-card.card-standard {
   border: 2px solid #00f0ff;
   box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
@@ -550,10 +564,20 @@ h1 {
   text-align: left;
 }
 
-.rules-box h2 {
+.rules-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+.rules-header h2 {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2 !important;
   color: #00f0ff;
   font-size: 1.1rem;
-  margin-bottom: 8px;
   text-transform: uppercase;
   text-shadow: 0 0 5px #00f0ff;
 }
@@ -578,51 +602,44 @@ h1 {
 }
 
 /* ============================================================
-   FLOATING BUTTONS (STANDARD & BASE STATE)
+   FLOATING BUTTONS (FIXED Z-INDEX & POSITIONING)
 ============================================================ */
 
 #scroll-top-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   position: fixed !important;
-  bottom: 20px !important;
-  right: 220px !important; /* Offset from cart toggle button */
-  z-index: 999999 !important;
-  transform: translateZ(0);
-  
-  background: #7000ff;
-  color: #ffffff;
-  border: 2px solid #00f0ff;
-  border-radius: 50px;
-  padding: 10px 16px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 15px #7000ff, 0 0 25px rgba(0, 240, 255, 0.8);
-  
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease;
-}
-
-#scroll-top-btn.visible {
-  opacity: 1;
-  visibility: visible;
+  bottom: 80px !important;
+  right: 20px !important;
+  z-index: 99999 !important;
+  padding: 8px 14px !important;
+  font-family: 'Courier New', monospace !important;
+  font-weight: bold !important;
+  font-size: 0.8rem !important;
+  color: #00f0ff !important;
+  background: #0f0f1a !important;
+  border: 2px solid #00f0ff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5) !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 }
 
 #scroll-top-btn:hover {
-  background: #00f0ff;
-  color: #000000;
-  border-color: #ffffff;
-  box-shadow: 0 0 20px #00f0ff, 0 0 35px #7000ff;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.9) !important;
+  background: #1a1a2e !important;
 }
 
-#cart-toggle-btn, .cart-toggle-btn, .floating-cart-btn, .trade-request-btn {
+#cart-toggle-btn, .cart-toggle-btn {
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
-  z-index: 999999 !important;
+  z-index: 9998 !important;
   transform: translateZ(0);
-  
   background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -746,6 +763,30 @@ h1 {
   color: #FFFFFF;
 }
 
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+}
+
+.drawer-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.drawer-body::-webkit-scrollbar-track {
+  background: #0f0f1a;
+}
+
+.drawer-body::-webkit-scrollbar-thumb {
+  background: #00f0ff;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
+}
+
+.drawer-body::-webkit-scrollbar-thumb:hover {
+  background: #ff007f;
+}
+
 .cart-summary {
   padding: 10px 24px;
   background-color: #171923;
@@ -830,6 +871,7 @@ h1 {
 }
 
 .drawer-footer {
+  flex-shrink: 0;
   background-color: #171923;
   border-top: 1px solid #2D3748;
   padding: 16px;
@@ -923,23 +965,53 @@ h1 {
 }
 
 /* ============================================================
-   ANALOG HORROR VHS TAPE EASTER EGG (PLASTIC CASSETTES)
+   ANALOG HORROR VHS TAPE EASTER EGG MODE
 ============================================================ */
 
 body.analog-horror-mode {
-  background-color: #030102 !important;
+  background-color: #050406 !important;
   background-image: 
     radial-gradient(circle at 50% 50%, #120305 0%, #020001 80%),
     linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%) !important;
   background-size: 100% 100%, 100% 4px !important;
-  color: #c9a4a4 !important;
+  color: #b8b8b8 !important;
+  font-family: 'Courier New', Courier, monospace !important;
   filter: contrast(120%) brightness(90%);
-  animation: crtFlicker 0.15s infinite alternate;
+  transform: none !important;
+  perspective: none !important;
+  position: static !important;
 }
 
-@keyframes crtFlicker {
-  0% { opacity: 0.97; }
-  100% { opacity: 1; }
+body.analog-horror-mode::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.75) 50%),
+    radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.95) 100%);
+  background-size: 100% 4px, 100% 100%;
+  pointer-events: none;
+  z-index: 12;
+  opacity: 0.85;
+}
+
+body.analog-horror-mode::before {
+  content: "";
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100vw; 
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  opacity: 0.4;
+  z-index: 13;
+  pointer-events: none;
+  animation: vhs-tape-roll 8s infinite linear;
+}
+
+@keyframes vhs-tape-roll {
+  0% { top: -10px; }
+  100% { top: 105vh; }
 }
 
 body.analog-horror-mode .item-card {
@@ -954,7 +1026,6 @@ body.analog-horror-mode .item-card {
   overflow: visible !important;
 }
 
-/* 3D Flip Card Container */
 .vhs-inner {
   position: relative;
   width: 100%;
@@ -980,7 +1051,6 @@ body.analog-horror-mode .item-card {
   border-radius: 6px !important;
 }
 
-/* VHS PLASTIC SHELL IN EASTER EGG MODE (NO GLOW) */
 body.analog-horror-mode .vhs-front,
 body.analog-horror-mode .vhs-back {
   background: 
@@ -992,11 +1062,9 @@ body.analog-horror-mode .vhs-back {
       transparent 3px
     ),
     radial-gradient(circle at 30% 20%, #2a2a30 0%, #1a1a20 60%, #101014 100%) !important;
-  
   border: 4px solid #282830 !important;
   outline: none !important;
   border-radius: 6px !important;
-  
   box-shadow: 
     inset 2px 2px 5px rgba(255, 255, 255, 0.1),
     inset -4px -4px 8px rgba(0, 0, 0, 0.95),
@@ -1004,25 +1072,15 @@ body.analog-horror-mode .vhs-back {
   transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
 }
 
-/* STANDARD TAPES IN EASTER EGG MODE: NO HOVER GLOW AT ALL */
 body.analog-horror-mode .item-card.card-standard:hover .vhs-front,
 body.analog-horror-mode .item-card.card-standard:hover .vhs-back {
   animation: none !important;
   border-color: #282830 !important;
-  box-shadow: 
-    inset 2px 2px 5px rgba(255, 255, 255, 0.1),
-    inset -4px -4px 8px rgba(0, 0, 0, 0.95),
-    0 8px 20px rgba(0, 0, 0, 0.95) !important;
 }
 
-/* ANALOG HORROR MUTED BLOOD RED HOVER GLOW FOR NFT TAPES ONLY */
 body.analog-horror-mode .item-card.card-nft-active .vhs-front,
 body.analog-horror-mode .item-card.card-nft-active .vhs-back {
   border-color: #282830 !important;
-  box-shadow: 
-    inset 2px 2px 5px rgba(255, 255, 255, 0.1),
-    inset -4px -4px 8px rgba(0, 0, 0, 0.95),
-    0 8px 20px rgba(0, 0, 0, 0.95) !important;
   animation: none !important;
 }
 
@@ -1036,7 +1094,6 @@ body.analog-horror-mode .item-card.card-nft-active:hover .vhs-back {
     0 0 25px rgba(82, 7, 14, 0.6) !important;
 }
 
-/* NFT BADGE IN EASTER EGG MODE */
 body.analog-horror-mode .nft-active {
   background: rgba(60, 8, 14, 0.6) !important;
   border: 1px solid #6b0c16 !important;
@@ -1046,7 +1103,6 @@ body.analog-horror-mode .nft-active {
   animation: none !important;
 }
 
-/* Plastic Grip Top Ridge */
 body.analog-horror-mode .vhs-front::before,
 body.analog-horror-mode .vhs-back::before {
   content: "";
@@ -1060,7 +1116,6 @@ body.analog-horror-mode .vhs-back::before {
   margin-bottom: 8px;
 }
 
-/* Metallic Screws */
 .vhs-screw {
   width: 9px;
   height: 9px;
@@ -1071,6 +1126,7 @@ body.analog-horror-mode .vhs-back::before {
   z-index: 10;
   box-shadow: inset 0 0 2px #000, 0 0 4px rgba(0,0,0,0.9);
 }
+
 .vhs-screw::after {
   content: "+";
   display: flex;
@@ -1082,12 +1138,12 @@ body.analog-horror-mode .vhs-back::before {
   font-weight: bold;
   margin-top: -2px;
 }
+
 .vhs-screw.top-l { top: 8px; left: 8px; }
 .vhs-screw.top-r { top: 8px; right: 8px; }
 .vhs-screw.bot-l { bottom: 8px; left: 8px; }
 .vhs-screw.bot-r { bottom: 8px; right: 8px; }
 
-/* Front Paper Label Sticker */
 .vhs-sticker {
   background: linear-gradient(180deg, #f3ebd9 0%, #e0cfb8 100%) !important;
   color: #111 !important;
@@ -1099,7 +1155,6 @@ body.analog-horror-mode .vhs-back::before {
   border-radius: 2px;
 }
 
-/* Tape Spools Window */
 .vhs-spools-window {
   display: flex;
   justify-content: space-around;
@@ -1126,7 +1181,6 @@ body.analog-horror-mode .vhs-back::before {
   100% { transform: rotate(360deg); }
 }
 
-/* BACK FACE - HIGH VISIBILITY CASSETTE */
 .vhs-back {
   transform: rotateY(180deg) translateZ(1px) !important;
 }
@@ -1179,46 +1233,15 @@ body.analog-horror-mode .vhs-back {
   text-shadow: 0 0 4px #ff0000 !important;
 }
 
-/* VHS STICKER TITLE CONTRAST FIX */
 .vhs-sticker,
 .vhs-sticker *,
 body.analog-horror-mode .vhs-sticker,
-body.analog-horror-mode .vhs-sticker .card-title,
-body.analog-horror-mode .vhs-sticker h1,
-body.analog-horror-mode .vhs-sticker h2,
-body.analog-horror-mode .vhs-sticker h3 {
+body.analog-horror-mode .vhs-sticker .card-title {
   color: #111111 !important;
   text-shadow: none !important;
   font-weight: 800 !important;
 }
 
-/* ============================================================
-   ANALOG HORROR OVERRIDE: GRITTY VHS UI
-============================================================ */
-
-body.analog-horror-mode {
-  background-color: #050406 !important;
-  color: #b8b8b8 !important;
-  font-family: 'Courier New', Courier, monospace !important;
-  transform: none !important; /* Prevents body-level transform from trapping fixed children */
-  perspective: none !important;
-}
-
-/* Scanlines & Static Grain */
-body.analog-horror-mode::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: 
-    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.75) 50%),
-    radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.95) 100%);
-  background-size: 100% 4px, 100% 100%;
-  pointer-events: none;
-  z-index: 12;
-  opacity: 0.85;
-}
-
-/* Header & Banner Redesign */
 body.analog-horror-mode h1,
 body.analog-horror-mode .header-title {
   color: #8b131d !important;
@@ -1228,25 +1251,20 @@ body.analog-horror-mode .header-title {
   text-transform: uppercase !important;
 }
 
-body.analog-horror-mode .trading-rules,
-body.analog-horror-mode #contact-box,
-body.analog-horror-mode .rules-container {
+body.analog-horror-mode .rules-box {
   background: #0d0a0b !important;
   border: 1px solid #3d1015 !important;
   box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
   color: #a39b9b !important;
 }
 
-/* Filter Buttons */
 body.analog-horror-mode .filter-btn,
 body.analog-horror-mode .cat-btn {
   background: #120e10 !important;
   color: #7a7072 !important;
   border: 1px solid #2e1a1d !important;
   box-shadow: none !important;
-  text-shadow: none !important;
   border-radius: 0px !important;
-  font-family: 'Courier New', monospace !important;
 }
 
 body.analog-horror-mode .filter-btn.active,
@@ -1254,36 +1272,12 @@ body.analog-horror-mode .cat-btn.active {
   background: #3b0a0e !important;
   color: #ffffff !important;
   border-color: #6b0c16 !important;
-  box-shadow: none !important;
 }
 
-/* Search Bar */
 body.analog-horror-mode #search-input {
   background: #080607 !important;
   color: #e0d5d5 !important;
   border: 1px solid #3d1015 !important;
-  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.9) !important;
-}
-
-/* Sticker Label Override */
-body.analog-horror-mode .vhs-sticker {
-  background: #c2b8a3 !important;
-  border-bottom: 2px solid #80141c !important;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.3) !important;
-}
-
-body.analog-horror-mode .vhs-sticker .card-title,
-body.analog-horror-mode .vhs-sticker * {
-  color: #0d0d0d !important;
-  text-shadow: none !important;
-  font-weight: 900 !important;
-  font-family: 'Courier New', monospace !important;
-}
-
-/* Tape Metadata & Action Buttons */
-body.analog-horror-mode .card-meta {
-  color: #8f8586 !important;
-  font-family: 'Courier New', monospace !important;
 }
 
 body.analog-horror-mode .add-cart-btn,
@@ -1291,8 +1285,6 @@ body.analog-horror-mode .copy-card-btn {
   background: #171113 !important;
   color: #b0a3a5 !important;
   border: 1px solid #3d1b20 !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
 }
 
 body.analog-horror-mode .add-cart-btn:hover,
@@ -1312,7 +1304,6 @@ body.analog-horror-mode .add-cart-btn.in-cart {
    ANALOG HORROR VISUAL NOISE & OSD OVERLAYS
 ============================================================ */
 
-/* Glitchy Text Shift */
 body.analog-horror-mode .card-title,
 body.analog-horror-mode h1 {
   text-shadow: -1px 0 0 rgba(180,0,0,0.6), 1px 0 0 rgba(0,180,180,0.6) !important;
@@ -1326,32 +1317,11 @@ body.analog-horror-mode h1 {
   100% { text-shadow: 1px 0 0 rgba(180,0,0,0.6), -1px 0 0 rgba(0,180,180,0.6); }
 }
 
-/* Horizontal Tracking Artifact */
-body.analog-horror-mode::before {
-  content: "";
-  position: fixed;
-  top: 0; 
-  left: 0; 
-  width: 100vw; 
-  height: 3px;
-  background: rgba(255, 255, 255, 0.2);
-  opacity: 0.4;
-  z-index: 13;
-  pointer-events: none;
-  animation: vhs-tape-roll 8s infinite linear;
-}
-
-@keyframes vhs-tape-roll {
-  0% { top: -10px; }
-  100% { top: 105vh; }
-}
-
-/* On-Screen Display (OSD) Layout */
 #vhs-osd-overlay {
   display: none;
   position: fixed;
   inset: 20px;
-  pointer-events: none !important; /* Prevents overlay container from blocking clicks */
+  pointer-events: none !important;
   z-index: 14;
   font-family: 'Courier New', monospace;
   color: #00b318;
@@ -1364,7 +1334,6 @@ body.analog-horror-mode #vhs-osd-overlay {
   display: block;
 }
 
-/* Make the OSD Interactive Toggle Button Receive Clicks Directly */
 .osd-top-left { 
   position: absolute; 
   top: 0; 
@@ -1389,33 +1358,21 @@ body.analog-horror-mode #vhs-osd-overlay {
   text-shadow: 0 0 3px #b31e1e; 
 }
 
-/* ============================================================
-   VHS INTERACTIVE TAPE DEGRADATION STATES
-============================================================ */
-
-/* PAUSE Mode: Freeze frame style contrast shift & darkening */
+/* DEGRADATION & TAPE STATES */
 body.vhs-paused {
   filter: contrast(120%) brightness(85%) hue-rotate(-10deg) !important;
 }
 
-/* RECORD Mode: Heavy CRT tape degradation, color bleed, and horizontal scan jitter */
 body.vhs-recording {
   animation: tapeDegrade 0.15s infinite alternate !important;
 }
 
 @keyframes tapeDegrade {
-  0% {
-    filter: contrast(130%) brightness(85%) sepia(20%) hue-rotate(340deg) skewX(0deg);
-  }
-  50% {
-    filter: contrast(150%) brightness(80%) sepia(40%) hue-rotate(320deg) skewX(0.4deg);
-  }
-  100% {
-    filter: contrast(120%) brightness(90%) sepia(10%) hue-rotate(350deg) skewX(-0.3deg);
-  }
+  0% { filter: contrast(130%) brightness(85%) sepia(20%) hue-rotate(340deg) skewX(0deg); }
+  50% { filter: contrast(150%) brightness(80%) sepia(40%) hue-rotate(320deg) skewX(0.4deg); }
+  100% { filter: contrast(120%) brightness(90%) sepia(10%) hue-rotate(350deg) skewX(-0.3deg); }
 }
 
-/* Pulsing signal red indicator for RECORD OSD state */
 .osd-recording {
   color: #ff0055 !important;
   text-shadow: 0 0 10px #ff0055 !important;
@@ -1427,10 +1384,7 @@ body.vhs-recording {
   100% { opacity: 0.35; }
 }
 
-/* ============================================================
-   SENSORY OVERLOAD & RED SCREEN FLASH (VIEWPORT FIXED)
-============================================================ */
-
+/* FLASH EFFECT */
 .screen-glitch-flash {
   position: fixed !important;
   top: 0 !important;
@@ -1445,7 +1399,7 @@ body.vhs-recording {
   z-index: 2147483647 !important;
   opacity: 0;
   transition: opacity 0.05s ease-in-out;
-  transform: translate3d(0, 0, 0) !important; /* Force new stacking context */
+  transform: translate3d(0, 0, 0) !important;
 }
 
 .screen-glitch-flash.flash-active {
@@ -1460,15 +1414,9 @@ body.vhs-recording {
 }
 
 /* ============================================================
-   NFT HORROR MODAL (UNIFIED & VIEWPORT FIXED)
+   NFT HORROR MODAL
 ============================================================ */
 
-/* Lock body scrolling when the modal opens */
-body.modal-open {
-  overflow: hidden !important;
-}
-
-/* Fullscreen Backdrop / Container */
 #nft-horror-modal,
 .nft-horror-overlay,
 dialog#nft-horror-modal {
@@ -1476,33 +1424,21 @@ dialog#nft-horror-modal {
   inset: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  height: 100dvh !important;
   margin: 0 !important;
   padding: 0 !important;
   box-sizing: border-box !important;
   background: rgba(0, 0, 0, 0.92) !important;
   border: none !important;
   z-index: 9999999 !important;
-
-  /* Perfect Viewport Centering */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-
-  /* Hidden by default */
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-/* Backdrop fix if using HTML <dialog> */
-dialog#nft-horror-modal::backdrop {
-  background: rgba(0, 0, 0, 0.92);
-  backdrop-filter: blur(4px);
-}
-
-/* Activated State (JS adds .active) */
 #nft-horror-modal.active,
 .nft-horror-overlay.active,
 dialog#nft-horror-modal[open] {
@@ -1511,7 +1447,6 @@ dialog#nft-horror-modal[open] {
   pointer-events: auto !important;
 }
 
-/* Modal Inner Box */
 .nft-horror-content,
 .nft-modal-content {
   position: relative !important;
@@ -1641,18 +1576,7 @@ dialog#nft-horror-modal[open] {
   color: #fff;
 }
 
-/* Accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .warning-symbol,
-  .horror-text-phase2 {
-    animation: none !important;
-  }
-}
-
-/* ============================================================
-   ANALOG HORROR MODE FLOATING BUTTON OVERRIDES
-============================================================ */
-
+/* FLOATING BUTTON OVERRIDES FOR ANALOG HORROR MODE */
 body.analog-horror-mode #cart-toggle-btn,
 body.analog-horror-mode .cart-toggle-btn {
   position: fixed !important;
@@ -1664,27 +1588,33 @@ body.analog-horror-mode .cart-toggle-btn {
   opacity: 1 !important;
   pointer-events: auto !important;
   transform: translateZ(0) !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  background: #0a0a0a !important;
-  color: #ff0055 !important;
-  border: 2px solid #ff0055 !important;
-  box-shadow: 0 0 15px #ff0055, inset 0 0 10px #ff0055 !important;
+  background: #180305 !important;
+  color: #d18d94 !important;
+  border: 2px solid #6b0c16 !important;
+  box-shadow: 0 0 12px #52070e, 0 0 25px rgba(82, 7, 14, 0.6), inset 0 0 8px rgba(107, 12, 22, 0.5) !important;
 }
 
 body.analog-horror-mode #cart-toggle-btn:hover,
 body.analog-horror-mode .cart-toggle-btn:hover {
-  background: #ff0055 !important;
-  color: #000000 !important;
-  box-shadow: 0 0 25px #ff0055, 0 0 40px #ff0055 !important;
+  background: #2b0b0e !important;
+  color: #ffffff !important;
+  border-color: #8b0000 !important;
+  box-shadow: 0 0 18px #ff0000, 0 0 35px #8b0000, 0 0 50px rgba(139, 0, 0, 0.8), inset 0 0 12px #ff0000 !important;
+}
+
+body.analog-horror-mode #cart-toggle-btn .cart-badge,
+body.analog-horror-mode .cart-toggle-btn .cart-badge {
+  background: #6b0c16 !important;
+  color: #fce8e8 !important;
+  border: 1px solid #8b0000 !important;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5) !important;
 }
 
 body.analog-horror-mode #scroll-top-btn {
   position: fixed !important;
-  bottom: 20px !important;
-  right: 220px !important;
+  bottom: 80px !important;
+  right: 20px !important;
   z-index: 2147483647 !important;
-  transform: translateZ(0) !important;
   background: #1f0508 !important;
   color: #ff4d6d !important;
   border: 2px solid #8b0000 !important;
@@ -1727,63 +1657,6 @@ body.analog-horror-mode #scroll-top-btn:hover {
   to { border-color: #ff0000; }
 }
 
-/* ============================================================
-   EMERGENCY OVERRIDE: FIXED FLOATING CART FOR ANALOG HORROR
-============================================================ */
-
-/* 1. Prevent the body or wrapper from trapping position: fixed elements */
-body.analog-horror-mode {
-  position: static !important;
-  transform: none !important;
-  perspective: none !important;
-}
-
-/* 2. Force Floating Buttons to stick to the Viewport in Easter Egg Mode */
-body.analog-horror-mode #cart-toggle-btn,
-body.analog-horror-mode .cart-toggle-btn {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  z-index: 2147483647 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transform: translateZ(0) !important;
-  
-  /* MATCHING NFT TAPE BASE COLOR & BORDER */
-  background: #180305 !important;
-  color: #d18d94 !important;
-  border: 2px solid #6b0c16 !important;
-  box-shadow: 0 0 12px #52070e, 0 0 25px rgba(82, 7, 14, 0.6), inset 0 0 8px rgba(107, 12, 22, 0.5) !important;
-  transition: all 0.25s ease !important;
-}
-
-/* HOVER STATE: MATCHING ACTIVE NFT HOVER GLOW */
-body.analog-horror-mode #cart-toggle-btn:hover,
-body.analog-horror-mode .cart-toggle-btn:hover {
-  background: #2b0b0e !important;
-  color: #ffffff !important;
-  border-color: #8b0000 !important;
-  box-shadow: 0 0 18px #ff0000, 0 0 35px #8b0000, 0 0 50px rgba(139, 0, 0, 0.8), inset 0 0 12px #ff0000 !important;
-  transform: translateY(-2px) translateZ(0) !important;
-}
-
-/* CART BADGE MATCHING NFT THEME */
-body.analog-horror-mode #cart-toggle-btn .cart-badge,
-body.analog-horror-mode .cart-toggle-btn .cart-badge {
-  background: #6b0c16 !important;
-  color: #fce8e8 !important;
-  border: 1px solid #8b0000 !important;
-  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5) !important;
-}
-
-/* 3. Ensure full screen OSD & Grain layers don't block clicks */
-body.analog-horror-mode::before,
-body.analog-horror-mode::after,
-#vhs-osd-overlay {
-  pointer-events: none !important;
-}
 /* ==========================================
    Y2K "LASAGNA APPROVED" BADGE
    ========================================== */
@@ -1802,29 +1675,21 @@ body.analog-horror-mode::after,
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: #ffffff;
-  
-  /* Metallic Gel / Chrome Background */
   background: linear-gradient(135deg, #11111d 0%, #220033 50%, #001122 100%);
   border: 2px solid #00f0ff;
-  border-radius: 20px; /* Bubble capsule shape */
-  
-  /* Y2K Holographic Neon Glow & Shadow */
+  border-radius: 20px;
   box-shadow: 
     0 0 10px rgba(0, 240, 255, 0.6),
     0 0 20px rgba(255, 0, 128, 0.4),
     inset 0 0 8px rgba(255, 255, 255, 0.3);
-  
   position: relative;
   overflow: hidden;
   cursor: default;
   user-select: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
-  /* Floating Animation */
   animation: y2k-float 3s ease-in-out infinite alternate;
 }
 
-/* Chrome Gradient Text */
 .y2k-approved-badge span {
   background: linear-gradient(180deg, #ffffff 0%, #00f0ff 45%, #ff007f 80%, #ffffff 100%);
   -webkit-background-clip: text;
@@ -1832,7 +1697,6 @@ body.analog-horror-mode::after,
   filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.8));
 }
 
-/* Y2K Star / Sparkle Icon */
 .y2k-approved-badge::before {
   content: '★';
   font-size: 1rem;
@@ -1847,7 +1711,6 @@ body.analog-horror-mode::after,
   text-shadow: 0 0 5px #00f0ff, 0 0 10px #ff007f;
 }
 
-/* Hover Effect */
 .y2k-approved-badge:hover {
   transform: scale(1.08) rotate(-1deg);
   box-shadow: 
@@ -1856,179 +1719,11 @@ body.analog-horror-mode::after,
     inset 0 0 12px rgba(255, 255, 255, 0.6);
 }
 
-/* Floating Keyframe Animation */
 @keyframes y2k-float {
-  0% {
-    transform: translateY(0px);
-  }
-  100% {
-    transform: translateY(-4px);
-  }
-}
-/* Ensure the drawer is a flexbox container with full height */
-.trade-drawer {
-  display: flex;
-  flex-direction: column;
-  max-height: 100vh;
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-4px); }
 }
 
-/* Allow the drawer body to scroll when items overflow */
-.drawer-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 15px;
-}
-
-/* Styled Y2K Neon Scrollbar for the cart */
-.drawer-body::-webkit-scrollbar {
-  width: 8px;
-}
-
-.drawer-body::-webkit-scrollbar-track {
-  background: #0f0f1a;
-}
-
-.drawer-body::-webkit-scrollbar-thumb {
-  background: #00f0ff;
-  border-radius: 4px;
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
-}
-
-.drawer-body::-webkit-scrollbar-thumb:hover {
-  background: #ff007f;
-}
-
-/* Keep the footer pinned at the bottom */
-.drawer-footer {
-  flex-shrink: 0;
-}
-/* Stack Scroll to Top button above the Trade Cart button */
-#scroll-top-btn {
-  position: fixed;
-  bottom: 80px; /* Positioned right above the cart button */
-  right: 20px;
-  z-index: 9999; /* Ensures it sits on top of all other elements */
-}
-
-/* Ensure the cart trigger button stays below the top button */
-#cart-toggle-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9998;
-}
-/* ==========================================
-   HEADER TITLE & BADGE ALIGNMENT FIX
-   ========================================== */
-.rules-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.rules-header h2 {
-  margin: 0;
-  padding: 0;
-  line-height: 1.2;
-}
-/* Stack Scroll to Top button above the Trade Cart button */
-#scroll-top-btn {
-  position: fixed;
-  bottom: 80px; /* Positioned right above the cart button */
-  right: 20px;
-  z-index: 9999; /* Ensures it sits on top of all other elements */
-}
-
-/* Ensure the cart trigger button stays below the top button */
-#cart-toggle-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9998;
-}
-/* ==========================================
-   ULTIMATE LAYOUT & FILTER FIX
-   ========================================== */
-
-/* Fix Rules Box Title & Y2K Badge */
-.rules-header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
-  margin-bottom: 12px !important;
-}
-
-.rules-header h2 {
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1.2 !important;
-}
-
-/* Fix Filter Row Spacing & Misalignment */
-.controls {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 12px !important;
-  width: 100% !important;
-}
-
-#search-input {
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.filters, 
-.category-filters {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 10px !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.filter-btn, 
-.cat-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-  vertical-align: middle !important;
-}
-/* Tighten space between search bar and filter rows */
-.controls {
-  gap: 12px !important;
-}
-/* ==========================================
-   FORCE REDUCE VERTICAL GAPS
-   ========================================== */
-
-/* Reduce gap between search bar and filter rows */
-.controls {
-  gap: 6px !important;
-  margin-bottom: 10px !important;
-}
-
-/* Remove extra spacing built into the search box */
-#search-input {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-/* Reduce gap between the two filter rows */
-.filters, 
-.category-filters {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  gap: 8px !important;
-}
 /* ==========================================
    Y2K WATERMARK (FOOTER)
    ========================================== */
@@ -2047,48 +1742,15 @@ body.analog-horror-mode::after,
   transition: opacity 0.3s ease;
 }
 
-/* Glowing accent on 'ananas' */
 .y2k-watermark span {
   color: #00f0ff;
   text-shadow: 0 0 5px rgba(0, 240, 255, 0.6);
 }
 
-/* Subtle glow up when hovered */
 .y2k-watermark:hover {
   opacity: 1;
 }
-/* ==========================================
-   FORCE SCROLL TO TOP BUTTON VISIBILITY
-   ========================================== */
 
-#scroll-top-btn {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  position: fixed !important;
-  bottom: 80px !important; /* Stacked directly above the Trade Request button */
-  right: 20px !important;
-  z-index: 99999 !important; /* Higher than drawer & overlay */
-  padding: 8px 14px !important;
-  font-family: 'Courier New', monospace !important;
-  font-weight: bold !important;
-  font-size: 0.8rem !important;
-  color: #00f0ff !important;
-  background: #0f0f1a !important;
-  border: 2px solid #00f0ff !important;
-  border-radius: 8px !important;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5) !important;
-  cursor: pointer !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-}
-
-#scroll-top-btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.9) !important;
-  background: #1a1a2e !important;
-}
 /* ==========================================
    ENCORA COMPARISON TOOL STYLING
    ========================================== */
@@ -2143,274 +1805,11 @@ body.analog-horror-mode::after,
   color: #ffffff;
   border-color: #ffffff;
 }
-/* Container & Layout */
-.analog-vhs-stage {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  user-select: none;
-  font-family: 'Courier New', Courier, monospace;
-}
 
-.vhs-main-workspace {
-  display: flex;
-  gap: 25px;
-  align-items: flex-start;
-}
-
-/* Screencap Drawer (Auto-Expands) */
-.tape-details-drawer {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
-  background: #050505;
-  border: 1px solid #00ffcc;
-  box-shadow: 0 0 15px rgba(0, 255, 204, 0.15);
-  padding: 0 15px;
-}
-
-.tape-details-drawer.expanded {
-  max-height: 220px;
-  opacity: 1;
-  padding: 15px;
-  margin-bottom: 10px;
-}
-
-.drawer-header {
-  font-size: 0.85rem;
-  color: #00ffcc;
-  margin-bottom: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  border-bottom: 1px dashed rgba(0, 255, 204, 0.3);
-  padding-bottom: 5px;
-}
-
-.screencaps-grid {
-  display: flex;
-  gap: 15px;
-  justify-content: flex-start;
-}
-
-/* Screencaps & Dynamic CRT Fallback */
-.cap-wrapper {
-  width: 180px;
-  height: 115px;
-}
-
-.analog-cap {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border: 1px solid #00ffcc;
-  filter: contrast(1.2) saturate(0.8) sepia(0.15);
-  box-shadow: 0 0 8px rgba(0, 255, 204, 0.2);
-  transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.analog-cap:hover {
-  transform: scale(1.03);
-  filter: contrast(1.4) saturate(1.1);
-}
-
-.analog-cap-fallback {
-  width: 100%;
-  height: 100%;
-  background: #000;
-  border: 1px dashed #ff0055;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ff0055;
-  font-size: 0.75rem;
-  text-align: center;
-  line-height: 1.4;
-  box-shadow: 0 0 8px rgba(255, 0, 85, 0.2);
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.6),
-    rgba(0, 0, 0, 0.6) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-}
-
-/* VCR Deck Player (Left Side) */
-.vcr-deck {
-  width: 300px;
-  min-width: 300px;
-  background: #111;
-  border: 2px solid #222;
-  box-shadow: inset 0 0 10px #000, 0 4px 12px rgba(0, 0, 0, 0.8);
-  padding: 20px;
-  border-radius: 4px;
-}
-
-.vcr-slot {
-  height: 90px;
-  border: 2px dashed #00ffcc;
-  background: #080808;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.vcr-slot.drag-over {
-  background: rgba(0, 255, 204, 0.15);
-  border-color: #ffffff;
-}
-
-.vcr-slot-interior {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-}
-
-.vcr-slot-label {
-  color: #00ffcc;
-  font-size: 0.85rem;
-  font-weight: bold;
-}
-
-.vcr-slot-sublabel {
-  color: #666;
-  font-size: 0.65rem;
-}
-
-/* VHS Shelf & Cassettes (Right Side) */
-.vhs-shelf {
-  flex-grow: 1;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 12px;
-  background: #0a0a0a;
-  border: 1px solid #222;
-  padding: 15px;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.vhs-tape {
-  background: #1a1a1a;
-  border: 1px solid #333;
-  border-left: 5px solid #00ffcc;
-  padding: 10px 12px;
-  cursor: grab;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  transition: background 0.2s ease, border-color 0.2s ease;
-  position: relative;
-}
-
-.vhs-tape:hover {
-  background: #252525;
-  border-color: #00ffcc;
-}
-
-.vhs-tape.dragging {
-  cursor: grabbing;
-  z-index: 9999;
-  position: fixed;
-  pointer-events: none;
-  opacity: 0.9;
-  box-shadow: 0 10px 25px rgba(0, 255, 204, 0.4);
-  transform: scale(1.05);
-}
-
-.tape-spine {
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.tape-master-tag {
-  color: #00ffcc;
-  font-size: 0.7rem;
-  opacity: 0.8;
-}
-/* Hide VHS Stage by default; only show in Analog Horror Mode */
-#vhsStage {
-  display: none;
-  margin-bottom: 2rem;
-  transition: all 0.3s ease;
-}
-
-body.analog-horror-mode #vhsStage,
-body.analog-mode #vhsStage {
-  display: block;
-}
-
-/* Metallic Walkman Style VCR Deck */
-.vcr-deck {
-  background: linear-gradient(145deg, #e6e6e6, #8e9095);
-  border: 3px solid #333;
-  border-radius: 12px;
-  padding: 15px;
-  box-shadow: inset 0 2px 5px rgba(255,255,255,0.8), 0 8px 15px rgba(0,0,0,0.6);
-  position: relative;
-  max-width: 320px;
-}
-
-.vcr-slot {
-  background: #111;
-  border: 2px inset #555;
-  border-radius: 6px;
-  padding: 20px;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-.vcr-slot.drag-over {
-  border-color: #00ff41;
-  box-shadow: 0 0 10px #00ff41;
-  background: #1b2e1b;
-}
-
-/* Screencap Drawer - hidden by default, expands on tape drop */
-.tape-details-drawer {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.3s ease;
-  background: rgba(0, 0, 0, 0.85);
-  border: 1px solid #00ff41;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.tape-details-drawer.expanded {
-  max-height: 400px;
-  opacity: 1;
-  padding: 15px;
-}
-
-.screencaps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.screencaps-grid img {
-  width: 100%;
-  border-radius: 4px;
-  border: 1px solid #333;
-}
 /* ============================================================
-   REALISTIC PORTABLE CASSETTE PLAYER (WALKMAN STYLES)
+   REALISTIC PORTABLE CASSETTE PLAYER (WALKMAN / VCR STYLES)
 ============================================================ */
 
-/* Main Stage Container */
 #vhsStage {
   display: none;
   margin: 20px auto;
@@ -2423,7 +1822,6 @@ body.analog-mode #vhsStage {
   display: block;
 }
 
-/* Screencap Drawer Header Overlay */
 .tape-details-drawer {
   max-height: 0;
   opacity: 0;
@@ -2440,12 +1838,6 @@ body.analog-mode #vhsStage {
   max-height: 450px;
   opacity: 1;
   padding: 15px;
-}
-
-.drawer-header {
-  border-bottom: 1px solid #00ff41;
-  padding-bottom: 8px;
-  margin-bottom: 12px;
 }
 
 .vcr-status-text {
@@ -2469,7 +1861,6 @@ body.analog-mode #vhsStage {
   border-radius: 4px;
 }
 
-/* Realistic Portable Player Chassis */
 .vhs-main-workspace {
   display: flex;
   justify-content: center;
@@ -2489,7 +1880,6 @@ body.analog-mode #vhsStage {
   position: relative;
 }
 
-/* Top Buttons Deck */
 .vcr-deck::before {
   content: "SUPER CASSETTE CAPTURE";
   display: block;
@@ -2502,7 +1892,6 @@ body.analog-mode #vhsStage {
   text-transform: uppercase;
 }
 
-/* Slot Area / Cassette Window */
 .vcr-slot {
   background: #151517;
   border: 4px solid #444;
@@ -2518,7 +1907,6 @@ body.analog-mode #vhsStage {
   justify-content: center;
 }
 
-/* Tape Slot Highlight on Hover */
 .vcr-slot.drag-over {
   border-color: #00ff41;
   background: #09200e;
@@ -2541,14 +1929,4 @@ body.analog-mode #vhsStage {
   color: #888;
   font-size: 10px;
   margin-top: 5px;
-}
-
-/* Make source items look draggable */
-.card, .item-card, .vhs-tape {
-  cursor: grab !important;
-  user-select: none;
-}
-
-.card:active, .item-card:active, .vhs-tape:active {
-  cursor: grabbing !important;
 }
