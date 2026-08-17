@@ -804,6 +804,7 @@ function ensureCartButtonInBody() {
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
   ensureCartButtonInBody();
+  initEncoraComparison();
 
   // DELEGATED CLICK LISTENER
   document.body.addEventListener("click", (e) => {
@@ -1028,16 +1029,17 @@ function setupIntersectionObserver() {
   observer.observe(sentinel);
 }
 
-function applyFiltersAndRender() {
+function applyFiltersAndRender(customDataSet = null) {
   if (document.body.classList.contains("analog-horror-mode")) {
     VCRAudio.playTapeWhine();
   }
 
+  const sourceData = customDataSet || allData;
   const searchEl = document.getElementById("search-input");
   const query = searchEl ? searchEl.value.toLowerCase().trim() : "";
   currentRenderToken++;
 
-  currentFilteredItems = allData.filter(item => {
+  currentFilteredItems = sourceData.filter(item => {
     const displayType = getMediaType(item);
     if (currentFilter !== 'all' && displayType.toLowerCase() !== currentFilter.toLowerCase()) {
       return false;
@@ -1066,7 +1068,7 @@ function applyFiltersAndRender() {
   });
 
   const stats = document.getElementById('stats');
-  if (stats) stats.innerText = `SHOWING ${currentFilteredItems.length} OF ${allData.length} ITEMS`;
+  if (stats) stats.innerText = `SHOWING ${currentFilteredItems.length} OF ${sourceData.length} ITEMS`;
 
   const container = document.getElementById("card-container");
   if (container) {
@@ -1824,20 +1826,22 @@ if (document.readyState === "loading") {
 } else {
   initVhsOsdToggle();
 }
-// ==========================================
-// ENCORA CSV AUTO-COMPARISON FEATURE
-// ==========================================
 
-const encoraFileInput = document.getElementById('encora-file-input');
-const encoraStatusMsg = document.getElementById('encora-status-msg');
-const clearEncoraBtn = document.getElementById('clear-encora-btn');
+/* ============================================================
+   ENCORA CSV AUTO-COMPARISON FEATURE
+============================================================ */
+function initEncoraComparison() {
+  const encoraFileInput = document.getElementById('encora-file-input');
+  const encoraStatusMsg = document.getElementById('encora-status-msg');
+  const clearEncoraBtn = document.getElementById('clear-encora-btn');
 
-if (encoraFileInput) {
+  if (!encoraFileInput) return;
+
   encoraFileInput.addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (!file) return;
 
-    encoraStatusMsg.textContent = 'Parsing Encora list...';
+    if (encoraStatusMsg) encoraStatusMsg.textContent = 'Parsing Encora list...';
 
     Papa.parse(file, {
       header: true,
@@ -1848,42 +1852,45 @@ if (encoraFileInput) {
         // Build a Set of unique keys from the user's Encora export
         const userItemKeys = new Set(
           userList.map(item => {
-            const show = (item['Show'] || item['show'] || '').trim().toLowerCase();
-            const date = (item['Date'] || item['date'] || '').trim().toLowerCase();
-            const type = (item['Type'] || item['Format'] || item['media'] || '').trim().toLowerCase();
+            const show = (getValByName(item, 'Show') || '').trim().toLowerCase();
+            const date = (getValByName(item, 'Date') || '').trim().toLowerCase();
+            const type = (getValByName(item, 'Type', 'Format', 'media') || '').trim().toLowerCase();
             return `${show}|${date}|${type}`;
           })
         );
 
-        // Filter your site's master collection (assumes your site array is `collectionData`)
-        // Keeps only items that DO NOT exist in userItemKeys
-        const unownedItems = collectionData.filter(item => {
-          const show = (item.Show || '').trim().toLowerCase();
-          const date = (item.Date || '').trim().toLowerCase();
-          const type = (item.Type || item.Format || '').trim().toLowerCase();
+        // Filter master collection for items NOT present in user's Encora list
+        const unownedItems = allData.filter(item => {
+          const show = (getValByName(item, 'Show') || '').trim().toLowerCase();
+          const date = (getValByName(item, 'Date') || '').trim().toLowerCase();
+          const type = (getValByName(item, 'Type', 'Format') || '').trim().toLowerCase();
           const itemKey = `${show}|${date}|${type}`;
           
           return !userItemKeys.has(itemKey);
         });
 
-        // Update grid display with unowned items
-        renderCards(unownedItems);
+        // Update view with unowned items dataset
+        applyFiltersAndRender(unownedItems);
         
-        // Update status text
-        encoraStatusMsg.textContent = `⚡ Displaying ${unownedItems.length} items missing from your Encora list!`;
-        clearEncoraBtn.style.display = 'inline-block';
+        if (encoraStatusMsg) {
+          encoraStatusMsg.textContent = `⚡ Displaying ${unownedItems.length} items missing from your Encora list!`;
+        }
+        if (clearEncoraBtn) {
+          clearEncoraBtn.style.display = 'inline-block';
+        }
       },
       error: function () {
-        encoraStatusMsg.textContent = '❌ Failed to read CSV file.';
+        if (encoraStatusMsg) encoraStatusMsg.textContent = '❌ Failed to read CSV file.';
       }
     });
   });
 
-  // Reset filter back to full collection
-  clearEncoraBtn.addEventListener('click', function () {
-    encoraFileInput.value = '';
-    encoraStatusMsg.textContent = '';
-    clearEncoraBtn.style.display = 'none';
-    renderCards(collectionData);
-  });
+  if (clearEncoraBtn) {
+    clearEncoraBtn.addEventListener('click', function () {
+      encoraFileInput.value = '';
+      if (encoraStatusMsg) encoraStatusMsg.textContent = '';
+      clearEncoraBtn.style.display = 'none';
+      applyFiltersAndRender();
+    });
+  }
 }
