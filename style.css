@@ -2406,3 +2406,149 @@ body.analog-mode #vhsStage {
   border-radius: 4px;
   border: 1px solid #333;
 }
+/* ============================================================
+   REALISTIC PORTABLE CASSETTE PLAYER (WALKMAN STYLES)
+============================================================ */
+
+/* Main Stage Container */
+#vhsStage {
+  display: none;
+  margin: 20px auto;
+  max-width: 650px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+body.analog-horror-mode #vhsStage,
+body.analog-mode #vhsStage {
+  display: block;
+}
+
+/* Screencap Drawer Header Overlay */
+.tape-details-drawer {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  background: #0a0a0c;
+  border: 2px solid #00ff41;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+  margin-bottom: 20px;
+}
+
+.tape-details-drawer.expanded {
+  max-height: 450px;
+  opacity: 1;
+  padding: 15px;
+}
+
+.drawer-header {
+  border-bottom: 1px solid #00ff41;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.vcr-status-text {
+  color: #00ff41;
+  font-weight: bold;
+  text-shadow: 0 0 5px #00ff41;
+  letter-spacing: 1px;
+}
+
+.screencaps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.screencaps-grid img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+/* Realistic Portable Player Chassis */
+.vhs-main-workspace {
+  display: flex;
+  justify-content: center;
+}
+
+.vcr-deck {
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(135deg, #d8d8d8 0%, #a8a8a8 40%, #707070 100%);
+  border: 3px solid #3a3a3a;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 
+    inset 2px 2px 5px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 8px rgba(0, 0, 0, 0.6),
+    0 12px 25px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+
+/* Top Buttons Deck */
+.vcr-deck::before {
+  content: "SUPER CASSETTE CAPTURE";
+  display: block;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 900;
+  color: #333;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+/* Slot Area / Cassette Window */
+.vcr-slot {
+  background: #151517;
+  border: 4px solid #444;
+  border-radius: 10px;
+  padding: 30px 15px;
+  text-align: center;
+  position: relative;
+  box-shadow: inset 0 0 15px #000;
+  transition: all 0.3s ease;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tape Slot Highlight on Hover */
+.vcr-slot.drag-over {
+  border-color: #00ff41;
+  background: #09200e;
+  box-shadow: inset 0 0 20px #00ff41;
+}
+
+.vcr-slot-interior {
+  pointer-events: none;
+}
+
+.vcr-slot-label {
+  display: block;
+  color: #00ff41;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.vcr-slot-sublabel {
+  display: block;
+  color: #888;
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+/* Make source items look draggable */
+.card, .item-card, .vhs-tape {
+  cursor: grab !important;
+  user-select: none;
+}
+
+.card:active, .item-card:active, .vhs-tape:active {
+  cursor: grabbing !important;
+}
