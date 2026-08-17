@@ -2089,3 +2089,30 @@ body.analog-horror-mode::after,
   box-shadow: 0 0 15px rgba(0, 240, 255, 0.9) !important;
   background: #1a1a2e !important;
 }
+.encora-compare-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.encora-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #ff007f; /* Neon pink border matching your filter buttons */
+  border-radius: 6px;
+  background-color: transparent;
+  color: #ff007f;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 5px rgba(255, 0, 127, 0.3);
+}
+
+.encora-upload-btn:hover {
+  background-color: rgba(255, 0, 127, 0.15);
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.7);
+}
