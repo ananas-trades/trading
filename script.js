@@ -6,88 +6,70 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initVhsStageEvents() {
-  const vcrSlot = document.getElementById("vcrSlot");
-  const drawer = document.getElementById("tapeDetailsDrawer");
-  const screencapsGrid = document.getElementById("screencapsGrid");
-  const vcrStatusText = document.getElementById("vcrStatusText");
-
-  // 1. Delegate dragstart globally to support dynamic cards/tapes loaded via CSV
-  document.addEventListener("dragstart", (e) => {
-    const target = e.target.closest(".card, .item-card, .vhs-tape, [data-screencaps]");
-    if (!target) return;
-
-    const title = target.getAttribute("data-title") || target.querySelector("h3, .title, .card-title")?.innerText || "CASSETTE TAPE";
-    const screencaps = target.getAttribute("data-screencaps") || target.getAttribute("data-photos") || "";
-
-    const payload = JSON.stringify({ title, screencaps });
-    e.dataTransfer.setData("application/json", payload);
-    e.dataTransfer.setData("text/plain", payload);
-    target.style.opacity = "0.5";
+  // Attach dragstart listeners to all VHS tape cards
+  document.querySelectorAll('.vhs-card').forEach(card => {
+    card.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', JSON.stringify({
+        title: card.getAttribute('data-title'),
+        screencaps: JSON.parse(card.getAttribute('data-screencaps') || '[]')
+      }));
+      e.dataTransfer.effectAllowed = 'copy';
+    });
   });
 
-  document.addEventListener("dragend", (e) => {
-    const target = e.target.closest(".card, .item-card, .vhs-tape, [data-screencaps]");
-    if (target) target.style.opacity = "1";
-  });
-
-  // Ensure card elements are set as draggable dynamically on hover
-  document.addEventListener("mouseover", (e) => {
-    const target = e.target.closest(".card, .item-card, .vhs-tape");
-    if (target && !target.hasAttribute("draggable")) {
-      target.setAttribute("draggable", "true");
-    }
-  });
-
+  const vcrSlot = document.getElementById('vcrSlot');
   if (!vcrSlot) return;
 
-  // 2. Drag Over / Enter Events
-  vcrSlot.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "copy";
-    vcrSlot.classList.add("drag-over");
+  // Allow dropping over the VCR slot
+  vcrSlot.addEventListener('dragover', (e) => {
+    e.preventDefault(); // Required to enable drop action
+    e.dataTransfer.dropEffect = 'copy';
+    vcrSlot.classList.add('vcr-slot-hover');
   });
 
-  vcrSlot.addEventListener("dragleave", () => {
-    vcrSlot.classList.remove("drag-over");
+  vcrSlot.addEventListener('dragleave', () => {
+    vcrSlot.classList.remove('vcr-slot-hover');
   });
 
-  // 3. Drop Event to Play Tape & Open Drawer
-  vcrSlot.addEventListener("drop", (e) => {
+  // Handle drop event and load screencaps into the drawer
+  vcrSlot.addEventListener('drop', (e) => {
     e.preventDefault();
-    vcrSlot.classList.remove("drag-over");
+    vcrSlot.classList.remove('vcr-slot-hover');
 
-    let rawData = e.dataTransfer.getData("application/json") || e.dataTransfer.getData("text/plain");
+    const rawData = e.dataTransfer.getData('text/plain');
     if (!rawData) return;
 
     try {
       const data = JSON.parse(rawData);
 
-      // Update Header Text
-      if (vcrStatusText) {
-        vcrStatusText.innerText = `PLAYING // ${data.title.toUpperCase()}`;
-      }
+      // Update VCR display title
+      const displayEl = document.querySelector('.vcr-display-text') || document.getElementById('vcrStatusText');
+      if (displayEl) displayEl.textContent = `PLAYING: ${data.title}`;
 
-      // Populate Screencap Images inside Drawer
-      if (screencapsGrid) {
-        screencapsGrid.innerHTML = "";
-        const urls = data.screencaps ? data.screencaps.split(",").filter(Boolean) : [];
+      // Populate Screencaps Drawer
+      const drawer = document.getElementById('tapeDetailsDrawer');
+      const gallery = drawer ? (drawer.querySelector('.screencaps-gallery') || document.getElementById('screencapsGrid')) : null;
 
-        if (urls.length > 0) {
-          urls.forEach((url) => {
-            const img = document.createElement("img");
+      if (gallery) {
+        gallery.innerHTML = '';
+
+        const photos = Array.isArray(data.screencaps) 
+          ? data.screencaps 
+          : (typeof data.screencaps === 'string' ? data.screencaps.split(',').filter(Boolean) : []);
+
+        if (photos.length > 0) {
+          photos.forEach(url => {
+            const img = document.createElement('img');
             img.src = url.trim();
-            img.alt = "Tape Screencap";
-            screencapsGrid.appendChild(img);
+            img.alt = 'Tape Screencap';
+            gallery.appendChild(img);
           });
         } else {
-          screencapsGrid.innerHTML = `<p style="color: #00ff41; grid-column: 1/-1; text-align: center;">[ NO SCREENCAPS AVAILABLE FOR ${data.title.toUpperCase()} ]</p>`;
+          gallery.innerHTML = `<p style="color: #00ff41; grid-column: 1/-1; text-align: center;">[ NO SCREENCAPS AVAILABLE ]</p>`;
         }
       }
 
-      // Expand Drawer to show photos
-      if (drawer) {
-        drawer.classList.add("expanded");
-      }
+      if (drawer) drawer.classList.add('open', 'expanded');
     } catch (err) {
       console.error("Failed to parse dropped tape data", err);
     }
@@ -1992,74 +1974,4 @@ function initEncoraComparison() {
       applyFiltersAndRender();
     });
   }
-}
-document.addEventListener("DOMContentLoaded", () => {
-  initVhsStageEvents();
-});
-
-function initVhsStageEvents() {
-  const vcrSlot = document.getElementById("vcrSlot");
-  const drawer = document.getElementById("tapeDetailsDrawer");
-  const screencapsGrid = document.getElementById("screencapsGrid");
-  const vcrStatusText = document.getElementById("vcrStatusText");
-
-  if (!vcrSlot) return;
-
-  // Make item cards or tapes draggable
-  document.querySelectorAll(".card, .vhs-tape").forEach(item => {
-    item.setAttribute("draggable", "true");
-    item.addEventListener("dragstart", (e) => {
-      const screencaps = item.getAttribute("data-screencaps") || "";
-      const title = item.getAttribute("data-title") || "CASSETTE TAPE";
-      e.dataTransfer.setData("application/json", JSON.stringify({ title, screencaps }));
-    });
-  });
-
-  // Drag over slot highlight
-  vcrSlot.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    vcrSlot.classList.add("drag-over");
-  });
-
-  vcrSlot.addEventListener("dragleave", () => {
-    vcrSlot.classList.remove("drag-over");
-  });
-
-  // Handle Drop Action
-  vcrSlot.addEventListener("drop", (e) => {
-    e.preventDefault();
-    vcrSlot.classList.remove("drag-over");
-
-    const rawData = e.dataTransfer.getData("application/json");
-    if (!rawData) return;
-
-    const data = JSON.parse(rawData);
-
-    // Update VCR Status Header
-    if (vcrStatusText) {
-      vcrStatusText.innerText = `PLAYING // ${data.title.toUpperCase()}`;
-    }
-
-    // Populate screencaps grid
-    if (screencapsGrid) {
-      screencapsGrid.innerHTML = "";
-      const photos = data.screencaps ? data.screencaps.split(",") : [];
-
-      if (photos.length > 0) {
-        photos.forEach(url => {
-          const img = document.createElement("img");
-          img.src = url.trim();
-          img.alt = "Tape Screencap";
-          screencapsGrid.appendChild(img);
-        });
-      } else {
-        screencapsGrid.innerHTML = "<p style='color: #00ff41;'>[ NO SCREENCAPS AVAILABLE ]</p>";
-      }
-    }
-
-    // Expand top drawer to reveal pictures
-    if (drawer) {
-      drawer.classList.add("expanded");
-    }
-  });
 }
