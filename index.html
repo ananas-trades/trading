@@ -19,6 +19,18 @@
     <div class="osd-bottom-right">AUTO-TRACKING...</div>
   </div>
 
+  <!-- Background Easter Egg: Table & VCR Player (positioned off-screen/half cut off) -->
+  <aside class="bg-vhs-table-easteregg" id="bgVhsTable">
+    <div class="vcr-deck" id="vcrDeck">
+      <div class="vcr-slot" id="vcrSlot">
+        <div class="vcr-slot-interior">
+          <span class="vcr-slot-label">📼 INSERT TAPE HERE</span>
+          <button type="button" id="add-to-player-btn" class="add-to-player-btn">▶ Add to Player</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
   <header class="container">
     <h1>🎭 My Trading Collection</h1>
     <div class="rules-box">
@@ -51,18 +63,8 @@
         <div class="screencaps-grid" id="screencapsGrid"></div>
       </section>
 
-      <!-- Main Stage: VCR Player Deck on Left, Cassette Rack on Right -->
+      <!-- Main Stage: Cassette Rack -->
       <div class="vhs-main-workspace">
-        <!-- VCR Slot Area -->
-        <aside class="vcr-deck" id="vcrDeck">
-          <div class="vcr-slot" id="vcrSlot">
-            <div class="vcr-slot-interior">
-              <span class="vcr-slot-label">📼 INSERT TAPE HERE</span>
-              <button type="button" id="add-to-player-btn" class="add-to-player-btn">▶ Add to Player</button>
-            </div>
-          </div>
-        </aside>
-
         <!-- Cassette Rack Grid -->
         <section class="vhs-shelf" id="vhsShelf">
           <!-- Dynamic tapes populate here via JavaScript -->
