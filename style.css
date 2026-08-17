@@ -2302,3 +2302,14 @@ body.analog-mode #vhsStage {
   color: #000000;
   box-shadow: 0 0 12px #00ff41;
 }
+.bg-vhs-table-easteregg {
+  position: fixed;
+  bottom: 10px;
+  left: -120px; /* Adjust to slice it half off the screen */
+  z-index: 5;
+  transition: transform 0.3s ease;
+}
+
+.bg-vhs-table-easteregg:hover {
+  transform: translateX(40px); /* Peek out slightly on hover */
+}
