@@ -1894,3 +1894,73 @@ function initEncoraComparison() {
     });
   }
 }
+document.addEventListener("DOMContentLoaded", () => {
+  initVhsStageEvents();
+});
+
+function initVhsStageEvents() {
+  const vcrSlot = document.getElementById("vcrSlot");
+  const drawer = document.getElementById("tapeDetailsDrawer");
+  const screencapsGrid = document.getElementById("screencapsGrid");
+  const vcrStatusText = document.getElementById("vcrStatusText");
+
+  if (!vcrSlot) return;
+
+  // Make item cards or tapes draggable
+  document.querySelectorAll(".card, .vhs-tape").forEach(item => {
+    item.setAttribute("draggable", "true");
+    item.addEventListener("dragstart", (e) => {
+      const screencaps = item.getAttribute("data-screencaps") || "";
+      const title = item.getAttribute("data-title") || "CASSETTE TAPE";
+      e.dataTransfer.setData("application/json", JSON.stringify({ title, screencaps }));
+    });
+  });
+
+  // Drag over slot highlight
+  vcrSlot.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    vcrSlot.classList.add("drag-over");
+  });
+
+  vcrSlot.addEventListener("dragleave", () => {
+    vcrSlot.classList.remove("drag-over");
+  });
+
+  // Handle Drop Action
+  vcrSlot.addEventListener("drop", (e) => {
+    e.preventDefault();
+    vcrSlot.classList.remove("drag-over");
+
+    const rawData = e.dataTransfer.getData("application/json");
+    if (!rawData) return;
+
+    const data = JSON.parse(rawData);
+
+    // Update VCR Status Header
+    if (vcrStatusText) {
+      vcrStatusText.innerText = `PLAYING // ${data.title.toUpperCase()}`;
+    }
+
+    // Populate screencaps grid
+    if (screencapsGrid) {
+      screencapsGrid.innerHTML = "";
+      const photos = data.screencaps ? data.screencaps.split(",") : [];
+
+      if (photos.length > 0) {
+        photos.forEach(url => {
+          const img = document.createElement("img");
+          img.src = url.trim();
+          img.alt = "Tape Screencap";
+          screencapsGrid.appendChild(img);
+        });
+      } else {
+        screencapsGrid.innerHTML = "<p style='color: #00ff41;'>[ NO SCREENCAPS AVAILABLE ]</p>";
+      }
+    }
+
+    // Expand top drawer to reveal pictures
+    if (drawer) {
+      drawer.classList.add("expanded");
+    }
+  });
+}
