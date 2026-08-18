@@ -2157,21 +2157,26 @@ body.no-eyestrain * {
   animation: none !important;
 }
 #toggle-eyestrain-btn {
-  position: relative;
-  z-index: 9999;
-  display: inline-block;
-  padding: 8px 16px;
-  background-color: #222;
-  color: #fff;
-  border: 1px solid #444;
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  background: rgba(10, 10, 20, 0.85);
+  color: #00f3ff;
+  border: 1px solid #00f3ff;
   border-radius: 4px;
+  padding: 6px 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   cursor: pointer;
-  font-family: inherit;
-  font-size: 0.9rem;
-  margin: 10px 0;
+  box-shadow: 0 0 8px rgba(0, 243, 255, 0.3);
+  transition: all 0.2s ease-in-out;
+  z-index: 1000;
 }
 
 #toggle-eyestrain-btn:hover {
-  background-color: #333;
-  border-color: #666;
+  background: #00f3ff;
+  color: #05050a;
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.8);
 }
