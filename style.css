@@ -2116,3 +2116,43 @@ body.analog-horror-mode::after,
   background-color: rgba(255, 0, 127, 0.15);
   box-shadow: 0 0 10px rgba(255, 0, 127, 0.7);
 }
+/* Eyestrain Toggle Button Style */
+.eyestrain-toggle-btn {
+  background: #111;
+  color: #00ff41;
+  border: 1px solid #00ff41;
+  padding: 6px 12px;
+  font-family: monospace;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.eyestrain-toggle-btn:hover {
+  background: #00ff41;
+  color: #000;
+}
+
+/* NO EYESTRAIN / ACCESSIBILITY MODE OVERRIDES */
+body.no-eyestrain {
+  animation: none !important;
+  text-shadow: none !important;
+}
+
+/* Disable flickering, scanlines, OSD overlay, and high-frequency effects */
+body.no-eyestrain #vhs-osd-overlay,
+body.no-eyestrain .crt-scanlines,
+body.no-eyestrain .glitch-effect,
+body.no-eyestrain ::before,
+body.no-eyestrain ::after {
+  animation: none !important;
+  opacity: 0.1 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* Keep text clear and easy to read */
+body.no-eyestrain * {
+  text-shadow: none !important;
+  animation: none !important;
+}
