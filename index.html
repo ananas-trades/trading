@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Bootleg Trading List</title>
-  <!-- Load PapaParse to read CSV files -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <!-- Cache-buster update -->
-  <link rel="stylesheet" href="style.css?v=7.0" />
-  <button id="toggle-eyestrain-btn" type="button">👁️ Toggle No-Eyestrain Mode</button>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Bootleg Trading List</title>
+  <!-- Load PapaParse to read CSV files -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <!-- Cache-buster update -->
+  <link rel="stylesheet" href="style.css?v=7.0" />
 </head>
 
 <body>
-  <!-- VHS On-Screen Display Overlay -->
-  <div id="vhs-osd-overlay">
-    <div class="osd-top-left">PLAY ▶</div>
-    <div class="osd-top-right" id="vhs-timestamp">00:00:00:00</div>
-    <div class="osd-bottom-left">SP 120 MIN</div>
-    <div class="osd-bottom-right">AUTO-TRACKING...</div>
-  </div>
+  <!-- VHS On-Screen Display Overlay -->
+  <div id="vhs-osd-overlay">
+    <div class="osd-top-left">PLAY ▶</div>
+    <div class="osd-top-right" id="vhs-timestamp">00:00:00:00</div>
+    <div class="osd-bottom-left">SP 120 MIN</div>
+    <div class="osd-bottom-right">AUTO-TRACKING...</div>
+  </div>
 
- <header class="container">
-  <h1>🎭 My Trading Collection</h1>
+ <header class="container">
+  <h1><span class="header-emoji" title="SYSTEM: Signal unstable (x2)...">🎭</span> My Trading Collection</h1>
   <div class="rules-box">
     <div class="rules-box-inner">
       <div class="rules-header">
@@ -36,104 +35,109 @@
         <li>Updated every 3-4 days.</li>
         <li>Respect all NFT dates and master restrictions.</li>
         <li>Bikinibottomday's bootlegs are only to be traded via email.</li>
+        <li><p class="lore-hint">• If the video signal acts up, hit the masks twice to reset the stream.</p></li>
       </ul>
     </div>
   </div>
 </header>
 
-  <main class="container">
-    <div class="controls">
-      <input type="text" id="search-input" placeholder="Search by show, cast, date, venue..." />
-<!-- Encora CSV Comparison Tool -->
-<div class="encora-compare-box">
-  <label for="encora-file-input" class="encora-upload-btn">
-    📂 Compare Encora CSV
-  </label>
-  <input type="file" id="encora-file-input" accept=".csv" style="display: none;" />
-  <span id="encora-status-msg" class="encora-status"></span>
-  <button type="button" id="clear-encora-btn" class="clear-encora-btn" style="display: none;">✕ Reset Filter</button>
-</div>
+  <main class="container">
+    <div class="controls">
+      <input type="text" id="search-input" placeholder="Search by show, cast, date, venue..." />
       
-      <!-- Primary Format Filters -->
-      <div class="filters">
-        <button type="button" class="filter-btn active" data-filter="all">All Formats</button>
-        <button type="button" class="filter-btn" data-filter="Video">Videos</button>
-        <button type="button" class="filter-btn" data-filter="Audio">Audios</button>
-      </div>
+      <!-- Encora CSV Comparison Tool -->
+      <div class="encora-compare-box">
+        <label for="encora-file-input" class="encora-upload-btn">
+          📂 Compare Encora CSV
+        </label>
+        <input type="file" id="encora-file-input" accept=".csv" style="display: none;" />
+        <span id="encora-status-msg" class="encora-status"></span>
+        <button type="button" id="clear-encora-btn" class="clear-encora-btn" style="display: none;">✕ Reset Filter</button>
+      </div>
+      
+      <!-- Primary Format Filters -->
+      <div class="filters">
+        <button type="button" class="filter-btn active" data-filter="all">All Formats</button>
+        <button type="button" class="filter-btn" data-filter="Video">Videos</button>
+        <button type="button" class="filter-btn" data-filter="Audio">Audios</button>
+      </div>
 
-      <!-- Category Location Filters -->
-      <div class="filters category-filters">
-        <button type="button" class="cat-btn active" data-category="all">All Locations</button>
-        <button type="button" class="cat-btn" data-category="broadway">Broadway</button>
-        <button type="button" class="cat-btn" data-category="off-broadway">Off-Broadway</button>
-        <button type="button" class="cat-btn" data-category="west end">West End</button>
-      </div>
-    </div>
+      <!-- Category Location Filters -->
+      <div class="filters category-filters">
+        <button type="button" class="cat-btn active" data-category="all">All Locations</button>
+        <button type="button" class="cat-btn" data-category="broadway">Broadway</button>
+        <button type="button" class="cat-btn" data-category="off-broadway">Off-Broadway</button>
+        <button type="button" class="cat-btn" data-category="west end">West End</button>
+      </div>
+    </div>
 
-    <div id="stats">Loading collection...</div>
-    <div id="card-container"></div>
+    <div id="stats">Loading collection...</div>
+    <div id="card-container"></div>
 
-    <!-- Scroll Sentinel for Infinite Loading -->
-    <div id="scroll-sentinel" style="height: 20px; margin-top: 20px;"></div>
-  </main>
+    <!-- Scroll Sentinel for Infinite Loading -->
+    <div id="scroll-sentinel" style="height: 20px; margin-top: 20px;"></div>
+  </main>
 
-  <!-- Scroll to Top Floating Button -->
-  <button type="button" id="scroll-top-btn" title="Back to Top">⬆ TOP</button>
+  <!-- Scroll to Top Floating Button -->
+  <button type="button" id="scroll-top-btn" title="Back to Top">⬆ TOP</button>
 
-  <!-- Floating Trade Cart Trigger Button -->
-  <button type="button" id="cart-toggle-btn" class="cart-toggle-btn">
-    🛒 Trade Request (<span id="cart-count">0</span>)
-  </button>
+  <!-- Floating Trade Cart Trigger Button -->
+  <button type="button" id="cart-toggle-btn" class="cart-toggle-btn">
+    🛒 Trade Request (<span id="cart-count">0</span>)
+  </button>
 
-  <!-- Slide-out Trade Drawer -->
-  <div id="trade-drawer" class="trade-drawer">
-    <div class="drawer-header">
-      <h2>🎭 Your Trade Request</h2>
-      <button type="button" id="close-drawer-btn" class="close-btn">&times;</button>
-    </div>
-    
-    <div class="drawer-body">
-      <div id="cart-items-container">
-        <p class="empty-cart-msg">No items added yet. Click "+ Add to Trade" on any item card!</p>
-      </div>
-    </div>
+  <!-- Slide-out Trade Drawer -->
+  <div id="trade-drawer" class="trade-drawer">
+    <div class="drawer-header">
+      <h2>🎭 Your Trade Request</h2>
+      <button type="button" id="close-drawer-btn" class="close-btn">&times;</button>
+    </div>
+    
+    <div class="drawer-body">
+      <div id="cart-items-container">
+        <p class="empty-cart-msg">No items added yet. Click "+ Add to Trade" on any item card!</p>
+      </div>
+    </div>
 
-    <div class="drawer-footer">
-      <div id="cart-summary-stats" class="cart-summary-stats">
-        Videos: <span id="cart-video-count">0</span> | Audios: <span id="cart-audio-count">0</span>
-      </div>
-      <div class="drawer-actions">
-        <button type="button" id="copy-trade-btn" class="action-btn">📋 Copy Request</button>
-        <button type="button" id="email-trade-btn" class="action-btn email-btn">✉️ Email Request</button>
-        <button type="button" id="clear-cart-btn" class="clear-btn">Clear All</button>
-      </div>
-    </div>
-  </div>
-  
-  <div id="drawer-overlay" class="drawer-overlay"></div>
+    <div class="drawer-footer">
+      <div id="cart-summary-stats" class="cart-summary-stats">
+        Videos: <span id="cart-video-count">0</span> | Audios: <span id="cart-audio-count">0</span>
+      </div>
+      <div class="drawer-actions">
+        <button type="button" id="copy-trade-btn" class="action-btn">📋 Copy Request</button>
+        <button type="button" id="email-trade-btn" class="action-btn email-btn">✉️ Email Request</button>
+        <button type="button" id="clear-cart-btn" class="clear-btn">Clear All</button>
+      </div>
+    </div>
+  </div>
+  
+  <div id="drawer-overlay" class="drawer-overlay"></div>
 
-  <!-- NATIVE NFT HORROR INTERCEPTOR MODAL (Top-Layer Element) -->
-  <dialog id="nft-horror-modal" class="nft-horror-overlay">
-    <div class="nft-horror-content">
-      <div class="nft-horror-header">
-        <span class="warning-symbol">⚠️</span>
-        <span id="nft-modal-tag" class="modal-tag">ERR_TEMPORAL_RESTRICTION</span>
-      </div>
-      
-      <div id="nft-glitch-text-container" class="glitch-text-box">
-        <p id="nft-horror-primary-text" class="horror-text-phase1"></p>
-      </div>
+  <!-- NATIVE NFT HORROR INTERCEPTOR MODAL (Top-Layer Element) -->
+  <dialog id="nft-horror-modal" class="nft-horror-overlay">
+    <div class="nft-horror-content">
+      <div class="nft-horror-header">
+        <span class="warning-symbol">⚠️</span>
+        <span id="nft-modal-tag" class="modal-tag">ERR_TEMPORAL_RESTRICTION</span>
+      </div>
+      
+      <div id="nft-glitch-text-container" class="glitch-text-box">
+        <p id="nft-horror-primary-text" class="horror-text-phase1"></p>
+      </div>
 
-      <div class="nft-horror-actions">
-        <button type="button" id="nft-force-access-btn" class="force-access-btn">[ FORCE ACCESS ]</button>
-        <button type="button" id="nft-abort-btn" class="abort-access-btn">[ ABORT SELECTION ]</button>
-      </div>
-    </div>
-  </dialog>
+      <div class="nft-horror-actions">
+        <button type="button" id="nft-force-access-btn" class="force-access-btn">[ FORCE ACCESS ]</button>
+        <button type="button" id="nft-abort-btn" class="abort-access-btn">[ ABORT SELECTION ]</button>
+      </div>
+    </div>
+  </dialog>
 
-  <script src="script.js?v=7.0"></script>
+  <!-- Toggle Button -->
+  <button id="toggle-eyestrain-btn" type="button">👁️ Toggle No-Eyestrain Mode</button>
+
+  <script src="script.js?v=7.0"></script>
   <footer class="y2k-watermark">
-  made by <span>ananas</span>
-</footer>
+    made by <span>ananas</span>
+  </footer>
 </body>
-</html>  
+</html>
