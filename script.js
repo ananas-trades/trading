@@ -1,37 +1,3 @@
-/* ============================================================
-   REALISTIC CASSETTE PLAYER INTERACTION CONTROLLER
-============================================================ */
-document.addEventListener("DOMContentLoaded", () => {
-  // Initialize VCR Drag & Drop Controller
-  initVhsStageEvents();
-
-  // ============================================================
-  // NO EYESTRAIN TOGGLE FUNCTIONALITY
-  // ============================================================
-  const eyestrainBtn = document.getElementById("toggle-eyestrain-btn");
-
-  if (eyestrainBtn) {
-    // Check if user previously saved their preference
-    if (localStorage.getItem("no_eyestrain_mode") === "enabled") {
-      document.body.classList.add("no-eyestrain");
-      eyestrainBtn.innerText = "📺 Enable CRT Effects";
-    }
-
-    eyestrainBtn.addEventListener("click", () => {
-      document.body.classList.toggle("no-eyestrain");
-      const isNoEyestrain = document.body.classList.contains("no-eyestrain");
-
-      if (isNoEyestrain) {
-        localStorage.setItem("no_eyestrain_mode", "enabled");
-        eyestrainBtn.innerText = "📺 Enable CRT Effects";
-      } else {
-        localStorage.setItem("no_eyestrain_mode", "disabled");
-        eyestrainBtn.innerText = "👁️ Toggle No-Eyestrain Mode";
-      }
-    });
-  }
-});
-
 let allData = [];
 let currentFilteredItems = [];
 let currentFilter = 'all';
@@ -838,6 +804,30 @@ function ensureCartButtonInBody() {
 document.addEventListener("DOMContentLoaded", () => {
   setupIntersectionObserver();
   ensureCartButtonInBody();
+   // ------------------------------------------------------------
+  // NO-EYESTRAIN TOGGLE ENGINE
+  // ------------------------------------------------------------
+  const eyestrainBtn = document.getElementById("toggle-eyestrain-btn");
+
+  if (eyestrainBtn) {
+    if (localStorage.getItem("no_eyestrain_mode") === "enabled") {
+      document.body.classList.add("no-eyestrain");
+      eyestrainBtn.innerText = "📺 Enable CRT Effects";
+    }
+
+    eyestrainBtn.addEventListener("click", () => {
+      document.body.classList.toggle("no-eyestrain");
+      const isNoEyestrain = document.body.classList.contains("no-eyestrain");
+
+      if (isNoEyestrain) {
+        localStorage.setItem("no_eyestrain_mode", "enabled");
+        eyestrainBtn.innerText = "📺 Enable CRT Effects";
+      } else {
+        localStorage.setItem("no_eyestrain_mode", "disabled");
+        eyestrainBtn.innerText = "👁️ Toggle No-Eyestrain Mode";
+      }
+    });
+  }
 
   // DELEGATED CLICK LISTENER
   document.body.addEventListener("click", (e) => {
