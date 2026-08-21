@@ -2181,210 +2181,160 @@ body.no-eyestrain * {
   box-shadow: 0 0 15px rgba(0, 243, 255, 0.8);
 }
 /* ===================================================
-   PARADISE LOST: SACRED RELIC & INFERNAL DECAY OVERHAUL
+   PARADISE LOST: MILTONIC ARCHITECTURE & FALLEN GRACE
    =================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=UnifrakturMaguntina&family=IM+Fell+English:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital,wght@0,400;0,700;1,400&display=swap');
 
-/* GLOBAL ATMOSPHERE: SCORCHED PARCHMENT & SULFUR VIGNETTE */
+/* 1. THE ABYSS & DARKNESS VISIBLE */
 body[data-theme="paradise-lost"] {
-  --bg-main: #040203 !important;
-  --text-main: #c4b5a2 !important;
-  --accent-color: #a31c1c !important;
+  --bg-main: #030203 !important;
+  --text-main: #bfae99 !important;
+  --accent-color: #9e1a1a !important;
   --gold-accent: #c29b38 !important;
-  --border-color: #4a1212 !important;
+  --border-color: #4a1010 !important;
   --font-family: 'IM Fell English', 'Times New Roman', serif !important;
 
-  background-color: #040203 !important;
+  background-color: #030203 !important;
+  /* Pandæmonium's Burning Lake Vignette */
   background-image: 
-    radial-gradient(circle at 50% 30%, #2b080c 0%, #0c0305 60%, #030102 95%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E") !important;
+    radial-gradient(circle at 50% 15%, #24070a 0%, #0a0304 55%, #020102 95%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E") !important;
   background-attachment: fixed !important;
-  color: #c4b5a2 !important;
-  font-family: 'IM Fell English', serif !important;
-  filter: contrast(115%) brightness(90%) !important;
+  color: var(--text-main) !important;
+  font-family: var(--font-family) !important;
 }
 
-/* STRIP ALL NEON GLOWS & RADIUS GENERALLY */
+/* 2. UNIVERSAL RESET FOR CLEAN TOME LAYOUT */
 body[data-theme="paradise-lost"] *,
 body[data-theme="paradise-lost"] *::before,
 body[data-theme="paradise-lost"] *::after {
   box-shadow: none !important;
   text-shadow: none !important;
   border-radius: 0px !important;
+  border-color: transparent;
 }
 
-/* 1. HEADINGS (BLOOD-RED BLACKLETTER WITH GOLD DROP-SHADOW) */
+/* 3. HEADINGS: TARNISHED ANGELIC GOLD */
 body[data-theme="paradise-lost"] h1,
 body[data-theme="paradise-lost"] h2,
-body[data-theme="paradise-lost"] h3 {
-  font-family: 'UnifrakturMaguntina', serif !important;
-  color: #b51f1f !important;
-  text-shadow: 1px 1px 0px #000, 0 0 8px rgba(181, 31, 31, 0.4) !important;
-  letter-spacing: 2px !important;
+body[data-theme="paradise-lost"] .header-title {
+  font-family: 'Cinzel Decorative', serif !important;
+  color: #c29b38 !important;
+  letter-spacing: 3px !important;
+  text-transform: uppercase !important;
 }
 
-/* 2. SACRED TOME CARDS (CHISELED DOUBLE BORDER & INFERNAL HOVER) */
-body[data-theme="paradise-lost"] .trade-card,
+body[data-theme="paradise-lost"] h3,
+body[data-theme="paradise-lost"] .trade-card h3 {
+  font-family: 'Cinzel Decorative', serif !important;
+  color: #a81c1c !important;
+  font-size: 1.15rem !important;
+  letter-spacing: 1px !important;
+}
+
+/* 4. THE ALTAR CONTAINERS (RULES & SECTIONS) */
 body[data-theme="paradise-lost"] .rules-box,
 body[data-theme="paradise-lost"] .section-box {
-  background: #080405 !important;
-  border: 1px solid #4a1212 !important;
+  background: #080305 !important;
+  border: 1px solid #4a1010 !important;
   outline: 2px double #c29b38 !important;
   outline-offset: -5px !important;
-  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.95), 0 0 15px rgba(0, 0, 0, 0.8) !important;
-  transition: all 0.3s ease !important;
+  padding: 24px !important;
+  position: relative !important;
+}
+
+/* Illuminated Book Initial (First Letter Drop Cap) */
+body[data-theme="paradise-lost"] .rules-box p::first-letter {
+  font-family: 'Cinzel Decorative', serif !important;
+  font-size: 2.6rem !important;
+  color: #c29b38 !important;
+  float: left !important;
+  line-height: 0.8 !important;
+  margin-right: 12px !important;
+  margin-top: 4px !important;
+}
+
+/* 5. CARDS: TARNISHED MANUSCRIPT ENTRIES */
+body[data-theme="paradise-lost"] .trade-card {
+  background: #060304 !important;
+  border: 1px solid #3b0a0a !important;
+  outline: 1px solid #735a22 !important;
+  outline-offset: -4px !important;
+  padding: 16px !important;
+  transition: all 0.25s ease !important;
 }
 
 body[data-theme="paradise-lost"] .trade-card:hover {
-  outline-color: #e6b845 !important;
+  background: #0d0406 !important;
   border-color: #8c1414 !important;
-  background: #0f0507 !important;
-  box-shadow: inset 0 0 30px rgba(163, 28, 28, 0.2), 0 0 15px rgba(194, 155, 56, 0.15) !important;
-  transform: translateY(-2deg);
+  outline-color: #c29b38 !important;
 }
 
-/* 3. TAGS & BADGES (BURNISHED BRASS & EMBER) */
-body[data-theme="paradise-lost"] .badge,
-body[data-theme="paradise-lost"] .format-tag,
-body[data-theme="paradise-lost"] span[class*="tag"] {
-  background: #1f0709 !important;
+/* Strip inner child borders completely */
+body[data-theme="paradise-lost"] .trade-card * {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
+/* 6. CORRUPTED BADGES (WAX SEALS / BRASS STAMPS) */
+body[data-theme="paradise-lost"] .trade-card .badge,
+body[data-theme="paradise-lost"] .trade-card .format-tag,
+body[data-theme="paradise-lost"] .trade-card span[class*="tag"] {
+  background: #170507 !important;
   color: #c29b38 !important;
-  border: 1px solid #4a1212 !important;
+  border: 1px solid #4a1010 !important;
   font-family: 'Cinzel Decorative', serif !important;
-  font-size: 0.65rem !important;
-  letter-spacing: 1px !important;
+  font-size: 0.6rem !important;
   padding: 3px 8px !important;
-  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  display: inline-block !important;
 }
 
-body[data-theme="paradise-lost"] span[class*="past"],
-body[data-theme="paradise-lost"] .status-tag {
-  background: #171005 !important;
-  color: #e6b845 !important;
-  border: 1px solid #c29b38 !important;
-}
-
-/* 4. BUTTONS & FLOATING CONTROLS (KILL THE BLUE TOP BUTTON) */
+/* 7. SACRED CONTROLS & BUTTONS */
 body[data-theme="paradise-lost"] button,
 body[data-theme="paradise-lost"] .filter-btn,
 body[data-theme="paradise-lost"] .cat-btn,
-body[data-theme="paradise-lost"] #top-btn,
-body[data-theme="paradise-lost"] .scroll-top-btn,
-body[data-theme="paradise-lost"] [class*="top"] {
-  background: #0a0406 !important;
+body[data-theme="paradise-lost"] #top-btn {
+  background: #050203 !important;
   color: #c29b38 !important;
-  border: 1px solid #4a1212 !important;
+  border: 1px solid #4a1010 !important;
   outline: 1px solid #c29b38 !important;
   outline-offset: -3px !important;
   font-family: 'Cinzel Decorative', serif !important;
-  letter-spacing: 1px !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 1.5px !important;
   text-transform: uppercase !important;
-  transition: all 0.2s ease !important;
+  padding: 8px 16px !important;
 }
 
 body[data-theme="paradise-lost"] .filter-btn.active,
 body[data-theme="paradise-lost"] .cat-btn.active {
-  background: #4a1212 !important;
+  background: #3b0a0a !important;
   color: #fff2d9 !important;
   outline-color: #e6b845 !important;
 }
 
-/* 5. SEARCH & INTERACTIVE INPUTS */
+/* 8. SEARCH BAR */
 body[data-theme="paradise-lost"] input[type="text"],
 body[data-theme="paradise-lost"] #search-input {
-  background: #050203 !important;
-  border: 1px solid #c29b38 !important;
-  color: #c4b5a2 !important;
+  background: #040203 !important;
+  border: 1px solid #735a22 !important;
+  color: #bfae99 !important;
   font-family: 'IM Fell English', serif !important;
   font-style: italic !important;
   padding: 10px 14px !important;
 }
 
-body[data-theme="paradise-lost"] #stats {
+/* 9. LASAGNA APPROVED SEAL OVERRIDE */
+body[data-theme="paradise-lost"] .y2k-approved-badge,
+body[data-theme="paradise-lost"] .lasagna-relic-seal,
+body[data-theme="paradise-lost"] [class*="approved"] {
+  background: #2b0505 !important;
   color: #c29b38 !important;
+  border: 1px double #c29b38 !important;
   font-family: 'Cinzel Decorative', serif !important;
-  letter-spacing: 2px !important;
-}
-
-/* 6. CORNER ORNAMENTS FOR CARDS */
-body[data-theme="paradise-lost"] .trade-card::before {
-  content: "✦";
-  position: absolute;
-  top: 4px;
-  right: 6px;
-  color: #c29b38;
-  font-size: 0.7rem;
-  opacity: 0.6;
-}
-/* RESET ALL INNER ELEMENT BORDERS INSIDE CARDS */
-body[data-theme="paradise-lost"] .trade-card * {
-  outline: none !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* APPLY BORDER ONLY TO THE OUTER CARD CONTAINER */
-body[data-theme="paradise-lost"] .trade-card {
-  border: 1px solid #4a1212 !important;
-  outline: 2px solid #8c6e30 !important;
-  outline-offset: -4px !important;
-  background: #080406 !important;
-}
-
-/* KEEP SPECIFIC BADGES/TAGS DISTINCT WITHOUT FULL OUTLINES */
-body[data-theme="paradise-lost"] .trade-card .badge,
-body[data-theme="paradise-lost"] .trade-card .format-tag,
-body[data-theme="paradise-lost"] .trade-card span[class*="tag"] {
-  background: #1f0709 !important;
-  color: #c29b38 !important;
-  border: 1px solid #3b0c0c !important;
-  padding: 2px 6px !important;
-}
-/* ===================================================
-   PARADISE LOST: CLEAN RELIC OVERRIDE
-   =================================================== */
-
-/* 1. ROOT THEME VARIABLES */
-body[data-theme="paradise-lost"] {
-  --bg-main: #050304 !important;
-  --text-main: #b8a68f !important;
-  --accent-color: #8c1414 !important;
-  --gold-accent: #8c6e30 !important;
-  background-color: #050304 !important;
-  color: #b8a68f !important;
-  font-family: 'Times New Roman', serif !important;
-}
-
-/* 2. CARD CONTAINERS ONLY (NO CHILD INHERITANCE) */
-body[data-theme="paradise-lost"] .trade-card {
-  background: #080406 !important;
-  border: 1px solid #3b0c0c !important;
-  outline: 2px solid #8c6e30 !important;
-  outline-offset: -4px !important;
-  box-shadow: none !important;
-}
-
-/* 3. STRIP ALL BORDERS AND OUTLINES FROM CARD CHILDREN */
-body[data-theme="paradise-lost"] .trade-card * {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
-}
-
-/* 4. RESTORE ONLY SPECIFIC BADGES & TAGS */
-body[data-theme="paradise-lost"] .trade-card .badge,
-body[data-theme="paradise-lost"] .trade-card .format-tag,
-body[data-theme="paradise-lost"] .trade-card span[class*="tag"] {
-  background: #1f0507 !important;
-  color: #8c6e30 !important;
-  border: 1px solid #3b0c0c !important;
-  padding: 2px 6px !important;
-}
-
-/* 5. FIX HEADINGS INSIDE CARDS */
-body[data-theme="paradise-lost"] .trade-card h3 {
-  color: #a81e1e !important;
-  font-size: 1.25rem !important;
+  font-size: 0.65rem !important;
+  padding: 4px 12px !important;
 }
