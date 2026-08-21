@@ -2263,3 +2263,77 @@ body.paradise-lost #stats,
 body[data-theme="paradise-lost"] #stats {
   color: #c29b38 !important;
 }
+/* ===================================================
+   UNCONDITIONAL PARADISE LOST OVERRIDE (GLOBAL RESET)
+   =================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital,wght@0,400;0,700;1,400&display=swap');
+
+/* 1. FORCE CORE CANVAS */
+html, body {
+  background-color: #030203 !important;
+  color: #bfae99 !important;
+  font-family: 'IM Fell English', 'Times New Roman', serif !important;
+}
+
+/* 2. KILL ALL NEON GLOWS & CYAN BORDERS GLOBALLY */
+*, *::before, *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-color: #3b0a0a !important;
+}
+
+/* 3. FORCE HEADINGS TO GOLD & CRIMSON */
+h1, h2, h3, h4, 
+[class*="title"], 
+[id*="title"] {
+  font-family: 'Cinzel Decorative', serif !important;
+  color: #c29b38 !important;
+  letter-spacing: 2px !important;
+}
+
+/* 4. OVERRIDE ALL BUTTONS & BADGES (CYAN / PILL STRIPPER) */
+button, 
+.btn, 
+[class*="btn"], 
+[class*="badge"], 
+[class*="approved"], 
+#top-btn, 
+[class*="trade-request"] {
+  background: #080305 !important;
+  color: #c29b38 !important;
+  border: 1px solid #4a1010 !important;
+  outline: 1px solid #c29b38 !important;
+  outline-offset: -3px !important;
+  border-radius: 0px !important;
+  font-family: 'Cinzel Decorative', serif !important;
+}
+
+/* 5. OVERRIDE MAIN CONTAINER BOXES & RULES */
+fieldset, 
+div[class*="rules"], 
+div[class*="contact"], 
+div[class*="box"] {
+  background: #060304 !important;
+  border: 1px solid #3b0a0a !important;
+  outline: 2px double #c29b38 !important;
+  outline-offset: -5px !important;
+  border-radius: 0px !important;
+}
+
+/* 6. CLEAN CARD CONTAINERS & STRIP INNER NESTED BORDERS */
+.trade-card, 
+div[class*="card"] {
+  background: #060304 !important;
+  border: 1px solid #3b0a0a !important;
+  outline: 1px solid #735a22 !important;
+  outline-offset: -4px !important;
+  border-radius: 0px !important;
+}
+
+.trade-card *, 
+div[class*="card"] * {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
