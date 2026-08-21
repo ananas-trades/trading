@@ -3123,3 +3123,36 @@ body.eyestrain-mode {
   color: #e0e0e0 !important;
   font-family: system-ui, -apple-system, sans-serif !important;
 }
+/* Sacred Relic Seal Override */
+.lasagna-relic-seal,
+.y2k-approved-badge {
+  background: radial-gradient(circle, #1a1208 0%, #080502 100%) !important;
+  border: 1px solid #c5a059 !important;
+  box-shadow: 
+    0 0 8px rgba(197, 160, 89, 0.2),
+    inset 0 0 6px rgba(0, 0, 0, 0.9) !important;
+  border-radius: 3px !important;
+  padding: 6px 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Icons inside the Seal */
+.lasagna-relic-seal .seal-icon,
+.lasagna-relic-seal span:not(.seal-text) {
+  color: #c5a059 !important;
+  font-size: 0.9rem !important;
+  text-shadow: none !important;
+}
+
+/* Text inside the Seal */
+.lasagna-relic-seal .seal-text,
+.lasagna-relic-seal {
+  color: #d4c5b0 !important;
+  font-family: 'Cinzel', 'IM Fell English', serif !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  text-shadow: none !important;
+}
