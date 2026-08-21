@@ -3045,3 +3045,81 @@ body::after {
   pointer-events: none;
   z-index: 0;
 }
+/* ============================================================
+   TRUE PANDEMONIUM: OBSIDIAN, SULPHUR & BRASS
+   ============================================================ */
+
+/* 1. Main Item Cards (Obsidian Citadel Blocks) */
+.card, .item-card, div[style*="border"] {
+  background: #080303 !important;
+  border: 1px solid #3d0e0e !important; /* Muted deep crimson, no double lines */
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.95),
+    inset 0 0 15px rgba(20, 2, 2, 0.8) !important;
+  border-radius: 2px !important;
+}
+
+/* Hover state: Smoldering embers, not neon glow */
+.card:hover, .item-card:hover {
+  border-color: #7a1a1a !important;
+  box-shadow: 
+    0 12px 30px rgba(0, 0, 0, 0.98),
+    0 0 15px rgba(122, 26, 26, 0.4) !important;
+}
+
+/* 2. Kill the Neon Red Inner Outlines on Nested Boxes */
+.card *, .item-card * {
+  border-color: rgba(90, 15, 15, 0.4) !important; /* Dim inner dividers */
+  box-shadow: none !important; /* Strip interior glowing outlines */
+}
+
+/* 3. Fix the Cyan Text Labels (Cast / Master Notes) */
+.card span[style*="cyan"],
+.card b,
+.card strong,
+.card div:has(> b) {
+  color: #dca342 !important; /* Sulphurous Muted Gold instead of Cyan */
+  text-shadow: none !important;
+}
+
+/* 4. Fix Floating "↑ TOP" Button (Reset from Cyan to Celestial Gold) */
+.top-btn, 
+button[style*="TOP"], 
+#top-button,
+a[href*="#top"] {
+  background: #030a16 !important;
+  border: 1px solid #c5a059 !important;
+  color: #c5a059 !important;
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.25) !important;
+  text-shadow: none !important;
+}
+
+/* 5. Trade Request Bar (Oxidized Iron & Gold) */
+button[class*="trade"], 
+.trade-request,
+button:has(span) {
+  background: linear-gradient(180deg, #1c0505 0%, #080101 100%) !important;
+  border: 1px solid #6e1616 !important;
+  color: #c5a059 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.9) !important;
+}
+/* Ensure the base body defaults STRICTLY to Paradise Lost */
+body {
+  margin: 0;
+  background: linear-gradient(
+    180deg, 
+    #030a16 0%,    /* Empyrean */
+    #050505 30%,   /* Chaos */
+    #140202 100%   /* Pandemonium */
+  ) !important;
+  color: #d4c5b0 !important;
+  font-family: 'IM Fell English', 'Georgia', serif !important;
+}
+
+/* Ensure Eyestrain Mode only triggers when explicitly active */
+html.eyestrain-mode body,
+body.eyestrain-mode {
+  background: #121212 !important;
+  color: #e0e0e0 !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+}
