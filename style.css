@@ -2180,3 +2180,175 @@ body.no-eyestrain * {
   color: #05050a;
   box-shadow: 0 0 15px rgba(0, 243, 255, 0.8);
 }
+/* ===================================================
+   MULTIVERSE ENGINE: 3 MODES SETUP
+   =================================================== */
+
+/* MODE 1: CYBERPUNK Y2K (DEFAULT) */
+body[data-theme="cyberpunk"] {
+  --bg-main: #0a0b10;
+  --text-main: #00ffcc;
+  --accent-color: #ff007f;
+  --border-color: #00f0ff;
+  --font-family: 'Courier New', monospace;
+  
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  box-shadow: inset 0 0 100px rgba(0, 240, 255, 0.1);
+}
+
+/* MODE 2: ANALOG HORROR (DOUBLE-CLICK EASTER EGG) */
+body[data-theme="analog"] {
+  --bg-main: #050705;
+  --text-main: #a3b899;
+  --accent-color: #3f5e38;
+  --border-color: #273b23;
+  --font-family: 'VT323', monospace;
+
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  filter: contrast(110%) brightness(90%);
+}
+
+/* CRT Overlay for Analog Mode */
+body[data-theme="analog"]::after {
+  content: " ";
+  position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* MODE 3: PARADISE LOST (BIBLICAL RUIN) */
+body[data-theme="paradise-lost"] {
+  --bg-main: #060407;
+  --text-main: #c4b8aa;
+  --accent-color: #7a1c1c;
+  --gold-accent: #b89335;
+  --border-color: #3b1010;
+  --font-family: 'Times New Roman', serif;
+
+  background: radial-gradient(circle at center, #14080a 0%, #060407 100%);
+  color: var(--text-main);
+  font-family: var(--font-family);
+}
+
+/* ===================================================
+   INTERACTIVE BUTTONS & BADGES
+   =================================================== */
+
+/* "Abandon All Hope" Trigger Button */
+.abandon-btn {
+  background: #000;
+  color: var(--accent-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  cursor: pointer;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.abandon-btn:hover {
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* Lasagna Relic Seal (Paradise Lost Variant) */
+body[data-theme="paradise-lost"] .lasagna-relic-seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--gold-accent);
+  background: rgba(184, 147, 53, 0.08);
+  color: var(--gold-accent);
+  padding: 4px 10px;
+  font-family: 'Times New Roman', serif;
+  font-size: 0.75rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* ===================================================
+   PARADISE LOST: SACRED & BIBLICAL AESTHETICS
+   =================================================== */
+
+/* 1. Sacred Framing for Containers, Tables, & Cards */
+body[data-theme="paradise-lost"] .trade-card,
+body[data-theme="paradise-lost"] .section-box,
+body[data-theme="paradise-lost"] table {
+  border: 1px solid var(--border-color) !important;
+  outline: 1px solid var(--gold-accent) !important;
+  outline-offset: -4px;
+  background: rgba(10, 8, 13, 0.85);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 10px rgba(122, 28, 28, 0.3);
+}
+
+/* 2. Biblical Latin Epigraphs */
+.latin-epigraph {
+  display: block;
+  font-family: 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-align: center;
+  color: #7a1c1c;
+  opacity: 0.45;
+  margin: 15px 0;
+  text-transform: uppercase;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Background Corner Watermark (Paradise Lost Mode Only) */
+body[data-theme="paradise-lost"]::before {
+  content: "IN PRINCIPIO ERAT VERBUM • FACTA EST LUX • DESCENDIT AD INFERNOS";
+  position: fixed;
+  bottom: 10px;
+  right: 15px;
+  font-family: 'Times New Roman', serif;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: var(--gold-accent);
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* 3. Flickering Votive Light (Candlelight Glow Animation) */
+@keyframes votiveFlicker {
+  0% {
+    box-shadow: 0 0 12px rgba(184, 147, 53, 0.25), 0 0 25px rgba(122, 28, 28, 0.3);
+  }
+  25% {
+    box-shadow: 0 0 18px rgba(184, 147, 53, 0.4), 0 0 35px rgba(122, 28, 28, 0.5);
+  }
+  40% {
+    box-shadow: 0 0 10px rgba(184, 147, 53, 0.2), 0 0 20px rgba(122, 28, 28, 0.25);
+  }
+  60% {
+    box-shadow: 0 0 22px rgba(184, 147, 53, 0.45), 0 0 40px rgba(122, 28, 28, 0.6);
+  }
+  80% {
+    box-shadow: 0 0 14px rgba(184, 147, 53, 0.3), 0 0 28px rgba(122, 28, 28, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 12px rgba(184, 147, 53, 0.25), 0 0 25px rgba(122, 28, 28, 0.3);
+  }
+}
+
+/* Apply flickering votive glow to key items in Paradise Lost mode */
+body[data-theme="paradise-lost"] .votive-glow,
+body[data-theme="paradise-lost"] .lasagna-relic-seal,
+body[data-theme="paradise-lost"] h1 {
+  animation: votiveFlicker 3s infinite ease-in-out;
+  border-radius: 4px;
+}
