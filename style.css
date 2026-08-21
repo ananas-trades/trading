@@ -2460,104 +2460,94 @@ body.paradise-lost-mode .star-accent {
   text-shadow: 0 0 8px #ffd700, 0 0 12px #fff !important;
 }
 /* ============================================================
-   PARADISE LOST: EDEN ARTWORK BACKGROUND (TOP SECTION ONLY)
+   PARADISE LOST THEME ONLY: SCOPED OVERRIDES
    ============================================================ */
 
-[data-theme="paradise-lost"] #trading-rules-box,
-[data-theme="paradise-lost"] .trading-rules,
-body.paradise-lost-mode #trading-rules-box,
-body.paradise-lost-mode .trading-rules {
-  background-image: 
-    linear-gradient(rgba(11, 26, 48, 0.82), rgba(3, 8, 20, 0.90)), 
-    url("https://themasterstable.blog/wp-content/uploads/2012/07/adam-eve-serpent.jpg") !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-}
-/* ============================================================
-   PARADISE LOST: HEAVEN (TOP) vs. HELL (CARDS) OVERRIDE
-   ============================================================ */
+/* Target Paradise Lost / Analog Horror Mode specifically */
+body.analog-horror-mode,
+[data-theme="paradise-lost"] {
 
-/* --- 1. HEAVEN: TOP CONTAINER & EDEN ARTWORK --- */
-body #main-header,
-body .header-container,
-body #trading-rules-box,
-body .trading-rules,
-div[class*="header"],
-div[class*="rules"] {
-  background: 
-    linear-gradient(rgba(11, 26, 48, 0.70), rgba(3, 8, 20, 0.85)), 
-    url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg/500px-Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg") center/cover no-repeat !important;
-  border: 2px solid #ffd700 !important;
-  outline: 1px solid #4169e1 !important;
-  outline-offset: -5px;
-  box-shadow: 0 0 25px rgba(65, 105, 225, 0.5), inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
-}
+  /* 1. HEAVEN: TOP CONTAINER & EDEN ARTWORK */
+  & #main-header,
+  & .header-container,
+  & #trading-rules-box,
+  & .trading-rules,
+  & div[class*="header"],
+  & div[class*="rules"] {
+    background: 
+      linear-gradient(rgba(11, 26, 48, 0.70), rgba(3, 8, 20, 0.85)), 
+      url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg/500px-Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg") center/cover no-repeat !important;
+    border: 2px solid #ffd700 !important;
+    outline: 1px solid #4169e1 !important;
+    outline-offset: -5px;
+    box-shadow: 0 0 25px rgba(65, 105, 225, 0.5), inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
+  }
 
-/* Heavenly Header Glowing Text */
-body h1, 
-body .site-title,
-#trading-rules-box h2 {
-  color: #fff8dc !important;
-  text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00, 0 0 30px rgba(255, 255, 255, 0.8) !important;
-}
+  /* Heavenly Header Glowing Text */
+  & h1, 
+  & .site-title,
+  & #trading-rules-box h2 {
+    color: #fff8dc !important;
+    text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00, 0 0 30px rgba(255, 255, 255, 0.8) !important;
+  }
 
-/* Replace Cyan Buttons with Angelic Sapphire/Gold */
-#top-button, 
-.back-to-top, 
-.eyestrain-btn,
-button[id*="top"] {
-  background: linear-gradient(180deg, #102a45 0%, #050e1a 100%) !important;
-  border: 1px solid #ffd700 !important;
-  color: #f0e68c !important;
-  box-shadow: 0 0 12px rgba(65, 105, 225, 0.6) !important;
-  text-shadow: 0 0 5px #ffd700 !important;
-}
+  /* Angelic Sapphire/Gold Controls */
+  & #top-button, 
+  & .back-to-top, 
+  & .eyestrain-btn,
+  & button[id*="top"] {
+    background: linear-gradient(180deg, #102a45 0%, #050e1a 100%) !important;
+    border: 1px solid #ffd700 !important;
+    color: #f0e68c !important;
+    box-shadow: 0 0 12px rgba(65, 105, 225, 0.6) !important;
+    text-shadow: 0 0 5px #ffd700 !important;
+  }
 
-/* --- 2. HELL: FILTER BUTTONS & ITEM CARDS BELOW --- */
-body .item-card, 
-body .card, 
-body .card-container,
-div[class*="card"] {
-  background: radial-gradient(circle, rgba(25, 4, 7, 0.95) 0%, rgba(5, 1, 2, 0.98) 100%) !important;
-  border: 2px solid #8b0000 !important;
-  outline: 1px solid #ff4500 !important;
-  outline-offset: -5px;
-  color: #d4af37 !important;
-  box-shadow: 0 0 20px rgba(139, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
-}
+  /* 2. HELL: FILTER BUTTONS & ITEM CARDS BELOW */
+  & .item-card, 
+  & .card, 
+  & .card-container,
+  & div[class*="card"] {
+    background: radial-gradient(circle, rgba(25, 4, 7, 0.95) 0%, rgba(5, 1, 2, 0.98) 100%) !important;
+    border: 2px solid #8b0000 !important;
+    outline: 1px solid #ff4500 !important;
+    outline-offset: -5px;
+    color: #d4af37 !important;
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
+  }
 
-/* Infernal Card Titles */
-body .item-card h3, 
-body .card h3 {
-  color: #ff6347 !important;
-  text-shadow: 0 0 8px rgba(139, 0, 0, 0.8) !important;
-}
+  /* Infernal Card Titles */
+  & .item-card h3, 
+  & .card h3 {
+    color: #ff6347 !important;
+    text-shadow: 0 0 8px rgba(139, 0, 0, 0.8) !important;
+  }
 
-/* Fiery Red Filter Navigation Buttons */
-body .filter-btn, 
-body .category-btn, 
-button[class*="filter"] {
-  background: linear-gradient(180deg, #2b0000 0%, #0f0000 100%) !important;
-  border: 1px solid #8b0000 !important;
-  color: #d4af37 !important;
-  box-shadow: 0 0 8px rgba(139, 0, 0, 0.5) !important;
-}
+  /* Fiery Navigation Buttons */
+  & .filter-btn, 
+  & .category-btn, 
+  & button[class*="filter"] {
+    background: linear-gradient(180deg, #2b0000 0%, #0f0000 100%) !important;
+    border: 1px solid #8b0000 !important;
+    color: #d4af37 !important;
+    box-shadow: 0 0 8px rgba(139, 0, 0, 0.5) !important;
+  }
 
-body .filter-btn:hover, 
-body .filter-btn.active {
-  background: linear-gradient(180deg, #5e0000 0%, #1f0000 100%) !important;
-  border-color: #ff4500 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 15px rgba(255, 69, 0, 0.8) !important;
-}
+  & .filter-btn:hover, 
+  & .filter-btn.active {
+    background: linear-gradient(180deg, #5e0000 0%, #1f0000 100%) !important;
+    border-color: #ff4500 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.8) !important;
+  }
 
-/* Trade Request Bar */
-#trade-request-btn, 
-.trade-request-btn, 
-div[class*="trade-request"] {
-  background: linear-gradient(180deg, #3a0000 0%, #0f0000 100%) !important;
-  border: 1px solid #ff4500 !important;
-  color: #ffd700 !important;
-  box-shadow: 0 0 15px rgba(255, 69, 0, 0.6) !important;
+  /* Trade Request Floating Bar */
+  & #trade-request-btn, 
+  & .trade-request-btn, 
+  & div[class*="trade-request"] {
+    background: linear-gradient(180deg, #3a0000 0%, #0f0000 100%) !important;
+    border: 1px solid #ff4500 !important;
+    color: #ffd700 !important;
+    box-shadow: 0 0 15px rgba(255, 69, 0, 0.6) !important;
+  }
 }
