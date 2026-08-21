@@ -2441,3 +2441,53 @@ a:hover {
   color: #e6b845 !important;
   border-bottom-style: solid !important;
 }
+/* ===================================================
+   PARADISE LOST: ZERO GLOW & ZERO CYAN OVERRIDE
+   =================================================== */
+
+/* 1. STRIP ALL GLOWS GLOBALLY IN PARADISE LOST */
+body[data-theme="paradise-lost"] *,
+body.paradise-lost * {
+  text-shadow: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* 2. OVERRIDE FLOATING TOP BUTTON (KILL CYAN NEON) */
+body[data-theme="paradise-lost"] #top-btn,
+body[data-theme="paradise-lost"] [class*="top"],
+body.paradise-lost #top-btn,
+body.paradise-lost [class*="top"] {
+  background: #080305 !important;
+  color: #c29b38 !important;
+  border: 1px solid #735a22 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* 3. OVERRIDE LASAGNA APPROVED / BADGES (KILL CYAN/MAGENTA) */
+body[data-theme="paradise-lost"] [class*="approved"],
+body[data-theme="paradise-lost"] .lasagna-relic-seal,
+body.paradise-lost [class*="approved"],
+body.paradise-lost .lasagna-relic-seal {
+  background: #170507 !important;
+  color: #c29b38 !important;
+  border: 1px solid #4a1010 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+body[data-theme="paradise-lost"] [class*="approved"] *,
+body.paradise-lost [class*="approved"] * {
+  color: #c29b38 !important;
+  text-shadow: none !important;
+}
+
+/* 4. OVERRIDE STATS COUNTER ("SHOWING X ITEMS") */
+body[data-theme="paradise-lost"] #stats,
+body[data-theme="paradise-lost"] .stats-count,
+body.paradise-lost #stats,
+body.paradise-lost .stats-count {
+  color: #c29b38 !important;
+  text-shadow: none !important;
+}
