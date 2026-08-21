@@ -2798,59 +2798,21 @@ button[style*="TOP"],
   color: #ffd700 !important;
   box-shadow: 0 0 12px rgba(255, 215, 0, 0.4) !important;
 }
-/* ============================================================
-   EMPYREAN CATHEDRAL STAINED GLASS (Scoped & Fixed)
-   ============================================================ */
-
-/* 1. Celestial Header Container */
+/* Clean, Readable Celestial Header (No Distracting Grids) */
 .trading-rules-container, 
 div[class*="rules"], 
 .header-box {
   position: relative !important;
-  background: radial-gradient(circle at 50% 30%, #0d1b2a 0%, #050a14 100%) !important;
-  border: 3px solid #e0a96d !important; /* Authentic Warm Gold */
+  background: radial-gradient(circle at 50% 0%, #0d1726 0%, #050a12 100%) !important;
+  border: 2px solid #c5a059 !important; /* Elegant Muted Gold */
   box-shadow: 
-    0 0 25px rgba(224, 169, 109, 0.3),
-    inset 0 0 40px rgba(100, 149, 237, 0.2) !important;
-  overflow: hidden !important;
+    0 0 15px rgba(197, 160, 89, 0.15),
+    inset 0 0 25px rgba(100, 149, 237, 0.08) !important;
 }
 
-/* 2. Bold, Visible Stained Glass Geometric Lattice */
+/* Remove the harsh lattice lines entirely */
 .trading-rules-container::before,
 div[class*="rules"]::before,
 .header-box::before {
-  content: "" !important;
-  position: absolute !important;
-  top: 0; left: 0; right: 0; bottom: 0 !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
-  opacity: 0.35 !important; /* High Visibility */
-  background-image: 
-    /* Cathedral Rosette & Diamond Lattice */
-    repeating-linear-gradient(45deg, #e0a96d 0, #e0a96d 1px, transparent 0, transparent 50px),
-    repeating-linear-gradient(-45deg, #e0a96d 0, #e0a96d 1px, transparent 0, transparent 50px),
-    radial-gradient(circle at 50% 50%, rgba(65, 105, 225, 0.4) 0%, rgba(138, 43, 226, 0.3) 40%, transparent 70%) !important;
-  background-size: 70px 70px, 70px 70px, 100% 100% !important;
-  mix-blend-mode: screen !important;
-}
-
-/* 3. Ensure Text Remains Sharp Above Glass Overlay */
-.trading-rules-container *, 
-div[class*="rules"] *, 
-.header-box * {
-  position: relative !important;
-  z-index: 2 !important;
-}
-
-/* 4. Kill Neon/Cyberpunk Overrides on Buttons & Cyan Glows */
-button, input, a {
-  text-shadow: none !important;
-}
-
-/* Reset Top Ascension Button to Warm Heavenly Gold (Not Cyan) */
-.top-btn, button[style*="TOP"], #top-button {
-  border: 1px solid #e0a96d !important;
-  color: #f0e68c !important;
-  background: #0d1b2a !important;
-  box-shadow: 0 0 10px rgba(224, 169, 109, 0.4) !important;
+  display: none !important;
 }
