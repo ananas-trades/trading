@@ -3,17 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
- <!-- Set your browser tab title -->
-<title>Better to Reign in Hell — Paradise Lost Trades</title>
+  
+  <!-- Set browser tab title -->
+  <title>Better to Reign in Hell than Serve in Heaven</title>
 
-<!-- Import classical typography for Paradise Lost -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <!-- Prevent theme-flash on load (Defaults to Paradise Lost) -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('eyestrainMode');
+      if (savedTheme === 'enabled') {
+        document.documentElement.classList.add('eyestrain-mode');
+      }
+    })();
+  </script>
+
+  <!-- Import classical typography for Paradise Lost -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  
   <!-- Load PapaParse to read CSV files -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  
   <!-- Cache-buster update -->
-  <link rel="stylesheet" href="style.css?v=7.0" />
+  <link rel="stylesheet" href="style.css?v=8.0" />
 </head>
 
 <body>
@@ -29,7 +42,7 @@
     <div class="header-top-row">
       <!-- PARADISE LOST GATEWAY TRIGGER -->
       <button id="paradise-btn" type="button" class="abandon-btn" onclick="triggerParadiseLost()">
-        ABANDON ALL HOPE
+        ❖ Legacy model
       </button>
     </div>
 
@@ -40,7 +53,7 @@
         <div class="rules-header">
           <h2>Trading Rules & Contact</h2>
           
-          <!-- Lasagna Seal (Adapts dynamically across all 3 modes via CSS) -->
+          <!-- Lasagna Seal -->
           <div class="lasagna-relic-seal y2k-approved-badge">
             <span class="seal-icon">✝</span>
             <span class="seal-text">Lasagna Approved</span>
@@ -63,12 +76,12 @@
 
   <main class="container">
     <div class="controls">
-      <input type="text" id="search-input" placeholder="Search by show, cast, date, venue..." />
+      <input type="text" id="search-input" placeholder="Search the Hall of Pandemonium (show, cast, date)..." />
       
       <!-- Encora CSV Comparison Tool -->
       <div class="encora-compare-box">
         <label for="encora-file-input" class="encora-upload-btn">
-          📂 Compare Encora CSV
+          📜 Compare Encora CSV
         </label>
         <input type="file" id="encora-file-input" accept=".csv" style="display: none;" />
         <span id="encora-status-msg" class="encora-status"></span>
@@ -99,11 +112,11 @@
   </main>
 
   <!-- Scroll to Top Floating Button -->
-  <button type="button" id="scroll-top-btn" title="Back to Top">⬆ TOP</button>
+  <button type="button" id="scroll-top-btn" title="Back to Top">⬆ ASCEND</button>
 
   <!-- Floating Trade Cart Trigger Button -->
   <button type="button" id="cart-toggle-btn" class="cart-toggle-btn">
-    🛒 Trade Request (<span id="cart-count">0</span>)
+    🏛️ Trade Request (<span id="cart-count">0</span>)
   </button>
 
   <!-- Slide-out Trade Drawer -->
@@ -133,7 +146,7 @@
   
   <div id="drawer-overlay" class="drawer-overlay"></div>
 
-  <!-- NATIVE NFT HORROR INTERCEPTOR MODAL (Top-Layer Element) -->
+  <!-- NATIVE NFT HORROR INTERCEPTOR MODAL -->
   <dialog id="nft-horror-modal" class="nft-horror-overlay">
     <div class="nft-horror-content">
       <div class="nft-horror-header">
@@ -153,9 +166,9 @@
   </dialog>
 
   <!-- Toggle Eyestrain Button -->
-  <button id="toggle-eyestrain-btn" type="button">👁️ Toggle No-Eyestrain Mode</button>
+  <button id="toggle-eyestrain-btn" type="button" onclick="toggleEyestrainMode()">👁️ Toggle No-Eyestrain Mode</button>
 
-  <script src="script.js?v=7.0"></script>
+  <script src="script.js?v=8.0"></script>
   
   <footer class="y2k-watermark">
     <div class="latin-epigraph">Descendit Ad Infernos • Facta Est Lux</div>
