@@ -1997,687 +1997,124 @@ body.no-eyestrain * {
   box-shadow: 0 0 15px rgba(0, 243, 255, 0.8);
 }
 
-/* ===================================================
-   PARADISE LOST (STRICTLY SCOPED - LEAVES CYBERPUNK INTACT)
-   =================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital,wght@0,400;0,700;1,400&display=swap');
-
-/* 1. CANVAS & FONTS */
-body.paradise-lost,
-body[data-theme="paradise-lost"] {
-  --bg-main: #030203 !important;
-  --text-main: #bfae99 !important;
-  --accent-color: #8c1414 !important;
-  --gold-accent: #c29b38 !important;
-  --border-color: #3b0a0a !important;
-  --font-family: 'IM Fell English', 'Times New Roman', serif !important;
-
-  background-color: #030203 !important;
-  background-image: 
-    radial-gradient(circle at 50% 10%, #2b070a 0%, #0a0304 50%, #020102 95%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E") !important;
-  background-attachment: fixed !important;
-  color: #bfae99 !important;
-  font-family: 'IM Fell English', 'Times New Roman', serif !important;
-}
-
-/* Strip glows globally in Paradise Lost */
-body[data-theme="paradise-lost"] *,
-body.paradise-lost * {
-  text-shadow: none !important;
-  box-shadow: none !important;
-  filter: none !important;
-}
-
-/* 2. HEADINGS & TITLES */
-body.paradise-lost h1,
-body.paradise-lost h2,
-body.paradise-lost h3,
-body.paradise-lost [class*="title"],
-body[data-theme="paradise-lost"] h1,
-body[data-theme="paradise-lost"] h2,
-body[data-theme="paradise-lost"] h3,
-body[data-theme="paradise-lost"] [class*="title"] {
-  font-family: 'Cinzel Decorative', serif !important;
-  color: #c29b38 !important;
-  letter-spacing: 2px !important;
-  text-shadow: none !important;
-}
-
-/* 3. CONTAINERS, BOXES & CARDS */
-body.paradise-lost fieldset,
-body.paradise-lost div[class*="rules"],
-body.paradise-lost div[class*="contact"],
-body.paradise-lost div[class*="box"],
-body.paradise-lost .trade-card,
-body.paradise-lost div[class*="card"],
-body[data-theme="paradise-lost"] fieldset,
-body[data-theme="paradise-lost"] div[class*="rules"],
-body[data-theme="paradise-lost"] div[class*="contact"],
-body[data-theme="paradise-lost"] div[class*="box"],
-body[data-theme="paradise-lost"] .trade-card,
-body[data-theme="paradise-lost"] div[class*="card"] {
-  background: linear-gradient(180deg, #0a0406 0%, #050203 100%) !important;
-  border: 1px solid #3b0a0a !important;
-  outline: 2px double #c29b38 !important;
-  outline-offset: -5px !important;
-  box-shadow: none !important;
-  border-radius: 0px !important;
-  padding: 18px !important;
-  transition: all 0.3s ease !important;
-}
-
-body.paradise-lost .trade-card:hover,
-body.paradise-lost div[class*="card"]:hover,
-body[data-theme="paradise-lost"] .trade-card:hover,
-body[data-theme="paradise-lost"] div[class*="card"]:hover {
-  border-color: #8c1414 !important;
-  outline-color: #c29b38 !important;
-  box-shadow: 0 4px 20px rgba(140, 20, 20, 0.3) !important;
-}
-
-/* Strip inner child borders and outlines inside cards */
-body.paradise-lost .trade-card *,
-body.paradise-lost div[class*="card"] *,
-body[data-theme="paradise-lost"] .trade-card *,
-body[data-theme="paradise-lost"] div[class*="card"] * {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
-}
-
-/* Restore Badges / Tags inside Cards for Paradise Lost */
-body.paradise-lost .trade-card .badge,
-body.paradise-lost .trade-card .format-tag,
-body.paradise-lost .trade-card span,
-body.paradise-lost .trade-card [class*="tag"],
-body[data-theme="paradise-lost"] .trade-card .badge,
-body[data-theme="paradise-lost"] .trade-card .format-tag,
-body[data-theme="paradise-lost"] .trade-card span,
-body[data-theme="paradise-lost"] .trade-card [class*="tag"] {
-  background: #170507 !important;
-  color: #c29b38 !important;
-  border: 1px solid #3b0a0a !important;
-  font-family: 'Cinzel Decorative', serif !important;
-  font-size: 0.65rem !important;
-  letter-spacing: 0.5px !important;
-  padding: 3px 8px !important;
-}
-
-/* 4. OVERRIDE FLOATING BUTTONS, BADGES & SEALS IN PARADISE LOST */
-body.paradise-lost button, 
-body.paradise-lost .btn, 
-body.paradise-lost [class*="btn"], 
-body.paradise-lost [class*="badge"], 
-body.paradise-lost [class*="approved"], 
-body.paradise-lost .lasagna-relic-seal,
-body.paradise-lost #top-btn, 
-body.paradise-lost [class*="top"],
-body.paradise-lost [class*="trade-request"],
-body[data-theme="paradise-lost"] button, 
-body[data-theme="paradise-lost"] .btn, 
-body[data-theme="paradise-lost"] [class*="btn"], 
-body[data-theme="paradise-lost"] [class*="badge"], 
-body[data-theme="paradise-lost"] [class*="approved"], 
-body[data-theme="paradise-lost"] .lasagna-relic-seal,
-body[data-theme="paradise-lost"] #top-btn, 
-body[data-theme="paradise-lost"] [class*="top"],
-body[data-theme="paradise-lost"] [class*="trade-request"] {
-  background: #080305 !important;
-  color: #c29b38 !important;
-  border: 1px solid #735a22 !important;
-  outline: 1px solid #c29b38 !important;
-  outline-offset: -3px !important;
-  border-radius: 0px !important;
-  font-family: 'Cinzel Decorative', serif !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-}
-
-body.paradise-lost [class*="approved"] *,
-body.paradise-lost [class*="top"] *,
-body[data-theme="paradise-lost"] [class*="approved"] *,
-body[data-theme="paradise-lost"] [class*="top"] * {
-  color: #c29b38 !important;
-  text-shadow: none !important;
-}
-
-/* Stats Counter Override */
-body.paradise-lost #stats,
-body.paradise-lost .stats-count,
-body[data-theme="paradise-lost"] #stats,
-body[data-theme="paradise-lost"] .stats-count {
-  color: #c29b38 !important;
-  text-shadow: none !important;
-}
-
-/* 5. SEARCH BAR & TYPOGRAPHY POLISH IN PARADISE LOST */
-body.paradise-lost input[type="text"], 
-body.paradise-lost #search-input,
-body[data-theme="paradise-lost"] input[type="text"], 
-body[data-theme="paradise-lost"] #search-input {
-  background: #060304 !important;
-  border: 1px solid #735a22 !important;
-  color: #bfae99 !important;
-  font-family: 'IM Fell English', serif !important;
-  font-style: italic !important;
-  letter-spacing: 0.5px !important;
-  box-shadow: none !important;
-}
-
-body.paradise-lost input[type="text"]::placeholder,
-body[data-theme="paradise-lost"] input[type="text"]::placeholder {
-  color: #63503d !important;
-}
-
-/* Drop Cap on Rules Box */
-body.paradise-lost div[class*="rules"] p::first-letter,
-body.paradise-lost fieldset p::first-letter,
-body[data-theme="paradise-lost"] div[class*="rules"] p::first-letter,
-body[data-theme="paradise-lost"] fieldset p::first-letter {
-  font-family: 'Cinzel Decorative', serif !important;
-  font-size: 2.2rem !important;
-  color: #c29b38 !important;
-  float: left !important;
-  line-height: 0.8 !important;
-  margin-right: 8px !important;
-  margin-top: 2px !important;
-}
-
-/* Selection & Links */
-body.paradise-lost ::selection,
-body[data-theme="paradise-lost"] ::selection {
-  background: #8c1414 !important;
-  color: #fff2d9 !important;
-}
-
-body.paradise-lost a,
-body[data-theme="paradise-lost"] a {
-  color: #c29b38 !important;
-  text-decoration: none !important;
-  border-bottom: 1px dotted #8c1414 !important;
-  transition: color 0.2s ease !important;
-}
-
-body.paradise-lost a:hover,
-body[data-theme="paradise-lost"] a:hover {
-  color: #e6b845 !important;
-  border-bottom-style: solid !important;
-}
 /* ============================================================
-   PARADISE LOST THEME ONLY: SCOPED OVERRIDES
-   ============================================================ */
-
-/* Theme Colors & Base Font */
-[data-theme="paradise-lost"],
-body.paradise-lost-mode {
-  background-color: #080305 !important;
-  color: #d4af37 !important;
-  font-family: 'IM Fell English', serif !important;
-}
-
-/* Headings & Gothic Engravings */
-[data-theme="paradise-lost"] h1, 
-[data-theme="paradise-lost"] h2, 
-[data-theme="paradise-lost"] h3, 
-.paradise-lost-mode h1,
-.paradise-lost-mode h2,
-.paradise-lost-mode h3 {
-  font-family: 'Cinzel Decorative', serif !important;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: #e5c158 !important;
-  text-shadow: 0 0 8px rgba(139, 0, 0, 0.6);
-}
-
-/* Dark Abyss Borders & Frames */
-[data-theme="paradise-lost"] .card-container, 
-[data-theme="paradise-lost"] #trading-rules-box, 
-[data-theme="paradise-lost"] .item-card,
-.paradise-lost-mode .card-container,
-.paradise-lost-mode #trading-rules-box,
-.paradise-lost-mode .item-card {
-  border: 2px solid #8b6d21 !important;
-  outline: 1px solid #4a0000 !important;
-  outline-offset: -5px;
-  background: radial-gradient(circle, rgba(20,5,7,0.95) 0%, rgba(5,1,2,0.98) 100%) !important;
-  box-shadow: 0 0 20px rgba(139, 0, 0, 0.35), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
-}
-
-/* Infernal Interactive Buttons */
-[data-theme="paradise-lost"] button, 
-[data-theme="paradise-lost"] .btn-action, 
-[data-theme="paradise-lost"] #top-button,
-.paradise-lost-mode button,
-.paradise-lost-mode .btn-action,
-.paradise-lost-mode #top-button {
-  background: linear-gradient(180deg, #2b0000 0%, #0f0000 100%) !important;
-  border: 1px solid #b8860b !important;
-  color: #e5c158 !important;
-  font-family: 'Cinzel Decorative', serif !important;
-  box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
-  transition: all 0.3s ease;
-}
-
-[data-theme="paradise-lost"] button:hover, 
-[data-theme="paradise-lost"] .btn-action:hover,
-.paradise-lost-mode button:hover,
-.paradise-lost-mode .btn-action:hover {
-  background: linear-gradient(180deg, #4a0000 0%, #1a0000 100%) !important;
-  border-color: #ffd700 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
-}
-
-/* Serpent & Fallen Wing Background Watermark */
-[data-theme="paradise-lost"]::before,
-body.paradise-lost-mode::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23d4af37' d='M50 5 C25 25 10 50 50 95 C90 50 75 25 50 5 Z'/%3E%3C/svg%3E");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 600px;
-}
-/* ============================================================
-   PARADISE LOST: HEAVEN (TOP) vs. HELL (CARDS)
-   ============================================================ */
-
-/* --- 1. HEAVEN: TOP SECTION (Empyrean Gold & Celestial Blue) --- */
-
-/* Celestial Header & Upper Banner Container */
-[data-theme="paradise-lost"] header,
-[data-theme="paradise-lost"] #trading-rules-box,
-[data-theme="paradise-lost"] .top-banner,
-body.paradise-lost-mode header,
-body.paradise-lost-mode #trading-rules-box,
-body.paradise-lost-mode .top-banner {
-  background: radial-gradient(circle, #0b1a30 0%, #030814 100%) !important;
-  border: 2px solid #ffd700 !important;
-  outline: 1px solid #4169e1 !important;
-  outline-offset: -5px;
-  color: #f0e68c !important;
-  box-shadow: 0 0 25px rgba(65, 105, 225, 0.4), inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
-}
-
-/* Heavenly Headings (Gold Text Glow) */
-[data-theme="paradise-lost"] header h1,
-[data-theme="paradise-lost"] #trading-rules-box h2,
-body.paradise-lost-mode header h1,
-body.paradise-lost-mode #trading-rules-box h2 {
-  font-family: 'Cinzel Decorative', serif !important;
-  color: #ffe87c !important;
-  text-shadow: 0 0 12px rgba(255, 215, 0, 0.8), 0 0 5px rgba(65, 105, 225, 0.6) !important;
-}
-
-/* Celestial Buttons & Accent Badges in Top Area */
-[data-theme="paradise-lost"] #trading-rules-box button,
-[data-theme="paradise-lost"] .top-banner .trading-badge,
-body.paradise-lost-mode #trading-rules-box button,
-body.paradise-lost-mode .top-banner .trading-badge {
-  background: linear-gradient(180deg, #102a45 0%, #050e1a 100%) !important;
-  border: 1px solid #ffd700 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5) !important;
-}
-
-[data-theme="paradise-lost"] #trading-rules-box button:hover,
-body.paradise-lost-mode #trading-rules-box button:hover {
-  background: linear-gradient(180deg, #1e4875 0%, #0a1c30 100%) !important;
-  box-shadow: 0 0 15px rgba(135, 206, 250, 0.8) !important;
-}
-
-
-/* --- 2. HELL: ITEM CARDS (Infernal Crimson & Obsidian Abyss) --- */
-
-/* Dark Infernal Cards */
-[data-theme="paradise-lost"] .item-card,
-[data-theme="paradise-lost"] .card-container,
-body.paradise-lost-mode .item-card,
-body.paradise-lost-mode .card-container {
-  background: radial-gradient(circle, rgba(25, 4, 7, 0.95) 0%, rgba(5, 1, 2, 0.98) 100%) !important;
-  border: 2px solid #8b0000 !important;
-  outline: 1px solid #ff4500 !important;
-  outline-offset: -5px;
-  color: #d4af37 !important;
-  box-shadow: 0 0 20px rgba(139, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
-}
-
-/* Infernal Card Titles & Headings */
-[data-theme="paradise-lost"] .item-card h3,
-body.paradise-lost-mode .item-card h3 {
-  font-family: 'Cinzel Decorative', serif !important;
-  color: #ff6347 !important;
-  text-shadow: 0 0 8px rgba(139, 0, 0, 0.8) !important;
-}
-
-/* Fiery Card Action Buttons */
-[data-theme="paradise-lost"] .item-card button,
-body.paradise-lost-mode .item-card button {
-  background: linear-gradient(180deg, #3a0000 0%, #0f0000 100%) !important;
-  border: 1px solid #b8860b !important;
-  color: #e5c158 !important;
-  box-shadow: 0 0 10px rgba(139, 0, 0, 0.6) !important;
-}
-
-[data-theme="paradise-lost"] .item-card button:hover,
-body.paradise-lost-mode .item-card button:hover {
-  background: linear-gradient(180deg, #5e0000 0%, #1f0000 100%) !important;
-  border-color: #ff4500 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 15px rgba(255, 69, 0, 0.9) !important;
-}
-/* ============================================================
-   PARADISE LOST: GARDEN OF EDEN ARTWORK BACKGROUND
-   ============================================================ */
-
-/* Add Eden Artwork as a Faint Background to the Header/Rules Area */
-[data-theme="paradise-lost"] #trading-rules-box,
-body.paradise-lost-mode #trading-rules-box {
-  background-image: 
-    linear-gradient(rgba(11, 26, 48, 0.85), rgba(3, 8, 20, 0.92)), 
-    url("https://themasterstable.blog/wp-content/uploads/2012/07/adam-eve-serpent.jpg") !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  background-blend-mode: overlay !important;
-}
-/* ============================================================
-   PARADISE LOST: ENHANCED ANGELIC / EMPYREAN TOP SECTION
-   ============================================================ */
-
-/* Divine Light Rays & Starlight Mesh Background */
-[data-theme="paradise-lost"] header,
-[data-theme="paradise-lost"] #trading-rules-box,
-body.paradise-lost-mode header,
-body.paradise-lost-mode #trading-rules-box {
-  background: 
-    radial-gradient(ellipse at top, rgba(255, 223, 128, 0.25) 0%, rgba(13, 27, 42, 0.95) 70%),
-    linear-gradient(180deg, #0f2027 0%, #203a43 50%, #0c1821 100%) !important;
-  border: 2px solid #ffe57f !important;
-  outline: 1px solid #764ba2 !important;
-  outline-offset: -6px;
-  box-shadow: 
-    0 0 35px rgba(255, 223, 128, 0.35), 
-    inset 0 0 25px rgba(255, 215, 0, 0.2),
-    0 0 15px rgba(100, 149, 237, 0.4) !important;
-}
-
-/* Radiant Gold Header & Divine Aura */
-[data-theme="paradise-lost"] header h1,
-[data-theme="paradise-lost"] #trading-rules-box h2,
-body.paradise-lost-mode header h1,
-body.paradise-lost-mode #trading-rules-box h2 {
-  color: #fff8dc !important;
-  text-shadow: 
-    0 0 10px #ffd700, 
-    0 0 20px #ffae00, 
-    0 0 30px rgba(255, 255, 255, 0.8) !important;
-  letter-spacing: 3px !important;
-}
-
-/* Angelic Text & Rules Formatting */
-[data-theme="paradise-lost"] #trading-rules-box p,
-[data-theme="paradise-lost"] #trading-rules-box li,
-body.paradise-lost-mode #trading-rules-box p,
-body.paradise-lost-mode #trading-rules-box li {
-  color: #f4f1de !important;
-  text-shadow: 0 0 4px rgba(255, 223, 128, 0.3) !important;
-}
-
-/* Celestial Halo Buttons & Badges */
-[data-theme="paradise-lost"] #trading-rules-box button,
-[data-theme="paradise-lost"] .lasagna-badge,
-body.paradise-lost-mode #trading-rules-box button,
-body.paradise-lost-mode .lasagna-badge {
-  background: linear-gradient(135deg, #2c3e50 0%, #000000 100%) !important;
-  border: 1px solid #ffd700 !important;
-  color: #fff8dc !important;
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.6) !important;
-  border-radius: 4px;
-}
-
-[data-theme="paradise-lost"] #trading-rules-box button:hover,
-body.paradise-lost-mode #trading-rules-box button:hover {
-  background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%) !important;
-  box-shadow: 0 0 22px rgba(255, 255, 255, 0.9), 0 0 10px #ffd700 !important;
-  color: #ffffff !important;
-}
-
-/* Heavenly Sparkle Accent Overrides */
-[data-theme="paradise-lost"] .star-accent,
-body.paradise-lost-mode .star-accent {
-  color: #ffffff !important;
-  text-shadow: 0 0 8px #ffd700, 0 0 12px #fff !important;
-}
-/* ============================================================
-   PARADISE LOST MODE ONLY (Strictly Separated from Analog Horror)
+   PARADISE LOST: FOUR-TIER MILTONIC COSMOLOGY OVERHAUL
    ============================================================ */
 
 body[data-theme="paradise-lost"],
 body.paradise-lost-mode {
 
-  /* --- 1. THE EMPYREAN HEIGHTS (TOP SECTION) --- */
+  /* --- GLOBAL BACKGROUND: THE DESCENT THROUGH THE VOID --- */
+  background: linear-gradient(
+    180deg, 
+    #0a1424 0%,      /* Empyrean Blue Top */
+    #132238 15%,     /* Eden Sky */
+    #080c14 40%,     /* Chaos & Old Night */
+    #140204 70%,     /* Pandemonium Entry */
+    #050001 100%     /* The Bottom of the Burning Lake */
+  ) !important;
+  color: #f4f1de !important;
+
+  /* --- ZONE 1: THE EMPYREAN VAULT (HEADER) --- */
   & #main-header,
   & .header-container,
-  & #trading-rules-box,
-  & .trading-rules,
-  & div[class*="header"],
-  & div[class*="rules"] {
-    background: 
-      radial-gradient(circle at top, rgba(255, 248, 220, 0.22) 0%, rgba(10, 25, 47, 0.95) 75%),
-      linear-gradient(180deg, #0d1b2a 0%, #1b263b 100%) !important;
-    border: 2px solid #ffdf73 !important;
-    outline: 2px solid rgba(255, 215, 0, 0.4) !important;
-    outline-offset: -5px;
-    box-shadow: 0 0 35px rgba(255, 223, 128, 0.35), inset 0 0 25px rgba(255, 215, 0, 0.25) !important;
+  & div[class*="header"] {
+    background: radial-gradient(ellipse at top, rgba(255, 235, 170, 0.25) 0%, rgba(10, 20, 36, 0.95) 80%) !important;
+    border-top: 3px solid #ffd700 !important;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.3) !important;
+    box-shadow: 0 0 35px rgba(255, 223, 128, 0.4) !important;
   }
 
-  /* Radiant Celestial Typography */
-  & h1, 
-  & .site-title,
-  & #trading-rules-box h2 {
+  & #main-header h1,
+  & h1.site-title {
+    font-family: 'Cinzel Decorative', serif !important;
     color: #fffdf0 !important;
-    text-shadow: 0 0 12px #ffd700, 0 0 25px #ffae00, 0 0 35px rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0 0 12px #ffd700, 0 0 25px #ffae00, 0 0 40px rgba(255, 255, 255, 0.9) !important;
+    letter-spacing: 4px !important;
   }
 
-  /* Angelic Controls & Top Buttons */
-  & #top-button, 
-  & .back-to-top, 
-  & .eyestrain-btn,
-  & button[id*="top"] {
-    background: linear-gradient(180deg, #162b48 0%, #08121f 100%) !important;
-    border: 1px solid #ffd700 !important;
-    color: #fff8dc !important;
-    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
-    text-shadow: 0 0 6px #ffd700 !important;
+  /* --- ZONE 2: EARTHLY PARADISE (RULES & CONTACT BOX) --- */
+  & #trading-rules-box,
+  & .trading-rules {
+    background: linear-gradient(180deg, rgba(16, 33, 26, 0.9) 0%, rgba(6, 15, 12, 0.95) 100%) !important;
+    border: 2px solid #d4af37 !important;
+    outline: 1px solid #2e8b57 !important;
+    outline-offset: -6px;
+    box-shadow: 0 0 30px rgba(46, 139, 87, 0.3), inset 0 0 20px rgba(212, 175, 55, 0.2) !important;
   }
 
-  /* --- 2. THE INFERNAL ABYSS (CARDS & BUTTONS BELOW) --- */
+  & #trading-rules-box h2 {
+    color: #f0e68c !important;
+    text-shadow: 0 0 10px #d4af37, 0 0 20px rgba(212, 175, 55, 0.5) !important;
+    font-family: 'Cinzel Decorative', serif !important;
+  }
 
-  /* Fiery Blood-Red Item Cards */
-  & .item-card, 
-  & .card, 
-  & .card-container,
+  & #trading-rules-box p::first-letter {
+    font-family: 'Cinzel Decorative', serif !important;
+    font-size: 1.5em;
+    color: #ffd700 !important;
+    text-shadow: 0 0 8px #ffd700;
+  }
+
+  /* --- ZONE 3: CHAOS & OLD NIGHT (SEARCH & FILTERS) --- */
+  & input[type="text"],
+  & .search-bar,
+  & div[class*="search"] {
+    background: rgba(5, 8, 12, 0.98) !important;
+    border: 1px solid #5c471d !important;
+    color: #d4af37 !important;
+    font-family: 'IM Fell English', serif !important;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.95), 0 0 10px rgba(92, 71, 29, 0.3) !important;
+  }
+
+  & .filter-btn,
+  & .category-btn {
+    background: linear-gradient(180deg, #1f0a0a 0%, #0a0202 100%) !important;
+    border: 1px solid #731212 !important;
+    color: #d4af37 !important;
+    font-family: 'Cinzel Decorative', serif !important;
+  }
+
+  & .filter-btn:hover,
+  & .filter-btn.active {
+    background: linear-gradient(180deg, #570000 0%, #210000 100%) !important;
+    border-color: #ff4500 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 18px rgba(255, 69, 0, 0.8) !important;
+  }
+
+  /* --- ZONE 4: PANDEMONIUM (THE FIERY CARDS) --- */
+  & .item-card,
   & div[class*="card"] {
-    background: radial-gradient(circle, rgba(30, 2, 5, 0.96) 0%, rgba(8, 1, 2, 0.99) 100%) !important;
-    border: 2px solid #b30000 !important;
-    outline: 2px solid #ff3300 !important;
+    background: radial-gradient(circle at center, rgba(35, 4, 8, 0.98) 0%, rgba(6, 1, 3, 0.99) 100%) !important;
+    border: 2px solid #8b0000 !important;
+    outline: 1px solid #d4af37 !important;
     outline-offset: -5px;
-    color: #ffecd2 !important;
-    box-shadow: 0 0 25px rgba(179, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.95) !important;
+    box-shadow: 0 0 25px rgba(139, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.95) !important;
   }
 
-  /* Demonic Smoldering Titles */
-  & .item-card h3, 
-  & .card h3 {
-    color: #ff4500 !important;
+  & .item-card h3,
+  & div[class*="card"] h3 {
+    color: #ff5533 !important;
+    font-family: 'Cinzel Decorative', serif !important;
     text-shadow: 0 0 10px rgba(255, 69, 0, 0.8), 0 0 20px rgba(139, 0, 0, 0.9) !important;
   }
 
-  /* Hellfire Filter Navigation Buttons */
-  & .filter-btn, 
-  & .category-btn, 
-  & button[class*="filter"] {
-    background: linear-gradient(180deg, #380000 0%, #120000 100%) !important;
-    border: 1px solid #b30000 !important;
-    color: #ffb3b3 !important;
-    box-shadow: 0 0 10px rgba(179, 0, 0, 0.6) !important;
+  /* --- CONTROLS & NAVIGATION --- */
+  & #top-button,
+  & .back-to-top,
+  & button[id*="top"] {
+    background: linear-gradient(180deg, #182e4b 0%, #08111d 100%) !important;
+    border: 1px solid #ffd700 !important;
+    color: #fff8dc !important;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
   }
 
-  & .filter-btn:hover, 
-  & .filter-btn.active {
-    background: linear-gradient(180deg, #660000 0%, #240000 100%) !important;
-    border-color: #ff5722 !important;
-    color: #ffffff !important;
-    box-shadow: 0 0 20px rgba(255, 87, 34, 0.9) !important;
-  }
-
-  /* Trade Request Floating Bar (Infernal Glow) */
-  & #trade-request-btn, 
-  & .trade-request-btn, 
-  & div[class*="trade-request"] {
-    background: linear-gradient(180deg, #4a0000 0%, #140000 100%) !important;
-    border: 1px solid #ff3300 !important;
+  & #trade-request-btn,
+  & .trade-request-btn {
+    background: linear-gradient(180deg, #400000 0%, #120000 100%) !important;
+    border: 1px solid #ff4500 !important;
     color: #ffd700 !important;
     box-shadow: 0 0 20px rgba(255, 51, 0, 0.7) !important;
-  }
-}
-/* --- CELESTIAL DIVIDER (THE GREAT GULF) --- */
-& .trading-rules::after {
-  content: "✧ ✦ ✧";
-  display: block;
-  text-align: center;
-  color: #ffd700;
-  font-size: 1.2rem;
-  letter-spacing: 12px;
-  margin-top: 15px;
-  text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00;
-}
-
-/* --- SMOLDERING HELLFIRE ANIMATION FOR CARDS --- */
-@keyframes brimstoneGlow {
-  0% { box-shadow: 0 0 15px rgba(179, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.9); }
-  50% { box-shadow: 0 0 25px rgba(255, 69, 0, 0.8), inset 0 0 25px rgba(139, 0, 0, 0.6); }
-  100% { box-shadow: 0 0 15px rgba(179, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.9); }
-}
-
-& .item-card, 
-& div[class*="card"] {
-  animation: brimstoneGlow 4s infinite ease-in-out !important;
-}
-
-/* --- SERPENT WATERMARK OVERLAY FOR CARDS SECTION --- */
-& .card-container::before,
-& #items-grid::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff4500' d='M50 5 C25 25 10 50 50 95 C90 50 75 25 50 5 Z'/%3E%3C/svg%3E");
-  background-repeat: space;
-  background-size: 120px;
-}
-/* --- 1. SEARCH BAR: THE LIMBO / PURGATORY TRANSITION --- */
-& input[type="text"],
-& .search-bar,
-& div[class*="search"] {
-  background: rgba(10, 15, 25, 0.95) !important;
-  border: 1px solid #b8860b !important;
-  color: #f0e68c !important;
-  font-family: 'IM Fell English', serif !important;
-  font-style: italic;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8), 0 0 8px rgba(184, 134, 11, 0.3) !important;
-}
-
-& input[type="text"]::placeholder {
-  color: #8a733e !important;
-}
-
-/* --- 2. CELESTIAL STEEPLED DIVIDER (BELOW RULES) --- */
-& #trading-rules-box::after,
-& .trading-rules::after {
-  content: "✧  ✦  ✧";
-  display: block;
-  text-align: center;
-  color: #ffd700;
-  font-size: 1.1rem;
-  letter-spacing: 10px;
-  margin-top: 15px;
-  text-shadow: 0 0 10px #ffd700, 0 0 20px rgba(255, 215, 0, 0.6);
-}
-
-/* --- 3. SMOLDERING BRIMSTONE GLOW FOR CARDS --- */
-@keyframes brimstonePulse {
-  0% { box-shadow: 0 0 18px rgba(179, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.95); }
-  50% { box-shadow: 0 0 28px rgba(255, 69, 0, 0.75), inset 0 0 20px rgba(139, 0, 0, 0.7); }
-  100% { box-shadow: 0 0 18px rgba(179, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.95); }
-}
-
-& .item-card, 
-& div[class*="card"] {
-  animation: brimstonePulse 5s infinite ease-in-out !important;
-}
-
-/* --- 4. GOTHIC BULLET POINTS & DROP-CAP ACCENTS --- */
-& #trading-rules-box ul li::marker {
-  color: #ffd700 !important;
-}
-
-& .drop-cap,
-& #trading-rules-box p::first-letter {
-  font-family: 'Cinzel Decorative', serif !important;
-  font-size: 1.3em;
-  color: #ffd700 !important;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
-}
-/* ============================================================
-   PARADISE LOST: MILTONIC ATMOSPHERIC ENHANCEMENTS
-   ============================================================ */
-
-body[data-theme="paradise-lost"],
-body.paradise-lost-mode {
-
-  /* 1. Empyrean Vault Arc on Header */
-  & #main-header,
-  & #trading-rules-box {
-    border-top: 3px solid #ffe57f !important;
-    box-shadow: 0 -10px 25px rgba(255, 215, 0, 0.3), 0 0 35px rgba(65, 105, 225, 0.4) !important;
-  }
-
-  /* 2. Chaos / Purgatory Search Input */
-  & input[type="text"] {
-    background: rgba(5, 8, 15, 0.95) !important;
-    border: 1px solid #705315 !important;
-    color: #ffd700 !important;
-    font-family: 'IM Fell English', serif !important;
-    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.9) !important;
-  }
-
-  /* 3. Darkness Visible (Smoldering Infernal Cards) */
-  & .item-card,
-  & div[class*="card"] {
-    background: radial-gradient(circle at center, rgba(35, 5, 8, 0.98) 0%, rgba(5, 1, 3, 0.99) 100%) !important;
-    border: 1px solid #990000 !important;
-    outline: 1px solid #d4af37 !important;
-    outline-offset: -6px;
-  }
-
-  /* 4. Golden Manuscript Drop-Caps */
-  & #trading-rules-box p::first-letter {
-    font-family: 'Cinzel Decorative', serif !important;
-    font-size: 1.4em;
-    color: #ffd700 !important;
-    padding-right: 2px;
   }
 }
