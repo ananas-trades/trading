@@ -2278,61 +2278,94 @@ body[data-theme="paradise-lost"] .lasagna-relic-seal {
 }
 
 /* ===================================================
-   MODE 3: PARADISE LOST (BIBLICAL HORROR & RUIN)
+   PARADISE LOST: BIBLICAL HORROR & MANUSCRIPT DECAY
    =================================================== */
 
 /* Import Cursed Gothic & Illuminated Serif Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=UnifrakturMaguntina&family=IM+Fell+English:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=UnifrakturMaguntina&family=IM+Fell+English:ital,wght@0,400;0,700;1,400&display=swap');
 
 body[data-theme="paradise-lost"] {
-  --bg-main: #030204;
-  --text-main: #b8ac9c;
-  --accent-color: #610e0e;
-  --gold-accent: #8c6f2d;
-  --border-color: #2b0808;
+  --bg-main: #020203;
+  --text-main: #9c9284;
+  --accent-color: #520a0a;
+  --gold-accent: #785e23;
+  --border-color: #210505;
   --font-family: 'IM Fell English', 'Times New Roman', serif;
 
-  background: #030204;
+  background-color: var(--bg-main);
+  /* CRT Scanlines + Vignette Shadow Overlay */
   background-image: 
-    radial-gradient(circle at 50% 30%, #17080b 0%, #030204 80%),
-    repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+    radial-gradient(circle at 50% 40%, rgba(20, 5, 8, 0.6) 0%, rgba(2, 2, 3, 0.95) 85%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25) 1px, transparent 1px, transparent 2px);
   color: var(--text-main);
   font-family: var(--font-family);
-  filter: sepia(20%) contrast(115%) brightness(85%);
+  filter: sepia(30%) contrast(120%) brightness(80%);
 }
 
-/* Headings in Gothic Blackletter */
+/* Headings in Archaic Blackletter */
 body[data-theme="paradise-lost"] h1,
 body[data-theme="paradise-lost"] h2,
 body[data-theme="paradise-lost"] h3 {
-  font-family: 'UnifrakturMaguntina', 'Cinzel Decorative', serif !important;
-  color: #8c1c1c !important;
-  text-shadow: 0 0 1px #000, 2px 2px 0px #000 !important;
+  font-family: 'UnifrakturMaguntina', serif !important;
+  color: #7a1414 !important;
+  text-shadow: 1px 1px 0px #000, -1px -1px 0px #000 !important;
   letter-spacing: 2px !important;
   text-transform: none !important;
-  animation: none !important; /* Glow Removed */
+  animation: none !important;
 }
 
-/* Stripped Card & Box Glows (Sharp Chiseled Relics) */
+/* Sharp Chiseled Cards & Uneven Decayed Alignment */
 body[data-theme="paradise-lost"] .rules-box,
 body[data-theme="paradise-lost"] .trade-card,
 body[data-theme="paradise-lost"] .section-box,
 body[data-theme="paradise-lost"] table,
-body[data-theme="paradise-lost"] input,
-body[data-theme="paradise-lost"] button {
-  box-shadow: none !important; /* Glow Removed completely */
-  border-radius: 0px !important; /* Sharp medieval edges */
+body[data-theme="paradise-lost"] input {
+  box-shadow: none !important;
+  border-radius: 0px !important;
   border: 1px solid var(--border-color) !important;
   outline: 1px solid var(--gold-accent) !important;
   outline-offset: -3px;
-  background: #080609 !important;
+  background: #050406 !important;
 }
 
-/* Buttons (Ominous Stone Seals) */
+/* Slight rotational decay for cards */
+body[data-theme="paradise-lost"] .trade-card:nth-child(even) {
+  transform: rotate(-0.3deg);
+}
+body[data-theme="paradise-lost"] .trade-card:nth-child(odd) {
+  transform: rotate(0.2deg);
+}
+
+/* Monastic Illuminated Drop Cap for First Paragraph/Rules */
+body[data-theme="paradise-lost"] .rules-box p::first-letter {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 2.2rem;
+  color: #7a1414;
+  float: left;
+  line-height: 1;
+  padding-right: 6px;
+}
+
+/* Ominous Wax Stamp for Lasagna Approved */
+body[data-theme="paradise-lost"] .lasagna-relic-seal,
+body[data-theme="paradise-lost"] .y2k-approved-badge {
+  background: #2b0505 !important;
+  color: var(--gold-accent) !important;
+  border: 1px solid var(--gold-accent) !important;
+  border-radius: 0px !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+/* Dark Medieval Controls & Buttons */
 body[data-theme="paradise-lost"] .abandon-btn,
 body[data-theme="paradise-lost"] .filter-btn,
 body[data-theme="paradise-lost"] .cat-btn {
-  background: #000 !important;
+  background: #000000 !important;
   color: var(--gold-accent) !important;
   border: 1px solid var(--border-color) !important;
   font-family: 'Cinzel Decorative', serif !important;
@@ -2342,44 +2375,7 @@ body[data-theme="paradise-lost"] .cat-btn {
 
 body[data-theme="paradise-lost"] .filter-btn.active,
 body[data-theme="paradise-lost"] .cat-btn.active {
-  background: #3b0a0a !important;
-  color: #d1c5b4 !important;
+  background: #2b0505 !important;
+  color: #c9bfb1 !important;
   border-color: var(--gold-accent) !important;
-}
-
-/* Lasagna Relic Stamp (Wax Altar Seal) */
-body[data-theme="paradise-lost"] .lasagna-relic-seal,
-body[data-theme="paradise-lost"] .y2k-approved-badge {
-  background: #3d0808 !important;
-  color: var(--gold-accent) !important;
-  border: 1px double var(--gold-accent) !important;
-  border-radius: 0px !important;
-  font-family: 'Cinzel Decorative', serif !important;
-  font-size: 0.7rem !important;
-  letter-spacing: 2px !important;
-  box-shadow: none !important;
-  animation: none !important;
-}
-
-/* Cursed Watermarks & Latin Epigraphs */
-body[data-theme="paradise-lost"] .latin-epigraph {
-  font-family: 'IM Fell English', serif !important;
-  font-style: italic !important;
-  color: #7a1c1c !important;
-  opacity: 0.7 !important;
-  letter-spacing: 3px !important;
-}
-
-body[data-theme="paradise-lost"]::before {
-  content: "NON SERVIAM • DESCENDIT AD INFERNOS • ABYSSUS ABYSSUM INVOCAT";
-  position: fixed;
-  bottom: 8px;
-  right: 15px;
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.65rem;
-  letter-spacing: 4px;
-  color: var(--gold-accent);
-  opacity: 0.25;
-  pointer-events: none;
-  z-index: 100;
 }
