@@ -2376,3 +2376,18 @@ body.paradise-lost-mode .item-card button:hover {
   color: #ffffff !important;
   box-shadow: 0 0 15px rgba(255, 69, 0, 0.9) !important;
 }
+/* ============================================================
+   PARADISE LOST: GARDEN OF EDEN ARTWORK BACKGROUND
+   ============================================================ */
+
+/* Add Eden Artwork as a Faint Background to the Header/Rules Area */
+[data-theme="paradise-lost"] #trading-rules-box,
+body.paradise-lost-mode #trading-rules-box {
+  background-image: 
+    linear-gradient(rgba(11, 26, 48, 0.85), rgba(3, 8, 20, 0.92)), 
+    url("https://themasterstable.blog/wp-content/uploads/2012/07/adam-eve-serpent.jpg") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-blend-mode: overlay !important;
+}
