@@ -2492,22 +2492,63 @@ body.paradise-lost .stats-count {
   text-shadow: none !important;
 }
 /* ===================================================
-   PARADISE LOST: ZERO GLOW & ZERO CYAN OVERRIDE
+   PARADISE LOST (STRICTLY SCOPED - LEAVES CYBERPUNK INTACT)
    =================================================== */
 
-/* 1. STRIP ALL GLOWS GLOBALLY IN PARADISE LOST */
-body[data-theme="paradise-lost"] *,
-body.paradise-lost * {
-  text-shadow: none !important;
-  box-shadow: none !important;
-  filter: none !important;
+/* 1. CANVAS & FONTS */
+body.paradise-lost,
+body[data-theme="paradise-lost"] {
+  background-color: #030203 !important;
+  color: #bfae99 !important;
+  font-family: 'IM Fell English', 'Times New Roman', serif !important;
 }
 
-/* 2. OVERRIDE FLOATING TOP BUTTON (KILL CYAN NEON) */
-body[data-theme="paradise-lost"] #top-btn,
-body[data-theme="paradise-lost"] [class*="top"],
+/* 2. HEADINGS & TITLES */
+body.paradise-lost h1,
+body.paradise-lost h2,
+body.paradise-lost h3,
+body.paradise-lost [class*="title"],
+body[data-theme="paradise-lost"] h1,
+body[data-theme="paradise-lost"] h2,
+body[data-theme="paradise-lost"] h3,
+body[data-theme="paradise-lost"] [class*="title"] {
+  font-family: 'Cinzel Decorative', serif !important;
+  color: #c29b38 !important;
+  text-shadow: none !important;
+}
+
+/* 3. CONTAINERS & BOXES */
+body.paradise-lost fieldset,
+body.paradise-lost div[class*="rules"],
+body.paradise-lost .trade-card,
+body[data-theme="paradise-lost"] fieldset,
+body[data-theme="paradise-lost"] div[class*="rules"],
+body[data-theme="paradise-lost"] .trade-card {
+  background: #060304 !important;
+  border: 1px solid #3b0a0a !important;
+  outline: 2px double #c29b38 !important;
+  outline-offset: -5px !important;
+  box-shadow: none !important;
+  border-radius: 0px !important;
+}
+
+/* Strip inner child outlines inside cards */
+body.paradise-lost .trade-card *,
+body[data-theme="paradise-lost"] .trade-card * {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 4. OVERRIDE FLOATING CYAN BUTTONS & LASAGNA SEAL ONLY IN PARADISE LOST */
+body.paradise-lost [class*="top"],
 body.paradise-lost #top-btn,
-body.paradise-lost [class*="top"] {
+body.paradise-lost [class*="approved"],
+body.paradise-lost .lasagna-relic-seal,
+body[data-theme="paradise-lost"] [class*="top"],
+body[data-theme="paradise-lost"] #top-btn,
+body[data-theme="paradise-lost"] [class*="approved"],
+body[data-theme="paradise-lost"] .lasagna-relic-seal {
   background: #080305 !important;
   color: #c29b38 !important;
   border: 1px solid #735a22 !important;
@@ -2515,29 +2556,21 @@ body.paradise-lost [class*="top"] {
   text-shadow: none !important;
 }
 
-/* 3. OVERRIDE LASAGNA APPROVED / BADGES (KILL CYAN/MAGENTA) */
-body[data-theme="paradise-lost"] [class*="approved"],
-body[data-theme="paradise-lost"] .lasagna-relic-seal,
-body.paradise-lost [class*="approved"],
-body.paradise-lost .lasagna-relic-seal {
-  background: #170507 !important;
-  color: #c29b38 !important;
-  border: 1px solid #4a1010 !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-}
-
+body.paradise-lost [class*="approved"] *,
+body.paradise-lost [class*="top"] *,
 body[data-theme="paradise-lost"] [class*="approved"] *,
-body.paradise-lost [class*="approved"] * {
+body[data-theme="paradise-lost"] [class*="top"] * {
   color: #c29b38 !important;
   text-shadow: none !important;
 }
 
-/* 4. OVERRIDE STATS COUNTER ("SHOWING X ITEMS") */
-body[data-theme="paradise-lost"] #stats,
-body[data-theme="paradise-lost"] .stats-count,
-body.paradise-lost #stats,
-body.paradise-lost .stats-count {
+/* 5. DROP-CAP IN PARADISE LOST ONLY */
+body.paradise-lost div[class*="rules"] p::first-letter,
+body[data-theme="paradise-lost"] div[class*="rules"] p::first-letter {
+  font-family: 'Cinzel Decorative', serif !important;
+  font-size: 2.2rem !important;
   color: #c29b38 !important;
-  text-shadow: none !important;
+  float: left !important;
+  line-height: 0.8 !important;
+  margin-right: 8px !important;
 }
