@@ -2460,14 +2460,13 @@ body.paradise-lost-mode .star-accent {
   text-shadow: 0 0 8px #ffd700, 0 0 12px #fff !important;
 }
 /* ============================================================
-   PARADISE LOST THEME ONLY: SCOPED OVERRIDES
+   PARADISE LOST: ENHANCED HEAVEN VS. HELL (NO PICTURE)
    ============================================================ */
 
-/* Target Paradise Lost / Analog Horror Mode specifically */
 body.analog-horror-mode,
 [data-theme="paradise-lost"] {
 
-  /* 1. HEAVEN: TOP CONTAINER & EDEN ARTWORK */
+  /* --- 1. THE EMPYREAN HEIGHTS (TOP SECTION) --- */
   & #main-header,
   & .header-container,
   & #trading-rules-box,
@@ -2475,79 +2474,81 @@ body.analog-horror-mode,
   & div[class*="header"],
   & div[class*="rules"] {
     background: 
-      linear-gradient(rgba(11, 26, 48, 0.70), rgba(3, 8, 20, 0.85)), 
-      url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg/500px-Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg") center/cover no-repeat !important;
-    border: 2px solid #ffd700 !important;
-    outline: 1px solid #4169e1 !important;
+      radial-gradient(circle at top, rgba(255, 248, 220, 0.22) 0%, rgba(10, 25, 47, 0.95) 75%),
+      linear-gradient(180deg, #0d1b2a 0%, #1b263b 100%) !important;
+    border: 2px solid #ffdf73 !important;
+    outline: 2px solid rgba(255, 215, 0, 0.4) !important;
     outline-offset: -5px;
-    box-shadow: 0 0 25px rgba(65, 105, 225, 0.5), inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
+    box-shadow: 0 0 35px rgba(255, 223, 128, 0.35), inset 0 0 25px rgba(255, 215, 0, 0.25) !important;
   }
 
-  /* Heavenly Header Glowing Text */
+  /* Radiant Celestial Typography */
   & h1, 
   & .site-title,
   & #trading-rules-box h2 {
-    color: #fff8dc !important;
-    text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00, 0 0 30px rgba(255, 255, 255, 0.8) !important;
+    color: #fffdf0 !important;
+    text-shadow: 0 0 12px #ffd700, 0 0 25px #ffae00, 0 0 35px rgba(255, 255, 255, 0.9) !important;
   }
 
-  /* Angelic Sapphire/Gold Controls */
+  /* Angelic Controls & Top Buttons */
   & #top-button, 
   & .back-to-top, 
   & .eyestrain-btn,
   & button[id*="top"] {
-    background: linear-gradient(180deg, #102a45 0%, #050e1a 100%) !important;
+    background: linear-gradient(180deg, #162b48 0%, #08121f 100%) !important;
     border: 1px solid #ffd700 !important;
-    color: #f0e68c !important;
-    box-shadow: 0 0 12px rgba(65, 105, 225, 0.6) !important;
-    text-shadow: 0 0 5px #ffd700 !important;
+    color: #fff8dc !important;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
+    text-shadow: 0 0 6px #ffd700 !important;
   }
 
-  /* 2. HELL: FILTER BUTTONS & ITEM CARDS BELOW */
+  /* --- 2. THE INFERNAL ABYSS (CARDS & BUTTONS BELOW) --- */
+
+  /* Fiery Blood-Red Item Cards */
   & .item-card, 
   & .card, 
   & .card-container,
   & div[class*="card"] {
-    background: radial-gradient(circle, rgba(25, 4, 7, 0.95) 0%, rgba(5, 1, 2, 0.98) 100%) !important;
-    border: 2px solid #8b0000 !important;
-    outline: 1px solid #ff4500 !important;
+    background: radial-gradient(circle, rgba(30, 2, 5, 0.96) 0%, rgba(8, 1, 2, 0.99) 100%) !important;
+    border: 2px solid #b30000 !important;
+    outline: 2px solid #ff3300 !important;
     outline-offset: -5px;
-    color: #d4af37 !important;
-    box-shadow: 0 0 20px rgba(139, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
+    color: #ffecd2 !important;
+    box-shadow: 0 0 25px rgba(179, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.95) !important;
   }
 
-  /* Infernal Card Titles */
+  /* Demonic Smoldering Titles */
   & .item-card h3, 
   & .card h3 {
-    color: #ff6347 !important;
-    text-shadow: 0 0 8px rgba(139, 0, 0, 0.8) !important;
+    color: #ff4500 !important;
+    text-shadow: 0 0 10px rgba(255, 69, 0, 0.8), 0 0 20px rgba(139, 0, 0, 0.9) !important;
   }
 
-  /* Fiery Navigation Buttons */
+  /* Hellfire Filter Navigation Buttons */
   & .filter-btn, 
   & .category-btn, 
   & button[class*="filter"] {
-    background: linear-gradient(180deg, #2b0000 0%, #0f0000 100%) !important;
-    border: 1px solid #8b0000 !important;
-    color: #d4af37 !important;
-    box-shadow: 0 0 8px rgba(139, 0, 0, 0.5) !important;
+    background: linear-gradient(180deg, #380000 0%, #120000 100%) !important;
+    border: 1px solid #b30000 !important;
+    color: #ffb3b3 !important;
+    box-shadow: 0 0 10px rgba(179, 0, 0, 0.6) !important;
   }
 
   & .filter-btn:hover, 
   & .filter-btn.active {
-    background: linear-gradient(180deg, #5e0000 0%, #1f0000 100%) !important;
-    border-color: #ff4500 !important;
+    background: linear-gradient(180deg, #660000 0%, #240000 100%) !important;
+    border-color: #ff5722 !important;
     color: #ffffff !important;
-    box-shadow: 0 0 15px rgba(255, 69, 0, 0.8) !important;
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.9) !important;
   }
 
-  /* Trade Request Floating Bar */
+  /* Trade Request Floating Bar (Infernal Glow) */
   & #trade-request-btn, 
   & .trade-request-btn, 
   & div[class*="trade-request"] {
-    background: linear-gradient(180deg, #3a0000 0%, #0f0000 100%) !important;
-    border: 1px solid #ff4500 !important;
+    background: linear-gradient(180deg, #4a0000 0%, #140000 100%) !important;
+    border: 1px solid #ff3300 !important;
     color: #ffd700 !important;
-    box-shadow: 0 0 15px rgba(255, 69, 0, 0.6) !important;
+    box-shadow: 0 0 20px rgba(255, 51, 0, 0.7) !important;
   }
 }
