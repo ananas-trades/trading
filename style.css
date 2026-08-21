@@ -2816,3 +2816,15 @@ div[class*="rules"]::before,
 .header-box::before {
   display: none !important;
 }
+/* Golden Manuscript Corner Accents */
+.trading-rules-container::after,
+div[class*="rules"]::after {
+  content: "✦" !important;
+  position: absolute !important;
+  top: 6px !important;
+  right: 10px !important;
+  color: #c5a059 !important;
+  font-size: 0.9rem !important;
+  opacity: 0.8 !important;
+  text-shadow: 0 0 6px rgba(197, 160, 89, 0.6) !important;
+}
