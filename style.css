@@ -2828,3 +2828,34 @@ div[class*="rules"]::after {
   opacity: 0.8 !important;
   text-shadow: 0 0 6px rgba(197, 160, 89, 0.6) !important;
 }
+/* Ornate Celestial Corner Accents */
+.header-box {
+  position: relative;
+  background: #08101d !important;
+  border: 1px solid #1c2d42 !important;
+  padding: 30px !important;
+}
+
+/* Corner Bracket Style */
+.header-box::before,
+.header-box::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #c5a059;
+  pointer-events: none;
+}
+
+/* Top-Left & Bottom-Right Corners */
+.header-box::before {
+  top: 6px; left: 6px;
+  border-right: none; border-bottom: none;
+  box-shadow: -2px -2px 8px rgba(197, 160, 89, 0.4);
+}
+
+.header-box::after {
+  bottom: 6px; right: 6px;
+  border-left: none; border-top: none;
+  box-shadow: 2px 2px 8px rgba(197, 160, 89, 0.4);
+}
