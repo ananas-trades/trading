@@ -2681,3 +2681,156 @@ body.paradise-lost-mode {
     padding-right: 2px;
   }
 }
+/* ============================================================
+   PARADISE LOST: COSMIC VERTICAL AXIS (Milton Architecture)
+   ============================================================ */
+
+/* 1. DYNAMIC COSMIC SCROLL BACKGROUND */
+body {
+  margin: 0;
+  background: linear-gradient(
+    180deg, 
+    #050c1e 0%,    /* Empyrean Celestial Blue */
+    #121b2d 15%,   /* Divine Ether Edge */
+    #09090b 30%,   /* The Void of Chaos */
+    #000000 45%,   /* Abyss Entrance */
+    #0f0303 60%,   /* Smoldering Pandemonium Top */
+    #1a0404 100%   /* Deep Infernal Core */
+  ) !important;
+  background-attachment: fixed !important;
+  color: #e0d8c3;
+  font-family: 'Georgia', serif;
+}
+
+/* 2. THE EMPYREAN TOP (0% – 20% Scroll: Divine Decree Box) */
+.empyrean-ledger,
+div[style*="border"][style*="gold"],
+.header-box {
+  background: rgba(10, 20, 42, 0.65) !important;
+  border: 4px double #ffd700 !important;
+  outline: 1px solid rgba(135, 206, 235, 0.4) !important;
+  outline-offset: -8px;
+  box-shadow: 
+    0 0 20px rgba(255, 215, 0, 0.25),
+    0 0 40px rgba(135, 206, 235, 0.15),
+    inset 0 0 30px rgba(255, 215, 0, 0.1) !important;
+  position: relative;
+  border-radius: 2px;
+}
+
+.empyrean-ledger::before {
+  content: "✦ EMPYREAN REGISTRY ✦";
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #050c1e;
+  padding: 2px 16px;
+  color: #ffd700;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  border: 1px solid #ffd700;
+}
+
+/* 3. THE GREAT GULF / CHAOS (20% – 40% Scroll: Search & Tools) */
+input[type="text"],
+.search-bar,
+.chaos-void-input {
+  background: rgba(5, 5, 5, 0.85) !important;
+  border: 1px dashed rgba(255, 215, 0, 0.3) !important;
+  border-bottom: 2px solid #8b0000 !important;
+  color: #c0c0c0 !important;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9) !important;
+  backdrop-filter: blur(4px);
+}
+
+input[type="text"]::placeholder {
+  color: #706868 !important;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
+/* 4. PANDEMONIUM / INFERNAL GRID (40% – 100% Scroll) */
+button,
+.filter-btn {
+  background: linear-gradient(180deg, #2a0808 0%, #120202 100%) !important;
+  border: 1px solid #ff4500 !important;
+  color: #ffcc00 !important;
+  box-shadow: 0 0 10px rgba(255, 69, 0, 0.3) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover,
+.filter-btn:hover {
+  border-color: #ff0000 !important;
+  box-shadow: 0 0 18px rgba(255, 0, 0, 0.6) !important;
+  transform: translateY(-1px);
+}
+
+.card,
+.item-card,
+.pandemonium-card {
+  background: #0a0404 !important;
+  border: 1px solid #8b0000 !important;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.8),
+    0 0 12px rgba(139, 0, 0, 0.3) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover,
+.item-card:hover,
+.pandemonium-card:hover {
+  border-color: #ff4500 !important;
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.9),
+    0 0 22px rgba(255, 69, 0, 0.5) !important;
+}
+
+/* ASCEND CONTROL BUTTON OVERRIDE */
+.top-btn,
+button[style*="TOP"],
+#top-button {
+  background: #080e1e !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffd700 !important;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.4) !important;
+}
+/* ============================================================
+   EMPYREAN STAINED-GLASS PATTERN & RADIANT GLOW
+   ============================================================ */
+
+/* Stained glass geometric overlay on the celestial header */
+.empyrean-ledger,
+div[style*="border"][style*="gold"],
+.header-box {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Semi-transparent leaded glass lattice layer */
+.empyrean-ledger::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0.12;
+  background: 
+    linear-gradient(135deg, rgba(255, 215, 0, 0.4) 25%, transparent 25%) -20px 0,
+    linear-gradient(225deg, rgba(255, 215, 0, 0.4) 25%, transparent 25%) -20px 0,
+    linear-gradient(315deg, rgba(135, 206, 235, 0.4) 25%, transparent 25%),
+    linear-gradient(45deg, rgba(135, 206, 235, 0.4) 25%, transparent 25%);
+  background-size: 40px 40px;
+  mix-blend-mode: overlay;
+}
+
+/* Divine light beam filter across the glass */
+.empyrean-ledger:hover::after {
+  opacity: 0.22;
+  transition: opacity 0.5s ease-in-out;
+}
