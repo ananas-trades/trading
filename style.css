@@ -2459,3 +2459,18 @@ body.paradise-lost-mode .star-accent {
   color: #ffffff !important;
   text-shadow: 0 0 8px #ffd700, 0 0 12px #fff !important;
 }
+/* ============================================================
+   PARADISE LOST: EDEN ARTWORK BACKGROUND (TOP SECTION ONLY)
+   ============================================================ */
+
+[data-theme="paradise-lost"] #trading-rules-box,
+[data-theme="paradise-lost"] .trading-rules,
+body.paradise-lost-mode #trading-rules-box,
+body.paradise-lost-mode .trading-rules {
+  background-image: 
+    linear-gradient(rgba(11, 26, 48, 0.82), rgba(3, 8, 20, 0.90)), 
+    url("https://themasterstable.blog/wp-content/uploads/2012/07/adam-eve-serpent.jpg") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
