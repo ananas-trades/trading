@@ -2913,3 +2913,86 @@ button[style*="TOP"],
   color: #c5a059 !important;
   box-shadow: 0 0 10px rgba(197, 160, 89, 0.3) !important;
 }
+/* ============================================================
+   1. DEFAULT THEME: PARADISE LOST (Miltonic Cosmos)
+   ============================================================ */
+
+/* The Cosmic Vertical Axis Background */
+body {
+  margin: 0;
+  background: linear-gradient(
+    180deg, 
+    #030a16 0%,    /* The Empyrean (Celestial Top) */
+    #050505 30%,   /* The Void of Chaos */
+    #140202 100%   /* Deep Pandemonium (Infernal Bottom) */
+  ) !important;
+  background-attachment: fixed !important;
+  color: #d4c5b0 !important;
+  font-family: 'IM Fell English', 'Georgia', serif !important;
+}
+
+/* The Empyrean Celestial Header Box */
+.trading-rules-container, 
+div[class*="rules"], 
+.header-box {
+  position: relative !important;
+  background: radial-gradient(circle at 50% 0%, #0d1726 0%, #050a12 100%) !important;
+  border: 2px solid #c5a059 !important; /* Antique Gold */
+  box-shadow: 0 0 15px rgba(197, 160, 89, 0.15) !important;
+}
+
+/* The Void Search Bar */
+input[type="text"],
+.search-bar {
+  background: rgba(4, 4, 4, 0.95) !important;
+  border: 1px solid rgba(197, 160, 89, 0.25) !important;
+  border-bottom: 2px solid #8b0000 !important;
+  color: #d4c5b0 !important;
+}
+
+/* Pandemonium Infernal Cards & Buttons */
+.card, .item-card {
+  background: #080303 !important;
+  border: 1px solid #5a0d0d !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8) !important;
+}
+
+.card:hover, .item-card:hover {
+  border-color: #b22222 !important;
+  box-shadow: 0 0 18px rgba(178, 34, 34, 0.4) !important;
+}
+
+button, .filter-btn {
+  background: linear-gradient(180deg, #1f0505 0%, #0a0101 100%) !important;
+  border: 1px solid #8b0000 !important;
+  color: #c5a059 !important;
+}
+
+
+/* ============================================================
+   2. LEGACY OVERRIDE: NO-EYESTRAIN MODE
+   ============================================================ */
+
+body.eyestrain-mode {
+  background: #121212 !important; /* Flat matte dark gray */
+  color: #e0e0e0 !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+}
+
+/* Strip glow effects & high contrast borders in Eyestrain Mode */
+body.eyestrain-mode .trading-rules-container,
+body.eyestrain-mode .header-box,
+body.eyestrain-mode .card,
+body.eyestrain-mode .item-card,
+body.eyestrain-mode input[type="text"],
+body.eyestrain-mode button {
+  background: #1e1e1e !important;
+  border: 1px solid #333333 !important;
+  box-shadow: none !important;
+  color: #d0d0d0 !important;
+}
+
+body.eyestrain-mode button:hover {
+  background: #2a2a2a !important;
+  border-color: #555555 !important;
+}
