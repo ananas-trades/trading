@@ -1,4 +1,4 @@
-/* ============================================================
+[cite: 1]/* ============================================================
    Y2K NEON CYBER AESTHETIC - GLOBAL STYLES
 ============================================================ */
 
@@ -168,12 +168,11 @@ h1 {
 }
 
 .controls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 15px;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  margin-bottom: 10px !important;
+  width: 100% !important;
 }
 
 #search-input {
@@ -184,15 +183,32 @@ h1 {
   font-family: inherit;
   font-size: 0.95rem;
   border-radius: 4px;
-  width: 280px;
+  width: 100% !important;
   outline: none;
   box-shadow: 0 0 8px rgba(112, 0, 255, 0.4), inset 0 0 8px rgba(112, 0, 255, 0.3);
   transition: all 0.3s ease;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  box-sizing: border-box !important;
 }
 
 #search-input:focus {
   border-color: #00f0ff;
   box-shadow: 0 0 15px #00f0ff, inset 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+.filters, 
+.category-filters {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
 }
 
 .filter-btn {
@@ -209,6 +225,12 @@ h1 {
   letter-spacing: 1px;
   box-shadow: 0 0 6px rgba(112, 0, 255, 0.3);
   touch-action: manipulation;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
 }
 
 .filter-btn:hover {
@@ -234,10 +256,6 @@ h1 {
 }
 
 /* --- CATEGORY FILTERS --- */
-.category-filters {
-  margin-top: 5px;
-}
-
 .cat-btn {
   background: rgba(18, 18, 22, 0.85);
   border: 1px solid #ff007f;
@@ -252,6 +270,12 @@ h1 {
   letter-spacing: 1px;
   box-shadow: 0 0 6px rgba(255, 0, 127, 0.3);
   touch-action: manipulation;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
 }
 
 .cat-btn:hover {
@@ -550,10 +574,20 @@ h1 {
   text-align: left;
 }
 
-.rules-box h2 {
+.rules-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+.rules-header h2, .rules-box h2 {
   color: #00f0ff;
   font-size: 1.1rem;
-  margin-bottom: 8px;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.2 !important;
   text-transform: uppercase;
   text-shadow: 0 0 5px #00f0ff;
 }
@@ -582,45 +616,39 @@ h1 {
 ============================================================ */
 
 #scroll-top-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   position: fixed !important;
-  bottom: 20px !important;
-  right: 220px !important; /* Offset from cart toggle button */
-  z-index: 999999 !important;
-  transform: translateZ(0);
-  
-  background: #7000ff;
-  color: #ffffff;
-  border: 2px solid #00f0ff;
-  border-radius: 50px;
-  padding: 10px 16px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 15px #7000ff, 0 0 25px rgba(0, 240, 255, 0.8);
-  
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.2s ease;
-}
-
-#scroll-top-btn.visible {
-  opacity: 1;
-  visibility: visible;
+  bottom: 80px !important; /* Stacked directly above the Trade Request button */
+  right: 20px !important;
+  z-index: 99999 !important; /* Higher than drawer & overlay */
+  padding: 8px 14px !important;
+  font-family: 'Courier New', monospace !important;
+  font-weight: bold !important;
+  font-size: 0.8rem !important;
+  color: #00f0ff !important;
+  background: #0f0f1a !important;
+  border: 2px solid #00f0ff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5) !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 }
 
 #scroll-top-btn:hover {
-  background: #00f0ff;
-  color: #000000;
-  border-color: #ffffff;
-  box-shadow: 0 0 20px #00f0ff, 0 0 35px #7000ff;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.9) !important;
+  background: #1a1a2e !important;
 }
 
 #cart-toggle-btn, .cart-toggle-btn, .floating-cart-btn, .trade-request-btn {
   position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
-  z-index: 999999 !important;
+  z-index: 9998 !important;
   transform: translateZ(0);
   
   background: linear-gradient(135deg, #6366f1 0%, #3b82f6 50%, #06b6d4 100%);
@@ -679,6 +707,7 @@ h1 {
   top: 0;
   right: 0;
   height: 100vh;
+  max-height: 100vh;
   width: 380px;
   max-width: 85vw;
   background: #12131C;
@@ -757,12 +786,31 @@ h1 {
   gap: 16px;
 }
 
+.drawer-body,
 .cart-items-container {
   flex: 1;
   overflow-y: auto;
   padding: 16px 20px;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
+}
+
+.drawer-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.drawer-body::-webkit-scrollbar-track {
+  background: #0f0f1a;
+}
+
+.drawer-body::-webkit-scrollbar-thumb {
+  background: #00f0ff;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
+}
+
+.drawer-body::-webkit-scrollbar-thumb:hover {
+  background: #ff007f;
 }
 
 .empty-cart-msg {
@@ -830,6 +878,7 @@ h1 {
 }
 
 .drawer-footer {
+  flex-shrink: 0;
   background-color: #171923;
   border-top: 1px solid #2D3748;
   padding: 16px;
@@ -1200,6 +1249,7 @@ body.analog-horror-mode {
   background-color: #050406 !important;
   color: #b8b8b8 !important;
   font-family: 'Courier New', Courier, monospace !important;
+  position: static !important;
   transform: none !important; /* Prevents body-level transform from trapping fixed children */
   perspective: none !important;
 }
@@ -1213,7 +1263,7 @@ body.analog-horror-mode::after {
     linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.75) 50%),
     radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.95) 100%);
   background-size: 100% 4px, 100% 100%;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 12;
   opacity: 0.85;
 }
@@ -1337,7 +1387,7 @@ body.analog-horror-mode::before {
   background: rgba(255, 255, 255, 0.2);
   opacity: 0.4;
   z-index: 13;
-  pointer-events: none;
+  pointer-events: none !important;
   animation: vhs-tape-roll 8s infinite linear;
 }
 
@@ -1666,23 +1716,34 @@ body.analog-horror-mode .cart-toggle-btn {
   transform: translateZ(0) !important;
   filter: none !important;
   mix-blend-mode: normal !important;
-  background: #0a0a0a !important;
-  color: #ff0055 !important;
-  border: 2px solid #ff0055 !important;
-  box-shadow: 0 0 15px #ff0055, inset 0 0 10px #ff0055 !important;
+  background: #180305 !important;
+  color: #d18d94 !important;
+  border: 2px solid #6b0c16 !important;
+  box-shadow: 0 0 12px #52070e, 0 0 25px rgba(82, 7, 14, 0.6), inset 0 0 8px rgba(107, 12, 22, 0.5) !important;
+  transition: all 0.25s ease !important;
 }
 
 body.analog-horror-mode #cart-toggle-btn:hover,
 body.analog-horror-mode .cart-toggle-btn:hover {
-  background: #ff0055 !important;
-  color: #000000 !important;
-  box-shadow: 0 0 25px #ff0055, 0 0 40px #ff0055 !important;
+  background: #2b0b0e !important;
+  color: #ffffff !important;
+  border-color: #8b0000 !important;
+  box-shadow: 0 0 18px #ff0000, 0 0 35px #8b0000, 0 0 50px rgba(139, 0, 0, 0.8), inset 0 0 12px #ff0000 !important;
+  transform: translateY(-2px) translateZ(0) !important;
+}
+
+body.analog-horror-mode #cart-toggle-btn .cart-badge,
+body.analog-horror-mode .cart-toggle-btn .cart-badge {
+  background: #6b0c16 !important;
+  color: #fce8e8 !important;
+  border: 1px solid #8b0000 !important;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5) !important;
 }
 
 body.analog-horror-mode #scroll-top-btn {
   position: fixed !important;
-  bottom: 20px !important;
-  right: 220px !important;
+  bottom: 80px !important;
+  right: 20px !important;
   z-index: 2147483647 !important;
   transform: translateZ(0) !important;
   background: #1f0508 !important;
@@ -1727,63 +1788,6 @@ body.analog-horror-mode #scroll-top-btn:hover {
   to { border-color: #ff0000; }
 }
 
-/* ============================================================
-   EMERGENCY OVERRIDE: FIXED FLOATING CART FOR ANALOG HORROR
-============================================================ */
-
-/* 1. Prevent the body or wrapper from trapping position: fixed elements */
-body.analog-horror-mode {
-  position: static !important;
-  transform: none !important;
-  perspective: none !important;
-}
-
-/* 2. Force Floating Buttons to stick to the Viewport in Easter Egg Mode */
-body.analog-horror-mode #cart-toggle-btn,
-body.analog-horror-mode .cart-toggle-btn {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  z-index: 2147483647 !important;
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  transform: translateZ(0) !important;
-  
-  /* MATCHING NFT TAPE BASE COLOR & BORDER */
-  background: #180305 !important;
-  color: #d18d94 !important;
-  border: 2px solid #6b0c16 !important;
-  box-shadow: 0 0 12px #52070e, 0 0 25px rgba(82, 7, 14, 0.6), inset 0 0 8px rgba(107, 12, 22, 0.5) !important;
-  transition: all 0.25s ease !important;
-}
-
-/* HOVER STATE: MATCHING ACTIVE NFT HOVER GLOW */
-body.analog-horror-mode #cart-toggle-btn:hover,
-body.analog-horror-mode .cart-toggle-btn:hover {
-  background: #2b0b0e !important;
-  color: #ffffff !important;
-  border-color: #8b0000 !important;
-  box-shadow: 0 0 18px #ff0000, 0 0 35px #8b0000, 0 0 50px rgba(139, 0, 0, 0.8), inset 0 0 12px #ff0000 !important;
-  transform: translateY(-2px) translateZ(0) !important;
-}
-
-/* CART BADGE MATCHING NFT THEME */
-body.analog-horror-mode #cart-toggle-btn .cart-badge,
-body.analog-horror-mode .cart-toggle-btn .cart-badge {
-  background: #6b0c16 !important;
-  color: #fce8e8 !important;
-  border: 1px solid #8b0000 !important;
-  box-shadow: 0 0 6px rgba(255, 0, 0, 0.5) !important;
-}
-
-/* 3. Ensure full screen OSD & Grain layers don't block clicks */
-body.analog-horror-mode::before,
-body.analog-horror-mode::after,
-#vhs-osd-overlay {
-  pointer-events: none !important;
-}
 /* ==========================================
    Y2K "LASAGNA APPROVED" BADGE
    ========================================== */
@@ -1865,170 +1869,7 @@ body.analog-horror-mode::after,
     transform: translateY(-4px);
   }
 }
-/* Ensure the drawer is a flexbox container with full height */
-.trade-drawer {
-  display: flex;
-  flex-direction: column;
-  max-height: 100vh;
-}
 
-/* Allow the drawer body to scroll when items overflow */
-.drawer-body {
-  flex: 1;
-  overflow-y: auto;
-  padding: 15px;
-}
-
-/* Styled Y2K Neon Scrollbar for the cart */
-.drawer-body::-webkit-scrollbar {
-  width: 8px;
-}
-
-.drawer-body::-webkit-scrollbar-track {
-  background: #0f0f1a;
-}
-
-.drawer-body::-webkit-scrollbar-thumb {
-  background: #00f0ff;
-  border-radius: 4px;
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.7);
-}
-
-.drawer-body::-webkit-scrollbar-thumb:hover {
-  background: #ff007f;
-}
-
-/* Keep the footer pinned at the bottom */
-.drawer-footer {
-  flex-shrink: 0;
-}
-/* Stack Scroll to Top button above the Trade Cart button */
-#scroll-top-btn {
-  position: fixed;
-  bottom: 80px; /* Positioned right above the cart button */
-  right: 20px;
-  z-index: 9999; /* Ensures it sits on top of all other elements */
-}
-
-/* Ensure the cart trigger button stays below the top button */
-#cart-toggle-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9998;
-}
-/* ==========================================
-   HEADER TITLE & BADGE ALIGNMENT FIX
-   ========================================== */
-.rules-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.rules-header h2 {
-  margin: 0;
-  padding: 0;
-  line-height: 1.2;
-}
-/* Stack Scroll to Top button above the Trade Cart button */
-#scroll-top-btn {
-  position: fixed;
-  bottom: 80px; /* Positioned right above the cart button */
-  right: 20px;
-  z-index: 9999; /* Ensures it sits on top of all other elements */
-}
-
-/* Ensure the cart trigger button stays below the top button */
-#cart-toggle-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9998;
-}
-/* ==========================================
-   ULTIMATE LAYOUT & FILTER FIX
-   ========================================== */
-
-/* Fix Rules Box Title & Y2K Badge */
-.rules-header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
-  margin-bottom: 12px !important;
-}
-
-.rules-header h2 {
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1.2 !important;
-}
-
-/* Fix Filter Row Spacing & Misalignment */
-.controls {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 12px !important;
-  width: 100% !important;
-}
-
-#search-input {
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.filters, 
-.category-filters {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 10px !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.filter-btn, 
-.cat-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-  vertical-align: middle !important;
-}
-/* Tighten space between search bar and filter rows */
-.controls {
-  gap: 12px !important;
-}
-/* ==========================================
-   FORCE REDUCE VERTICAL GAPS
-   ========================================== */
-
-/* Reduce gap between search bar and filter rows */
-.controls {
-  gap: 6px !important;
-  margin-bottom: 10px !important;
-}
-
-/* Remove extra spacing built into the search box */
-#search-input {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-/* Reduce gap between the two filter rows */
-.filters, 
-.category-filters {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  gap: 8px !important;
-}
 /* ==========================================
    Y2K WATERMARK (FOOTER)
    ========================================== */
@@ -2057,38 +1898,11 @@ body.analog-horror-mode::after,
 .y2k-watermark:hover {
   opacity: 1;
 }
+
 /* ==========================================
-   FORCE SCROLL TO TOP BUTTON VISIBILITY
+   ENCORA & UTILITY COMPONENTS
    ========================================== */
 
-#scroll-top-btn {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  position: fixed !important;
-  bottom: 80px !important; /* Stacked directly above the Trade Request button */
-  right: 20px !important;
-  z-index: 99999 !important; /* Higher than drawer & overlay */
-  padding: 8px 14px !important;
-  font-family: 'Courier New', monospace !important;
-  font-weight: bold !important;
-  font-size: 0.8rem !important;
-  color: #00f0ff !important;
-  background: #0f0f1a !important;
-  border: 2px solid #00f0ff !important;
-  border-radius: 8px !important;
-  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5) !important;
-  cursor: pointer !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-}
-
-#scroll-top-btn:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.9) !important;
-  background: #1a1a2e !important;
-}
 .encora-compare-box {
   display: flex;
   justify-content: center;
@@ -2116,6 +1930,7 @@ body.analog-horror-mode::after,
   background-color: rgba(255, 0, 127, 0.15);
   box-shadow: 0 0 10px rgba(255, 0, 127, 0.7);
 }
+
 /* Eyestrain Toggle Button Style */
 .eyestrain-toggle-btn {
   background: #111;
@@ -2156,6 +1971,7 @@ body.no-eyestrain * {
   text-shadow: none !important;
   animation: none !important;
 }
+
 #toggle-eyestrain-btn {
   position: absolute;
   top: 15px;
@@ -2180,13 +1996,14 @@ body.no-eyestrain * {
   color: #05050a;
   box-shadow: 0 0 15px rgba(0, 243, 255, 0.8);
 }
+
 /* ===================================================
-   PARADISE LOST: DIRECT CLASS & ATTRIBUTE OVERRIDE
+   PARADISE LOST (STRICTLY SCOPED - LEAVES CYBERPUNK INTACT)
    =================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital,wght@0,400;0,700;1,400&display=swap');
 
-/* Target BOTH .paradise-lost class AND data-theme attribute */
+/* 1. CANVAS & FONTS */
 body.paradise-lost,
 body[data-theme="paradise-lost"] {
   --bg-main: #030203 !important;
@@ -2202,305 +2019,15 @@ body[data-theme="paradise-lost"] {
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E") !important;
   background-attachment: fixed !important;
   color: #bfae99 !important;
-  font-family: 'IM Fell English', serif !important;
-}
-
-/* Kill all bright cyan borders, purple tags, and neon glows */
-body.paradise-lost *,
-body[data-theme="paradise-lost"] * {
-  box-shadow: none !important;
-  text-shadow: none !important;
-}
-
-/* CARDS FRAME */
-body.paradise-lost .trade-card,
-body[data-theme="paradise-lost"] .trade-card {
-  background: #060304 !important;
-  border: 1px solid #3b0a0a !important;
-  outline: 1px solid #735a22 !important;
-  outline-offset: -4px !important;
-}
-
-/* REMOVE ALL INNER CARD BORDERS */
-body.paradise-lost .trade-card *,
-body[data-theme="paradise-lost"] .trade-card * {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
-}
-
-/* RESTORE SPECIFIC BADGES */
-body.paradise-lost .trade-card .badge,
-body.paradise-lost .trade-card .format-tag,
-body.paradise-lost .trade-card span[class*="tag"],
-body[data-theme="paradise-lost"] .trade-card .badge,
-body[data-theme="paradise-lost"] .trade-card .format-tag,
-body[data-theme="paradise-lost"] .trade-card span[class*="tag"] {
-  background: #170507 !important;
-  color: #c29b38 !important;
-  border: 1px solid #3b0a0a !important;
-  font-family: 'Cinzel Decorative', serif !important;
-  font-size: 0.6rem !important;
-  padding: 3px 8px !important;
-}
-
-/* FLOATING TOP & REQUEST BUTTONS */
-body.paradise-lost #top-btn,
-body.paradise-lost [class*="top"],
-body.paradise-lost [class*="trade-request"],
-body[data-theme="paradise-lost"] #top-btn,
-body[data-theme="paradise-lost"] [class*="top"],
-body[data-theme="paradise-lost"] [class*="trade-request"] {
-  background: #050203 !important;
-  color: #c29b38 !important;
-  border: 1px solid #3b0a0a !important;
-  outline: 1px solid #c29b38 !important;
-}
-
-/* STATS COUNTER OVERRIDE */
-body.paradise-lost #stats,
-body[data-theme="paradise-lost"] #stats {
-  color: #c29b38 !important;
-}
-/* ===================================================
-   UNCONDITIONAL PARADISE LOST OVERRIDE (GLOBAL RESET)
-   =================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital,wght@0,400;0,700;1,400&display=swap');
-
-/* 1. FORCE CORE CANVAS */
-html, body {
-  background-color: #030203 !important;
-  color: #bfae99 !important;
   font-family: 'IM Fell English', 'Times New Roman', serif !important;
 }
 
-/* 2. KILL ALL NEON GLOWS & CYAN BORDERS GLOBALLY */
-*, *::before, *::after {
-  box-shadow: none !important;
-  text-shadow: none !important;
-  border-color: #3b0a0a !important;
-}
-
-/* 3. FORCE HEADINGS TO GOLD & CRIMSON */
-h1, h2, h3, h4, 
-[class*="title"], 
-[id*="title"] {
-  font-family: 'Cinzel Decorative', serif !important;
-  color: #c29b38 !important;
-  letter-spacing: 2px !important;
-}
-
-/* 4. OVERRIDE ALL BUTTONS & BADGES (CYAN / PILL STRIPPER) */
-button, 
-.btn, 
-[class*="btn"], 
-[class*="badge"], 
-[class*="approved"], 
-#top-btn, 
-[class*="trade-request"] {
-  background: #080305 !important;
-  color: #c29b38 !important;
-  border: 1px solid #4a1010 !important;
-  outline: 1px solid #c29b38 !important;
-  outline-offset: -3px !important;
-  border-radius: 0px !important;
-  font-family: 'Cinzel Decorative', serif !important;
-}
-
-/* 5. OVERRIDE MAIN CONTAINER BOXES & RULES */
-fieldset, 
-div[class*="rules"], 
-div[class*="contact"], 
-div[class*="box"] {
-  background: #060304 !important;
-  border: 1px solid #3b0a0a !important;
-  outline: 2px double #c29b38 !important;
-  outline-offset: -5px !important;
-  border-radius: 0px !important;
-}
-
-/* 6. CLEAN CARD CONTAINERS & STRIP INNER NESTED BORDERS */
-.trade-card, 
-div[class*="card"] {
-  background: #060304 !important;
-  border: 1px solid #3b0a0a !important;
-  outline: 1px solid #735a22 !important;
-  outline-offset: -4px !important;
-  border-radius: 0px !important;
-}
-
-.trade-card *, 
-div[class*="card"] * {
-  border: none !important;
-  outline: none !important;
-  background: transparent !important;
-}
-/* ===================================================
-   PARADISE LOST: MANUSCRIPT ELEVATION & POLISH
-   =================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital,wght@0,400;0,700;1,400&display=swap');
-
-/* 1. TYPOGRAPHY & DROP CAPS */
-body {
-  font-family: 'IM Fell English', 'Times New Roman', serif !important;
-}
-
-/* Drop Cap on Rules Box */
-div[class*="rules"] p::first-letter,
-fieldset p::first-letter {
-  font-family: 'Cinzel Decorative', serif !important;
-  font-size: 2.2rem !important;
-  color: #c29b38 !important;
-  float: left !important;
-  line-height: 0.8 !important;
-  margin-right: 8px !important;
-  margin-top: 2px !important;
-}
-
-/* 2. ERADICATE REMAINING CYAN / NEON TEXT & OUTLINES */
-[class*="top"], 
-#top-btn, 
-.lasagna-relic-seal, 
-[class*="approved"] {
-  background: #080305 !important;
-  color: #c29b38 !important;
-  border: 1px solid #4a1010 !important;
-  outline: 1px solid #c29b38 !important;
-  outline-offset: -3px !important;
-  box-shadow: none !important;
-}
-
-[class*="top"] *, 
-[class*="approved"] * {
-  color: #c29b38 !important;
-}
-
-/* 3. ENHANCED CARD MASONRY & INTERACTION */
-.trade-card, 
-div[class*="card"] {
-  background: linear-gradient(180deg, #0a0406 0%, #050203 100%) !important;
-  border: 1px solid #3b0a0a !important;
-  outline: 1px solid #735a22 !important;
-  outline-offset: -4px !important;
-  padding: 18px !important;
-  transition: all 0.3s ease !important;
-}
-
-.trade-card:hover, 
-div[class*="card"]:hover {
-  border-color: #8c1414 !important;
-  outline-color: #c29b38 !important;
-  box-shadow: 0 4px 20px rgba(140, 20, 20, 0.3) !important;
-}
-
-/* Format Tags / Badges Inside Cards */
-.trade-card span,
-.trade-card .badge,
-.trade-card [class*="tag"] {
-  color: #c29b38 !important;
-  background: #170507 !important;
-  border: 1px solid #3b0a0a !important;
-  font-family: 'Cinzel Decorative', serif !important;
-  font-size: 0.65rem !important;
-  letter-spacing: 0.5px !important;
-  padding: 2px 6px !important;
-}
-
-/* 4. REFINED SEARCH BAR */
-input[type="text"], 
-#search-input {
-  background: #060304 !important;
-  border: 1px solid #735a22 !important;
-  color: #bfae99 !important;
-  font-family: 'IM Fell English', serif !important;
-  font-style: italic !important;
-  letter-spacing: 0.5px !important;
-}
-
-input[type="text"]::placeholder {
-  color: #63503d !important;
-}
-
-/* 5. SELECTION & LINK STYLING */
-::selection {
-  background: #8c1414 !important;
-  color: #fff2d9 !important;
-}
-
-a {
-  color: #c29b38 !important;
-  text-decoration: none !important;
-  border-bottom: 1px dotted #8c1414 !important;
-  transition: color 0.2s ease !important;
-}
-
-a:hover {
-  color: #e6b845 !important;
-  border-bottom-style: solid !important;
-}
-/* ===================================================
-   PARADISE LOST: ZERO GLOW & ZERO CYAN OVERRIDE
-   =================================================== */
-
-/* 1. STRIP ALL GLOWS GLOBALLY IN PARADISE LOST */
+/* Strip glows globally in Paradise Lost */
 body[data-theme="paradise-lost"] *,
 body.paradise-lost * {
   text-shadow: none !important;
   box-shadow: none !important;
   filter: none !important;
-}
-
-/* 2. OVERRIDE FLOATING TOP BUTTON (KILL CYAN NEON) */
-body[data-theme="paradise-lost"] #top-btn,
-body[data-theme="paradise-lost"] [class*="top"],
-body.paradise-lost #top-btn,
-body.paradise-lost [class*="top"] {
-  background: #080305 !important;
-  color: #c29b38 !important;
-  border: 1px solid #735a22 !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-}
-
-/* 3. OVERRIDE LASAGNA APPROVED / BADGES (KILL CYAN/MAGENTA) */
-body[data-theme="paradise-lost"] [class*="approved"],
-body[data-theme="paradise-lost"] .lasagna-relic-seal,
-body.paradise-lost [class*="approved"],
-body.paradise-lost .lasagna-relic-seal {
-  background: #170507 !important;
-  color: #c29b38 !important;
-  border: 1px solid #4a1010 !important;
-  box-shadow: none !important;
-  text-shadow: none !important;
-}
-
-body[data-theme="paradise-lost"] [class*="approved"] *,
-body.paradise-lost [class*="approved"] * {
-  color: #c29b38 !important;
-  text-shadow: none !important;
-}
-
-/* 4. OVERRIDE STATS COUNTER ("SHOWING X ITEMS") */
-body[data-theme="paradise-lost"] #stats,
-body[data-theme="paradise-lost"] .stats-count,
-body.paradise-lost #stats,
-body.paradise-lost .stats-count {
-  color: #c29b38 !important;
-  text-shadow: none !important;
-}
-/* ===================================================
-   PARADISE LOST (STRICTLY SCOPED - LEAVES CYBERPUNK INTACT)
-   =================================================== */
-
-/* 1. CANVAS & FONTS */
-body.paradise-lost,
-body[data-theme="paradise-lost"] {
-  background-color: #030203 !important;
-  color: #bfae99 !important;
-  font-family: 'IM Fell English', 'Times New Roman', serif !important;
 }
 
 /* 2. HEADINGS & TITLES */
@@ -2514,44 +2041,97 @@ body[data-theme="paradise-lost"] h3,
 body[data-theme="paradise-lost"] [class*="title"] {
   font-family: 'Cinzel Decorative', serif !important;
   color: #c29b38 !important;
+  letter-spacing: 2px !important;
   text-shadow: none !important;
 }
 
-/* 3. CONTAINERS & BOXES */
+/* 3. CONTAINERS, BOXES & CARDS */
 body.paradise-lost fieldset,
 body.paradise-lost div[class*="rules"],
+body.paradise-lost div[class*="contact"],
+body.paradise-lost div[class*="box"],
 body.paradise-lost .trade-card,
+body.paradise-lost div[class*="card"],
 body[data-theme="paradise-lost"] fieldset,
 body[data-theme="paradise-lost"] div[class*="rules"],
-body[data-theme="paradise-lost"] .trade-card {
-  background: #060304 !important;
+body[data-theme="paradise-lost"] div[class*="contact"],
+body[data-theme="paradise-lost"] div[class*="box"],
+body[data-theme="paradise-lost"] .trade-card,
+body[data-theme="paradise-lost"] div[class*="card"] {
+  background: linear-gradient(180deg, #0a0406 0%, #050203 100%) !important;
   border: 1px solid #3b0a0a !important;
   outline: 2px double #c29b38 !important;
   outline-offset: -5px !important;
   box-shadow: none !important;
   border-radius: 0px !important;
+  padding: 18px !important;
+  transition: all 0.3s ease !important;
 }
 
-/* Strip inner child outlines inside cards */
+body.paradise-lost .trade-card:hover,
+body.paradise-lost div[class*="card"]:hover,
+body[data-theme="paradise-lost"] .trade-card:hover,
+body[data-theme="paradise-lost"] div[class*="card"]:hover {
+  border-color: #8c1414 !important;
+  outline-color: #c29b38 !important;
+  box-shadow: 0 4px 20px rgba(140, 20, 20, 0.3) !important;
+}
+
+/* Strip inner child borders and outlines inside cards */
 body.paradise-lost .trade-card *,
-body[data-theme="paradise-lost"] .trade-card * {
+body.paradise-lost div[class*="card"] *,
+body[data-theme="paradise-lost"] .trade-card *,
+body[data-theme="paradise-lost"] div[class*="card"] * {
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
+  background: transparent !important;
 }
 
-/* 4. OVERRIDE FLOATING CYAN BUTTONS & LASAGNA SEAL ONLY IN PARADISE LOST */
-body.paradise-lost [class*="top"],
-body.paradise-lost #top-btn,
-body.paradise-lost [class*="approved"],
+/* Restore Badges / Tags inside Cards for Paradise Lost */
+body.paradise-lost .trade-card .badge,
+body.paradise-lost .trade-card .format-tag,
+body.paradise-lost .trade-card span,
+body.paradise-lost .trade-card [class*="tag"],
+body[data-theme="paradise-lost"] .trade-card .badge,
+body[data-theme="paradise-lost"] .trade-card .format-tag,
+body[data-theme="paradise-lost"] .trade-card span,
+body[data-theme="paradise-lost"] .trade-card [class*="tag"] {
+  background: #170507 !important;
+  color: #c29b38 !important;
+  border: 1px solid #3b0a0a !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.5px !important;
+  padding: 3px 8px !important;
+}
+
+/* 4. OVERRIDE FLOATING BUTTONS, BADGES & SEALS IN PARADISE LOST */
+body.paradise-lost button, 
+body.paradise-lost .btn, 
+body.paradise-lost [class*="btn"], 
+body.paradise-lost [class*="badge"], 
+body.paradise-lost [class*="approved"], 
 body.paradise-lost .lasagna-relic-seal,
+body.paradise-lost #top-btn, 
+body.paradise-lost [class*="top"],
+body.paradise-lost [class*="trade-request"],
+body[data-theme="paradise-lost"] button, 
+body[data-theme="paradise-lost"] .btn, 
+body[data-theme="paradise-lost"] [class*="btn"], 
+body[data-theme="paradise-lost"] [class*="badge"], 
+body[data-theme="paradise-lost"] [class*="approved"], 
+body[data-theme="paradise-lost"] .lasagna-relic-seal,
+body[data-theme="paradise-lost"] #top-btn, 
 body[data-theme="paradise-lost"] [class*="top"],
-body[data-theme="paradise-lost"] #top-btn,
-body[data-theme="paradise-lost"] [class*="approved"],
-body[data-theme="paradise-lost"] .lasagna-relic-seal {
+body[data-theme="paradise-lost"] [class*="trade-request"] {
   background: #080305 !important;
   color: #c29b38 !important;
   border: 1px solid #735a22 !important;
+  outline: 1px solid #c29b38 !important;
+  outline-offset: -3px !important;
+  border-radius: 0px !important;
+  font-family: 'Cinzel Decorative', serif !important;
   box-shadow: none !important;
   text-shadow: none !important;
 }
@@ -2564,13 +2144,65 @@ body[data-theme="paradise-lost"] [class*="top"] * {
   text-shadow: none !important;
 }
 
-/* 5. DROP-CAP IN PARADISE LOST ONLY */
+/* Stats Counter Override */
+body.paradise-lost #stats,
+body.paradise-lost .stats-count,
+body[data-theme="paradise-lost"] #stats,
+body[data-theme="paradise-lost"] .stats-count {
+  color: #c29b38 !important;
+  text-shadow: none !important;
+}
+
+/* 5. SEARCH BAR & TYPOGRAPHY POLISH IN PARADISE LOST */
+body.paradise-lost input[type="text"], 
+body.paradise-lost #search-input,
+body[data-theme="paradise-lost"] input[type="text"], 
+body[data-theme="paradise-lost"] #search-input {
+  background: #060304 !important;
+  border: 1px solid #735a22 !important;
+  color: #bfae99 !important;
+  font-family: 'IM Fell English', serif !important;
+  font-style: italic !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: none !important;
+}
+
+body.paradise-lost input[type="text"]::placeholder,
+body[data-theme="paradise-lost"] input[type="text"]::placeholder {
+  color: #63503d !important;
+}
+
+/* Drop Cap on Rules Box */
 body.paradise-lost div[class*="rules"] p::first-letter,
-body[data-theme="paradise-lost"] div[class*="rules"] p::first-letter {
+body.paradise-lost fieldset p::first-letter,
+body[data-theme="paradise-lost"] div[class*="rules"] p::first-letter,
+body[data-theme="paradise-lost"] fieldset p::first-letter {
   font-family: 'Cinzel Decorative', serif !important;
   font-size: 2.2rem !important;
   color: #c29b38 !important;
   float: left !important;
   line-height: 0.8 !important;
   margin-right: 8px !important;
+  margin-top: 2px !important;
+}
+
+/* Selection & Links */
+body.paradise-lost ::selection,
+body[data-theme="paradise-lost"] ::selection {
+  background: #8c1414 !important;
+  color: #fff2d9 !important;
+}
+
+body.paradise-lost a,
+body[data-theme="paradise-lost"] a {
+  color: #c29b38 !important;
+  text-decoration: none !important;
+  border-bottom: 1px dotted #8c1414 !important;
+  transition: color 0.2s ease !important;
+}
+
+body.paradise-lost a:hover,
+body[data-theme="paradise-lost"] a:hover {
+  color: #e6b845 !important;
+  border-bottom-style: solid !important;
 }
