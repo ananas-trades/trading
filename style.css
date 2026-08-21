@@ -2552,3 +2552,39 @@ body.paradise-lost-mode {
     box-shadow: 0 0 20px rgba(255, 51, 0, 0.7) !important;
   }
 }
+/* --- CELESTIAL DIVIDER (THE GREAT GULF) --- */
+& .trading-rules::after {
+  content: "✧ ✦ ✧";
+  display: block;
+  text-align: center;
+  color: #ffd700;
+  font-size: 1.2rem;
+  letter-spacing: 12px;
+  margin-top: 15px;
+  text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00;
+}
+
+/* --- SMOLDERING HELLFIRE ANIMATION FOR CARDS --- */
+@keyframes brimstoneGlow {
+  0% { box-shadow: 0 0 15px rgba(179, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.9); }
+  50% { box-shadow: 0 0 25px rgba(255, 69, 0, 0.8), inset 0 0 25px rgba(139, 0, 0, 0.6); }
+  100% { box-shadow: 0 0 15px rgba(179, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.9); }
+}
+
+& .item-card, 
+& div[class*="card"] {
+  animation: brimstoneGlow 4s infinite ease-in-out !important;
+}
+
+/* --- SERPENT WATERMARK OVERLAY FOR CARDS SECTION --- */
+& .card-container::before,
+& #items-grid::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ff4500' d='M50 5 C25 25 10 50 50 95 C90 50 75 25 50 5 Z'/%3E%3C/svg%3E");
+  background-repeat: space;
+  background-size: 120px;
+}
