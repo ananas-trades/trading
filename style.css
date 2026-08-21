@@ -2391,3 +2391,71 @@ body.paradise-lost-mode #trading-rules-box {
   background-repeat: no-repeat !important;
   background-blend-mode: overlay !important;
 }
+/* ============================================================
+   PARADISE LOST: ENHANCED ANGELIC / EMPYREAN TOP SECTION
+   ============================================================ */
+
+/* Divine Light Rays & Starlight Mesh Background */
+[data-theme="paradise-lost"] header,
+[data-theme="paradise-lost"] #trading-rules-box,
+body.paradise-lost-mode header,
+body.paradise-lost-mode #trading-rules-box {
+  background: 
+    radial-gradient(ellipse at top, rgba(255, 223, 128, 0.25) 0%, rgba(13, 27, 42, 0.95) 70%),
+    linear-gradient(180deg, #0f2027 0%, #203a43 50%, #0c1821 100%) !important;
+  border: 2px solid #ffe57f !important;
+  outline: 1px solid #764ba2 !important;
+  outline-offset: -6px;
+  box-shadow: 
+    0 0 35px rgba(255, 223, 128, 0.35), 
+    inset 0 0 25px rgba(255, 215, 0, 0.2),
+    0 0 15px rgba(100, 149, 237, 0.4) !important;
+}
+
+/* Radiant Gold Header & Divine Aura */
+[data-theme="paradise-lost"] header h1,
+[data-theme="paradise-lost"] #trading-rules-box h2,
+body.paradise-lost-mode header h1,
+body.paradise-lost-mode #trading-rules-box h2 {
+  color: #fff8dc !important;
+  text-shadow: 
+    0 0 10px #ffd700, 
+    0 0 20px #ffae00, 
+    0 0 30px rgba(255, 255, 255, 0.8) !important;
+  letter-spacing: 3px !important;
+}
+
+/* Angelic Text & Rules Formatting */
+[data-theme="paradise-lost"] #trading-rules-box p,
+[data-theme="paradise-lost"] #trading-rules-box li,
+body.paradise-lost-mode #trading-rules-box p,
+body.paradise-lost-mode #trading-rules-box li {
+  color: #f4f1de !important;
+  text-shadow: 0 0 4px rgba(255, 223, 128, 0.3) !important;
+}
+
+/* Celestial Halo Buttons & Badges */
+[data-theme="paradise-lost"] #trading-rules-box button,
+[data-theme="paradise-lost"] .lasagna-badge,
+body.paradise-lost-mode #trading-rules-box button,
+body.paradise-lost-mode .lasagna-badge {
+  background: linear-gradient(135deg, #2c3e50 0%, #000000 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #fff8dc !important;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.6) !important;
+  border-radius: 4px;
+}
+
+[data-theme="paradise-lost"] #trading-rules-box button:hover,
+body.paradise-lost-mode #trading-rules-box button:hover {
+  background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%) !important;
+  box-shadow: 0 0 22px rgba(255, 255, 255, 0.9), 0 0 10px #ffd700 !important;
+  color: #ffffff !important;
+}
+
+/* Heavenly Sparkle Accent Overrides */
+[data-theme="paradise-lost"] .star-accent,
+body.paradise-lost-mode .star-accent {
+  color: #ffffff !important;
+  text-shadow: 0 0 8px #ffd700, 0 0 12px #fff !important;
+}
