@@ -2288,3 +2288,91 @@ body.paradise-lost-mode::before {
   background-repeat: no-repeat;
   background-size: 600px;
 }
+/* ============================================================
+   PARADISE LOST: HEAVEN (TOP) vs. HELL (CARDS)
+   ============================================================ */
+
+/* --- 1. HEAVEN: TOP SECTION (Empyrean Gold & Celestial Blue) --- */
+
+/* Celestial Header & Upper Banner Container */
+[data-theme="paradise-lost"] header,
+[data-theme="paradise-lost"] #trading-rules-box,
+[data-theme="paradise-lost"] .top-banner,
+body.paradise-lost-mode header,
+body.paradise-lost-mode #trading-rules-box,
+body.paradise-lost-mode .top-banner {
+  background: radial-gradient(circle, #0b1a30 0%, #030814 100%) !important;
+  border: 2px solid #ffd700 !important;
+  outline: 1px solid #4169e1 !important;
+  outline-offset: -5px;
+  color: #f0e68c !important;
+  box-shadow: 0 0 25px rgba(65, 105, 225, 0.4), inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
+}
+
+/* Heavenly Headings (Gold Text Glow) */
+[data-theme="paradise-lost"] header h1,
+[data-theme="paradise-lost"] #trading-rules-box h2,
+body.paradise-lost-mode header h1,
+body.paradise-lost-mode #trading-rules-box h2 {
+  font-family: 'Cinzel Decorative', serif !important;
+  color: #ffe87c !important;
+  text-shadow: 0 0 12px rgba(255, 215, 0, 0.8), 0 0 5px rgba(65, 105, 225, 0.6) !important;
+}
+
+/* Celestial Buttons & Accent Badges in Top Area */
+[data-theme="paradise-lost"] #trading-rules-box button,
+[data-theme="paradise-lost"] .top-banner .trading-badge,
+body.paradise-lost-mode #trading-rules-box button,
+body.paradise-lost-mode .top-banner .trading-badge {
+  background: linear-gradient(180deg, #102a45 0%, #050e1a 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5) !important;
+}
+
+[data-theme="paradise-lost"] #trading-rules-box button:hover,
+body.paradise-lost-mode #trading-rules-box button:hover {
+  background: linear-gradient(180deg, #1e4875 0%, #0a1c30 100%) !important;
+  box-shadow: 0 0 15px rgba(135, 206, 250, 0.8) !important;
+}
+
+
+/* --- 2. HELL: ITEM CARDS (Infernal Crimson & Obsidian Abyss) --- */
+
+/* Dark Infernal Cards */
+[data-theme="paradise-lost"] .item-card,
+[data-theme="paradise-lost"] .card-container,
+body.paradise-lost-mode .item-card,
+body.paradise-lost-mode .card-container {
+  background: radial-gradient(circle, rgba(25, 4, 7, 0.95) 0%, rgba(5, 1, 2, 0.98) 100%) !important;
+  border: 2px solid #8b0000 !important;
+  outline: 1px solid #ff4500 !important;
+  outline-offset: -5px;
+  color: #d4af37 !important;
+  box-shadow: 0 0 20px rgba(139, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Infernal Card Titles & Headings */
+[data-theme="paradise-lost"] .item-card h3,
+body.paradise-lost-mode .item-card h3 {
+  font-family: 'Cinzel Decorative', serif !important;
+  color: #ff6347 !important;
+  text-shadow: 0 0 8px rgba(139, 0, 0, 0.8) !important;
+}
+
+/* Fiery Card Action Buttons */
+[data-theme="paradise-lost"] .item-card button,
+body.paradise-lost-mode .item-card button {
+  background: linear-gradient(180deg, #3a0000 0%, #0f0000 100%) !important;
+  border: 1px solid #b8860b !important;
+  color: #e5c158 !important;
+  box-shadow: 0 0 10px rgba(139, 0, 0, 0.6) !important;
+}
+
+[data-theme="paradise-lost"] .item-card button:hover,
+body.paradise-lost-mode .item-card button:hover {
+  background: linear-gradient(180deg, #5e0000 0%, #1f0000 100%) !important;
+  border-color: #ff4500 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.9) !important;
+}
