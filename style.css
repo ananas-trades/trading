@@ -2460,11 +2460,11 @@ body.paradise-lost-mode .star-accent {
   text-shadow: 0 0 8px #ffd700, 0 0 12px #fff !important;
 }
 /* ============================================================
-   PARADISE LOST: ENHANCED HEAVEN VS. HELL (NO PICTURE)
+   PARADISE LOST MODE ONLY (Strictly Separated from Analog Horror)
    ============================================================ */
 
-body.analog-horror-mode,
-[data-theme="paradise-lost"] {
+body[data-theme="paradise-lost"],
+body.paradise-lost-mode {
 
   /* --- 1. THE EMPYREAN HEIGHTS (TOP SECTION) --- */
   & #main-header,
