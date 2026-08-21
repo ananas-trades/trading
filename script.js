@@ -1848,3 +1848,56 @@ if (document.readyState === "loading") {
 } else {
   initVhsOsdToggle();
 }
+// ===================================================
+// MULTIVERSE THEME ENGINE (Cyberpunk / Analog / Paradise Lost)
+// ===================================================
+
+// 1. Initialize Theme on Load
+let currentTheme = localStorage.getItem("siteTheme") || "cyberpunk";
+document.body.setAttribute("data-theme", currentTheme);
+
+// 2. Analog Horror Double-Click Trigger (Left Intact)
+window.addEventListener("dblclick", (e) => {
+  // Prevent double-clicking the button from triggering analog mode
+  if (e.target.closest("#paradise-btn")) return;
+
+  if (currentTheme !== "analog") {
+    setTheme("analog");
+  } else {
+    setTheme("cyberpunk");
+  }
+});
+
+// 3. Paradise Lost Button Trigger ("Abandon All Hope")
+function triggerParadiseLost() {
+  if (currentTheme !== "paradise-lost") {
+    setTheme("paradise-lost");
+  } else {
+    setTheme("cyberpunk");
+  }
+}
+
+// 4. Global Theme Setter Function
+function setTheme(themeName) {
+  currentTheme = themeName;
+  document.body.setAttribute("data-theme", themeName);
+  localStorage.setItem("siteTheme", themeName);
+  updateUI();
+}
+
+// 5. Dynamic Button Text Updates & UI States
+function updateUI() {
+  const btn = document.getElementById("paradise-btn");
+  if (!btn) return;
+
+  if (currentTheme === "paradise-lost") {
+    btn.innerText = "ASCEND TO CYBERSPACE";
+  } else if (currentTheme === "analog") {
+    btn.innerText = "ABANDON ALL HOPE";
+  } else {
+    btn.innerText = "ABANDON ALL HOPE";
+  }
+}
+
+// Run UI check when the DOM is ready
+document.addEventListener("DOMContentLoaded", updateUI);
