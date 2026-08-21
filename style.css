@@ -3156,3 +3156,51 @@ body.eyestrain-mode {
   text-transform: uppercase !important;
   text-shadow: none !important;
 }
+/* Restructure Rules Container Layout */
+.rules-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  margin-bottom: 12px !important;
+}
+
+.rules-box-inner {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+}
+
+/* Reset the Badge to behave inside Flexbox */
+.lasagna-relic-seal,
+.y2k-approved-badge {
+  display: inline-flex !important;
+  flex-shrink: 0 !important;
+  align-items: center !important;
+  gap: 6px !important;
+  background: radial-gradient(circle, #1a1208 0%, #080502 100%) !important;
+  border: 1px solid #c5a059 !important;
+  box-shadow: 0 0 8px rgba(197, 160, 89, 0.2) !important;
+  padding: 4px 10px !important;
+  border-radius: 3px !important;
+  width: auto !important;
+}
+
+/* Clean up text sizing inside seal */
+.lasagna-relic-seal .seal-text {
+  color: #d4c5b0 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.15em !important;
+  white-space: nowrap !important;
+}
+
+.lasagna-relic-seal .seal-icon {
+  color: #c5a059 !important;
+  font-size: 0.8rem !important;
+}
+
+/* Un-squish the Drop-Cap "C" in Contact */
+p strong, p code {
+  display: inline !important;
+}
