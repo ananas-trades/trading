@@ -3204,3 +3204,13 @@ body.eyestrain-mode {
 p strong, p code {
   display: inline !important;
 }
+/* Nail the Lasagna badge down inside the box */
+.lasagna-relic-seal,
+.y2k-approved-badge {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  flex-shrink: 1 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
