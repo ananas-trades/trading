@@ -2181,201 +2181,121 @@ body.no-eyestrain * {
   box-shadow: 0 0 15px rgba(0, 243, 255, 0.8);
 }
 /* ===================================================
-   MULTIVERSE ENGINE: 3 MODES SETUP
+   PARADISE LOST: TRUE BIBLICAL HORROR & SACRED DECAY
    =================================================== */
 
-/* MODE 1: CYBERPUNK Y2K (DEFAULT) */
-body[data-theme="cyberpunk"] {
-  --bg-main: #0a0b10;
-  --text-main: #00ffcc;
-  --accent-color: #ff007f;
-  --border-color: #00f0ff;
-  --font-family: 'Courier New', monospace;
-  
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  font-family: var(--font-family);
-  box-shadow: inset 0 0 100px rgba(0, 240, 255, 0.1);
-}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=UnifrakturMaguntina&family=IM+Fell+English:ital@0;1&display=swap');
 
-/* MODE 2: ANALOG HORROR (DOUBLE-CLICK EASTER EGG) */
-body[data-theme="analog"] {
-  --bg-main: #050705;
-  --text-main: #a3b899;
-  --accent-color: #3f5e38;
-  --border-color: #273b23;
-  --font-family: 'VT323', monospace;
-
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  font-family: var(--font-family);
-  filter: contrast(110%) brightness(90%);
-}
-
-/* CRT Overlay for Analog Mode */
-body[data-theme="analog"]::after {
-  content: " ";
-  position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.5),
-    rgba(0, 0, 0, 0.5) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* MODE 3: PARADISE LOST (BIBLICAL RUIN) */
+/* Force-Override Theme Variables */
 body[data-theme="paradise-lost"] {
-  --bg-main: #060407;
-  --text-main: #c4b8aa;
-  --accent-color: #7a1c1c;
-  --gold-accent: #b89335;
-  --border-color: #3b1010;
-  --font-family: 'Times New Roman', serif;
+  --bg-main: #020103 !important;
+  --text-main: #bdae9e !important;
+  --accent-color: #7a1010 !important;
+  --gold-accent: #8c6f2d !important;
+  --border-color: #3d0a0a !important;
+  --font-family: 'IM Fell English', 'Times New Roman', serif !important;
 
-  background: radial-gradient(circle at center, #14080a 0%, #060407 100%);
-  color: var(--text-main);
-  font-family: var(--font-family);
-}
-
-/* ===================================================
-   INTERACTIVE BUTTONS & BADGES
-   =================================================== */
-
-/* "Abandon All Hope" Trigger Button */
-.abandon-btn {
-  background: #000;
-  color: var(--accent-color);
-  border: 1px solid var(--border-color);
-  padding: 8px 16px;
-  cursor: pointer;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
-}
-
-.abandon-btn:hover {
-  box-shadow: 0 0 10px var(--accent-color);
-}
-
-/* Lasagna Relic Seal (Paradise Lost Variant) */
-body[data-theme="paradise-lost"] .lasagna-relic-seal {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid var(--gold-accent);
-  background: rgba(184, 147, 53, 0.08);
-  color: var(--gold-accent);
-  padding: 4px 10px;
-  font-family: 'Times New Roman', serif;
-  font-size: 0.75rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-/* ===================================================
-   PARADISE LOST: BIBLICAL HORROR & MANUSCRIPT DECAY
-   =================================================== */
-
-/* Import Cursed Gothic & Illuminated Serif Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=UnifrakturMaguntina&family=IM+Fell+English:ital,wght@0,400;0,700;1,400&display=swap');
-
-body[data-theme="paradise-lost"] {
-  --bg-main: #020203;
-  --text-main: #9c9284;
-  --accent-color: #520a0a;
-  --gold-accent: #785e23;
-  --border-color: #210505;
-  --font-family: 'IM Fell English', 'Times New Roman', serif;
-
-  background-color: var(--bg-main);
-  /* CRT Scanlines + Vignette Shadow Overlay */
+  /* Atmospheric Crimson/Void Background with CRT Scanlines */
+  background-color: #020103 !important;
   background-image: 
-    radial-gradient(circle at 50% 40%, rgba(20, 5, 8, 0.6) 0%, rgba(2, 2, 3, 0.95) 85%),
-    repeating-linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25) 1px, transparent 1px, transparent 2px);
-  color: var(--text-main);
-  font-family: var(--font-family);
-  filter: sepia(30%) contrast(120%) brightness(80%);
+    radial-gradient(circle at 50% 30%, #1c0508 0%, #080204 55%, #020103 90%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3) 1px, transparent 1px, transparent 2px) !important;
+  background-attachment: fixed !important;
+  color: var(--text-main) !important;
+  font-family: var(--font-family) !important;
+  filter: sepia(25%) contrast(125%) brightness(80%) !important;
 }
 
-/* Headings in Archaic Blackletter */
+/* KILL ALL NEON GLOWS & BLUE BORDERS ACROSS ALL ELEMENTS */
+body[data-theme="paradise-lost"] *,
+body[data-theme="paradise-lost"] *::before,
+body[data-theme="paradise-lost"] *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  border-color: var(--border-color) !important;
+}
+
+/* 1. ARCHAIC GOTHIC HEADINGS */
 body[data-theme="paradise-lost"] h1,
 body[data-theme="paradise-lost"] h2,
-body[data-theme="paradise-lost"] h3 {
+body[data-theme="paradise-lost"] h3,
+body[data-theme="paradise-lost"] .header-emoji {
   font-family: 'UnifrakturMaguntina', serif !important;
-  color: #7a1414 !important;
-  text-shadow: 1px 1px 0px #000, -1px -1px 0px #000 !important;
+  color: #8c1414 !important;
+  text-shadow: 2px 2px 0px #000 !important;
   letter-spacing: 2px !important;
-  text-transform: none !important;
-  animation: none !important;
 }
 
-/* Sharp Chiseled Cards & Uneven Decayed Alignment */
+/* 2. SACRED FRAMING (RELIC CARDS & BOXES) */
 body[data-theme="paradise-lost"] .rules-box,
+body[data-theme="paradise-lost"] .rules-box-inner,
 body[data-theme="paradise-lost"] .trade-card,
 body[data-theme="paradise-lost"] .section-box,
 body[data-theme="paradise-lost"] table,
-body[data-theme="paradise-lost"] input {
-  box-shadow: none !important;
-  border-radius: 0px !important;
+body[data-theme="paradise-lost"] input,
+body[data-theme="paradise-lost"] select,
+body[data-theme="paradise-lost"] .trade-drawer,
+body[data-theme="paradise-lost"] .nft-horror-content {
+  background: #080406 !important;
   border: 1px solid var(--border-color) !important;
   outline: 1px solid var(--gold-accent) !important;
-  outline-offset: -3px;
-  background: #050406 !important;
+  outline-offset: -4px;
+  border-radius: 0px !important;
 }
 
-/* Slight rotational decay for cards */
-body[data-theme="paradise-lost"] .trade-card:nth-child(even) {
-  transform: rotate(-0.3deg);
-}
-body[data-theme="paradise-lost"] .trade-card:nth-child(odd) {
-  transform: rotate(0.2deg);
-}
-
-/* Monastic Illuminated Drop Cap for First Paragraph/Rules */
+/* 3. ILLUMINATED DROP CAPS FOR RULES */
 body[data-theme="paradise-lost"] .rules-box p::first-letter {
   font-family: 'Cinzel Decorative', serif;
   font-size: 2.2rem;
-  color: #7a1414;
+  color: #8c1414;
   float: left;
   line-height: 1;
-  padding-right: 6px;
+  padding-right: 8px;
 }
 
-/* Ominous Wax Stamp for Lasagna Approved */
-body[data-theme="paradise-lost"] .lasagna-relic-seal,
-body[data-theme="paradise-lost"] .y2k-approved-badge {
-  background: #2b0505 !important;
+/* 4. BUTTONS & CONTROLS (ALTAR SEALS) */
+body[data-theme="paradise-lost"] button,
+body[data-theme="paradise-lost"] .filter-btn,
+body[data-theme="paradise-lost"] .cat-btn,
+body[data-theme="paradise-lost"] .abandon-btn {
+  background: #020103 !important;
   color: var(--gold-accent) !important;
   border: 1px solid var(--gold-accent) !important;
   border-radius: 0px !important;
   font-family: 'Cinzel Decorative', serif !important;
-  font-size: 0.65rem !important;
-  letter-spacing: 2px !important;
+  letter-spacing: 1.5px !important;
   text-transform: uppercase !important;
-  box-shadow: none !important;
-  animation: none !important;
-}
-
-/* Dark Medieval Controls & Buttons */
-body[data-theme="paradise-lost"] .abandon-btn,
-body[data-theme="paradise-lost"] .filter-btn,
-body[data-theme="paradise-lost"] .cat-btn {
-  background: #000000 !important;
-  color: var(--gold-accent) !important;
-  border: 1px solid var(--border-color) !important;
-  font-family: 'Cinzel Decorative', serif !important;
-  border-radius: 0px !important;
-  box-shadow: none !important;
 }
 
 body[data-theme="paradise-lost"] .filter-btn.active,
 body[data-theme="paradise-lost"] .cat-btn.active {
-  background: #2b0505 !important;
-  color: #c9bfb1 !important;
-  border-color: var(--gold-accent) !important;
+  background: #3b0808 !important;
+  color: #dfd3c3 !important;
+}
+
+/* 5. LASAGNA RELIC STAMP (BLOOD WAX SEAL) */
+body[data-theme="paradise-lost"] .lasagna-relic-seal,
+body[data-theme="paradise-lost"] .y2k-approved-badge {
+  background: #3d0606 !important;
+  color: var(--gold-accent) !important;
+  border: 1px double var(--gold-accent) !important;
+  border-radius: 0px !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-size: 0.7rem !important;
+  padding: 4px 10px !important;
+}
+
+/* 6. ROTATING SACRED WATERMARK BACKGROUND */
+body[data-theme="paradise-lost"]::after {
+  content: "🕇";
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 35vw;
+  color: #3d0606;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+  user-select: none;
 }
