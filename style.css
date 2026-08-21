@@ -2475,43 +2475,38 @@ body.paradise-lost-mode .trading-rules {
   background-repeat: no-repeat !important;
 }
 /* ============================================================
-   PARADISE LOST: HEAVEN (TOP) vs. INFERNO (CARDS)
+   PARADISE LOST: HEAVEN (TOP) vs. HELL (CARDS) OVERRIDE
    ============================================================ */
 
-/* --- 1. EMPYREAN HEAVEN (TOP SECTION & CONTROLS) --- */
-
-/* Heavenly Header & Rules Box Overlay */
-[data-theme="paradise-lost"] header,
-[data-theme="paradise-lost"] #trading-rules-box,
-[data-theme="paradise-lost"] .top-banner,
-body.paradise-lost-mode header,
-body.paradise-lost-mode #trading-rules-box,
-body.paradise-lost-mode .top-banner {
+/* --- 1. HEAVEN: TOP CONTAINER & EDEN ARTWORK --- */
+body #main-header,
+body .header-container,
+body #trading-rules-box,
+body .trading-rules,
+div[class*="header"],
+div[class*="rules"] {
   background: 
-    linear-gradient(rgba(11, 26, 48, 0.85), rgba(3, 8, 20, 0.92)), 
-    url("https://themasterstable.blog/wp-content/uploads/2012/07/adam-eve-serpent.jpg") center/cover no-repeat !important;
+    linear-gradient(rgba(11, 26, 48, 0.70), rgba(3, 8, 20, 0.85)), 
+    url("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg/500px-Jan_Brueghel_de_Oude_en_Peter_Paul_Rubens_-_Het_aards_paradijs_met_de_zondeval_van_Adam_en_Eva.jpg") center/cover no-repeat !important;
   border: 2px solid #ffd700 !important;
   outline: 1px solid #4169e1 !important;
   outline-offset: -5px;
-  box-shadow: 0 0 25px rgba(65, 105, 225, 0.4), inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
+  box-shadow: 0 0 25px rgba(65, 105, 225, 0.5), inset 0 0 15px rgba(255, 215, 0, 0.2) !important;
 }
 
-/* Radiant Celestial Typography */
-[data-theme="paradise-lost"] header h1,
-[data-theme="paradise-lost"] #trading-rules-box h2,
-body.paradise-lost-mode header h1,
-body.paradise-lost-mode #trading-rules-box h2 {
+/* Heavenly Header Glowing Text */
+body h1, 
+body .site-title,
+#trading-rules-box h2 {
   color: #fff8dc !important;
   text-shadow: 0 0 10px #ffd700, 0 0 20px #ffae00, 0 0 30px rgba(255, 255, 255, 0.8) !important;
-  letter-spacing: 3px !important;
 }
 
-/* Replacing Cyan Eyestrain & Top Floating Buttons with Angelic Blue/Gold */
-[data-theme="paradise-lost"] #top-button,
-[data-theme="paradise-lost"] .eyestrain-btn,
-[data-theme="paradise-lost"] .back-to-top,
-body.paradise-lost-mode #top-button,
-body.paradise-lost-mode .back-to-top {
+/* Replace Cyan Buttons with Angelic Sapphire/Gold */
+#top-button, 
+.back-to-top, 
+.eyestrain-btn,
+button[id*="top"] {
   background: linear-gradient(180deg, #102a45 0%, #050e1a 100%) !important;
   border: 1px solid #ffd700 !important;
   color: #f0e68c !important;
@@ -2519,51 +2514,48 @@ body.paradise-lost-mode .back-to-top {
   text-shadow: 0 0 5px #ffd700 !important;
 }
 
-/* --- 2. THE INFERNAL ABYSS (FILTER BUTTONS & ITEM CARDS) --- */
+/* --- 2. HELL: FILTER BUTTONS & ITEM CARDS BELOW --- */
+body .item-card, 
+body .card, 
+body .card-container,
+div[class*="card"] {
+  background: radial-gradient(circle, rgba(25, 4, 7, 0.95) 0%, rgba(5, 1, 2, 0.98) 100%) !important;
+  border: 2px solid #8b0000 !important;
+  outline: 1px solid #ff4500 !important;
+  outline-offset: -5px;
+  color: #d4af37 !important;
+  box-shadow: 0 0 20px rgba(139, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
+}
 
-/* Hellish Filter Navigation Buttons */
-[data-theme="paradise-lost"] .filter-btn,
-[data-theme="paradise-lost"] .category-btn,
-body.paradise-lost-mode .filter-btn,
-body.paradise-lost-mode .category-btn {
+/* Infernal Card Titles */
+body .item-card h3, 
+body .card h3 {
+  color: #ff6347 !important;
+  text-shadow: 0 0 8px rgba(139, 0, 0, 0.8) !important;
+}
+
+/* Fiery Red Filter Navigation Buttons */
+body .filter-btn, 
+body .category-btn, 
+button[class*="filter"] {
   background: linear-gradient(180deg, #2b0000 0%, #0f0000 100%) !important;
   border: 1px solid #8b0000 !important;
   color: #d4af37 !important;
-  font-family: 'Cinzel Decorative', serif !important;
   box-shadow: 0 0 8px rgba(139, 0, 0, 0.5) !important;
 }
 
-[data-theme="paradise-lost"] .filter-btn:hover,
-[data-theme="paradise-lost"] .filter-btn.active,
-body.paradise-lost-mode .filter-btn.active {
+body .filter-btn:hover, 
+body .filter-btn.active {
   background: linear-gradient(180deg, #5e0000 0%, #1f0000 100%) !important;
   border-color: #ff4500 !important;
   color: #ffffff !important;
   box-shadow: 0 0 15px rgba(255, 69, 0, 0.8) !important;
 }
 
-/* Infernal Cards (Obsidian, Crimson & Smoldering Amber Text) */
-[data-theme="paradise-lost"] .item-card,
-[data-theme="paradise-lost"] .card-container,
-body.paradise-lost-mode .item-card {
-  background: radial-gradient(circle, rgba(25, 4, 7, 0.95) 0%, rgba(5, 1, 2, 0.98) 100%) !important;
-  border: 2px solid #8b0000 !important;
-  outline: 1px solid #ff4500 !important;
-  outline-offset: -5px;
-  color: #d4af37 !important;
-  box-shadow: 0 0 20px rgba(139, 0, 0, 0.5), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
-}
-
-[data-theme="paradise-lost"] .item-card h3,
-body.paradise-lost-mode .item-card h3 {
-  font-family: 'Cinzel Decorative', serif !important;
-  color: #ff6347 !important;
-  text-shadow: 0 0 8px rgba(139, 0, 0, 0.8) !important;
-}
-
-/* Bottom Trade Request Floating Bar */
-[data-theme="paradise-lost"] .trade-request-btn,
-body.paradise-lost-mode .trade-request-btn {
+/* Trade Request Bar */
+#trade-request-btn, 
+.trade-request-btn, 
+div[class*="trade-request"] {
   background: linear-gradient(180deg, #3a0000 0%, #0f0000 100%) !important;
   border: 1px solid #ff4500 !important;
   color: #ffd700 !important;
