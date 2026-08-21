@@ -2181,120 +2181,124 @@ body.no-eyestrain * {
   box-shadow: 0 0 15px rgba(0, 243, 255, 0.8);
 }
 /* ===================================================
-   PARADISE LOST: TRUE BIBLICAL HORROR & SACRED DECAY
+ /* ===================================================
+   PARADISE LOST: FULL BIBLICAL HORROR OVERHAUL
    =================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=UnifrakturMaguntina&family=IM+Fell+English:ital@0;1&display=swap');
 
-/* Force-Override Theme Variables */
 body[data-theme="paradise-lost"] {
   --bg-main: #020103 !important;
-  --text-main: #bdae9e !important;
+  --text-main: #a89a88 !important;
   --accent-color: #7a1010 !important;
   --gold-accent: #8c6f2d !important;
   --border-color: #3d0a0a !important;
   --font-family: 'IM Fell English', 'Times New Roman', serif !important;
 
-  /* Atmospheric Crimson/Void Background with CRT Scanlines */
   background-color: #020103 !important;
   background-image: 
-    radial-gradient(circle at 50% 30%, #1c0508 0%, #080204 55%, #020103 90%),
-    repeating-linear-gradient(0deg, rgba(0,0,0,0.3), rgba(0,0,0,0.3) 1px, transparent 1px, transparent 2px) !important;
+    radial-gradient(circle at 50% 20%, #1a0507 0%, #080204 60%, #020103 95%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4) 1px, transparent 1px, transparent 2px) !important;
   background-attachment: fixed !important;
   color: var(--text-main) !important;
   font-family: var(--font-family) !important;
-  filter: sepia(25%) contrast(125%) brightness(80%) !important;
+  filter: sepia(20%) contrast(120%) brightness(85%) !important;
 }
 
-/* KILL ALL NEON GLOWS & BLUE BORDERS ACROSS ALL ELEMENTS */
-body[data-theme="paradise-lost"] *,
-body[data-theme="paradise-lost"] *::before,
-body[data-theme="paradise-lost"] *::after {
-  box-shadow: none !important;
-  text-shadow: none !important;
-  border-color: var(--border-color) !important;
+/* 1. FIX THE DROP CAP OVERLAP IN RULES */
+body[data-theme="paradise-lost"] .rules-box p {
+  line-height: 1.6 !important;
 }
-
-/* 1. ARCHAIC GOTHIC HEADINGS */
-body[data-theme="paradise-lost"] h1,
-body[data-theme="paradise-lost"] h2,
-body[data-theme="paradise-lost"] h3,
-body[data-theme="paradise-lost"] .header-emoji {
-  font-family: 'UnifrakturMaguntina', serif !important;
-  color: #8c1414 !important;
-  text-shadow: 2px 2px 0px #000 !important;
-  letter-spacing: 2px !important;
-}
-
-/* 2. SACRED FRAMING (RELIC CARDS & BOXES) */
-body[data-theme="paradise-lost"] .rules-box,
-body[data-theme="paradise-lost"] .rules-box-inner,
-body[data-theme="paradise-lost"] .trade-card,
-body[data-theme="paradise-lost"] .section-box,
-body[data-theme="paradise-lost"] table,
-body[data-theme="paradise-lost"] input,
-body[data-theme="paradise-lost"] select,
-body[data-theme="paradise-lost"] .trade-drawer,
-body[data-theme="paradise-lost"] .nft-horror-content {
-  background: #080406 !important;
-  border: 1px solid var(--border-color) !important;
-  outline: 1px solid var(--gold-accent) !important;
-  outline-offset: -4px;
-  border-radius: 0px !important;
-}
-
-/* 3. ILLUMINATED DROP CAPS FOR RULES */
 body[data-theme="paradise-lost"] .rules-box p::first-letter {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 2.2rem;
-  color: #8c1414;
-  float: left;
-  line-height: 1;
-  padding-right: 8px;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-size: 2.5rem !important;
+  color: #8c1414 !important;
+  float: left !important;
+  line-height: 0.8 !important;
+  margin-right: 8px !important;
+  margin-top: 4px !important;
 }
 
-/* 4. BUTTONS & CONTROLS (ALTAR SEALS) */
-body[data-theme="paradise-lost"] button,
-body[data-theme="paradise-lost"] .filter-btn,
-body[data-theme="paradise-lost"] .cat-btn,
-body[data-theme="paradise-lost"] .abandon-btn {
-  background: #020103 !important;
+/* 2. OVERRIDE LASAGNA SEAL (REMOVE BLUE STARS) */
+body[data-theme="paradise-lost"] .y2k-approved-badge,
+body[data-theme="paradise-lost"] .lasagna-relic-seal {
+  background: #2b0505 !important;
   color: var(--gold-accent) !important;
-  border: 1px solid var(--gold-accent) !important;
-  border-radius: 0px !important;
+  border: 1px double var(--gold-accent) !important;
   font-family: 'Cinzel Decorative', serif !important;
-  letter-spacing: 1.5px !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+}
+body[data-theme="paradise-lost"] .y2k-approved-badge::before,
+body[data-theme="paradise-lost"] .y2k-approved-badge::after {
+  content: " ✝ " !important;
+  color: var(--gold-accent) !important;
+}
+
+/* 3. OVERRIDE ALL TRADE CARDS & SHOW COUNTER */
+body[data-theme="paradise-lost"] #stats {
+  color: var(--gold-accent) !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  letter-spacing: 2px !important;
+  font-size: 0.85rem !important;
   text-transform: uppercase !important;
 }
 
-body[data-theme="paradise-lost"] .filter-btn.active,
-body[data-theme="paradise-lost"] .cat-btn.active {
-  background: #3b0808 !important;
-  color: #dfd3c3 !important;
-}
-
-/* 5. LASAGNA RELIC STAMP (BLOOD WAX SEAL) */
-body[data-theme="paradise-lost"] .lasagna-relic-seal,
-body[data-theme="paradise-lost"] .y2k-approved-badge {
-  background: #3d0606 !important;
-  color: var(--gold-accent) !important;
-  border: 1px double var(--gold-accent) !important;
+body[data-theme="paradise-lost"] .trade-card {
+  background: #060305 !important;
+  border: 1px solid var(--border-color) !important;
+  outline: 1px solid var(--gold-accent) !important;
+  outline-offset: -4px !important;
   border-radius: 0px !important;
-  font-family: 'Cinzel Decorative', serif !important;
-  font-size: 0.7rem !important;
-  padding: 4px 10px !important;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.9) !important;
 }
 
-/* 6. ROTATING SACRED WATERMARK BACKGROUND */
+body[data-theme="paradise-lost"] .trade-card h3 {
+  font-family: 'UnifrakturMaguntina', serif !important;
+  color: #9e1b1b !important;
+  font-size: 1.3rem !important;
+  letter-spacing: 1px !important;
+}
+
+/* 4. OVERRIDE CARDS' FORMAT BADGES (NO MORE YELLOW/PURPLE) */
+body[data-theme="paradise-lost"] .trade-card .badge,
+body[data-theme="paradise-lost"] .trade-card span[class*="tag"],
+body[data-theme="paradise-lost"] .trade-card .format-tag {
+  background: #1f0404 !important;
+  color: var(--gold-accent) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 0px !important;
+  font-family: 'IM Fell English', serif !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  box-shadow: none !important;
+}
+
+/* 5. ARCHAIC INPUTS & SEARCH BAR */
+body[data-theme="paradise-lost"] #search-input {
+  background: #050204 !important;
+  border: 1px solid var(--gold-accent) !important;
+  color: var(--text-main) !important;
+  font-family: 'IM Fell English', serif !important;
+  font-style: italic !important;
+  border-radius: 0px !important;
+}
+
+body[data-theme="paradise-lost"] #search-input::placeholder {
+  color: #5e1313 !important;
+}
+
+/* 6. GIANT BACKGROUND SACRED SYMBOL */
 body[data-theme="paradise-lost"]::after {
   content: "🕇";
   position: fixed;
-  top: 40%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 35vw;
-  color: #3d0606;
-  opacity: 0.04;
+  font-size: 40vw;
+  color: #380808;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 0;
   user-select: none;
