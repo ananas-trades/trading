@@ -2278,77 +2278,108 @@ body[data-theme="paradise-lost"] .lasagna-relic-seal {
 }
 
 /* ===================================================
-   PARADISE LOST: SACRED & BIBLICAL AESTHETICS
+   MODE 3: PARADISE LOST (BIBLICAL HORROR & RUIN)
    =================================================== */
 
-/* 1. Sacred Framing for Containers, Tables, & Cards */
+/* Import Cursed Gothic & Illuminated Serif Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=UnifrakturMaguntina&family=IM+Fell+English:ital@0;1&display=swap');
+
+body[data-theme="paradise-lost"] {
+  --bg-main: #030204;
+  --text-main: #b8ac9c;
+  --accent-color: #610e0e;
+  --gold-accent: #8c6f2d;
+  --border-color: #2b0808;
+  --font-family: 'IM Fell English', 'Times New Roman', serif;
+
+  background: #030204;
+  background-image: 
+    radial-gradient(circle at 50% 30%, #17080b 0%, #030204 80%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  filter: sepia(20%) contrast(115%) brightness(85%);
+}
+
+/* Headings in Gothic Blackletter */
+body[data-theme="paradise-lost"] h1,
+body[data-theme="paradise-lost"] h2,
+body[data-theme="paradise-lost"] h3 {
+  font-family: 'UnifrakturMaguntina', 'Cinzel Decorative', serif !important;
+  color: #8c1c1c !important;
+  text-shadow: 0 0 1px #000, 2px 2px 0px #000 !important;
+  letter-spacing: 2px !important;
+  text-transform: none !important;
+  animation: none !important; /* Glow Removed */
+}
+
+/* Stripped Card & Box Glows (Sharp Chiseled Relics) */
+body[data-theme="paradise-lost"] .rules-box,
 body[data-theme="paradise-lost"] .trade-card,
 body[data-theme="paradise-lost"] .section-box,
-body[data-theme="paradise-lost"] table {
+body[data-theme="paradise-lost"] table,
+body[data-theme="paradise-lost"] input,
+body[data-theme="paradise-lost"] button {
+  box-shadow: none !important; /* Glow Removed completely */
+  border-radius: 0px !important; /* Sharp medieval edges */
   border: 1px solid var(--border-color) !important;
   outline: 1px solid var(--gold-accent) !important;
-  outline-offset: -4px;
-  background: rgba(10, 8, 13, 0.85);
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9), 0 0 10px rgba(122, 28, 28, 0.3);
+  outline-offset: -3px;
+  background: #080609 !important;
 }
 
-/* 2. Biblical Latin Epigraphs */
-.latin-epigraph {
-  display: block;
-  font-family: 'Times New Roman', serif;
-  font-style: italic;
-  font-size: 0.85rem;
-  letter-spacing: 2px;
-  text-align: center;
-  color: #7a1c1c;
-  opacity: 0.45;
-  margin: 15px 0;
-  text-transform: uppercase;
-  user-select: none;
-  pointer-events: none;
+/* Buttons (Ominous Stone Seals) */
+body[data-theme="paradise-lost"] .abandon-btn,
+body[data-theme="paradise-lost"] .filter-btn,
+body[data-theme="paradise-lost"] .cat-btn {
+  background: #000 !important;
+  color: var(--gold-accent) !important;
+  border: 1px solid var(--border-color) !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  border-radius: 0px !important;
+  box-shadow: none !important;
 }
 
-/* Background Corner Watermark (Paradise Lost Mode Only) */
+body[data-theme="paradise-lost"] .filter-btn.active,
+body[data-theme="paradise-lost"] .cat-btn.active {
+  background: #3b0a0a !important;
+  color: #d1c5b4 !important;
+  border-color: var(--gold-accent) !important;
+}
+
+/* Lasagna Relic Stamp (Wax Altar Seal) */
+body[data-theme="paradise-lost"] .lasagna-relic-seal,
+body[data-theme="paradise-lost"] .y2k-approved-badge {
+  background: #3d0808 !important;
+  color: var(--gold-accent) !important;
+  border: 1px double var(--gold-accent) !important;
+  border-radius: 0px !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 2px !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+/* Cursed Watermarks & Latin Epigraphs */
+body[data-theme="paradise-lost"] .latin-epigraph {
+  font-family: 'IM Fell English', serif !important;
+  font-style: italic !important;
+  color: #7a1c1c !important;
+  opacity: 0.7 !important;
+  letter-spacing: 3px !important;
+}
+
 body[data-theme="paradise-lost"]::before {
-  content: "IN PRINCIPIO ERAT VERBUM • FACTA EST LUX • DESCENDIT AD INFERNOS";
+  content: "NON SERVIAM • DESCENDIT AD INFERNOS • ABYSSUS ABYSSUM INVOCAT";
   position: fixed;
-  bottom: 10px;
+  bottom: 8px;
   right: 15px;
-  font-family: 'Times New Roman', serif;
-  font-size: 0.7rem;
-  letter-spacing: 3px;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.65rem;
+  letter-spacing: 4px;
   color: var(--gold-accent);
-  opacity: 0.2;
+  opacity: 0.25;
   pointer-events: none;
   z-index: 100;
-}
-
-/* 3. Flickering Votive Light (Candlelight Glow Animation) */
-@keyframes votiveFlicker {
-  0% {
-    box-shadow: 0 0 12px rgba(184, 147, 53, 0.25), 0 0 25px rgba(122, 28, 28, 0.3);
-  }
-  25% {
-    box-shadow: 0 0 18px rgba(184, 147, 53, 0.4), 0 0 35px rgba(122, 28, 28, 0.5);
-  }
-  40% {
-    box-shadow: 0 0 10px rgba(184, 147, 53, 0.2), 0 0 20px rgba(122, 28, 28, 0.25);
-  }
-  60% {
-    box-shadow: 0 0 22px rgba(184, 147, 53, 0.45), 0 0 40px rgba(122, 28, 28, 0.6);
-  }
-  80% {
-    box-shadow: 0 0 14px rgba(184, 147, 53, 0.3), 0 0 28px rgba(122, 28, 28, 0.35);
-  }
-  100% {
-    box-shadow: 0 0 12px rgba(184, 147, 53, 0.25), 0 0 25px rgba(122, 28, 28, 0.3);
-  }
-}
-
-/* Apply flickering votive glow to key items in Paradise Lost mode */
-body[data-theme="paradise-lost"] .votive-glow,
-body[data-theme="paradise-lost"] .lasagna-relic-seal,
-body[data-theme="paradise-lost"] h1 {
-  animation: votiveFlicker 3s infinite ease-in-out;
-  border-radius: 4px;
 }
