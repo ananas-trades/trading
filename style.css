@@ -2317,22 +2317,27 @@ body[data-theme="paradise-lost"] .trade-card::before {
   font-size: 0.7rem;
   opacity: 0.6;
 }
-/* FORCE-STRIP DYNAMIC CYAN BORDERS & CARDS */
-body[data-theme="paradise-lost"] div[class*="card"],
-body[data-theme="paradise-lost"] .trade-card,
-body[data-theme="paradise-lost"] [style*="border"] {
-  border: 1px solid #4a1212 !important;
-  outline: 2px double #c29b38 !important;
-  outline-offset: -5px !important;
+/* RESET ALL INNER ELEMENT BORDERS INSIDE CARDS */
+body[data-theme="paradise-lost"] .trade-card * {
+  outline: none !important;
+  border: none !important;
   box-shadow: none !important;
-  border-radius: 0 !important;
 }
 
-/* OVERRIDE DYNAMIC JS HOVER STATES */
-body[data-theme="paradise-lost"] div[class*="card"]:hover,
-body[data-theme="paradise-lost"] .trade-card:hover {
-  border-color: #8c1414 !important;
-  outline-color: #e6b845 !important;
-  background-color: #0c0406 !important;
-  box-shadow: 0 0 15px rgba(140, 20, 20, 0.4) !important;
+/* APPLY BORDER ONLY TO THE OUTER CARD CONTAINER */
+body[data-theme="paradise-lost"] .trade-card {
+  border: 1px solid #4a1212 !important;
+  outline: 2px solid #8c6e30 !important;
+  outline-offset: -4px !important;
+  background: #080406 !important;
+}
+
+/* KEEP SPECIFIC BADGES/TAGS DISTINCT WITHOUT FULL OUTLINES */
+body[data-theme="paradise-lost"] .trade-card .badge,
+body[data-theme="paradise-lost"] .trade-card .format-tag,
+body[data-theme="paradise-lost"] .trade-card span[class*="tag"] {
+  background: #1f0709 !important;
+  color: #c29b38 !important;
+  border: 1px solid #3b0c0c !important;
+  padding: 2px 6px !important;
 }
