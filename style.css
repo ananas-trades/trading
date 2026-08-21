@@ -2206,3 +2206,84 @@ body[data-theme="paradise-lost"] a:hover {
   color: #e6b845 !important;
   border-bottom-style: solid !important;
 }
+/* ==========================================
+   PARADISE LOST: INFERNAL THEME OVERRIDES
+   ========================================== */
+
+/* Typography & Dark Abyss Palette */
+body, [data-theme="paradise-lost"] {
+  background-color: #080305 !important;
+  color: #d4af37 !important;
+  font-family: 'IM Fell English', serif !important;
+}
+
+h1, h2, h3, .heading-text {
+  font-family: 'Cinzel Decorative', serif !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #e5c158 !important;
+  text-shadow: 0 0 8px rgba(139, 0, 0, 0.6);
+}
+
+/* Ornate Gothic Borders & Frames */
+.card-container, #trading-rules-box, .item-card {
+  border: 2px solid #8b6d21 !important;
+  outline: 1px solid #4a0000 !important;
+  outline-offset: -5px;
+  background: radial-gradient(circle, rgba(20,5,7,0.95) 0%, rgba(5,1,2,0.98) 100%) !important;
+  box-shadow: 0 0 20px rgba(139, 0, 0, 0.35), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Infernal Interactive Elements & Buttons */
+button, .btn-action, #top-button, .trading-badge {
+  background: linear-gradient(180deg, #2b0000 0%, #0f0000 100%) !important;
+  border: 1px solid #b8860b !important;
+  color: #e5c158 !important;
+  font-family: 'Cinzel Decorative', serif !important;
+  box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+button:hover, .btn-action:hover {
+  background: linear-gradient(180deg, #4a0000 0%, #1a0000 100%) !important;
+  border-color: #ffd700 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.7);
+}
+
+/* Replacement for Neon "Top" Button */
+#top-button, .back-to-top {
+  border-color: #8b0000 !important;
+  color: #d4af37 !important;
+}
+
+/* Replacing Emojis with Custom SVGs (Serpent & Fallen Wing) */
+/* Replace Header Emoji Mask with Fallen Wing Icon */
+.header-icon::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  margin-right: 8px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4af37'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* Watermark Overlay: Serpent & Fallen Angel Motif */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23d4af37' d='M50 5 C25 25 10 50 50 95 C90 50 75 25 50 5 Z'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 600px;
+}
