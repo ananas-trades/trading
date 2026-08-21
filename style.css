@@ -2317,3 +2317,22 @@ body[data-theme="paradise-lost"] .trade-card::before {
   font-size: 0.7rem;
   opacity: 0.6;
 }
+/* FORCE-STRIP DYNAMIC CYAN BORDERS & CARDS */
+body[data-theme="paradise-lost"] div[class*="card"],
+body[data-theme="paradise-lost"] .trade-card,
+body[data-theme="paradise-lost"] [style*="border"] {
+  border: 1px solid #4a1212 !important;
+  outline: 2px double #c29b38 !important;
+  outline-offset: -5px !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* OVERRIDE DYNAMIC JS HOVER STATES */
+body[data-theme="paradise-lost"] div[class*="card"]:hover,
+body[data-theme="paradise-lost"] .trade-card:hover {
+  border-color: #8c1414 !important;
+  outline-color: #e6b845 !important;
+  background-color: #0c0406 !important;
+  box-shadow: 0 0 15px rgba(140, 20, 20, 0.4) !important;
+}
