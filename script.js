@@ -1939,15 +1939,32 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   updateButtonLabel();
-  initCardBrimstones(); // Spawn static local card canvases
+  
+  // Try immediately and keep polling until cards exist
+  initCardBrimstones();
+  const cardInterval = setInterval(() => {
+    if (document.querySelectorAll('.bootleg-card-actions, .card-actions, div[class*="actions"]').length > 0) {
+      initCardBrimstones();
+      clearInterval(cardInterval);
+    }
+  }, 200);
 });
 
-// 1. INJECT LOCAL BRIMSTONE CANVASES (Scroll-Proof & Card-Specific)
+// Watch for dynamic card grid updates (filtering, searching, loading)
+const observer = new MutationObserver(() => {
+  initCardBrimstones();
+});
+observer.observe(document.body, { childList: true, subtree: true });
+
+// 1. INJECT LOCAL BRIMSTONE CANVASES
 function initCardBrimstones() {
-  // Target ONLY trading card action panels (prevents matching top banners/rules)
-  const cardPanels = document.querySelectorAll('.bootleg-card .card-actions, .card .card-actions, .bootleg-card-actions');
+  // Target action bars specifically inside cards
+  const cardPanels = document.querySelectorAll('.bootleg-card .card-actions, .card .card-actions, .bootleg-card-actions, div[class*="actions"]');
   
   cardPanels.forEach((panel, index) => {
+    // Ignore top rule banners/headers
+    if (panel.closest('.rules-box') || panel.closest('.header') || panel.closest('#trading-rules')) return;
+    
     // Avoid duplicate canvases
     if (panel.querySelector('.brimstone-canvas')) return;
 
@@ -1955,22 +1972,21 @@ function initCardBrimstones() {
 
     const localCanvas = document.createElement('canvas');
     localCanvas.className = 'brimstone-canvas';
-    localCanvas.style.cssText = 'position: absolute; bottom: 0; left: 0; width: 100%; height: 36px; pointer-events: none; z-index: 100000;';
+    localCanvas.style.cssText = 'position: absolute; bottom: -2px; left: 0; width: 100%; height: 38px; pointer-events: none; z-index: 100000;';
     
     panel.appendChild(localCanvas);
 
-    // Set high DPI dimensions
-    const rect = panel.getBoundingClientRect();
-    localCanvas.width = rect.width || 300;
-    localCanvas.height = 36;
+    // Set canvas pixel buffer to match element size
+    const w = panel.offsetWidth || panel.getBoundingClientRect().width || 280;
+    localCanvas.width = w;
+    localCanvas.height = 38;
 
     const ctx = localCanvas.getContext('2d');
-    drawLocalBrimstones(ctx, localCanvas.width, localCanvas.height, index);
+    drawLocalBrimstones(ctx, w, 38, index);
   });
 }
 
 function drawLocalBrimstones(ctx, w, h, cardIndex) {
-  // Seeds for distinct non-repeating crystal configurations per card
   const seeds = [
     [0.0, 0.12, 0.28, 0.45, 0.62, 0.78, 0.92, 1.0],
     [0.0, 0.08, 0.22, 0.38, 0.55, 0.72, 0.88, 1.0],
@@ -1986,7 +2002,6 @@ function drawLocalBrimstones(ctx, w, h, cardIndex) {
     const spireW = x2 - x1;
     const peakX = x1 + spireW * 0.4;
     
-    // Vary heights across the base
     const heightFactor = (i % 3 === 0) ? 0.9 : ((i % 2 === 0) ? 0.6 : 0.75);
     const peakY = h - (h * heightFactor);
 
@@ -1995,7 +2010,7 @@ function drawLocalBrimstones(ctx, w, h, cardIndex) {
     ctx.moveTo(x1, h);
     ctx.lineTo(peakX, peakY);
     ctx.lineTo(x1 + spireW * 0.5, h);
-    ctx.fillStyle = '#1a1a1a';
+    ctx.fillStyle = '#1c1c1c';
     ctx.fill();
 
     // 2. Pitch Black Right Facet
@@ -2018,7 +2033,7 @@ function drawLocalBrimstones(ctx, w, h, cardIndex) {
   }
 }
 
-// 2. FLOATING INFERNAL EMBERS ANIMATION (Full-Screen Fixed Canvas)
+// 2. FLOATING INFERNAL EMBERS ANIMATION
 const canvas = document.getElementById('ember-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -2028,7 +2043,10 @@ let height = (canvas.height = window.innerHeight);
 window.addEventListener('resize', () => {
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
-  initCardBrimstones(); // Recalculate local canvases on resize
+  
+  // Redraw local card canvases on resize
+  document.querySelectorAll('.brimstone-canvas').forEach(c => c.remove());
+  initCardBrimstones();
 });
 
 const embers = Array.from({ length: 45 }, () => ({
