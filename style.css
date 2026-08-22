@@ -3481,3 +3481,94 @@ body[data-theme="paradise-lost"] footer.y2k-watermark span {
   color: #ffd700 !important;
   font-weight: bold !important;
 }
+/* ============================================================
+   INFERNAL CARDS & PANDEMONIUM GRID OVERRIDES
+   ============================================================ */
+
+/* 1. Main Obsidian Card Structure & Magma Borders */
+body[data-theme="paradise-lost"] .card,
+body[data-theme="paradise-lost"] [class*="card"] {
+  background: linear-gradient(145deg, #0d0303 0%, #050101 100%) !important;
+  border: 1px solid #700000 !important;
+  outline: 1px solid #ffd700 !important;
+  outline-offset: -5px !important;
+  border-radius: 0px !important; /* Sharp gothic angles */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(112, 0, 0, 0.4) !important;
+  position: relative !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* 2. Hover State: Burning Brimstone Flare */
+body[data-theme="paradise-lost"] .card:hover,
+body[data-theme="paradise-lost"] [class*="card"]:hover {
+  transform: translateY(-4px) !important;
+  border-color: #ff3300 !important;
+  outline-color: #ffe87c !important;
+  box-shadow: 0 8px 30px rgba(255, 51, 0, 0.5), inset 0 0 25px rgba(255, 69, 0, 0.3) !important;
+}
+
+/* Corner Accents on Cards */
+body[data-theme="paradise-lost"] .card::before {
+  content: "✦";
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  color: #ffd700;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+/* 3. Card Show Titles & Cast Details */
+body[data-theme="paradise-lost"] .card h3,
+body[data-theme="paradise-lost"] .card-title {
+  color: #ffe87c !important;
+  font-family: 'Cinzel', serif !important;
+  letter-spacing: 0.5px !important;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6) !important;
+  border-bottom: 1px solid rgba(112, 0, 0, 0.8) !important;
+  padding-bottom: 8px !important;
+  margin-bottom: 10px !important;
+}
+
+body[data-theme="paradise-lost"] .card p,
+body[data-theme="paradise-lost"] .card-details {
+  color: #d1c2a5 !important;
+  font-family: 'IM Fell English', serif !important;
+  font-size: 0.95rem !important;
+}
+
+/* 4. Format Tags (Video / Audio Badges inside Cards) */
+body[data-theme="paradise-lost"] .format-badge,
+body[data-theme="paradise-lost"] .badge,
+body[data-theme="paradise-lost"] [class*="badge"] {
+  background: linear-gradient(180deg, #2b0303 0%, #120000 100%) !important;
+  border: 1px solid #ff3300 !important;
+  color: #ffcc00 !important;
+  font-family: 'Cinzel', serif !important;
+  text-shadow: 0 0 5px rgba(255, 51, 0, 0.8) !important;
+  box-shadow: 0 0 8px rgba(139, 0, 0, 0.6) !important;
+  padding: 3px 8px !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+}
+
+/* 5. "+ Add to Trade" Button Inside Cards */
+body[data-theme="paradise-lost"] .card button,
+body[data-theme="paradise-lost"] .add-to-cart-btn {
+  background: linear-gradient(180deg, #1f0505 0%, #080000 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffd700 !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;
+}
+
+body[data-theme="paradise-lost"] .card button:hover,
+body[data-theme="paradise-lost"] .add-to-cart-btn:hover {
+  background: linear-gradient(180deg, #5e0000 0%, #200000 100%) !important;
+  border-color: #ff3300 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(255, 51, 0, 0.8) !important;
+}
