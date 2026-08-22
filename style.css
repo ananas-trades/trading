@@ -1,3 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IM+Fell+English:ital@0;1&display=swap');
+
+/* Gentle Translucent Quarter-Sun Light (Top-Right) */
+html {
+  background-color: #030305 !important;
+  background-image: radial-gradient(
+    circle at 100% 0%, 
+    rgba(255, 245, 180, 0.18) 0%,   /* Faint golden core at exact top-right corner */
+    rgba(255, 215, 0, 0.06) 30%,    /* Soft celestial aura */
+    transparent 65%                 /* Fades seamlessly into dark background */
+  ) !important;
+  background-attachment: fixed !important;
+  min-height: 100vh;
+}
 [cite: 1]/* ============================================================
    Y2K NEON CYBER AESTHETIC - GLOBAL STYLES
 ============================================================ */
