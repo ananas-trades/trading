@@ -21,6 +21,20 @@
       document.documentElement.classList.add('paradise-lost', 'paradise-lost-mode');
     }
   })();
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (document.documentElement.getAttribute('data-theme') === 'paradise-lost') {
+      // Find elements that might be holding onto inline teal/cyan colors
+      document.querySelectorAll('.card span, .bootleg-card span, p span, strong').forEach(el => {
+        const color = window.getComputedStyle(el).color;
+        // If it detects cyan/teal, force it to gold/red
+        if (color === 'rgb(0, 255, 255)' || color === 'cyan' || color.includes('0, 255')) {
+          el.style.color = '#ff4500';
+        }
+      });
+    }
+  });
+</script>
 </script>
   <!-- Import classical typography for Paradise Lost -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
