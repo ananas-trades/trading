@@ -4028,65 +4028,20 @@ body::before {
   box-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
 }
 
-/* Floating Audio Toggle */
-.sound-toggle {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  background: #0a0a0d;
-  border: 1px solid #d4af37;
-  color: #d4af37;
-  padding: 6px 12px;
-  font-family: inherit;
-  cursor: pointer;
-  z-index: 1000;
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
-}
-/* style.css - Add this at the bottom or near the top */
-
-body::before {
-  content: "";
-  display: block;
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 450px;  /* Fixed size for the quarter-sun cast */
-  height: 450px;
-  pointer-events: none;
-  z-index: 1; /* Sits above background, under interactive cards */
-
-  /* Translucent quarter-sun shape coming out of top-right corner */
-  background: radial-gradient(
+/* Gentle Top-Right Corner Light (Replaces broken body::before) */
+html {
+  background-color: #030305 !important;
+  background-image: radial-gradient(
     circle at 100% 0%, 
-    rgba(255, 245, 180, 0.35) 0%,   /* Bright golden center at exact corner */
-    rgba(255, 215, 0, 0.18) 30%,    /* Warm celestial ray glow */
-    rgba(255, 215, 0, 0.05) 60%,    /* Soft fading edge */
-    transparent 80%
+    rgba(255, 240, 160, 0.15) 0%, 
+    rgba(255, 215, 0, 0.05) 30%, 
+    transparent 65%
   ) !important;
-}
-.bottom-eyestrain-btn {
-  position: fixed;
-  bottom: 12px;
-  left: 12px;
-  z-index: 9999;
-  background: #0a0a0d;
-  border: 1px solid #d4af37;
-  color: #d4af37;
-  font-family: inherit;
-  font-size: 0.75rem;
-  padding: 6px 12px;
-  cursor: pointer;
-  white-space: nowrap;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+  background-attachment: fixed !important;
 }
 
-.bottom-eyestrain-btn:hover {
-  border-color: #ffaa00;
-  color: #ffaa00;
-  box-shadow: 0 0 8px rgba(255, 170, 0, 0.4);
-}
-/* Fix massive left-side panel overflow */
-#toggle-eyestrain-btn.fixed-eyestrain-btn {
+/* Eyestrain Button Styles */
+#toggle-eyestrain-btn {
   position: fixed !important;
   bottom: 15px !important;
   left: 15px !important;
@@ -4107,9 +4062,16 @@ body::before {
   white-space: nowrap !important;
   display: block !important;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.9) !important;
+  cursor: pointer !important;
 }
 
-/* Ensure drawer/overlay don't stretch into a gigantic left bar when closed */
+#toggle-eyestrain-btn:hover {
+  border-color: #ffaa00 !important;
+  color: #ffaa00 !important;
+  box-shadow: 0 0 8px rgba(255, 170, 0, 0.4) !important;
+}
+
+/* Hide inactive drawers */
 #trade-drawer:not(.active),
 #drawer-overlay:not(.active) {
   display: none !important;
