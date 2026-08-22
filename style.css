@@ -4073,45 +4073,39 @@ header.container,
   backdrop-filter: blur(4px);
 }
 
-/* Celestial Quarter-Sun Light Overlay */
-html {
-  background-color: #030305 !important;
-  background-image: radial-gradient(
-    circle at 100% 0%, 
-    rgba(255, 220, 120, 0.45) 0%, 
-    rgba(255, 180, 50, 0.18) 35%, 
-    rgba(255, 140, 0, 0.05) 60%, 
-    transparent 80%
-  ) !important;
-  background-attachment: fixed !important;
-  min-height: 100vh;
-}
-/* Force absolute transparency on all nested rules containers */
-.rules-box,
-.rules-box-inner,
-div[class*="rules"],
-.container header {
-  background: transparent !important;
-  background-color: transparent !important;
-  background-image: none !important;
-}
-
-/* Brighten & scale the corner light overlay so it fills the top right */
+/* EMPYREAN DIVINE SUNBURST & LIGHT RAYS */
 body::after {
   content: "";
   position: fixed;
   top: 0;
   right: 0;
-  width: 600px;
-  height: 600px;
+  width: 100vw;
+  height: 80vh;
   pointer-events: none;
-  z-index: 1; /* Sits over the main layout, under interactive text */
-  background: radial-gradient(
-    circle at 100% 0%,
-    rgba(255, 235, 150, 0.45) 0%,
-    rgba(255, 200, 50, 0.22) 35%,
-    rgba(255, 140, 0, 0.08) 65%,
-    transparent 85%
-  ) !important;
-  mix-blend-mode: screen; /* Blends the gold glow seamlessly over dark elements */
+  z-index: 99; /* Passes ABOVE dark layout panels */
+  
+  /* Multilayered Divine Radial Core + Volumetric Light Spikes */
+  background: 
+    /* 1. Blinding Divine Core */
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 230, 0.95) 0%, rgba(255, 215, 0, 0.7) 12%, transparent 35%),
+    
+    /* 2. Concentric Heavenly Halo Rays */
+    repeating-conic-gradient(
+      from 180deg at 100% 0%, 
+      rgba(255, 223, 128, 0.22) 0deg 4deg, 
+      transparent 4deg 12deg
+    ),
+    
+    /* 3. Deep Empyrean Gold-White Wash */
+    radial-gradient(circle at 100% 0%, rgba(255, 215, 0, 0.35) 0%, rgba(212, 175, 55, 0.15) 50%, transparent 80%);
+
+  /* Golden Screen Glow + High Contrast Light Bleed */
+  mix-blend-mode: screen;
+  filter: drop-shadow(-10px 10px 20px rgba(255, 215, 0, 0.6));
+}
+
+/* Give header borders and titles a reactive divine shimmer */
+header.container {
+  border-top-right-radius: 12px;
+  box-shadow: 0 -10px 30px rgba(255, 215, 0, 0.3), inset -15px 15px 30px rgba(255, 223, 128, 0.15) !important;
 }
