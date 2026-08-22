@@ -4215,24 +4215,22 @@ div[class*="actions"] a {
   z-index: 100001 !important;
 }
 /* ========================================================= */
-/* DEEP OBSIDIAN 3D BRIMSTONES - DUAL VARIATION VECTOR ENGINE */
+/* DENSE JAGGERD OBSIDIAN FIELD (MICRO-CRYSTAL CLUSTER)      */
 /* ========================================================= */
 
 .card-actions,
 .bootleg-card-actions {
   position: relative !important;
   overflow: visible !important;
-  padding-bottom: 26px !important;
+  padding-bottom: 22px !important;
 }
 
 .card-actions button,
 .bootleg-card-actions button {
   position: relative !important;
-  z-index: 100001 !important;
-  transform: translateY(-8px) !important;
+  z-index: 10 !important;
 }
 
-/* Variant A: Dense Pitch-Black Volcanic Glass with Fiery Edges */
 .card-actions::before,
 .bootleg-card-actions::before {
   content: "" !important;
@@ -4241,28 +4239,27 @@ div[class*="actions"] a {
   bottom: -2px !important;
   left: 0 !important;
   width: 100% !important;
-  height: 38px !important;
-  z-index: 100000 !important;
+  height: 28px !important;
+  z-index: 5 !important;
   pointer-events: none !important;
 
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 40" preserveAspectRatio="none"><g><polygon points="0,40 10,22 18,40" fill="%23111111"/><polygon points="10,22 25,40 18,40" fill="%23020202"/><line x1="0" y1="40" x2="10" y2="22" stroke="%23ff2200" stroke-width="1.5"/><polygon points="20,40 38,6 48,40" fill="%23181818"/><polygon points="38,6 58,40 48,40" fill="%23000000"/><line x1="20" y1="40" x2="38" y2="6" stroke="%23ffaa00" stroke-width="1.8"/><polygon points="52,40 70,25 82,40" fill="%230f0f0f"/><polygon points="70,25 90,40 82,40" fill="%23030303"/><line x1="52" y1="40" x2="70" y2="25" stroke="%23ff3300" stroke-width="1.2"/><polygon points="85,40 110,2 125,40" fill="%231a1a1a"/><polygon points="110,2 138,40 125,40" fill="%23000000"/><line x1="85" y1="40" x2="110" y2="2" stroke="%23ffffff" stroke-width="2"/><line x1="85" y1="40" x2="110" y2="2" stroke="%23ffaa00" stroke-width="3" opacity="0.6"/><polygon points="132,40 152,18 165,40" fill="%23141414"/><polygon points="152,18 175,40 165,40" fill="%23020202"/><line x1="132" y1="40" x2="152" y2="18" stroke="%23ff2200" stroke-width="1.5"/><polygon points="170,40 195,10 208,40" fill="%23181818"/><polygon points="195,10 220,40 208,40" fill="%23000000"/><line x1="170" y1="40" x2="195" y2="10" stroke="%23ffaa00" stroke-width="1.8"/><polygon points="215,40 238,22 250,40" fill="%23111111"/><polygon points="238,22 262,40 250,40" fill="%23030303"/><line x1="215" y1="40" x2="238" y2="22" stroke="%23ff3300" stroke-width="1.2"/><polygon points="258,40 280,12 290,40" fill="%231a1a1a"/><polygon points="280,12 300,40 290,40" fill="%23000000"/><line x1="258" y1="40" x2="280" y2="12" stroke="%23ffaa00" stroke-width="1.8"/></g></svg>') !important;
-  background-size: 100% 100% !important;
-  background-repeat: no-repeat !important;
-
-  filter: drop-shadow(0 0 6px rgba(255, 34, 0, 0.9)) !important;
+  /* Repeating pattern of dense, sharp multi-faceted micro-shards */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 30" preserveAspectRatio="none"><g><polygon points="0,30 3,18 6,30" fill="%231a1a1a"/><polygon points="3,18 8,30 6,30" fill="%23050505"/><polygon points="7,30 12,8 16,30" fill="%23222222"/><polygon points="12,8 20,30 16,30" fill="%23000000"/><line x1="7" y1="30" x2="12" y2="8" stroke="%23ff5500" stroke-width="0.8"/><polygon points="18,30 22,20 25,30" fill="%23181818"/><polygon points="22,20 28,30 25,30" fill="%23050505"/><polygon points="26,30 32,5 37,30" fill="%23252525"/><polygon points="32,5 42,30 37,30" fill="%23000000"/><line x1="26" y1="30" x2="32" y2="5" stroke="%23ffaa00" stroke-width="1"/><polygon points="40,30 45,15 49,30" fill="%231a1a1a"/><polygon points="45,15 52,30 49,30" fill="%23080808"/><polygon points="50,30 55,10 60,30" fill="%23202020"/><polygon points="55,10 64,30 60,30" fill="%23020202"/><line x1="50" y1="30" x2="55" y2="10" stroke="%23ff3300" stroke-width="0.8"/><polygon points="62,30 67,22 71,30" fill="%23151515"/><polygon points="67,22 74,30 71,30" fill="%23050505"/><polygon points="72,30 78,3 84,30" fill="%23282828"/><polygon points="78,3 89,30 84,30" fill="%23000000"/><line x1="72" y1="30" x2="78" y2="3" stroke="%23ffcc00" stroke-width="1.2"/><polygon points="87,30 92,16 96,30" fill="%231c1c1c"/><polygon points="92,16 100,30 96,30" fill="%23050505"/><polygon points="98,30 104,12 109,30" fill="%23222222"/><polygon points="104,12 113,30 109,30" fill="%23000000"/><line x1="98" y1="30" x2="104" y2="12" stroke="%23ff4400" stroke-width="0.8"/><polygon points="111,30 115,21 120,30" fill="%23181818"/></g></svg>') !important;
+  
+  background-size: 160px 28px !important; /* Seamlessly repeats the micro-cluster across any card width */
+  background-repeat: repeat-x !important;
 }
 
-/* Variant B (Horizontal Flip for Card Grid Variation) */
+/* Subtle stagger for natural randomness across cards */
 article:nth-child(2n) .card-actions::before,
 .bootleg-card:nth-child(2n) .bootleg-card-actions::before {
-  transform: scaleX(-1) !important;
+  background-position: -40px 0 !important;
 }
 
-/* Variant C (Unique Jagged Sharp Spire Pattern for 3rd Cards) */
 article:nth-child(3n) .card-actions::before,
 .bootleg-card:nth-child(3n) .bootleg-card-actions::before {
-  transform: scaleX(1) !important;
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 40" preserveAspectRatio="none"><g><polygon points="0,40 15,8 28,40" fill="%231a1a1a"/><polygon points="15,8 35,40 28,40" fill="%23000000"/><line x1="0" y1="40" x2="15" y2="8" stroke="%23ffaa00" stroke-width="1.8"/><polygon points="30,40 48,24 60,40" fill="%23111111"/><polygon points="48,24 72,40 60,40" fill="%23030303"/><line x1="30" y1="40" x2="48" y2="24" stroke="%23ff2200" stroke-width="1.2"/><polygon points="65,40 92,14 105,40" fill="%23181818"/><polygon points="92,14 120,40 105,40" fill="%23000000"/><line x1="65" y1="40" x2="92" y2="14" stroke="%23ffaa00" stroke-width="1.5"/><polygon points="115,40 135,4 150,40" fill="%231a1a1a"/><polygon points="135,4 162,40 150,40" fill="%23000000"/><line x1="115" y1="40" x2="135" y2="4" stroke="%23ffffff" stroke-width="2"/><polygon points="155,40 180,20 195,40" fill="%23111111"/><polygon points="180,20 208,40 195,40" fill="%23020202"/><line x1="155" y1="40" x2="180" y2="20" stroke="%23ff3300" stroke-width="1.2"/><polygon points="200,40 225,8 240,40" fill="%23181818"/><polygon points="225,8 255,40 240,40" fill="%23000000"/><line x1="200" y1="40" x2="225" y2="8" stroke="%23ffaa00" stroke-width="1.8"/><polygon points="248,40 270,22 285,40" fill="%230f0f0f"/><polygon points="270,22 300,40 285,40" fill="%23030303"/><line x1="248" y1="40" x2="270" y2="22" stroke="%23ff2200" stroke-width="1.2"/></g></svg>') !important;
+  background-position: -90px 0 !important;
+  transform: scaleX(-1) !important;
 }
 /* ========================================================= */
 /* MOBILE PERFORMANCE & CARD OPTIMIZATIONS                   */
