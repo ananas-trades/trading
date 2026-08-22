@@ -4208,7 +4208,7 @@ main.container,
   box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
 }
 /* ========================================================= */
-/* SHIFT BUTTONS UP + BOTTOM BORDER UPWARD CRYSTALS          */
+/* EXPANDED HIGH-GLARE CRYSTAL SPIRES & MOLTEN AURA           */
 /* ========================================================= */
 
 /* 1. Clear pseudo-elements from child text nodes */
@@ -4216,82 +4216,91 @@ p::before, p::after, span::before, span::after, button::before, button::after {
   content: none !important;
 }
 
-/* 2. Target action bar: add bottom padding to lift buttons UP */
+/* 2. Target action bar with room for towering spires */
 .card-actions,
 .bootleg-card-actions,
 div[class*="actions"] {
   position: relative !important;
   overflow: visible !important;
-  padding-bottom: 24px !important; /* Lifts the buttons up to make room */
-  margin-bottom: 0 !important;
+  padding-bottom: 28px !important;
 }
 
-/* 3. BASE RUBY & OBSIDIAN CRYSTAL BODY (Grows UPWARD from border) */
+/* 3. BASE OBSIDIAN & RUBY CRYSTAL SPIRES (Denser, Tall 7-Spire Cluster) */
 .card-actions::before,
 .bootleg-card-actions::before,
 div[class*="actions"]::before {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: 0px !important; /* Anchored flat against the bottom border */
+  bottom: -2px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
-  width: 100px !important;
-  height: 22px !important;
+  width: 170px !important; /* WIDER span */
+  height: 38px !important; /* TALLER central spires */
   z-index: 99999 !important;
   pointer-events: none !important;
 
-  /* Angled hard-stop gradient simulating physical 3D facets */
-  background: linear-gradient(135deg, #ff1a00 0%, #990000 45%, #110000 55%, #cc0000 100%) !important;
-
-  /* Upward 5-spire crystal formation */
-  clip-path: polygon(
-    0% 100%, 
-    12% 60%, 20% 90%, 28% 15%, 36% 75%, 
-    46% 100%, 50% 0%, 54% 100%, 64% 75%, 
-    72% 15%, 80% 90%, 88% 60%, 100% 100%
+  /* Deep crimson & obsidian facet shading with intense color jumps */
+  background: linear-gradient(120deg, 
+    #ff0000 0%, 
+    #b30000 25%, 
+    #330000 45%, 
+    #ff2200 55%, 
+    #110000 70%, 
+    #cc0000 100%
   ) !important;
 
-  filter: drop-shadow(0 -3px 6px rgba(0, 0, 0, 0.95)) !important;
+  /* Sharp 7-Spire jagged upward crystal polygon */
+  clip-path: polygon(
+    0% 100%, 
+    8% 70%, 14% 92%, 22% 35%, 28% 80%, 
+    36% 15%, 43% 65%, 50% 0%, 57% 65%, 
+    64% 15%, 72% 80%, 78% 35%, 86% 92%, 92% 70%, 100% 100%
+  ) !important;
+
+  filter: drop-shadow(0 -4px 10px rgba(255, 34, 0, 0.6)) drop-shadow(0 -8px 18px rgba(0, 0, 0, 0.95)) !important;
 }
 
-/* 4. SPECULAR GLARE LAYER (Light Reflection across leading edges) */
+/* 4. SPECULAR LIGHT-REFLECTING FACETS (High-Contrast Prism Sheen) */
 .card-actions::after,
 .bootleg-card-actions::after,
 div[class*="actions"]::after {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: 0px !important;
+  bottom: -2px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
-  width: 100px !important;
-  height: 22px !important;
-  z-index: 100000 !important; /* Sitting directly in front */
+  width: 170px !important;
+  height: 38px !important;
+  z-index: 100000 !important;
   pointer-events: none !important;
 
-  /* White-to-gold specular refraction overlay */
-  background: linear-gradient(45deg, 
+  /* Sharp pure-white glare transitioning to blinding liquid gold */
+  background: linear-gradient(40deg, 
     #ffffff 0%, 
-    #ffe680 30%, 
-    transparent 55%, 
-    rgba(255, 255, 255, 0.95) 80%, 
+    #fff3a8 20%, 
+    transparent 40%, 
+    #ffffff 65%, 
+    #ffaa00 80%, 
     transparent 100%
   ) !important;
 
-  /* Upward highlight cuts matching spire edges */
+  /* Direct alignment with the leading edges of all major spires */
   clip-path: polygon(
-    20% 90%, 28% 15%, 31% 65%, 
-    50% 0%, 52% 80%, 
-    72% 15%, 75% 70%
+    14% 92%, 22% 35%, 25% 60%, 
+    28% 80%, 36% 15%, 39% 50%, 
+    50% 0%, 53% 45%, 
+    64% 15%, 68% 55%, 
+    78% 35%, 82% 65%
   ) !important;
 
-  filter: drop-shadow(0 0 6px rgba(255, 230, 120, 0.95)) !important;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 1)) drop-shadow(0 0 14px rgba(255, 170, 0, 0.8)) !important;
 }
 
-/* 5. Dynamic Light Flare Boost on Hover */
+/* 5. Light Reflection Flare Shift on Hover */
 .card-actions:hover::after,
 .bootleg-card-actions:hover::after,
 div[class*="actions"]:hover::after {
-  filter: drop-shadow(0 0 14px rgba(255, 255, 255, 1)) brightness(1.6) !important;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 1)) drop-shadow(0 0 22px rgba(255, 200, 50, 1)) brightness(1.7) !important;
 }
