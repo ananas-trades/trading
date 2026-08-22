@@ -4207,79 +4207,50 @@ main.container,
   padding: 15px !important;
   box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
 }
-/* INFERNAL BRIMSTONE ANGLED CRYSTAL CARDS */
-.card, .bootleg-card {
-  position: relative !important;
-  background: #0d0606 !important;
-  
-  /* Pure CSS Crystal Corner Cuts on the Bottom Edge */
-  clip-path: polygon(
-    0% 0%, 
-    100% 0%, 
-    100% calc(100% - 12px), 
-    calc(100% - 15px) 100%, 
-    80% calc(100% - 6px), 
-    65% 100%, 
-    50% calc(100% - 8px), 
-    35% 100%, 
-    20% calc(100% - 6px), 
-    15px 100%, 
-    0% calc(100% - 12px)
-  ) !important;
+/* INFERNAL BRIMSTONE CRYSTAL BASE (OUTER CARDS ONLY) */
 
-  /* Hellfire Crimson Border Glow */
-  border-left: 1px solid #770000 !important;
-  border-right: 1px solid #770000 !important;
-  border-bottom: 3px solid #ff2200 !important;
-  box-shadow: 
-    0 10px 20px rgba(0, 0, 0, 0.95),
-    0 0 15px rgba(255, 34, 0, 0.35),
-    inset 0 -10px 20px rgba(180, 0, 0, 0.4) !important;
-}
-
-/* Molten Brimstone Pulse on Hover */
-.card:hover, .bootleg-card:hover {
-  border-bottom-color: #ffaa00 !important;
-  box-shadow: 
-    0 12px 25px rgba(255, 34, 0, 0.6),
-    0 0 25px rgba(255, 170, 0, 0.5),
-    inset 0 -15px 25px rgba(255, 68, 0, 0.6) !important;
-}
-/* BRIMSTONE DRAGON TEETH - CSP-SAFE PURE CSS */
-
-/* 1. Force physical space at the bottom of every card */
+/* 1. Nuke the repetitive inner container wildcards */
+div[class*="card"]::after,
 div[class*="card"] {
+  padding-bottom: 0 !important;
+}
+
+/* 2. Target strictly the top-level card element */
+article.card, 
+.bootleg-card, 
+.card-container {
   position: relative !important;
-  padding-bottom: 18px !important; 
-  border-bottom: none !important;
+  border-bottom: 3px solid #ff2200 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9), 0 0 15px rgba(255, 34, 0, 0.35) !important;
+  background: #0a0505 !important;
+  margin-bottom: 20px !important;
 }
 
-/* 2. Project the spikes ABOVE all inner containers */
-div[class*="card"]::after {
+/* 3. Single Brimstone Crystal Point in the Bottom Center */
+article.card::after, 
+.bootleg-card::after, 
+.card-container::after {
   content: "" !important;
-  display: block !important;
   position: absolute !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 18px !important;
-  z-index: 9999 !important; /* Overrides any inner box hiding the border */
+  bottom: -10px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 0 !important;
+  height: 0 !important;
   pointer-events: none !important;
+  z-index: 10 !important;
   
-  /* Pure CSS repeating jagged spikes - impossible for browsers to block */
-  background: 
-    linear-gradient(135deg, #cc0000 25%, transparent 25%) -9px 0,
-    linear-gradient(225deg, #cc0000 25%, transparent 25%) -9px 0 !important;
-  background-size: 18px 18px !important;
-  
-  /* Upward infernal glow */
-  filter: drop-shadow(0 -4px 6px rgba(255, 0, 0, 0.8)) !important;
+  /* Physical geometric crystal shard projecting downward */
+  border-left: 12px solid transparent !important;
+  border-right: 12px solid transparent !important;
+  border-top: 10px solid #ff2200 !important;
+  filter: drop-shadow(0 4px 8px #ff0000) !important;
 }
 
-/* 3. Molten Heat on Hover */
-div[class*="card"]:hover::after {
-  background: 
-    linear-gradient(135deg, #ff8800 25%, transparent 25%) -9px 0,
-    linear-gradient(225deg, #ff8800 25%, transparent 25%) -9px 0 !important;
-  filter: drop-shadow(0 -6px 12px rgba(255, 120, 0, 1)) !important;
+/* 4. Infernal Molten Glow on Hover */
+article.card:hover::after, 
+.bootleg-card:hover::after, 
+.card-container:hover::after {
+  border-top-color: #ffaa00 !important;
+  filter: drop-shadow(0 6px 12px #ff6600) !important;
 }
