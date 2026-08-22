@@ -3244,3 +3244,28 @@ p strong, p code {
   flex-shrink: 1 !important;
   margin: 0 !important;
 }
+/* Dark Academia / Gold Relic Styling */
+.lasagna-relic-seal,
+.y2k-approved-badge {
+  background: linear-gradient(135deg, #18120c 0%, #0a0705 100%) !important;
+  border: 1px solid #c5a059 !important;
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.25), inset 0 0 5px rgba(197, 160, 89, 0.1) !important;
+  color: #f3e5ab !important;
+  font-family: 'Cinzel', 'Times New Roman', serif !important;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  padding: 5px 12px !important;
+  border-radius: 2px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Matching Gold Star Accents */
+.lasagna-relic-seal span,
+.y2k-approved-badge span {
+  color: #c5a059 !important;
+  font-size: 0.75rem !important;
+  text-shadow: 0 0 6px rgba(197, 160, 89, 0.6) !important;
+}
