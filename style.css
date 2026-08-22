@@ -4085,3 +4085,32 @@ body::before {
   color: #ffaa00;
   box-shadow: 0 0 8px rgba(255, 170, 0, 0.4);
 }
+/* Fix massive left-side panel overflow */
+#toggle-eyestrain-btn.fixed-eyestrain-btn {
+  position: fixed !important;
+  bottom: 15px !important;
+  left: 15px !important;
+  top: auto !important;
+  right: auto !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 220px !important;
+  min-height: 0 !important;
+  z-index: 9999 !important;
+  padding: 6px 12px !important;
+  margin: 0 !important;
+  background: #0a0a0d !important;
+  border: 1px solid #d4af37 !important;
+  color: #d4af37 !important;
+  font-size: 0.75rem !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  display: block !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Ensure drawer/overlay don't stretch into a gigantic left bar when closed */
+#trade-drawer:not(.active),
+#drawer-overlay:not(.active) {
+  display: none !important;
+}
