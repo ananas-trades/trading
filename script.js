@@ -1939,9 +1939,86 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   updateButtonLabel();
+  initCardBrimstones(); // Spawn static local card canvases
 });
 
-// Floating Infernal Embers Animation + Obsidian Card Brimstones
+// 1. INJECT LOCAL BRIMSTONE CANVASES (Scroll-Proof & Card-Specific)
+function initCardBrimstones() {
+  // Target ONLY trading card action panels (prevents matching top banners/rules)
+  const cardPanels = document.querySelectorAll('.bootleg-card .card-actions, .card .card-actions, .bootleg-card-actions');
+  
+  cardPanels.forEach((panel, index) => {
+    // Avoid duplicate canvases
+    if (panel.querySelector('.brimstone-canvas')) return;
+
+    panel.style.position = 'relative';
+
+    const localCanvas = document.createElement('canvas');
+    localCanvas.className = 'brimstone-canvas';
+    localCanvas.style.cssText = 'position: absolute; bottom: 0; left: 0; width: 100%; height: 36px; pointer-events: none; z-index: 100000;';
+    
+    panel.appendChild(localCanvas);
+
+    // Set high DPI dimensions
+    const rect = panel.getBoundingClientRect();
+    localCanvas.width = rect.width || 300;
+    localCanvas.height = 36;
+
+    const ctx = localCanvas.getContext('2d');
+    drawLocalBrimstones(ctx, localCanvas.width, localCanvas.height, index);
+  });
+}
+
+function drawLocalBrimstones(ctx, w, h, cardIndex) {
+  // Seeds for distinct non-repeating crystal configurations per card
+  const seeds = [
+    [0.0, 0.12, 0.28, 0.45, 0.62, 0.78, 0.92, 1.0],
+    [0.0, 0.08, 0.22, 0.38, 0.55, 0.72, 0.88, 1.0],
+    [0.0, 0.15, 0.32, 0.50, 0.68, 0.84, 0.95, 1.0]
+  ];
+  const activeSeed = seeds[cardIndex % seeds.length];
+
+  ctx.clearRect(0, 0, w, h);
+
+  for (let i = 0; i < activeSeed.length - 1; i++) {
+    const x1 = w * activeSeed[i];
+    const x2 = w * activeSeed[i + 1];
+    const spireW = x2 - x1;
+    const peakX = x1 + spireW * 0.4;
+    
+    // Vary heights across the base
+    const heightFactor = (i % 3 === 0) ? 0.9 : ((i % 2 === 0) ? 0.6 : 0.75);
+    const peakY = h - (h * heightFactor);
+
+    // 1. Dark Obsidian Left Facet
+    ctx.beginPath();
+    ctx.moveTo(x1, h);
+    ctx.lineTo(peakX, peakY);
+    ctx.lineTo(x1 + spireW * 0.5, h);
+    ctx.fillStyle = '#1a1a1a';
+    ctx.fill();
+
+    // 2. Pitch Black Right Facet
+    ctx.beginPath();
+    ctx.moveTo(peakX, peakY);
+    ctx.lineTo(x2, h);
+    ctx.lineTo(x1 + spireW * 0.5, h);
+    ctx.fillStyle = '#050505';
+    ctx.fill();
+
+    // 3. Colored Refraction Glow Edge
+    ctx.beginPath();
+    ctx.moveTo(x1, h);
+    ctx.lineTo(peakX, peakY);
+    ctx.strokeStyle = (i % 2 === 0) ? '#ff3300' : '#ffaa00';
+    ctx.lineWidth = 1.5;
+    ctx.shadowColor = '#ff2200';
+    ctx.shadowBlur = 6;
+    ctx.stroke();
+  }
+}
+
+// 2. FLOATING INFERNAL EMBERS ANIMATION (Full-Screen Fixed Canvas)
 const canvas = document.getElementById('ember-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -1951,6 +2028,7 @@ let height = (canvas.height = window.innerHeight);
 window.addEventListener('resize', () => {
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
+  initCardBrimstones(); // Recalculate local canvases on resize
 });
 
 const embers = Array.from({ length: 45 }, () => ({
@@ -1963,74 +2041,9 @@ const embers = Array.from({ length: 45 }, () => ({
   color: Math.random() > 0.4 ? '#ff4500' : '#ffaa00'
 }));
 
-// NEW: Function to draw 3D Obsidian Crystals at the base of every card
-function drawCardBrimstones() {
-  const cards = document.querySelectorAll('.card-actions, .bootleg-card-actions, div[class*="actions"]');
-  
-  cards.forEach((card, index) => {
-    const rect = card.getBoundingClientRect();
-    
-    // Only render if the card is visible on screen
-    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-
-    const cardBottom = rect.bottom;
-    const cardLeft = rect.left;
-    const cardWidth = rect.width;
-    const spireHeight = 28;
-
-    // Fixed seed offsets per card index so crystal shapes stay stable
-    const seeds = [
-      [0.0, 0.15, 0.3, 0.48, 0.65, 0.8, 1.0],
-      [0.0, 0.1, 0.25, 0.4, 0.58, 0.75, 1.0],
-      [0.0, 0.18, 0.35, 0.52, 0.7, 0.88, 1.0]
-    ];
-    const activeSeed = seeds[index % seeds.length];
-
-    ctx.save();
-    ctx.globalAlpha = 1.0;
-
-    for (let i = 0; i < activeSeed.length - 1; i++) {
-      const x1 = cardLeft + cardWidth * activeSeed[i];
-      const x2 = cardLeft + cardWidth * activeSeed[i + 1];
-      const w = x2 - x1;
-      const peakX = x1 + w * 0.4;
-      const peakY = cardBottom - (spireHeight * ((i % 3 === 0 ? 0.9 : 0.6) + 0.2));
-
-      // 1. Dark Obsidian Left Facet
-      ctx.beginPath();
-      ctx.moveTo(x1, cardBottom);
-      ctx.lineTo(peakX, peakY);
-      ctx.lineTo(x1 + w * 0.5, cardBottom);
-      ctx.fillStyle = '#1c1c1c';
-      ctx.fill();
-
-      // 2. Pitch Black Right Facet
-      ctx.beginPath();
-      ctx.moveTo(peakX, peakY);
-      ctx.lineTo(x2, cardBottom);
-      ctx.lineTo(x1 + w * 0.5, cardBottom);
-      ctx.fillStyle = '#050505';
-      ctx.fill();
-
-      // 3. Prismatic Light Reflection Edge
-      ctx.beginPath();
-      ctx.moveTo(x1, cardBottom);
-      ctx.lineTo(peakX, peakY);
-      ctx.strokeStyle = i % 2 === 0 ? '#ff3300' : '#ffaa00';
-      ctx.lineWidth = 1.5;
-      ctx.shadowColor = '#ff2200';
-      ctx.shadowBlur = 6;
-      ctx.stroke();
-    }
-
-    ctx.restore();
-  });
-}
-
 function animateEmbers() {
   ctx.clearRect(0, 0, width, height);
 
-  // Render floating ash embers
   embers.forEach((ember) => {
     ember.y += ember.speedY;
     ember.x += ember.speedX;
@@ -2053,9 +2066,6 @@ function animateEmbers() {
     ctx.shadowColor = ember.color;
     ctx.fill();
   });
-
-  // Render 3D brimstone crystals locked to screen card positions
-  drawCardBrimstones();
 
   requestAnimationFrame(animateEmbers);
 }
