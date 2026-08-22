@@ -20,17 +20,19 @@
   </script>
 
   <!-- Foolproof JS Text-Targeting Script for Dynamic Cards -->
-  <script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Use a MutationObserver to watch for dynamic cards loading in
       const observer = new MutationObserver(() => {
         if (document.documentElement.getAttribute('data-theme') === 'paradise-lost') {
-          document.querySelectorAll('.card *, .bootleg-card *, div, p, span, strong').forEach(el => {
-            const text = el.textContent.trim();
-            if (text.startsWith('CAST:') || text.startsWith('MASTER NOTES:') || text.startsWith('TRADING NOTES:') || text.startsWith('NOTES:')) {
-              el.style.setProperty('color', '#ff4500', 'important');
-              el.style.setProperty('text-shadow', '0 0 8px rgba(255, 69, 0, 0.7)', 'important');
-              el.style.setProperty('font-family', "'Cinzel', serif", 'important');
+          document.querySelectorAll('.card p, .bootleg-card p').forEach(p => {
+            if (p.innerHTML.includes('CAST:') && !p.innerHTML.includes('infernal-label-cast')) {
+              p.innerHTML = p.innerHTML.replace('CAST:', '<span class="infernal-label-cast">CAST:</span>');
+            }
+            if (p.innerHTML.includes('MASTER NOTES:') && !p.innerHTML.includes('infernal-label-notes')) {
+              p.innerHTML = p.innerHTML.replace('MASTER NOTES:', '<span class="infernal-label-notes">MASTER NOTES:</span>');
+            }
+            if (p.innerHTML.includes('TRADING NOTES:') && !p.innerHTML.includes('infernal-label-notes')) {
+              p.innerHTML = p.innerHTML.replace('TRADING NOTES:', '<span class="infernal-label-notes">TRADING NOTES:</span>');
             }
           });
         }
