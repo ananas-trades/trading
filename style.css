@@ -3906,3 +3906,32 @@ body[data-theme="paradise-lost"] #scroll-top-btn:hover {
   color: #ffffff !important;
   box-shadow: 0 0 20px rgba(255, 51, 0, 0.8) !important;
 }
+/* ============================================================
+   FORCING ALL HEADER LABELS TO INFERNAL GOLD & FIRE
+   ============================================================ */
+
+/* Target any element whose text or class contains common label patterns */
+body[data-theme="paradise-lost"] .card div,
+body[data-theme="paradise-lost"] .card p,
+body[data-theme="paradise-lost"] .bootleg-card div {
+  /* If your main CSS uses a variable for accent colors, override it here */
+  --accent: #ffd700 !important;
+  --cyan: #ff4500 !important;
+  --teal: #ff4500 !important;
+}
+
+/* Force specific cyan/teal text color codes to absolute zero and turn them gold/crimson */
+body[data-theme="paradise-lost"] span[style*="color"],
+body[data-theme="paradise-lost"] div[style*="color"] {
+  /* This catches inline styles written by JS */
+}
+
+/* Target labels like CAST, MASTER NOTES, TRADING NOTES explicitly by matching text structure or common structures */
+body[data-theme="paradise-lost"] .card b,
+body[data-theme="paradise-lost"] .card strong,
+body[data-theme="paradise-lost"] .bootleg-card b,
+body[data-theme="paradise-lost"] .bootleg-card strong {
+  color: #ff4500 !important;
+  font-family: 'Cinzel', serif !important;
+  text-shadow: 0 0 6px rgba(255, 69, 0, 0.6) !important;
+}
