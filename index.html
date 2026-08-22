@@ -7,10 +7,11 @@
   <!-- Set browser tab title -->
   <title>Better to Reign in Hell than Serve in Heaven</title>
 
-  <!-- Prevent theme-flash on load (Defaults to Paradise Lost) -->
+  <!-- Prevent theme-flash on load (Defaults to Paradise Mode) -->
   <script>
     (function() {
       const savedTheme = localStorage.getItem('eyestrainMode');
+      // If legacy/eyestrain mode was manually enabled, apply class
       if (savedTheme === 'enabled') {
         document.documentElement.classList.add('eyestrain-mode');
       }
@@ -29,7 +30,7 @@
   <link rel="stylesheet" href="style.css?v=8.0" />
 </head>
 
-<body>
+<body class="theme-paradise">
   <!-- VHS On-Screen Display Overlay -->
   <div id="vhs-osd-overlay">
     <div class="osd-top-left">PLAY ▶</div>
@@ -40,40 +41,40 @@
 
   <header class="container">
     <div class="header-top-row">
-      <!-- PARADISE LOST GATEWAY TRIGGER -->
-      <button id="paradise-btn" type="button" class="abandon-btn" onclick="triggerParadiseLost()">
-        ❖ Legacy Model
+      <!-- LEGACY CYBERPUNK TRIGGER -->
+      <button id="paradise-btn" type="button" class="abandon-btn" onclick="toggleEyestrainMode()">
+        ❖ Legacy Cyberpunk Mode
       </button>
     </div>
 
     <h1 class="votive-glow"><span class="header-emoji" title="SYSTEM: Signal unstable (x2)...">🎭</span> My Trading Collection</h1>
     
-   <div class="rules-box">
-  <div class="rules-box-inner">
-    
-    <div class="rules-header">
-  <h2>Trading Rules & Contact</h2>
-  <div class="lasagna-relic-seal y2k-approved-badge">
-    <span>✦</span>
-    LASAGNA APPROVED
-    <span>✦</span>
-  </div>
-</div>
-    
-    <div class="latin-epigraph">✦ In Principio Erat Verbum ✦</div>
+    <div class="rules-box">
+      <div class="rules-box-inner">
+        
+        <div class="rules-header">
+          <h2>Trading Rules & Contact</h2>
+          <div class="lasagna-relic-seal y2k-approved-badge">
+            <span>✦</span>
+            LASAGNA APPROVED
+            <span>✦</span>
+          </div>
+        </div>
+        
+        <div class="latin-epigraph">✦ In Principio Erat Verbum ✦</div>
 
-    <p><strong>Contact:</strong> <code>tradingtreelost@gmail.com</code></p>
-    
-    <ul>
-      <li>Standard trading ratios apply (1 Video = 2 Audios).</li>
-      <li>Updated every 3-4 days.</li>
-      <li>Respect all NFT dates and master restrictions.</li>
-      <li>Bikinibottomday's bootlegs are only to be traded via email.</li>
-      <li><p class="lore-hint">• If the video signal acts up, hit the masks twice to reset the stream.</p></li>
-    </ul>
+        <p><strong>Contact:</strong> <code>tradingtreelost@gmail.com</code></p>
+        
+        <ul>
+          <li>Standard trading ratios apply (1 Video = 2 Audios).</li>
+          <li>Updated every 3-4 days.</li>
+          <li>Respect all NFT dates and master restrictions.</li>
+          <li>Bikinibottomday's bootlegs are only to be traded via email.</li>
+          <li><p class="lore-hint">• If the video signal acts up, hit the masks twice to reset the stream.</p></li>
+        </ul>
 
-  </div>
-</div>
+      </div>
+    </div>
   </header>
 
   <main class="container">
@@ -168,7 +169,7 @@
   </dialog>
 
   <!-- Toggle Eyestrain Button -->
-  <button id="toggle-eyestrain-btn" type="button" onclick="toggleEyestrainMode()">👁️ Toggle No-Eyestrain Mode</button>
+  <button id="toggle-eyestrain-btn" type="button" onclick="toggleEyestrainMode()">👁️ Toggle Legacy Cyberpunk Mode</button>
 
   <script src="script.js?v=8.0"></script>
   
