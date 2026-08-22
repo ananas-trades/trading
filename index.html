@@ -8,34 +8,37 @@
   <title>Better to Reign in Hell than Serve in Heaven</title>
   <!-- Transparent PNG Favicon -->
   <link rel="icon" type="image/png" href="snake-apple.png" />
-
-  <!-- Prevent theme-flash on load (Defaults to Paradise Lost) -->
+<!-- Prevent theme-flash on load (Defaults to Paradise Lost) -->
   <script>
-  (function() {
-    // Check if user explicitly turned on Legacy/Cyberpunk mode
-    const savedTheme = localStorage.getItem('paradiseThemeActive');
-    
-    // Default to Paradise Lost UNLESS explicitly set to 'false'
-    if (savedTheme !== 'false') {
-      document.documentElement.setAttribute('data-theme', 'paradise-lost');
-      document.documentElement.classList.add('paradise-lost', 'paradise-lost-mode');
-    }
-  })();
-    <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    if (document.documentElement.getAttribute('data-theme') === 'paradise-lost') {
-      // Find elements that might be holding onto inline teal/cyan colors
-      document.querySelectorAll('.card span, .bootleg-card span, p span, strong').forEach(el => {
-        const color = window.getComputedStyle(el).color;
-        // If it detects cyan/teal, force it to gold/red
-        if (color === 'rgb(0, 255, 255)' || color === 'cyan' || color.includes('0, 255')) {
-          el.style.color = '#ff4500';
+    (function() {
+      const savedTheme = localStorage.getItem('paradiseThemeActive');
+      if (savedTheme !== 'false') {
+        document.documentElement.setAttribute('data-theme', 'paradise-lost');
+        document.documentElement.classList.add('paradise-lost', 'paradise-lost-mode');
+      }
+    })();
+  </script>
+
+  <!-- Foolproof JS Text-Targeting Script for Dynamic Cards -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Use a MutationObserver to watch for dynamic cards loading in
+      const observer = new MutationObserver(() => {
+        if (document.documentElement.getAttribute('data-theme') === 'paradise-lost') {
+          document.querySelectorAll('.card *, .bootleg-card *, div, p, span, strong').forEach(el => {
+            const text = el.textContent.trim();
+            if (text.startsWith('CAST:') || text.startsWith('MASTER NOTES:') || text.startsWith('TRADING NOTES:') || text.startsWith('NOTES:')) {
+              el.style.setProperty('color', '#ff4500', 'important');
+              el.style.setProperty('text-shadow', '0 0 8px rgba(255, 69, 0, 0.7)', 'important');
+              el.style.setProperty('font-family', "'Cinzel', serif", 'important');
+            }
+          });
         }
       });
-    }
-  });
-</script>
-</script>
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+  </script>
+
   <!-- Import classical typography for Paradise Lost -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,7 +50,6 @@
   <!-- Cache-buster update -->
   <link rel="stylesheet" href="style.css?v=8.0" />
 </head>
-
 <body>
   <!-- VHS On-Screen Display Overlay -->
   <div id="vhs-osd-overlay">
