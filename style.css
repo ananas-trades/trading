@@ -3214,3 +3214,33 @@ p strong, p code {
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
 }
+/* Force container to clip rogue elements */
+.rules-box, 
+.rules-box-inner {
+  position: relative !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  max-width: 100% !important;
+}
+
+/* Hard-anchor the header and seal */
+.rules-header {
+  display: flex !important;
+  flex-wrap: wrap !important; /* Allows badge to drop below on small screens */
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 10px !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Force seal to stay inside bounds */
+.lasagna-relic-seal,
+.y2k-approved-badge {
+  position: relative !important;
+  right: auto !important; /* Prevents absolute positioning drift */
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  flex-shrink: 1 !important;
+  margin: 0 !important;
+}
