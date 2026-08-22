@@ -4140,3 +4140,70 @@ body::after {
   position: relative !important;
   z-index: 2 !important;
 }
+/* 1. Nuke the giant dull oval in the center */
+.controls,
+.controls *,
+main.container,
+.abyss-divider {
+  background-image: none !important;
+}
+
+/* 2. HIGH-DRAMA EMPYREAN SUN (RULES BOX ONLY) */
+.rules-box {
+  position: relative !important;
+  overflow: hidden !important;
+  background: #090a0f !important; /* Deep cosmic slate base */
+  border: 1px solid #d4af37 !important;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.35) !important;
+}
+
+.rules-box::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  /* Blinding white-gold core bursting into celestial amber */
+  background: radial-gradient(
+    circle at 100% 0%, 
+    #ffffff 0%, 
+    #ffeeaa 12%, 
+    rgba(255, 215, 0, 0.75) 28%, 
+    rgba(255, 120, 0, 0.25) 50%, 
+    transparent 75%
+  ) !important;
+}
+
+.rules-box::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  /* Crisp, sharp divine light rays */
+  background: repeating-conic-gradient(
+    from 180deg at 100% 0%,
+    rgba(255, 245, 200, 0.25) 0deg 2deg,
+    transparent 2deg 8deg
+  ) !important;
+}
+
+/* 3. INFERNAL FIERY GLOW (FILTER CONTROL AREA) */
+.controls {
+  position: relative !important;
+  background: radial-gradient(
+    ellipse at bottom, 
+    rgba(180, 0, 0, 0.35) 0%, 
+    rgba(60, 0, 0, 0.15) 55%, 
+    transparent 80%
+  ) !important;
+  border-radius: 8px !important;
+  padding: 15px !important;
+  box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
+}
