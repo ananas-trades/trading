@@ -4215,7 +4215,7 @@ div[class*="actions"] a {
   z-index: 100001 !important;
 }
 /* ========================================================= */
-/* DENSE JAGGERD OBSIDIAN FIELD (MICRO-CRYSTAL CLUSTER)      */
+/* DENSE JAGGERD OBSIDIAN FIELD - FLARED CORNER EDGES        */
 /* ========================================================= */
 
 .card-actions,
@@ -4239,15 +4239,15 @@ div[class*="actions"] a {
   bottom: -2px !important;
   left: 0 !important;
   width: 100% !important;
-  height: 28px !important;
+  height: 32px !important;
   z-index: 5 !important;
   pointer-events: none !important;
 
-  /* Repeating pattern of dense, sharp multi-faceted micro-shards */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 30" preserveAspectRatio="none"><g><polygon points="0,30 3,18 6,30" fill="%231a1a1a"/><polygon points="3,18 8,30 6,30" fill="%23050505"/><polygon points="7,30 12,8 16,30" fill="%23222222"/><polygon points="12,8 20,30 16,30" fill="%23000000"/><line x1="7" y1="30" x2="12" y2="8" stroke="%23ff5500" stroke-width="0.8"/><polygon points="18,30 22,20 25,30" fill="%23181818"/><polygon points="22,20 28,30 25,30" fill="%23050505"/><polygon points="26,30 32,5 37,30" fill="%23252525"/><polygon points="32,5 42,30 37,30" fill="%23000000"/><line x1="26" y1="30" x2="32" y2="5" stroke="%23ffaa00" stroke-width="1"/><polygon points="40,30 45,15 49,30" fill="%231a1a1a"/><polygon points="45,15 52,30 49,30" fill="%23080808"/><polygon points="50,30 55,10 60,30" fill="%23202020"/><polygon points="55,10 64,30 60,30" fill="%23020202"/><line x1="50" y1="30" x2="55" y2="10" stroke="%23ff3300" stroke-width="0.8"/><polygon points="62,30 67,22 71,30" fill="%23151515"/><polygon points="67,22 74,30 71,30" fill="%23050505"/><polygon points="72,30 78,3 84,30" fill="%23282828"/><polygon points="78,3 89,30 84,30" fill="%23000000"/><line x1="72" y1="30" x2="78" y2="3" stroke="%23ffcc00" stroke-width="1.2"/><polygon points="87,30 92,16 96,30" fill="%231c1c1c"/><polygon points="92,16 100,30 96,30" fill="%23050505"/><polygon points="98,30 104,12 109,30" fill="%23222222"/><polygon points="104,12 113,30 109,30" fill="%23000000"/><line x1="98" y1="30" x2="104" y2="12" stroke="%23ff4400" stroke-width="0.8"/><polygon points="111,30 115,21 120,30" fill="%23181818"/></g></svg>') !important;
+  /* Micro-shard cluster featuring tall, inward-curving corner spires on both edges */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 32" preserveAspectRatio="none"><g><polygon points="0,0 2,12 8,32 0,32" fill="%232a2a2a"/><polygon points="0,0 6,20 8,32" fill="%23000000"/><line x1="0" y1="0" x2="8" y2="32" stroke="%23ffaa00" stroke-width="1.2"/><polygon points="6,32 10,18 14,32" fill="%231a1a1a"/><polygon points="10,18 18,32 14,32" fill="%23050505"/><polygon points="14,32 20,8 25,32" fill="%23222222"/><polygon points="20,8 30,32 25,32" fill="%23000000"/><line x1="14" y1="32" x2="20" y2="8" stroke="%23ff5500" stroke-width="0.8"/><polygon points="28,32 32,22 36,32" fill="%23181818"/><polygon points="36,32 42,10 48,32" fill="%23252525"/><polygon points="42,10 52,32 48,32" fill="%23000000"/><line x1="36" y1="32" x2="42" y2="10" stroke="%23ffaa00" stroke-width="1"/><polygon points="50,32 55,20 60,32" fill="%231a1a1a"/><polygon points="58,32 64,12 70,32" fill="%23202020"/><polygon points="64,12 74,32 70,32" fill="%23020202"/><line x1="58" y1="32" x2="64" y2="12" stroke="%23ff3300" stroke-width="0.8"/><polygon points="72,32 78,22 82,32" fill="%23151515"/><polygon points="80,32 86,6 92,32" fill="%23282828"/><polygon points="86,6 98,32 92,32" fill="%23000000"/><line x1="80" y1="32" x2="86" y2="6" stroke="%23ffcc00" stroke-width="1.2"/><polygon points="96,32 100,20 105,32" fill="%231c1c1c"/><polygon points="104,32 110,14 116,32" fill="%23222222"/><polygon points="110,14 120,32 116,32" fill="%23000000"/><line x1="104" y1="32" x2="110" y2="14" stroke="%23ff4400" stroke-width="0.8"/><polygon points="118,32 122,24 126,32" fill="%23181818"/><polygon points="124,32 130,12 136,32" fill="%23222222"/><polygon points="130,12 140,32 136,32" fill="%23000000"/><polygon points="138,32 144,20 148,32" fill="%231a1a1a"/><polygon points="152,32 158,20 160,0" fill="%23000000"/><polygon points="152,32 160,0 160,32" fill="%232a2a2a"/><line x1="160" y1="0" x2="152" y2="32" stroke="%23ffaa00" stroke-width="1.2"/></g></svg>') !important;
   
-  background-size: 160px 28px !important; /* Seamlessly repeats the micro-cluster across any card width */
-  background-repeat: repeat-x !important;
+  background-size: 100% 32px !important; /* Stretch to span full card width with flared edges on outer borders */
+  background-repeat: no-repeat !important;
 }
 
 /* Subtle stagger for natural randomness across cards */
