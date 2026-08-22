@@ -4262,84 +4262,26 @@ article:nth-child(3n) .card-actions::before,
   transform: scaleX(-1) !important;
 }
 /* ========================================================= */
-/* MOBILE PERFORMANCE & CARD OPTIMIZATIONS                   */
+/* CLEAN CORE STYLES & HARDWARE ACCELERATION                 */
 /* ========================================================= */
 
-/* 1. Off-screen rendering boost (Skip rendering off-screen cards) */
-.bootleg-card,
-article.card {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 350px;
-}
-
-/* 2. Mobile adjustments (Disable heavy GPU filters under 768px) */
-@media (max-width: 768px) {
-  #ember-canvas {
-    display: none !important;
-  }
-  
-  .card-actions::before,
-  .bootleg-card-actions::before {
-    filter: none !important;
-  }
-}
-/* Unapologetic Infernal Watermark */
-.bootleg-card, article.card {
-  position: relative !important;
-  overflow: hidden !important;
-}
-
-.bootleg-card::after, article.card::after {
-  content: "🜏" !important; /* Brimstone / Alchemy Sulfur */
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) scale(1) !important;
-  font-size: 11rem !important;
-  /* Punchy base opacity and rich crimson/amber gradient text fill */
-  color: rgba(255, 50, 0, 0.15) !important;
-  pointer-events: none !important;
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.4s ease, text-shadow 0.4s ease !important;
-  z-index: 0 !important;
-  user-select: none !important;
-}
-
-/* Screaming Hover State */
-.bootleg-card:hover::after, article.card:hover::after {
-  transform: translate(-50%, -50%) scale(1.4) rotate(45deg) !important;
-  color: rgba(255, 85, 0, 0.38) !important;
-  /* Multi-layered fiery aura drop-shadow */
-  text-shadow: 
-    0 0 15px rgba(255, 69, 0, 0.8),
-    0 0 35px rgba(255, 0, 0, 0.6),
-    0 0 60px rgba(255, 215, 0, 0.4) !important;
-}
-/* Fix Cumulative Layout Shift (CLS) for lazy-rendered cards */
-.bootleg-card, 
-article.card {
-  content-visibility: auto;
-  contain-intrinsic-size: 350px 320px !important; /* Exact aspect height reservation */
-}
-/* ========================================================= */
-/* HARDWARE ACCELERATION & SMOOTH ANIMATIONS                 */
-/* ========================================================= */
-
-/* 1. Smooth Page Scrolling */
+/* 1. Smooth Scrolling & Layout Shift Reservation */
 html {
   scroll-behavior: smooth;
 }
 
-/* 2. Force GPU Rendering (Stops scrolling micro-stutter) */
-#card-container,
-.trade-drawer,
-.bootleg-card,
-article.card {
+.bootleg-card, 
+article.card,
+.card {
+  content-visibility: auto;
+  contain-intrinsic-size: 350px 320px !important;
+  position: relative !important;
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
 }
 
-/* 3. Fast, Hardware-Accelerated Drawer Transition */
+/* 2. Fast Hardware-Accelerated Trade Drawer */
 .trade-drawer {
   position: fixed;
   top: 0;
@@ -4347,9 +4289,17 @@ article.card {
   height: 100vh;
   transform: translateX(100%);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  will-change: transform;
 }
 
 .trade-drawer.open,
 .trade-drawer.active {
   transform: translateX(0) !important;
+}
+
+/* 3. Mobile Performance Safeguards */
+@media (max-width: 768px) {
+  #ember-canvas {
+    display: none !important;
+  }
 }
