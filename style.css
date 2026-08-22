@@ -4046,29 +4046,23 @@ body::before {
 
 body::before {
   content: "";
-  position: fixed; /* Stays in place when scrolling */
+  display: block;
+  position: fixed;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 50vh; /* Covers the upper half of the screen (Heaven/Rules) */
-  pointer-events: none; /* Allows user to click things underneath it */
-  z-index: -1; /* Placed behind content, in front of background */
+  right: 0;
+  width: 450px;  /* Fixed size for the quarter-sun cast */
+  height: 450px;
+  pointer-events: none;
+  z-index: 1; /* Sits above background, under interactive cards */
 
-  /* The subtle quarter-sun/heavenly light effect from the TOP RIGHT corner */
-  /* This creates the "kid's corner sun" look using only math */
+  /* Translucent quarter-sun shape coming out of top-right corner */
   background: radial-gradient(
-    /* Position the center slightly off-screen to the top right to make it a quarter-circle */
-    circle at 95% 5%, 
-    
-    /* Center Color (Golden/Bright, but very translucent) */
-    rgba(255, 250, 200, 0.15) 0%, 
-    
-    /* First fade (Softer, slightly wider reach) */
-    rgba(255, 220, 100, 0.08) 25%, 
-    
-    /* The main vanish point (where it dissolves into the dark background) */
-    transparent 60%
-  );
+    circle at 100% 0%, 
+    rgba(255, 245, 180, 0.35) 0%,   /* Bright golden center at exact corner */
+    rgba(255, 215, 0, 0.18) 30%,    /* Warm celestial ray glow */
+    rgba(255, 215, 0, 0.05) 60%,    /* Soft fading edge */
+    transparent 80%
+  ) !important;
 }
 .bottom-eyestrain-btn {
   position: fixed;
