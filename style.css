@@ -4208,45 +4208,60 @@ main.container,
   box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
 }
 /* ========================================================= */
-/* 3D GEMSTONE CRYSTAL CLUSTER WITH SPECULAR LIGHT REFRACTION */
+/* OBSIDIAN BLACK CRYSTALS WITH PRISMATIC REFLECTION EDGE    */
 /* ========================================================= */
 
-p::before, p::after, span::before, span::after, button::before, button::after {
+p::before, p::after, span::before, span::after {
   content: none !important;
 }
 
-/* 1. Action Bar Container Setup */
+/* 1. Action Bar Container: Reserve space */
 .card-actions,
 .bootleg-card-actions,
 div[class*="actions"] {
   position: relative !important;
   overflow: visible !important;
-  padding-bottom: 32px !important;
+  padding-bottom: 48px !important;
 }
 
-/* 2. BASE MOLTEN GLOW (Ambient Light Emitter Underneath) */
+/* 2. Push buttons HIGHER */
+.card-actions button,
+.card-actions a,
+.bootleg-card-actions button,
+.bootleg-card-actions a,
+div[class*="actions"] button,
+div[class*="actions"] a,
+div[class*="actions"] div {
+  transform: translateY(-10px) !important;
+  position: relative !important;
+  z-index: 100001 !important;
+}
+
+/* 3. BASE OBSIDIAN BODY (Pitch Black Volcanic Quartz Shading) */
 .card-actions::before,
 .bootleg-card-actions::before,
 div[class*="actions"]::before {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: -4px !important;
+  bottom: -2px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
-  width: 140px !important;
-  height: 36px !important;
+  width: 150px !important;
+  height: 48px !important;
   z-index: 99998 !important;
   pointer-events: none !important;
 
-  /* Multi-stage 3D Ruby Spire Formation with Internal Facet Contrast */
-  background: 
-    /* Specular Glare Streaks */
-    linear-gradient(115deg, rgba(255, 255, 255, 0.9) 0%, transparent 15%, transparent 85%, rgba(255, 220, 100, 0.8) 100%),
-    /* Deep Facet Shadows & Core Red Refraction */
-    linear-gradient(135deg, #ff2200 0%, #aa0000 30%, #220000 50%, #ff4400 70%, #880000 100%) !important;
+  /* Glossy jet-black obsidian gradient with subtle dark-grey edge highlights */
+  background: linear-gradient(135deg, 
+    #1f1f1f 0%, 
+    #0d0d0d 25%, 
+    #000000 50%, 
+    #181818 70%, 
+    #050505 100%
+  ) !important;
 
-  /* Distinct Asymmetrical Crystal Peaks */
+  /* Tall Asymmetrical Crystal Peaks */
   clip-path: polygon(
     0% 100%, 
     10% 60%, 18% 85%, 
@@ -4256,46 +4271,47 @@ div[class*="actions"]::before {
     90% 55%, 100% 100%
   ) !important;
 
-  filter: drop-shadow(0 -4px 8px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 10px rgba(255, 34, 0, 0.7)) !important;
+  /* Heavy dark drop-shadow to pop off the card background */
+  filter: drop-shadow(0 -4px 10px rgba(0, 0, 0, 0.98)) !important;
 }
 
-/* 3. LIGHT-REFLECTING FRONT FACETS (Prismatic Refraction Overlay) */
+/* 4. COLORED SPECULAR GLARE (Liquid Ruby & Hot Gold Edge Light) */
 .card-actions::after,
 .bootleg-card-actions::after,
 div[class*="actions"]::after {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: -4px !important;
+  bottom: -2px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
-  width: 140px !important;
-  height: 36px !important;
+  width: 150px !important;
+  height: 48px !important;
   z-index: 99999 !important;
   pointer-events: none !important;
 
-  /* Intense Gold & White Edge Reflection */
-  background: linear-gradient(45deg, 
+  /* High-contrast glare streak: pure white core into burning ruby & molten gold */
+  background: linear-gradient(40deg, 
     #ffffff 0%, 
-    #ffe680 25%, 
+    #ff2200 20%, 
     transparent 40%, 
-    rgba(255, 255, 255, 0.95) 60%, 
-    #ffaa00 80%, 
+    #ffe680 60%, 
+    #ff0000 80%, 
     transparent 100%
   ) !important;
 
-  /* Cuts matching the left-facing edges of every spire to simulate catching light */
+  /* Razor-thin highlight cuts locked directly onto the obsidian edges */
   clip-path: polygon(
     18% 85%, 28% 25%, 31% 55%, 
     36% 75%, 50% 0%, 53% 40%, 
     62% 70%, 72% 20%, 75% 55%
   ) !important;
 
-  filter: drop-shadow(0 0 4px #ffffff) drop-shadow(0 0 10px rgba(255, 200, 50, 0.9)) !important;
+  filter: drop-shadow(0 0 6px #ff3300) drop-shadow(0 0 12px rgba(255, 170, 0, 0.9)) !important;
 }
 
-/* Hover Shift */
+/* Hover Intensity Booster */
 .card-actions:hover::after,
 .bootleg-card-actions:hover::after {
-  filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 18px rgba(255, 220, 100, 1)) brightness(1.5) !important;
+  filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 20px #ff2200) brightness(1.7) !important;
 }
