@@ -4073,39 +4073,31 @@ header.container,
   backdrop-filter: blur(4px);
 }
 
-/* EMPYREAN DIVINE SUNBURST & LIGHT RAYS */
+/* LIGHTWEIGHT & SCOPED EMPYREAN SUN (RULES BOX ONLY) */
 body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100vw;
-  height: 80vh;
-  pointer-events: none;
-  z-index: 99; /* Passes ABOVE dark layout panels */
-  
-  /* Multilayered Divine Radial Core + Volumetric Light Spikes */
-  background: 
-    /* 1. Blinding Divine Core */
-    radial-gradient(circle at 100% 0%, rgba(255, 255, 230, 0.95) 0%, rgba(255, 215, 0, 0.7) 12%, transparent 35%),
-    
-    /* 2. Concentric Heavenly Halo Rays */
-    repeating-conic-gradient(
-      from 180deg at 100% 0%, 
-      rgba(255, 223, 128, 0.22) 0deg 4deg, 
-      transparent 4deg 12deg
-    ),
-    
-    /* 3. Deep Empyrean Gold-White Wash */
-    radial-gradient(circle at 100% 0%, rgba(255, 215, 0, 0.35) 0%, rgba(212, 175, 55, 0.15) 50%, transparent 80%);
-
-  /* Golden Screen Glow + High Contrast Light Bleed */
-  mix-blend-mode: screen;
-  filter: drop-shadow(-10px 10px 20px rgba(255, 215, 0, 0.6));
+  display: none !important; /* Fully removes full-page render lag */
 }
 
-/* Give header borders and titles a reactive divine shimmer */
-header.container {
-  border-top-right-radius: 12px;
-  box-shadow: 0 -10px 30px rgba(255, 215, 0, 0.3), inset -15px 15px 30px rgba(255, 223, 128, 0.15) !important;
+.rules-box {
+  position: relative !important;
+  overflow: hidden !important; /* Keeps light strictly contained inside the box */
+  background-color: #0b0c10 !important;
+  
+  /* Fast GPU-native background layer */
+  background-image: 
+    /* 1. Bright Celestial Core at Top-Right Corner */
+    radial-gradient(circle at 100% 0%, rgba(255, 245, 180, 0.45) 0%, rgba(255, 215, 0, 0.2) 25%, transparent 60%),
+    
+    /* 2. Soft Gold-White Volumetric Wash */
+    linear-gradient(225deg, rgba(255, 215, 0, 0.12) 0%, rgba(13, 17, 23, 0.8) 50%, #08080a 100%) !important;
+    
+  border-top-right-radius: 8px;
+  box-shadow: inset -10px 10px 25px rgba(255, 215, 0, 0.15) !important;
+}
+
+/* Ensure inner content stays clear over the light */
+.rules-box-inner {
+  background: transparent !important;
+  position: relative;
+  z-index: 2;
 }
