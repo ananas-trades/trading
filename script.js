@@ -1927,3 +1927,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if (topBtn) topBtn.innerText = '❖ RETURN TO PARADISE';
   }
 });
+function triggerParadiseLost() {
+  // Toggle Paradise Lost on body without touching Eyestrain
+  document.body.classList.toggle('paradise-lost');
+  
+  const isParadise = document.body.classList.contains('paradise-lost');
+  localStorage.setItem('paradiseThemeState', isParadise ? 'active' : 'inactive');
+  
+  // Update top button label
+  const topBtn = document.getElementById('paradise-btn');
+  if (topBtn) {
+    topBtn.textContent = isParadise ? '❖ ASCEND TO CYBERSPACE' : 'ASCEND TO CYBERSPACE';
+  }
+}
+
+// Restore theme state on page load
+document.addEventListener('DOMContentLoaded', () => {
+  const topBtn = document.getElementById('paradise-btn');
+  
+  if (localStorage.getItem('paradiseThemeState') === 'active') {
+    document.body.classList.add('paradise-lost');
+    if (topBtn) topBtn.textContent = '❖ ASCEND TO CYBERSPACE';
+  }
+  
+  // Fallback direct event listener in case inline onclick fails
+  if (topBtn) {
+    topBtn.addEventListener('click', triggerParadiseLost);
+  }
+});
