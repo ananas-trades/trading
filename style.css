@@ -4264,3 +4264,25 @@ article:nth-child(3n) .card-actions::before,
   transform: scaleX(1) !important;
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 40" preserveAspectRatio="none"><g><polygon points="0,40 15,8 28,40" fill="%231a1a1a"/><polygon points="15,8 35,40 28,40" fill="%23000000"/><line x1="0" y1="40" x2="15" y2="8" stroke="%23ffaa00" stroke-width="1.8"/><polygon points="30,40 48,24 60,40" fill="%23111111"/><polygon points="48,24 72,40 60,40" fill="%23030303"/><line x1="30" y1="40" x2="48" y2="24" stroke="%23ff2200" stroke-width="1.2"/><polygon points="65,40 92,14 105,40" fill="%23181818"/><polygon points="92,14 120,40 105,40" fill="%23000000"/><line x1="65" y1="40" x2="92" y2="14" stroke="%23ffaa00" stroke-width="1.5"/><polygon points="115,40 135,4 150,40" fill="%231a1a1a"/><polygon points="135,4 162,40 150,40" fill="%23000000"/><line x1="115" y1="40" x2="135" y2="4" stroke="%23ffffff" stroke-width="2"/><polygon points="155,40 180,20 195,40" fill="%23111111"/><polygon points="180,20 208,40 195,40" fill="%23020202"/><line x1="155" y1="40" x2="180" y2="20" stroke="%23ff3300" stroke-width="1.2"/><polygon points="200,40 225,8 240,40" fill="%23181818"/><polygon points="225,8 255,40 240,40" fill="%23000000"/><line x1="200" y1="40" x2="225" y2="8" stroke="%23ffaa00" stroke-width="1.8"/><polygon points="248,40 270,22 285,40" fill="%230f0f0f"/><polygon points="270,22 300,40 285,40" fill="%23030303"/><line x1="248" y1="40" x2="270" y2="22" stroke="%23ff2200" stroke-width="1.2"/></g></svg>') !important;
 }
+/* ========================================================= */
+/* MOBILE PERFORMANCE & CARD OPTIMIZATIONS                   */
+/* ========================================================= */
+
+/* 1. Off-screen rendering boost (Skip rendering off-screen cards) */
+.bootleg-card,
+article.card {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 350px;
+}
+
+/* 2. Mobile adjustments (Disable heavy GPU filters under 768px) */
+@media (max-width: 768px) {
+  #ember-canvas {
+    display: none !important;
+  }
+  
+  .card-actions::before,
+  .bootleg-card-actions::before {
+    filter: none !important;
+  }
+}
