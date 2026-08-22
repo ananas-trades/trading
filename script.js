@@ -2005,3 +2005,22 @@ if (searchInput) {
     }, 120);
   });
 }
+// Circular Infernal Palette Toggle Listener
+const paletteBtn = document.getElementById('palette-toggle-btn');
+const infernalPalette = document.getElementById('infernal-palette');
+
+if (paletteBtn && infernalPalette) {
+  paletteBtn.addEventListener('click', () => {
+    const isOpen = infernalPalette.classList.contains('open');
+    
+    if (isOpen) {
+      infernalPalette.classList.remove('open');
+      infernalPalette.classList.add('closed');
+      paletteBtn.classList.remove('active');
+    } else {
+      infernalPalette.classList.remove('closed');
+      infernalPalette.classList.add('open');
+      paletteBtn.classList.add('active');
+    }
+  });
+}
