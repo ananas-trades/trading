@@ -3323,3 +3323,86 @@ body[data-theme="paradise-lost"] [class*="format-tag"] {
   text-transform: uppercase !important;
   letter-spacing: 1px !important;
 }
+/* ============================================================
+   ULTIMATE INFERNAL / CELESTIAL MILTONIC OVERRIDES
+   ============================================================ */
+
+/* 1. Star-Dusted Outer Frame & Gold Leaf Corner Accents */
+body[data-theme="paradise-lost"] header.container::before {
+  content: "✦ ✧ ✦";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #03050a;
+  padding: 0 15px;
+  color: #ffd700;
+  font-size: 0.9rem;
+  letter-spacing: 4px;
+  text-shadow: 0 0 8px #ffd700;
+}
+
+/* 2. Gothic Illuminated Drop Capital for List Rules */
+body[data-theme="paradise-lost"] .rules-box ul li:first-child::first-letter {
+  font-family: 'Cinzel', serif !important;
+  font-size: 1.8rem !important;
+  font-weight: bold !important;
+  color: #ff4500 !important;
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.8) !important;
+  float: left !important;
+  margin-right: 5px !important;
+  line-height: 1 !important;
+}
+
+/* 3. Brimstone Red Pulse on Input Focus */
+body[data-theme="paradise-lost"] #search-input:focus {
+  outline: none !important;
+  border-color: #ff4500 !important;
+  box-shadow: 0 0 15px rgba(255, 69, 0, 0.6), inset 0 0 8px rgba(139, 0, 0, 0.5) !important;
+  color: #fff !important;
+}
+
+/* 4. Trade Drawer - Pandemonium Gate Styling */
+body[data-theme="paradise-lost"] .trade-drawer {
+  background: linear-gradient(180deg, #080303 0%, #030101 100%) !important;
+  border-left: 2px solid #8b0000 !important;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.9), -2px 0 10px rgba(139, 0, 0, 0.5) !important;
+}
+
+body[data-theme="paradise-lost"] .drawer-header {
+  border-bottom: 1px double #ffd700 !important;
+}
+
+body[data-theme="paradise-lost"] .drawer-header h2 {
+  color: #ffe87c !important;
+  font-family: 'Cinzel', serif !important;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5) !important;
+}
+
+/* 5. Gold Cart Trigger Button (Infernal Seal) */
+body[data-theme="paradise-lost"] #cart-toggle-btn {
+  background: linear-gradient(180deg, #1a0808 0%, #080202 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffd700 !important;
+  font-family: 'Cinzel', serif !important;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3) !important;
+}
+
+body[data-theme="paradise-lost"] #cart-toggle-btn:hover {
+  border-color: #ff4500 !important;
+  box-shadow: 0 0 20px rgba(255, 69, 0, 0.6) !important;
+  color: #ffffff !important;
+}
+
+/* 6. Custom Brimstone Scrollbar */
+body[data-theme="paradise-lost"]::-webkit-scrollbar {
+  width: 8px;
+}
+body[data-theme="paradise-lost"]::-webkit-scrollbar-track {
+  background: #03050a;
+}
+body[data-theme="paradise-lost"]::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8b0000 0%, #3a0000 100%);
+  border: 1px solid #ffd700;
+  border-radius: 2px;
+}
