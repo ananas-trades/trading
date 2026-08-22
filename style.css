@@ -3964,3 +3964,81 @@ body[data-theme="paradise-lost"] .bootleg-card p {
   font-size: 0.95rem !important;
   line-height: 1.4 !important;
 }
+/* Empyrean Celestial Radial Glow at Top */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55vh;
+  background: radial-gradient(ellipse at top, rgba(255, 215, 0, 0.12) 0%, rgba(0, 0, 0, 0) 75%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* The Great Chasm Divider */
+.abyss-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 45px 0 25px 0;
+  gap: 15px;
+}
+
+.abyss-line {
+  flex-grow: 1;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,215,0,0.8), rgba(255,69,0,0.9), rgba(139,0,0,0.2));
+  box-shadow: 0 0 10px #ff4500;
+}
+
+.abyss-label {
+  font-family: serif;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  color: #ffaa00;
+  text-shadow: 0 0 8px #ff4500;
+  text-transform: uppercase;
+}
+
+/* Infernal Card Hover Effects */
+.bootleg-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bootleg-card:hover {
+  transform: translateY(-3px);
+  border-color: #ff4500 !important;
+  box-shadow: 0 0 18px rgba(255, 69, 0, 0.5), inset 0 0 15px rgba(139, 0, 0, 0.4);
+}
+
+/* Forbidden Fruit Badges for NFT/Restricted Trades */
+.forbidden-badge {
+  display: inline-block;
+  background: rgba(139, 0, 0, 0.6);
+  border: 1px solid #ff4500;
+  color: #ffddaa;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 3px;
+  text-shadow: 0 0 5px #ff0000;
+  box-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
+}
+
+/* Floating Audio Toggle */
+.sound-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #0a0a0d;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  padding: 6px 12px;
+  font-family: inherit;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+}
