@@ -4208,47 +4208,43 @@ main.container,
   box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
 }
 /* ========================================================= */
-/* UPWARD-GROWING LIGHT-REFLECTING CRYSTAL CLUSTER            */
+/* DIRECT ACTION-BAR CRYSTAL OVERLAY                         */
 /* ========================================================= */
 
-/* 1. Kill all accidental interior children pseudo-elements */
-.bootleg-card *::before, 
-.bootleg-card *::after,
-article.card *::before, 
-article.card *::after,
-div[class*="card"] *::before,
-div[class*="card"] *::after {
+/* 1. Prevent pseudo-elements on text nodes */
+p::before, p::after, span::before, span::after {
   content: none !important;
-  display: none !important;
 }
 
-/* 2. Anchor to the outer card base */
-.bootleg-card, 
-article.card,
-div.bootleg-card {
+/* 2. Target the exact outer card frame class */
+.show-card,
+.bootleg-card,
+.trading-card,
+article {
   position: relative !important;
   overflow: visible !important;
 }
 
-/* 3. Base Crystal Body (Growing UPWARD from bottom border) */
-.bootleg-card::before, 
-article.card::before,
-div.bootleg-card::before {
+/* 3. BASE RUBY/OBSIDIAN CRYSTAL BODY (Points UP into card) */
+.show-card::before,
+.bootleg-card::before,
+.trading-card::before,
+article::before {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: 0px !important; /* Anchored directly to the bottom edge */
+  bottom: -2px !important; /* Locks right onto the bottom gold/red border line */
   left: 50% !important;
   transform: translateX(-50%) !important;
   width: 100px !important;
-  height: 22px !important;
-  z-index: 9999 !important;
+  height: 20px !important;
+  z-index: 999999 !important;
   pointer-events: none !important;
 
-  /* Hard-stop faceted gradient for obsidian & ruby base shading */
-  background: linear-gradient(135deg, #ff1a00 0%, #880000 45%, #110000 55%, #cc0000 100%) !important;
+  /* Hard-stop multi-faceted red & dark crimson gradient */
+  background: linear-gradient(135deg, #ff1a00 0%, #990000 45%, #1a0000 55%, #cc0000 100%) !important;
 
-  /* 5 UPWARD-pointing crystalline spires */
+  /* Upward 5-spire crystal formation */
   clip-path: polygon(
     0% 100%, 
     12% 60%, 20% 90%, 28% 15%, 36% 75%, 
@@ -4256,25 +4252,26 @@ div.bootleg-card::before {
     72% 15%, 80% 90%, 88% 60%, 100% 100%
   ) !important;
 
-  filter: drop-shadow(0 -4px 8px rgba(0, 0, 0, 0.95)) !important;
+  filter: drop-shadow(0 -3px 6px rgba(0, 0, 0, 0.9)) !important;
 }
 
-/* 4. Upward Specular Light-Reflecting Glare Layer */
-.bootleg-card::after, 
-article.card::after,
-div.bootleg-card::after {
+/* 4. LIGHT-REFLECTING SPECULAR GLARE (Prismatic highlight facets) */
+.show-card::after,
+.bootleg-card::after,
+.trading-card::after,
+article::after {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: 0px !important;
+  bottom: -2px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
   width: 100px !important;
-  height: 22px !important;
-  z-index: 10000 !important;
+  height: 20px !important;
+  z-index: 1000000 !important; /* Sits directly in front */
   pointer-events: none !important;
 
-  /* Bright white-to-gold specular refraction across leading edges */
+  /* White and gold light reflection streak */
   background: linear-gradient(45deg, 
     #ffffff 0%, 
     #ffe680 30%, 
@@ -4283,7 +4280,7 @@ div.bootleg-card::after {
     transparent 100%
   ) !important;
 
-  /* Upward highlight cuts matching the spire edges */
+  /* Highlight cuts catching light on the left spire edges */
   clip-path: polygon(
     20% 90%, 28% 15%, 31% 65%, 
     50% 0%, 52% 80%, 
@@ -4291,11 +4288,4 @@ div.bootleg-card::after {
   ) !important;
 
   filter: drop-shadow(0 0 6px rgba(255, 230, 120, 0.95)) !important;
-}
-
-/* 5. Dynamic Light Flare Boost on Hover */
-.bootleg-card:hover::after, 
-article.card:hover::after,
-div.bootleg-card:hover::after {
-  filter: drop-shadow(0 0 14px rgba(255, 255, 255, 1)) brightness(1.6) !important;
 }
