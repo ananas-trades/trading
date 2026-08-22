@@ -4065,3 +4065,24 @@ body[data-theme="paradise-lost"] .bootleg-card p {
   color: #ffaa00;
   box-shadow: 0 0 8px rgba(255, 170, 0, 0.4);
 }
+/* Container Transparency Fix - Allows Top-Right Light to Shine Through */
+header.container,
+.rules-box,
+.rules-box-inner {
+  background: rgba(10, 10, 15, 0.65) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* Celestial Quarter-Sun Light Overlay */
+html {
+  background-color: #030305 !important;
+  background-image: radial-gradient(
+    circle at 100% 0%, 
+    rgba(255, 220, 120, 0.45) 0%, 
+    rgba(255, 180, 50, 0.18) 35%, 
+    rgba(255, 140, 0, 0.05) 60%, 
+    transparent 80%
+  ) !important;
+  background-attachment: fixed !important;
+  min-height: 100vh;
+}
