@@ -3710,3 +3710,89 @@ body[data-theme="paradise-lost"] .trade-drawer::after {
   border-top: 1px solid #700000;
   background: #050000;
 }
+/* ============================================================
+   INFERNAL PANDEMONIUM CARDS & BOTTOM OVERRIDES (DIRECT CLASS FIX)
+   ============================================================ */
+
+/* 1. Deep Infernal Abyss Grid & Cards */
+body[data-theme="paradise-lost"] .bootleg-card,
+body[data-theme="paradise-lost"] .card,
+body[data-theme="paradise-lost"] [class*="card"] {
+  background: radial-gradient(circle at center, #140202 0%, #050000 100%) !important;
+  border: 1px solid #8b0000 !important;
+  outline: 2px solid #ffd700 !important;
+  outline-offset: -5px !important;
+  box-shadow: 0 0 15px rgba(139, 0, 0, 0.6), inset 0 0 15px rgba(0, 0, 0, 0.9) !important;
+  position: relative !important;
+}
+
+body[data-theme="paradise-lost"] .bootleg-card:hover,
+body[data-theme="paradise-lost"] .card:hover {
+  border-color: #ff3300 !important;
+  outline-color: #ffe87c !important;
+  box-shadow: 0 0 25px rgba(255, 51, 0, 0.8), inset 0 0 20px rgba(139, 0, 0, 0.6) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 2. Show Title Tags Inside Cards */
+body[data-theme="paradise-lost"] .bootleg-card h3,
+body[data-theme="paradise-lost"] .card h3,
+body[data-theme="paradise-lost"] [class*="card-title"] {
+  background: linear-gradient(180deg, #1f0303 0%, #0a0101 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffe87c !important;
+  font-family: 'Cinzel', serif !important;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7) !important;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* 3. Card Details / Master Notes Text */
+body[data-theme="paradise-lost"] .bootleg-card p,
+body[data-theme="paradise-lost"] .card p,
+body[data-theme="paradise-lost"] .master-notes,
+body[data-theme="paradise-lost"] [class*="notes"] {
+  color: #d1c2a5 !important;
+  font-family: 'IM Fell English', serif !important;
+  font-size: 0.92rem !important;
+  border-color: #8b0000 !important;
+}
+
+/* 4. Action Buttons (+ Add to Trade / Copy Info) */
+body[data-theme="paradise-lost"] button,
+body[data-theme="paradise-lost"] .add-to-cart-btn,
+body[data-theme="paradise-lost"] [class*="btn"] {
+  background: linear-gradient(180deg, #2b0404 0%, #0d0101 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffd700 !important;
+  font-family: 'Cinzel', serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+
+body[data-theme="paradise-lost"] button:hover,
+body[data-theme="paradise-lost"] [class*="btn"]:hover {
+  background: linear-gradient(180deg, #5e0000 0%, #1f0000 100%) !important;
+  border-color: #ff3300 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(255, 51, 0, 0.8) !important;
+}
+
+/* 5. Fix Cyan ASCEND Button & Bottom Trade Bar */
+body[data-theme="paradise-lost"] #scroll-top-btn,
+body[data-theme="paradise-lost"] [id*="ascend"] {
+  background: linear-gradient(180deg, #102a45 0%, #050e1a 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffe87c !important;
+  font-family: 'Cinzel', serif !important;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4) !important;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8) !important;
+}
+
+body[data-theme="paradise-lost"] #cart-toggle-btn,
+body[data-theme="paradise-lost"] .trade-request-btn {
+  background: linear-gradient(180deg, #1a0404 0%, #050000 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffd700 !important;
+  font-family: 'Cinzel', serif !important;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.3) !important;
+}
