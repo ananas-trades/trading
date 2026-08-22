@@ -9,14 +9,17 @@
 
   <!-- Prevent theme-flash on load (Defaults to Paradise Lost) -->
   <script>
-    (function() {
-      const savedTheme = localStorage.getItem('eyestrainMode');
-      if (savedTheme === 'enabled') {
-        document.documentElement.classList.add('eyestrain-mode');
-      }
-    })();
-  </script>
-
+  (function() {
+    // Check if user explicitly turned on Legacy/Cyberpunk mode
+    const savedTheme = localStorage.getItem('paradiseThemeActive');
+    
+    // Default to Paradise Lost UNLESS explicitly set to 'false'
+    if (savedTheme !== 'false') {
+      document.documentElement.setAttribute('data-theme', 'paradise-lost');
+      document.documentElement.classList.add('paradise-lost', 'paradise-lost-mode');
+    }
+  })();
+</script>
   <!-- Import classical typography for Paradise Lost -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
