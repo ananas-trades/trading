@@ -1930,110 +1930,17 @@ function updateButtonLabel() {
 
 // Sync on load
 document.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('paradiseThemeActive');
-  
-  if (savedTheme !== 'false') {
-    document.documentElement.setAttribute('data-theme', 'paradise-lost');
-    document.documentElement.classList.add('paradise-lost', 'paradise-lost-mode');
-    document.body.classList.add('paradise-lost', 'paradise-lost-mode');
-  }
-  
-  updateButtonLabel();
-  
-  // Try immediately and keep polling until cards exist
-  initCardBrimstones();
-  const cardInterval = setInterval(() => {
-    if (document.querySelectorAll('.bootleg-card-actions, .card-actions, div[class*="actions"]').length > 0) {
-      initCardBrimstones();
-      clearInterval(cardInterval);
-    }
-  }, 200);
+  const savedTheme = localStorage.getItem('paradiseThemeActive');
+  
+  if (savedTheme !== 'false') {
+    document.documentElement.setAttribute('data-theme', 'paradise-lost');
+    document.documentElement.classList.add('paradise-lost', 'paradise-lost-mode');
+    document.body.classList.add('paradise-lost', 'paradise-lost-mode');
+  }
+  
+  updateButtonLabel();
 });
-
-// Watch for dynamic card grid updates (filtering, searching, loading)
-const observer = new MutationObserver(() => {
-  initCardBrimstones();
-});
-observer.observe(document.body, { childList: true, subtree: true });
-
-// 1. INJECT LOCAL BRIMSTONE CANVASES
-function initCardBrimstones() {
-  // Target action bars specifically inside cards
-  const cardPanels = document.querySelectorAll('.bootleg-card .card-actions, .card .card-actions, .bootleg-card-actions, div[class*="actions"]');
-  
-  cardPanels.forEach((panel, index) => {
-    // Ignore top rule banners/headers
-    if (panel.closest('.rules-box') || panel.closest('.header') || panel.closest('#trading-rules')) return;
-    
-    // Avoid duplicate canvases
-    if (panel.querySelector('.brimstone-canvas')) return;
-
-    panel.style.position = 'relative';
-
-    const localCanvas = document.createElement('canvas');
-    localCanvas.className = 'brimstone-canvas';
-    localCanvas.style.cssText = 'position: absolute; bottom: -2px; left: 0; width: 100%; height: 38px; pointer-events: none; z-index: 100000;';
-    
-    panel.appendChild(localCanvas);
-
-    // Set canvas pixel buffer to match element size
-    const w = panel.offsetWidth || panel.getBoundingClientRect().width || 280;
-    localCanvas.width = w;
-    localCanvas.height = 38;
-
-    const ctx = localCanvas.getContext('2d');
-    drawLocalBrimstones(ctx, w, 38, index);
-  });
-}
-
-function drawLocalBrimstones(ctx, w, h, cardIndex) {
-  const seeds = [
-    [0.0, 0.12, 0.28, 0.45, 0.62, 0.78, 0.92, 1.0],
-    [0.0, 0.08, 0.22, 0.38, 0.55, 0.72, 0.88, 1.0],
-    [0.0, 0.15, 0.32, 0.50, 0.68, 0.84, 0.95, 1.0]
-  ];
-  const activeSeed = seeds[cardIndex % seeds.length];
-
-  ctx.clearRect(0, 0, w, h);
-
-  for (let i = 0; i < activeSeed.length - 1; i++) {
-    const x1 = w * activeSeed[i];
-    const x2 = w * activeSeed[i + 1];
-    const spireW = x2 - x1;
-    const peakX = x1 + spireW * 0.4;
-    
-    const heightFactor = (i % 3 === 0) ? 0.9 : ((i % 2 === 0) ? 0.6 : 0.75);
-    const peakY = h - (h * heightFactor);
-
-    // 1. Dark Obsidian Left Facet
-    ctx.beginPath();
-    ctx.moveTo(x1, h);
-    ctx.lineTo(peakX, peakY);
-    ctx.lineTo(x1 + spireW * 0.5, h);
-    ctx.fillStyle = '#1c1c1c';
-    ctx.fill();
-
-    // 2. Pitch Black Right Facet
-    ctx.beginPath();
-    ctx.moveTo(peakX, peakY);
-    ctx.lineTo(x2, h);
-    ctx.lineTo(x1 + spireW * 0.5, h);
-    ctx.fillStyle = '#050505';
-    ctx.fill();
-
-    // 3. Colored Refraction Glow Edge
-    ctx.beginPath();
-    ctx.moveTo(x1, h);
-    ctx.lineTo(peakX, peakY);
-    ctx.strokeStyle = (i % 2 === 0) ? '#ff3300' : '#ffaa00';
-    ctx.lineWidth = 1.5;
-    ctx.shadowColor = '#ff2200';
-    ctx.shadowBlur = 6;
-    ctx.stroke();
-  }
-}
-
-// 2. FLOATING INFERNAL EMBERS ANIMATION
+// Floating Infernal Embers Animation
 const canvas = document.getElementById('ember-canvas');
 const ctx = canvas.getContext('2d');
 
@@ -2041,51 +1948,49 @@ let width = (canvas.width = window.innerWidth);
 let height = (canvas.height = window.innerHeight);
 
 window.addEventListener('resize', () => {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-  
-  // Redraw local card canvases on resize
-  document.querySelectorAll('.brimstone-canvas').forEach(c => c.remove());
-  initCardBrimstones();
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
 });
 
 const embers = Array.from({ length: 45 }, () => ({
-  x: Math.random() * width,
-  y: Math.random() * height + height * 0.4,
-  radius: Math.random() * 2 + 0.8,
-  speedY: -(Math.random() * 0.7 + 0.2),
-  speedX: (Math.random() - 0.5) * 0.4,
-  opacity: Math.random() * 0.7 + 0.3,
-  color: Math.random() > 0.4 ? '#ff4500' : '#ffaa00'
+  x: Math.random() * width,
+  y: Math.random() * height + height * 0.4, // Focus embers on lower section (Pandemonium)
+  radius: Math.random() * 2 + 0.8,
+  speedY: -(Math.random() * 0.7 + 0.2),
+  speedX: (Math.random() - 0.5) * 0.4,
+  opacity: Math.random() * 0.7 + 0.3,
+  color: Math.random() > 0.4 ? '#ff4500' : '#ffaa00'
 }));
 
 function animateEmbers() {
-  ctx.clearRect(0, 0, width, height);
+  ctx.clearRect(0, 0, width, height);
 
-  embers.forEach((ember) => {
-    ember.y += ember.speedY;
-    ember.x += ember.speedX;
+  embers.forEach((ember) => {
+    ember.y += ember.speedY;
+    ember.x += ember.speedX;
 
-    if (ember.y < height * 0.35) {
-      ember.opacity -= 0.005;
-    }
+    // Fade out as embers rise toward Heaven
+    if (ember.y < height * 0.35) {
+      ember.opacity -= 0.005;
+    }
 
-    if (ember.y < height * 0.2 || ember.opacity <= 0) {
-      ember.y = height + Math.random() * 50;
-      ember.x = Math.random() * width;
-      ember.opacity = Math.random() * 0.7 + 0.3;
-    }
+    // Reset embers back to the bottom when they fade or go offscreen
+    if (ember.y < height * 0.2 || ember.opacity <= 0) {
+      ember.y = height + Math.random() * 50;
+      ember.x = Math.random() * width;
+      ember.opacity = Math.random() * 0.7 + 0.3;
+    }
 
-    ctx.beginPath();
-    ctx.arc(ember.x, ember.y, ember.radius, 0, Math.PI * 2);
-    ctx.fillStyle = ember.color;
-    ctx.globalAlpha = ember.opacity;
-    ctx.shadowBlur = 8;
-    ctx.shadowColor = ember.color;
-    ctx.fill();
-  });
+    ctx.beginPath();
+    ctx.arc(ember.x, ember.y, ember.radius, 0, Math.PI * 2);
+    ctx.fillStyle = ember.color;
+    ctx.globalAlpha = ember.opacity;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = ember.color;
+    ctx.fill();
+  });
 
-  requestAnimationFrame(animateEmbers);
+  requestAnimationFrame(animateEmbers);
 }
 
 animateEmbers();
