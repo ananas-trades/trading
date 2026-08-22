@@ -4214,3 +4214,51 @@ div[class*="actions"] a {
   position: relative !important;
   z-index: 100001 !important;
 }
+/* ========================================================= */
+/* MULTI-FACETED 3D OBSIDIAN VECTOR BRIMSTONES               */
+/* ========================================================= */
+
+.card-actions,
+.bootleg-card-actions {
+  position: relative !important;
+  overflow: visible !important;
+  padding-bottom: 26px !important;
+}
+
+.card-actions button,
+.bootleg-card-actions button {
+  position: relative !important;
+  z-index: 100001 !important;
+  transform: translateY(-8px) !important;
+}
+
+/* Detailed 3D Obsidian Geometry with Asymmetrical Edge Reflections */
+.card-actions::before,
+.bootleg-card-actions::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  bottom: -2px !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 38px !important;
+  z-index: 100000 !important;
+  pointer-events: none !important;
+
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 40" preserveAspectRatio="none"><g><polygon points="0,40 10,22 18,40" fill="%231a1a1a"/><polygon points="10,22 25,40 18,40" fill="%23050505"/><line x1="0" y1="40" x2="10" y2="22" stroke="%23ff3300" stroke-width="1.2"/><polygon points="20,40 38,8 48,40" fill="%23222222"/><polygon points="38,8 58,40 48,40" fill="%23000000"/><line x1="20" y1="40" x2="38" y2="8" stroke="%23ffaa00" stroke-width="1.5"/><polygon points="52,40 70,25 82,40" fill="%23181818"/><polygon points="70,25 90,40 82,40" fill="%23080808"/><line x1="52" y1="40" x2="70" y2="25" stroke="%23ff2200" stroke-width="1"/><polygon points="85,40 110,4 125,40" fill="%23252525"/><polygon points="110,4 138,40 125,40" fill="%23020202"/><line x1="85" y1="40" x2="110" y2="4" stroke="%23ffe680" stroke-width="1.8"/><polygon points="132,40 152,18 165,40" fill="%231c1c1c"/><polygon points="152,18 175,40 165,40" fill="%23050505"/><line x1="132" y1="40" x2="152" y2="18" stroke="%23ff3300" stroke-width="1.2"/><polygon points="170,40 195,10 208,40" fill="%23222222"/><polygon points="195,10 220,40 208,40" fill="%23000000"/><line x1="170" y1="40" x2="195" y2="10" stroke="%23ffaa00" stroke-width="1.5"/><polygon points="215,40 238,22 250,40" fill="%231a1a1a"/><polygon points="238,22 262,40 250,40" fill="%23080808"/><line x1="215" y1="40" x2="238" y2="22" stroke="%23ff2200" stroke-width="1"/><polygon points="258,40 280,14 290,40" fill="%23252525"/><polygon points="280,14 300,40 290,40" fill="%23020202"/><line x1="258" y1="40" x2="280" y2="14" stroke="%23ffaa00" stroke-width="1.5"/></g></svg>') !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+
+  filter: drop-shadow(0 0 5px rgba(255, 34, 0, 0.8)) !important;
+}
+
+/* Grid-wide Variation Passes */
+article:nth-child(2n) .card-actions::before,
+.bootleg-card:nth-child(2n) .bootleg-card-actions::before {
+  transform: scaleX(-1) !important;
+}
+
+article:nth-child(3n) .card-actions::before,
+.bootleg-card:nth-child(3n) .bootleg-card-actions::before {
+  filter: drop-shadow(0 0 8px rgba(255, 170, 0, 0.9)) brightness(1.25) !important;
+}
