@@ -4441,3 +4441,55 @@ article.card,
   background: rgba(30, 0, 0, 0.9);
   grid-column: 1 / -1; /* Spans full width at the bottom */
 }
+/* ========================================================= */
+/* FIX FLOATING BUTTON OVERLAPS & DRAWER PADDING             */
+/* ========================================================= */
+
+/* 1. Ensure Trade Drawer sits ON TOP of all floating buttons */
+#trade-drawer {
+  z-index: 10000 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+/* 2. Add bottom padding to drawer body so content never clips under buttons */
+.drawer-body {
+  flex-grow: 1 !important;
+  overflow-y: auto !important;
+  padding-bottom: 20px !important;
+}
+
+/* 3. Keep drawer footer fixed to the bottom without clipping text */
+.drawer-footer {
+  position: relative !important;
+  bottom: 0 !important;
+  background: #0a0000 !important;
+  padding: 15px !important;
+  border-top: 1px solid #331111 !important;
+  z-index: 10001 !important;
+}
+
+/* 4. Offset floating triggers so they don't overlap when drawer is CLOSED */
+#scroll-top-btn {
+  bottom: 80px !important; /* Elevator button moved higher up */
+  right: 20px !important;
+  z-index: 9990 !important;
+}
+
+#cart-toggle-btn {
+  bottom: 20px !important; /* Trade Request trigger stays at bottom */
+  right: 20px !important;
+  z-index: 9991 !important;
+}
+
+/* 5. Hide floating triggers automatically when the trade drawer is OPEN */
+.trade-drawer.open ~ #scroll-top-btn,
+.trade-drawer.open ~ #cart-toggle-btn,
+body.drawer-open #scroll-top-btn,
+body.drawer-open #cart-toggle-btn {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(20px) !important;
+  transition: all 0.3s ease !important;
+}
