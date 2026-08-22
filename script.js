@@ -1899,22 +1899,31 @@ function updateUI() {
   }
 }
 
-// Run UI check when the DOM is ready
-document.addEventListener("DOMContentLoaded", updateUI);
 function triggerParadiseLost() {
   const body = document.body;
+  const topBtn = document.getElementById('paradise-btn');
   
-  // Toggle between your default theme and legacy model on body
-  body.classList.toggle('legacy-theme');
+  // Toggle the cyberpunk theme class on body
+  body.classList.toggle('theme-cyberpunk');
   
-  // Save preference if needed
-  const isLegacy = body.classList.contains('legacy-theme');
-  localStorage.setItem('paradiseLegacyMode', isLegacy ? 'enabled' : 'disabled');
+  const isCyberpunk = body.classList.contains('theme-cyberpunk');
+  
+  // Save user choice
+  localStorage.setItem('siteTheme', isCyberpunk ? 'cyberpunk' : 'paradise');
+  
+  // Update button label depending on current mode
+  if (topBtn) {
+    topBtn.innerText = isCyberpunk ? '❖ RETURN TO PARADISE' : 'ASCEND TO CYBERSPACE';
+  }
 }
 
-// Restore saved legacy choice on load
+// Restore saved theme state on load
 document.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('paradiseLegacyMode') === 'enabled') {
-    document.body.classList.add('legacy-theme');
+  const savedTheme = localStorage.getItem('siteTheme');
+  const topBtn = document.getElementById('paradise-btn');
+  
+  if (savedTheme === 'cyberpunk') {
+    document.body.classList.add('theme-cyberpunk');
+    if (topBtn) topBtn.innerText = '❖ RETURN TO PARADISE';
   }
 });
