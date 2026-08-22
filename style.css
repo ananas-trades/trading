@@ -4101,3 +4101,42 @@ body::after {
   position: relative;
   z-index: 2;
 }
+/* 1. Kill hard backgrounds on inner headers */
+.rules-header,
+.rules-box-inner,
+.rules-box {
+  background: transparent !important;
+}
+
+/* 2. Attach the corner sun directly inside the rules-box container */
+.rules-box {
+  position: relative !important;
+  overflow: hidden !important;
+  background: #0d1117 !important; /* Base dark background */
+}
+
+/* 3. The Sun Overlay directly inside the box */
+.rules-box::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+  background: radial-gradient(
+    circle at 100% 0%, 
+    #ffffff 0%,
+    rgba(255, 240, 150, 0.9) 8%, 
+    rgba(255, 200, 50, 0.5) 25%, 
+    rgba(255, 140, 0, 0.15) 50%, 
+    transparent 75%
+  ) !important;
+}
+
+/* Keep text readable above the light */
+.rules-box-inner {
+  position: relative !important;
+  z-index: 2 !important;
+}
