@@ -1940,3 +1940,57 @@ document.addEventListener('DOMContentLoaded', () => {
   
   updateButtonLabel();
 });
+// Floating Infernal Embers Animation
+const canvas = document.getElementById('ember-canvas');
+const ctx = canvas.getContext('2d');
+
+let width = (canvas.width = window.innerWidth);
+let height = (canvas.height = window.innerHeight);
+
+window.addEventListener('resize', () => {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+});
+
+const embers = Array.from({ length: 45 }, () => ({
+  x: Math.random() * width,
+  y: Math.random() * height + height * 0.4, // Focus embers on lower section (Pandemonium)
+  radius: Math.random() * 2 + 0.8,
+  speedY: -(Math.random() * 0.7 + 0.2),
+  speedX: (Math.random() - 0.5) * 0.4,
+  opacity: Math.random() * 0.7 + 0.3,
+  color: Math.random() > 0.4 ? '#ff4500' : '#ffaa00'
+}));
+
+function animateEmbers() {
+  ctx.clearRect(0, 0, width, height);
+
+  embers.forEach((ember) => {
+    ember.y += ember.speedY;
+    ember.x += ember.speedX;
+
+    // Fade out as embers rise toward Heaven
+    if (ember.y < height * 0.35) {
+      ember.opacity -= 0.005;
+    }
+
+    // Reset embers back to the bottom when they fade or go offscreen
+    if (ember.y < height * 0.2 || ember.opacity <= 0) {
+      ember.y = height + Math.random() * 50;
+      ember.x = Math.random() * width;
+      ember.opacity = Math.random() * 0.7 + 0.3;
+    }
+
+    ctx.beginPath();
+    ctx.arc(ember.x, ember.y, ember.radius, 0, Math.PI * 2);
+    ctx.fillStyle = ember.color;
+    ctx.globalAlpha = ember.opacity;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = ember.color;
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animateEmbers);
+}
+
+animateEmbers();
