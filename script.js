@@ -1992,5 +1992,7 @@ function animateEmbers() {
 
   requestAnimationFrame(animateEmbers);
 }
-
-animateEmbers();
+// Only run the heavy particle loop on desktop screens
+if (window.innerWidth > 768) {
+  animateEmbers();
+}
