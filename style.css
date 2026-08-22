@@ -3936,30 +3936,31 @@ body[data-theme="paradise-lost"] .bootleg-card strong {
   text-shadow: 0 0 6px rgba(255, 69, 0, 0.6) !important;
 }
 /* ============================================================
-   PRECISION TARGETING FOR CAST & NOTES LABELS
+/* ============================================================
+   CLEAN & READABLE INFERNAL LABELS
    ============================================================ */
 
-/* Target the text blocks inside bootleg cards where notes/cast live */
-body[data-theme="paradise-lost"] .card div[style*="color"],
-body[data-theme="paradise-lost"] .bootleg-card div[style*="color"],
-body[data-theme="paradise-lost"] .card p span,
-body[data-theme="paradise-lost"] .bootleg-card p span {
-  /* Let's see if we can catch any remaining inline color strings */
+/* 1. Make the Cast and Notes labels stand out clearly inline */
+body[data-theme="paradise-lost"] .infernal-label-cast,
+body[data-theme="paradise-lost"] .infernal-label-notes {
+  display: inline !important;
+  color: #ffd700 !important; /* Blazing Gold */
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-family: 'Cinzel', serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.8) !important;
+  box-shadow: none !important;
 }
 
-/* Force every label or span that looks like a field header to blaze in gold */
+/* 2. Ensure the actual content text is a soft, readable parchment color */
 body[data-theme="paradise-lost"] .card p,
 body[data-theme="paradise-lost"] .bootleg-card p {
   color: #d1c2a5 !important;
   font-family: 'IM Fell English', serif !important;
-}
-
-/* If script.js uses specific class names for cast/notes headers, catch them all */
-body[data-theme="paradise-lost"] .cast-label,
-body[data-theme="paradise-lost"] .notes-label,
-body[data-theme="paradise-lost"] [class*="label"],
-body[data-theme="paradise-lost"] [class*="header"] {
-  color: #ffd700 !important;
-  font-family: 'Cinzel', serif !important;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.7) !important;
+  font-size: 0.95rem !important;
+  line-height: 1.4 !important;
 }
