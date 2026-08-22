@@ -4208,123 +4208,136 @@ main.container,
   box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
 }
 /* ========================================================= */
-/* TRUE 3D OBSIDIAN BRIMSTONE ENGINE + ELEVATED ACTION BOX    */
+/* ANCHORED OBSIDIAN BRIMSTONE SPIRES (CLEAN 3D GEOMETRY)    */
 /* ========================================================= */
 
 p::before, p::after, span::before, span::after {
   content: none !important;
 }
 
-/* 1. Lift the ENTIRE action panel box upward */
+/* 1. Lift the entire action panel UP cleanly */
 .card-actions,
 .bootleg-card-actions,
 div[class*="actions"] {
   position: relative !important;
   overflow: visible !important;
-  transform: translateY(-28px) !important; /* Lifts the whole frame & buttons */
-  padding-bottom: 20px !important;
-  margin-bottom: -28px !important; /* Prevents breaking card grid layout */
+  margin-top: -24px !important;    /* Pulls box UP into card body */
+  margin-bottom: 24px !important; /* Preserves layout spacing below */
 }
 
-/* 2. FOREGROUND OBSIDIAN SPIRES (Deep Black Diamond Crystals) */
+/* Ensure buttons sit safely inside the action box above crystals */
+.card-actions button,
+.card-actions a,
+.bootleg-card-actions button,
+.bootleg-card-actions a,
+div[class*="actions"] button,
+div[class*="actions"] a {
+  position: relative !important;
+  z-index: 100002 !important;
+}
+
+/* 2. FOREGROUND OBSIDIAN CRYSTALS (Growing UPWARD from bottom line) */
 .card-actions::before,
 .bootleg-card-actions::before,
 div[class*="actions"]::before {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: -30px !important; /* Planted on bottom border */
+  bottom: -2px !important;  /* Strictly locked to bottom border */
   left: 0 !important;
   width: 100% !important;
-  height: 52px !important;
+  height: 38px !important;
   z-index: 100000 !important;
   pointer-events: none !important;
 
-  /* Glossy jet-black 3D facet shading */
-  background: 
-    linear-gradient(110deg, #333 0%, #111 20%, #000 45%, #222 55%, #050505 100%) 5% bottom / 22px 42px,
-    linear-gradient(130deg, #444 0%, #1a1a1a 25%, #000 50%, #2a2a2a 75%, #000 100%) 25% bottom / 32px 52px,
-    linear-gradient(105deg, #222 0%, #0a0a0a 30%, #000 60%, #1f1f1f 80%, #050505 100%) 50% bottom / 26px 46px,
-    linear-gradient(125deg, #3a3a3a 0%, #111 20%, #000 50%, #222 70%, #0a0a0a 100%) 75% bottom / 36px 50px,
-    linear-gradient(115deg, #252525 0%, #0d0d0d 30%, #000 60%, #1a1a1a 80%, #000 100%) 92% bottom / 24px 38px !important;
-  background-repeat: no-repeat !important;
+  /* Jet-black obsidian shading with subtle inner dark grey facet */
+  background: linear-gradient(135deg, #2a2a2a 0%, #0d0d0d 30%, #000000 60%, #1a1a1a 85%, #050505 100%) !important;
 
-  /* Jagged multi-spire crystalline polygon cutout */
+  /* Clean upward 7-spire crystal formation across full width */
   clip-path: polygon(
     0% 100%, 
-    3% 40%, 7% 100%, 
-    20% 10%, 28% 100%, 
-    45% 0%, 53% 100%, 
-    70% 15%, 79% 100%, 
-    88% 30%, 94% 100%
+    5% 65%, 10% 90%, 
+    18% 25%, 26% 80%, 
+    36% 10%, 44% 75%, 
+    54% 0%, 62% 70%, 
+    72% 20%, 80% 85%, 
+    88% 45%, 94% 80%, 100% 100%
   ) !important;
 
   filter: drop-shadow(0 -4px 8px rgba(0, 0, 0, 0.95)) !important;
 }
 
-/* 3. COLORED RAY-TRACED GLARE (Prismatic Red & Gold Highlights) */
+/* 3. COLORED EDGE REFLECTION (Prismatic Light Catchers) */
 .card-actions::after,
 .bootleg-card-actions::after,
 div[class*="actions"]::after {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: -30px !important;
+  bottom: -2px !important;
   left: 0 !important;
   width: 100% !important;
-  height: 52px !important;
+  height: 38px !important;
   z-index: 100001 !important;
   pointer-events: none !important;
 
-  /* Pure white reflection bleeding into molten ruby and gold */
-  background: linear-gradient(40deg, 
+  /* Bright white glare breaking into fiery crimson and hot amber */
+  background: linear-gradient(45deg, 
     #ffffff 0%, 
-    #ff2200 25%, 
+    #ff2200 30%, 
     transparent 50%, 
     #ffaa00 75%, 
     transparent 100%
   ) !important;
 
-  /* Razor-thin leading edge cuts on spire ridges */
+  /* Highlights locked onto left leading edges of spires */
   clip-path: polygon(
-    3% 40%, 4.5% 60%, 7% 100%,
-    20% 10%, 22% 40%, 28% 100%,
-    45% 0%, 47% 35%, 53% 100%,
-    70% 15%, 72% 45%, 79% 100%,
-    88% 30%, 89.5% 55%, 94% 100%
+    10% 90%, 18% 25%, 20% 50%,
+    26% 80%, 36% 10%, 38% 40%,
+    44% 75%, 54% 0%,  56% 35%,
+    62% 70%, 72% 20%, 74% 50%,
+    80% 85%, 88% 45%, 90% 65%
   ) !important;
 
-  filter: drop-shadow(0 0 5px #ff2200) drop-shadow(0 0 10px rgba(255, 170, 0, 0.8)) !important;
+  filter: drop-shadow(0 0 5px #ff2200) drop-shadow(0 0 10px rgba(255, 170, 0, 0.9)) !important;
 }
 
-/* 4. BACKGROUND SPIRES (Layered Depth Behind Foreground Crystals) */
-.bootleg-card::before,
-article.card::before,
-div.bootleg-card::before {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  bottom: -2px !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 35px !important;
-  z-index: 99999 !important;
-  pointer-events: none !important;
+/* ========================================================= */
+/* NATURAL CARD RANDOMIZATION (Varying Crystal Growth)      */
+/* ========================================================= */
 
-  background: linear-gradient(135deg, #181818 0%, #050505 50%, #000000 100%) !important;
-
-  /* Secondary offset background spires filling gaps */
+/* Alternate Card Variant A */
+article:nth-child(2n) .card-actions::before,
+article:nth-child(2n) .card-actions::after,
+div[class*="card"]:nth-child(2n) .card-actions::before,
+div[class*="card"]:nth-child(2n) .card-actions::after {
   clip-path: polygon(
-    0% 100%, 12% 20%, 18% 100%,
-    36% 25%, 41% 100%,
-    60% 18%, 66% 100%,
-    82% 22%, 86% 100%
+    0% 100%, 
+    8% 30%, 15% 85%, 
+    24% 10%, 32% 70%, 
+    42% 45%, 50% 90%, 
+    60% 5%,  68% 75%, 
+    78% 35%, 86% 80%, 
+    92% 15%, 100% 100%
   ) !important;
-
-  filter: brightness(0.6) drop-shadow(0 -2px 4px #000) !important;
 }
 
-/* Dynamic Hover Glow */
+/* Alternate Card Variant B */
+article:nth-child(3n) .card-actions::before,
+article:nth-child(3n) .card-actions::after,
+div[class*="card"]:nth-child(3n) .card-actions::before,
+div[class*="card"]:nth-child(3n) .card-actions::after {
+  clip-path: polygon(
+    0% 100%, 
+    6% 75%, 14% 20%, 
+    22% 85%, 30% 35%, 
+    40% 80%, 52% 15%, 
+    62% 65%, 70% 0%, 
+    80% 70%, 88% 25%, 100% 100%
+  ) !important;
+}
+
+/* Dynamic Hover Glow Shift */
 .card-actions:hover::after,
 .bootleg-card-actions:hover::after {
   filter: drop-shadow(0 0 8px #ffffff) drop-shadow(0 0 18px #ff2200) brightness(1.6) !important;
