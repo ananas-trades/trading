@@ -1900,29 +1900,43 @@ function updateUI() {
 }
 
 function triggerParadiseLost() {
-  const isParadise = document.body.getAttribute('data-theme') === 'paradise-lost';
+  const isParadise = document.documentElement.getAttribute('data-theme') === 'paradise-lost';
 
   if (isParadise) {
-    document.body.removeAttribute('data-theme');
+    // Switch to Legacy Cyberpunk Mode
+    document.documentElement.removeAttribute('data-theme');
+    document.documentElement.classList.remove('paradise-lost', 'paradise-lost-mode');
     document.body.classList.remove('paradise-lost', 'paradise-lost-mode');
     localStorage.setItem('paradiseThemeActive', 'false');
   } else {
-    document.body.setAttribute('data-theme', 'paradise-lost');
+    // Switch back to Paradise Lost Mode
+    document.documentElement.setAttribute('data-theme', 'paradise-lost');
+    document.documentElement.classList.add('paradise-lost', 'paradise-lost-mode');
     document.body.classList.add('paradise-lost', 'paradise-lost-mode');
     localStorage.setItem('paradiseThemeActive', 'true');
   }
 
+  updateButtonLabel();
+}
+
+function updateButtonLabel() {
   const btn = document.getElementById('paradise-btn');
+  const isParadise = document.documentElement.getAttribute('data-theme') === 'paradise-lost';
+  
   if (btn) {
-    btn.textContent = !isParadise ? '❖ ASCEND TO CYBERSPACE' : '❖ Legacy Model';
+    btn.textContent = isParadise ? '❖ Legacy Model (Cyberpunk)' : '❖ Ascend to Paradise';
   }
 }
 
+// Sync on load
 document.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('paradiseThemeActive') === 'true') {
-    document.body.setAttribute('data-theme', 'paradise-lost');
+  const savedTheme = localStorage.getItem('paradiseThemeActive');
+  
+  if (savedTheme !== 'false') {
+    document.documentElement.setAttribute('data-theme', 'paradise-lost');
+    document.documentElement.classList.add('paradise-lost', 'paradise-lost-mode');
     document.body.classList.add('paradise-lost', 'paradise-lost-mode');
-    const btn = document.getElementById('paradise-btn');
-    if (btn) btn.textContent = '❖ ASCEND TO CYBERSPACE';
   }
+  
+  updateButtonLabel();
 });
