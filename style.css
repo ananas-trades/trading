@@ -3978,19 +3978,6 @@ body[data-theme="paradise-lost"] .bootleg-card p {
   font-size: 0.95rem !important;
   line-height: 1.4 !important;
 }
-/* Empyrean Celestial Radial Glow at Top */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 55vh;
-  background: radial-gradient(ellipse at top, rgba(255, 215, 0, 0.12) 0%, rgba(0, 0, 0, 0) 75%);
-  pointer-events: none;
-  z-index: 0;
-}
-
 /* The Great Chasm Divider */
 .abyss-divider {
   display: flex;
@@ -4057,27 +4044,6 @@ body::before {
   box-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 /* style.css - Add this at the bottom or near the top */
-
-body::before {
-  content: "";
-  display: block;
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 450px;  /* Fixed size for the quarter-sun cast */
-  height: 450px;
-  pointer-events: none;
-  z-index: 1; /* Sits above background, under interactive cards */
-
-  /* Translucent quarter-sun shape coming out of top-right corner */
-  background: radial-gradient(
-    circle at 100% 0%, 
-    rgba(255, 245, 180, 0.35) 0%,   /* Bright golden center at exact corner */
-    rgba(255, 215, 0, 0.18) 30%,    /* Warm celestial ray glow */
-    rgba(255, 215, 0, 0.05) 60%,    /* Soft fading edge */
-    transparent 80%
-  ) !important;
-}
 .bottom-eyestrain-btn {
   position: fixed;
   bottom: 12px;
