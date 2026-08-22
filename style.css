@@ -3796,3 +3796,64 @@ body[data-theme="paradise-lost"] .trade-request-btn {
   font-family: 'Cinzel', serif !important;
   box-shadow: 0 0 12px rgba(255, 215, 0, 0.3) !important;
 }
+/* ============================================================
+   CARD INNER DETAILS & FLOATING BUTTON INFERNAL OVERRIDES
+   ============================================================ */
+
+/* 1. Cast Boxes & Inner Detail Rectangles */
+body[data-theme="paradise-lost"] [class*="cast"],
+body[data-theme="paradise-lost"] [class*="notes"],
+body[data-theme="paradise-lost"] .details-box,
+body[data-theme="paradise-lost"] .meta-box {
+  background: rgba(15, 3, 3, 0.9) !important;
+  border: 1px solid #700000 !important;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* 2. "MASTER NOTES" and "TRADING NOTES" Headers (Kill the Cyan) */
+body[data-theme="paradise-lost"] [class*="notes"] strong,
+body[data-theme="paradise-lost"] [class*="notes"] b,
+body[data-theme="paradise-lost"] [class*="notes-header"],
+body[data-theme="paradise-lost"] .cast-header {
+  color: #ff3300 !important;
+  font-family: 'Cinzel', serif !important;
+  text-shadow: 0 0 8px rgba(255, 51, 0, 0.6) !important;
+  letter-spacing: 1px !important;
+}
+
+/* 3. Cast & Notes Paragraph Text */
+body[data-theme="paradise-lost"] [class*="cast"] p,
+body[data-theme="paradise-lost"] [class*="notes"] p,
+body[data-theme="paradise-lost"] .card-body {
+  color: #d1c2a5 !important;
+  font-family: 'IM Fell English', serif !important;
+}
+
+/* 4. Kill Cyan "ASCEND" Button Permanently */
+body[data-theme="paradise-lost"] #scroll-top-btn,
+body[data-theme="paradise-lost"] button[id*="scroll"],
+body[data-theme="paradise-lost"] .ascend-btn {
+  background: linear-gradient(180deg, #1f0505 0%, #080000 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffe87c !important;
+  font-family: 'Cinzel', serif !important;
+  text-shadow: 0 0 8px #ffd700 !important;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3), inset 0 0 8px rgba(139, 0, 0, 0.5) !important;
+}
+
+body[data-theme="paradise-lost"] #scroll-top-btn:hover {
+  background: linear-gradient(180deg, #5e0000 0%, #1a0000 100%) !important;
+  border-color: #ff3300 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 20px #ff3300 !important;
+}
+
+/* 5. Trade Request Counter Bar */
+body[data-theme="paradise-lost"] #cart-toggle-btn,
+body[data-theme="paradise-lost"] .trade-request-bar {
+  background: linear-gradient(180deg, #1a0404 0%, #050000 100%) !important;
+  border: 1px double #ffd700 !important;
+  color: #ffd700 !important;
+  font-family: 'Cinzel', serif !important;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2) !important;
+}
