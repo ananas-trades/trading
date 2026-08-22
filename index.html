@@ -8,7 +8,8 @@
   <title>Better to Reign in Hell than Serve in Heaven</title>
   <!-- Transparent PNG Favicon -->
   <link rel="icon" type="image/png" href="snake-apple.png" />
-<!-- Prevent theme-flash on load (Defaults to Paradise Lost) -->
+
+  <!-- Prevent theme-flash on load (Defaults to Paradise Lost) -->
   <script>
     (function() {
       const savedTheme = localStorage.getItem('paradiseThemeActive');
@@ -20,7 +21,7 @@
   </script>
 
   <!-- Foolproof JS Text-Targeting Script for Dynamic Cards -->
-<script>
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       const observer = new MutationObserver(() => {
         if (document.documentElement.getAttribute('data-theme') === 'paradise-lost') {
@@ -53,6 +54,12 @@
   <link rel="stylesheet" href="style.css?v=8.0" />
 </head>
 <body>
+  <!-- Canvas Overlay for Infernal Embers -->
+  <canvas id="ember-canvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1;"></canvas>
+
+  <!-- Golden Ascend Flash Overlay -->
+  <div id="ascend-flash" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(255, 215, 0, 0.35); pointer-events: none; z-index: 9999; opacity: 0; transition: opacity 0.8s ease;"></div>
+
   <!-- VHS On-Screen Display Overlay -->
   <div id="vhs-osd-overlay">
     <div class="osd-top-left">PLAY ▶</div>
@@ -71,32 +78,32 @@
 
     <h1 class="votive-glow"><span class="header-emoji" title="SYSTEM: Signal unstable (x2)...">🎭</span> My Trading Collection</h1>
     
-   <div class="rules-box">
-  <div class="rules-box-inner">
-    
-    <div class="rules-header">
-  <h2>Trading Rules & Contact</h2>
-  <div class="lasagna-relic-seal y2k-approved-badge">
-    <span>✦</span>
-    LASAGNA APPROVED
-    <span>✦</span>
-  </div>
-</div>
-    
-    <div class="latin-epigraph">✦ In Principio Erat Verbum ✦</div>
+    <div class="rules-box">
+      <div class="rules-box-inner">
+        
+        <div class="rules-header">
+          <h2>Trading Rules & Contact</h2>
+          <div class="lasagna-relic-seal y2k-approved-badge">
+            <span>✦</span>
+            LASAGNA APPROVED
+            <span>✦</span>
+          </div>
+        </div>
+        
+        <div class="latin-epigraph">✦ In Principio Erat Verbum ✦</div>
 
-    <p><strong>Contact:</strong> <code>tradingtreelost@gmail.com</code></p>
-    
-    <ul>
-      <li>Standard trading ratios apply (1 Video = 2 Audios).</li>
-      <li>Updated every 3-4 days.</li>
-      <li>Respect all NFT dates and master restrictions.</li>
-      <li>Bikinibottomday's bootlegs are only to be traded via email.</li>
-      <li><p class="lore-hint">• If the video signal acts up, hit the masks twice to reset the stream.</p></li>
-    </ul>
+        <p><strong>Contact:</strong> <code>tradingtreelost@gmail.com</code></p>
+        
+        <ul>
+          <li>Standard trading ratios apply (1 Video = 2 Audios).</li>
+          <li>Updated every 3-4 days.</li>
+          <li>Respect all NFT dates and master restrictions.</li>
+          <li>Bikinibottomday's bootlegs are only to be traded via email.</li>
+          <li><p class="lore-hint">• If the video signal acts up, hit the masks twice to reset the stream.</p></li>
+        </ul>
 
-  </div>
-</div>
+      </div>
+    </div>
   </header>
 
   <main class="container">
@@ -127,6 +134,15 @@
         <button type="button" class="cat-btn" data-category="off-broadway">Off-Broadway</button>
         <button type="button" class="cat-btn" data-category="west end">West End</button>
       </div>
+    </div>
+
+    <!-- Visual Abyss Divider: Splits Empyrean (Rules/Search) from Pandemonium (Bootlegs) -->
+    <div class="abyss-divider" style="display: flex; align-items: center; justify-content: center; margin: 40px 0 20px 0; gap: 15px;">
+      <div style="flex-grow: 1; height: 1px; background: linear-gradient(90deg, rgba(255,215,0,0.8), rgba(255,69,0,0.8), transparent);"></div>
+      <span class="abyss-label" style="font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 2px; color: #ffaa00; text-shadow: 0 0 8px #ff4500; text-transform: uppercase;">
+        ✦ THE GREAT CHASM — ENTER PANDEMONIUM ✦
+      </span>
+      <div style="flex-grow: 1; height: 1px; background: linear-gradient(-90deg, rgba(255,215,0,0.8), rgba(255,69,0,0.8), transparent);"></div>
     </div>
 
     <div id="stats">Loading collection...</div>
@@ -190,8 +206,11 @@
     </div>
   </dialog>
 
-  <!-- Toggle Eyestrain Button -->
-  <button id="toggle-eyestrain-btn" type="button" onclick="toggleEyestrainMode()">👁️ Toggle No-Eyestrain Mode</button>
+  <!-- Toggle Eyestrain & Ambience Buttons -->
+  <div style="position: fixed; bottom: 15px; left: 15px; z-index: 1000; display: flex; gap: 8px;">
+    <button id="toggle-eyestrain-btn" type="button" onclick="toggleEyestrainMode()">👁️ Toggle No-Eyestrain Mode</button>
+    <button id="toggle-ambience-btn" type="button" onclick="toggleAmbienceMode()" style="background: #0a0a0d; border: 1px solid #d4af37; color: #d4af37; padding: 6px 10px; cursor: pointer; font-family: inherit;">🔇 Ambience</button>
+  </div>
 
   <script src="script.js?v=8.0"></script>
   
