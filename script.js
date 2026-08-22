@@ -1,5 +1,3 @@
-
-let searchTimeout;
 let allData = [];
 let currentFilteredItems = [];
 let currentFilter = 'all';
