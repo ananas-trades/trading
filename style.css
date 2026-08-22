@@ -4210,74 +4210,55 @@ main.container,
 /* INFERNAL BRIMSTONE CRYSTAL BASE (OUTER CARDS ONLY) */
 /* PRETTIER MULTI-FACETED BRIMSTONE CRYSTALS */
 
-/* 1. Ensure clean base container */
-article.card, 
-.bootleg-card, 
-.card-container {
-  position: relative !important;
-  border-bottom: 2px solid #880000 !important;
-  background: #0a0505 !important;
-  margin-bottom: 24px !important;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.9), 0 2px 10px rgba(200, 0, 0, 0.2) !important;
+/* MULTI-FACETED BRIMSTONE CRYSTAL FORMATION */
+
+/* 1. Clear simple single-point rules */
+article::before, article::after,
+.card::before, .card::after,
+.bootleg-card::before, .bootleg-card::after {
+  content: none !important;
 }
 
-/* 2. Primary Obsidian & Ruby Crystal Cluster Base */
-article.card::before, 
-.bootleg-card::before, 
-.card-container::before {
-  content: "" !important;
-  position: absolute !important;
-  bottom: -14px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 90px !important;
-  height: 14px !important;
-  pointer-events: none !important;
-  z-index: 10 !important;
+/* 2. Multi-Spire Geometric Crystal Cutout on Main Card Body */
+article, 
+.card, 
+.bootleg-card {
+  position: relative !important;
+  background: #0a0505 !important;
+  border-bottom: 2px solid #ff3300 !important;
+  margin-bottom: 30px !important;
   
-  /* Deep Brimstone Crimson-to-Amber Facet Wash */
-  background: linear-gradient(135deg, #e60000 0%, #990000 40%, #ff6600 75%, #ffcc00 100%) !important;
-  
-  /* Elegant 5-Spire Asymmetrical Crystal Cluster Geometry */
+  /* Angular 5-Spire Crystal Cluster Geometry */
   clip-path: polygon(
     0% 0%, 
-    8% 40%, 15% 10%, 22% 85%, 28% 25%, 
-    38% 0%, 46% 100%, 54% 15%, 65% 90%, 
-    74% 20%, 82% 65%, 90% 10%, 100% 0%
+    100% 0%, 
+    100% calc(100% - 14px), 
+    calc(50% + 45px) calc(100% - 14px),
+    calc(50% + 35px) calc(100% - 4px),
+    calc(50% + 25px) calc(100% - 10px),
+    calc(50% + 12px) calc(100% - 2px),
+    50% 100%,                           /* Primary Center Obsidian Point */
+    calc(50% - 12px) calc(100% - 2px),
+    calc(50% - 25px) calc(100% - 10px),
+    calc(50% - 35px) calc(100% - 4px),
+    calc(50% - 45px) calc(100% - 14px),
+    0% calc(100% - 14px)
   ) !important;
   
-  filter: drop-shadow(0 3px 6px rgba(255, 30, 0, 0.8)) !important;
+  /* Lava Core Backlight */
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.95), 
+    0 0 20px rgba(255, 34, 0, 0.4),
+    inset 0 -15px 25px rgba(180, 0, 0, 0.35) !important;
 }
 
-/* 3. Inner Light Refraction Facets (Adds 3D Depth) */
-article.card::after, 
-.bootleg-card::after, 
-.card-container::after {
-  content: "" !important;
-  position: absolute !important;
-  bottom: -14px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 90px !important;
-  height: 14px !important;
-  pointer-events: none !important;
-  z-index: 11 !important;
-  
-  /* Fiery High-Contrast Facet Highlights */
-  background: linear-gradient(45deg, rgba(255, 235, 150, 0.9) 0%, rgba(255, 80, 0, 0.7) 50%, transparent 100%) !important;
-  
-  /* Secondary Facet Cut Overlay */
-  clip-path: polygon(
-    15% 10%, 22% 85%, 25% 40%, 
-    46% 100%, 50% 30%, 
-    65% 90%, 70% 35%
-  ) !important;
-}
-
-/* 4. Molten Core Pulse on Hover */
-article.card:hover::before, 
-.bootleg-card:hover::before, 
-.card-container:hover::before {
-  background: linear-gradient(135deg, #ff3300 0%, #ff8800 50%, #ffffaa 100%) !important;
-  filter: drop-shadow(0 4px 12px rgba(255, 100, 0, 1)) !important;
+/* 3. Molten Refraction Glow on Hover */
+article:hover, 
+.card:hover, 
+.bootleg-card:hover {
+  border-bottom-color: #ffaa00 !important;
+  box-shadow: 
+    0 12px 30px rgba(255, 68, 0, 0.6), 
+    0 0 25px rgba(255, 170, 0, 0.5),
+    inset 0 -20px 30px rgba(255, 100, 0, 0.5) !important;
 }
