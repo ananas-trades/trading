@@ -4207,39 +4207,39 @@ main.container,
   padding: 15px !important;
   box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
 }
-/* PURE CSS PRISMATIC CRYSTAL OVERLAY */
+/* LIGHT-REFLECTING CRYSTALS (OVERLAY FIX) */
 
-/* 1. Reset inner layouts */
-.bootleg-card *, article * {
-  clip-path: none !important;
-}
-
-/* 2. Target main card frame safely */
-.bootleg-card, article.card {
-  position: relative !important;
+/* 1. Unlock all parent containers so pseudo-elements never get clipped */
+article,
+.card,
+.bootleg-card,
+div[class*="card"],
+div[class*="grid"],
+div[class*="item"] {
   overflow: visible !important;
-  border-bottom: 2px solid #880000 !important;
-  margin-bottom: 24px !important;
+  position: relative !important;
 }
 
-/* 3. Outer Crystal Cluster Spires (Shadow & Body Facets) */
-.bootleg-card::before, article.card::before {
+/* 2. Base Obsidian/Ruby Crystal Layer */
+article::before,
+.card::before,
+.bootleg-card::before,
+div[class*="card"]::before {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: -12px !important;
+  bottom: -6px !important; /* Shifted up so it sits directly on the visible border */
   left: 50% !important;
   transform: translateX(-50%) !important;
-  width: 90px !important;
-  height: 16px !important;
-  z-index: 998 !important;
+  width: 100px !important;
+  height: 18px !important;
+  z-index: 9999 !important;
   pointer-events: none !important;
 
-  /* Hard-stop angled gradients to simulate crystalline facets */
-  background: 
-    linear-gradient(115deg, #ff1a00 0%, #990000 45%, #440000 50%, #cc0000 100%) !important;
+  /* Hard-stop faceted gradient for base body shading */
+  background: linear-gradient(110deg, #e60000 0%, #880000 40%, #330000 50%, #aa0000 100%) !important;
 
-  /* Asymmetrical 5-Spire Crystal Geometry */
+  /* 5-Spire Crystal Geometry */
   clip-path: polygon(
     0% 0%, 
     10% 40%, 18% 10%, 25% 85%, 32% 20%, 
@@ -4247,50 +4247,48 @@ main.container,
     78% 15%, 85% 60%, 92% 10%, 100% 0%
   ) !important;
 
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.9)) !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9)) !important;
 }
 
-/* 4. Front Light Reflection Layer (Prismatic Highlight Facets) */
-.bootleg-card::after, article.card::after {
+/* 3. Refractive Light-Reflecting Edge (Prismatic Glare) */
+article::after,
+.card::after,
+.bootleg-card::after,
+div[class*="card"]::after {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: -12px !important;
+  bottom: -6px !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
-  width: 90px !important;
-  height: 16px !important;
-  z-index: 999 !important; /* Sits directly in front of the base layer */
+  width: 100px !important;
+  height: 18px !important;
+  z-index: 10000 !important; /* Sits directly in front of the base layer */
   pointer-events: none !important;
 
-  /* Intense Gold & White Light Refraction Streaks */
-  background: 
-    linear-gradient(45deg, 
-      rgba(255, 255, 255, 0.95) 0%, 
-      rgba(255, 220, 130, 0.8) 25%, 
-      transparent 50%, 
-      rgba(255, 100, 0, 0.6) 75%, 
-      rgba(255, 255, 255, 0.9) 100%
-    ) !important;
-
-  /* Matches primary spire edges to create lit facets */
-  clip-path: polygon(
-    18% 10%, 25% 85%, 28% 40%, 
-    50% 100%, 54% 25%, 
-    68% 90%, 72% 30%
+  /* Sharp white/gold specular reflection highlights */
+  background: linear-gradient(45deg, 
+    #ffffff 0%, 
+    #ffe680 20%, 
+    transparent 45%, 
+    rgba(255, 255, 255, 0.9) 70%, 
+    transparent 100%
   ) !important;
 
-  filter: drop-shadow(0 0 6px rgba(255, 200, 50, 0.8)) !important;
+  /* Highlight facets aligning with spire edges */
+  clip-path: polygon(
+    18% 10%, 25% 85%, 27% 35%, 
+    50% 100%, 53% 20%, 
+    68% 90%, 71% 25%
+  ) !important;
+
+  filter: drop-shadow(0 0 5px rgba(255, 220, 100, 0.9)) !important;
 }
 
-/* 5. Light Flare Shift on Hover */
-.bootleg-card:hover::after, article.card:hover::after {
-  background: 
-    linear-gradient(45deg, 
-      #ffffff 0%, 
-      #ffea77 35%, 
-      transparent 60%, 
-      #ff5500 100%
-    ) !important;
-  filter: drop-shadow(0 0 12px rgba(255, 220, 100, 1)) !important;
+/* 4. Flare Intensity Shift on Hover */
+article:hover::after,
+.card:hover::after,
+.bootleg-card:hover::after,
+div[class*="card"]:hover::after {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1)) brightness(1.4) !important;
 }
