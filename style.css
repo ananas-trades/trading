@@ -3572,3 +3572,141 @@ body[data-theme="paradise-lost"] .add-to-cart-btn:hover {
   color: #ffffff !important;
   box-shadow: 0 0 15px rgba(255, 51, 0, 0.8) !important;
 }
+/* ============================================================
+   MAXIMUM INFERNAL ABYSS & HELLFIRE EFFECTS
+   ============================================================ */
+
+/* 1. Animated Molten Lava Borders on Cards */
+@keyframes lavaFlow {
+  0% { border-color: #700000; box-shadow: 0 0 15px rgba(112, 0, 0, 0.8), inset 0 0 10px #3a0000; }
+  50% { border-color: #ff3300; box-shadow: 0 0 25px rgba(255, 51, 0, 0.9), inset 0 0 20px #8b0000; }
+  100% { border-color: #700000; box-shadow: 0 0 15px rgba(112, 0, 0, 0.8), inset 0 0 10px #3a0000; }
+}
+
+body[data-theme="paradise-lost"] .card,
+body[data-theme="paradise-lost"] [class*="card"] {
+  animation: lavaFlow 4s infinite ease-in-out !important;
+  background: radial-gradient(circle at center, #140202 0%, #050000 100%) !important;
+}
+
+/* 2. Blood-Red Fiery Glow for Selection & Active Text */
+body[data-theme="paradise-lost"] ::selection {
+  background: #8b0000 !important;
+  color: #ffe87c !important;
+  text-shadow: 0 0 8px #ff4500 !important;
+}
+
+/* 3. Pandemonium Hellfire Interceptor / Buttons */
+body[data-theme="paradise-lost"] .filter-btn:hover,
+body[data-theme="paradise-lost"] .cat-btn:hover {
+  background: linear-gradient(180deg, #8b0000 0%, #3a0000 100%) !important;
+  color: #ffffff !important;
+  border-color: #ff4500 !important;
+  box-shadow: 0 0 20px #ff3300, inset 0 0 10px #ffd700 !important;
+  text-shadow: 0 0 8px #ffcc00 !important;
+}
+
+/* 4. Infernal Text Flicker for Headers */
+@keyframes brimstoneFlicker {
+  0%, 100% { text-shadow: 0 0 12px #ffd700, 0 0 25px #ff4500; }
+  50% { text-shadow: 0 0 6px #ff3300, 0 0 15px #8b0000; }
+}
+
+body[data-theme="paradise-lost"] h1.votive-glow {
+  animation: brimstoneFlicker 3s infinite alternate !important;
+}
+
+/* 5. Deep Abyss Backdrop Gradient */
+body[data-theme="paradise-lost"] {
+  background: 
+    radial-gradient(circle at 50% 50%, rgba(139, 0, 0, 0.25) 0%, rgba(20, 2, 2, 0.85) 60%, #000000 100%),
+    repeating-linear-gradient(45deg, #050000 0px, #050000 2px, #0a0101 2px, #0a0101 4px) !important;
+  background-attachment: fixed !important;
+}
+/* ============================================================
+   MILTONIC EPIC INFERNAL ARCHITECTURE (PARADISE LOST)
+   ============================================================ */
+
+/* 1. Miltonic Inscription Banner above Search Input */
+body[data-theme="paradise-lost"] #search-input::placeholder {
+  color: #8b7355 !important;
+  font-style: italic !important;
+  font-family: 'IM Fell English', serif !important;
+}
+
+body[data-theme="paradise-lost"] .search-container::before {
+  content: "“A DUNGEON HORRIBLE, ON ALL SIDES ROUND, AS ONE GREAT FURNACE FLAMED...”";
+  display: block;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  color: #8b0000;
+  margin-bottom: 8px;
+  text-shadow: 0 0 6px rgba(255, 69, 0, 0.4);
+}
+
+/* 2. Unholy Seals & Latin Marginalia on Section Headers */
+body[data-theme="paradise-lost"] .rules-header::before {
+  content: "❖ IMPERIUM INFERNI ❖";
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  color: #ffd700;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+/* 3. Pandemonium Gate Pillars on Main Framework */
+body[data-theme="paradise-lost"] main::before,
+body[data-theme="paradise-lost"] main::after {
+  content: "⚜";
+  position: fixed;
+  bottom: 20px;
+  font-size: 2rem;
+  color: #700000;
+  text-shadow: 0 0 10px #ff3300;
+  opacity: 0.5;
+  pointer-events: none;
+}
+body[data-theme="paradise-lost"] main::before { left: 20px; }
+body[data-theme="paradise-lost"] main::after { right: 20px; }
+
+/* 4. Infernal Card Stamps: Miltonic Verse Watermark */
+body[data-theme="paradise-lost"] .card::after {
+  content: "ABYSSUS ABYSSUM INVOCAT";
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.55rem;
+  letter-spacing: 1px;
+  color: #4a0000;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* 5. Burning Sulfur Active State for Category Buttons */
+body[data-theme="paradise-lost"] .filter-btn.active,
+body[data-theme="paradise-lost"] .cat-btn.active {
+  background: radial-gradient(circle, #8b0000 0%, #2a0000 100%) !important;
+  border: 1px double #ffd700 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 18px #ff4500, inset 0 0 12px #ff3300 !important;
+  text-shadow: 0 0 8px #ffd700 !important;
+}
+
+/* 6. Floating Trade Drawer Miltonic Footer */
+body[data-theme="paradise-lost"] .trade-drawer::after {
+  content: "“Better to reign in Hell, than serve in Heaven.”";
+  display: block;
+  padding: 15px;
+  text-align: center;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #c5a059;
+  border-top: 1px solid #700000;
+  background: #050000;
+}
