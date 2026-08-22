@@ -4207,44 +4207,90 @@ main.container,
   padding: 15px !important;
   box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
 }
-/* CLEAN BRIMSTONE CARD FOOTER FIX */
+/* PURE CSS PRISMATIC CRYSTAL OVERLAY */
 
-/* 1. Reset all inner elements to display properly */
+/* 1. Reset inner layouts */
 .bootleg-card *, article * {
   clip-path: none !important;
 }
 
-/* 2. Restore outer card container and add brimstone bottom accent */
+/* 2. Target main card frame safely */
 .bootleg-card, article.card {
   position: relative !important;
-  background: #080303 !important;
-  border-bottom: 3px solid #ff2200 !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.95), 0 2px 10px rgba(255, 34, 0, 0.3) !important;
+  overflow: visible !important;
+  border-bottom: 2px solid #880000 !important;
   margin-bottom: 24px !important;
 }
 
-/* 3. Ensure the action button container stays fully visible */
-.bootleg-card-actions, 
-.card-actions, 
-div[class*="actions"] {
-  display: flex !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  padding: 8px !important;
-  background: rgba(15, 5, 5, 0.9) !important;
-  border-top: 1px solid rgba(255, 34, 0, 0.2) !important;
+/* 3. Outer Crystal Cluster Spires (Shadow & Body Facets) */
+.bootleg-card::before, article.card::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  bottom: -12px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 90px !important;
+  height: 16px !important;
+  z-index: 998 !important;
+  pointer-events: none !important;
+
+  /* Hard-stop angled gradients to simulate crystalline facets */
+  background: 
+    linear-gradient(115deg, #ff1a00 0%, #990000 45%, #440000 50%, #cc0000 100%) !important;
+
+  /* Asymmetrical 5-Spire Crystal Geometry */
+  clip-path: polygon(
+    0% 0%, 
+    10% 40%, 18% 10%, 25% 85%, 32% 20%, 
+    42% 0%, 50% 100%, 58% 10%, 68% 90%, 
+    78% 15%, 85% 60%, 92% 10%, 100% 0%
+  ) !important;
+
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.9)) !important;
 }
 
-/* 4. Subtle Crimson Glow Accent along the bottom border */
+/* 4. Front Light Reflection Layer (Prismatic Highlight Facets) */
 .bootleg-card::after, article.card::after {
   content: "" !important;
   display: block !important;
   position: absolute !important;
-  bottom: -3px !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 3px !important;
-  background: linear-gradient(90deg, transparent 0%, #ff2200 50%, transparent 100%) !important;
-  box-shadow: 0 0 10px #ff2200 !important;
+  bottom: -12px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 90px !important;
+  height: 16px !important;
+  z-index: 999 !important; /* Sits directly in front of the base layer */
   pointer-events: none !important;
+
+  /* Intense Gold & White Light Refraction Streaks */
+  background: 
+    linear-gradient(45deg, 
+      rgba(255, 255, 255, 0.95) 0%, 
+      rgba(255, 220, 130, 0.8) 25%, 
+      transparent 50%, 
+      rgba(255, 100, 0, 0.6) 75%, 
+      rgba(255, 255, 255, 0.9) 100%
+    ) !important;
+
+  /* Matches primary spire edges to create lit facets */
+  clip-path: polygon(
+    18% 10%, 25% 85%, 28% 40%, 
+    50% 100%, 54% 25%, 
+    68% 90%, 72% 30%
+  ) !important;
+
+  filter: drop-shadow(0 0 6px rgba(255, 200, 50, 0.8)) !important;
+}
+
+/* 5. Light Flare Shift on Hover */
+.bootleg-card:hover::after, article.card:hover::after {
+  background: 
+    linear-gradient(45deg, 
+      #ffffff 0%, 
+      #ffea77 35%, 
+      transparent 60%, 
+      #ff5500 100%
+    ) !important;
+  filter: drop-shadow(0 0 12px rgba(255, 220, 100, 1)) !important;
 }
