@@ -4245,43 +4245,41 @@ main.container,
     0 0 25px rgba(255, 170, 0, 0.5),
     inset 0 -15px 25px rgba(255, 68, 0, 0.6) !important;
 }
-//* INFERNAL BRIMSTONE OBSIDIAN CRYSTAL CLUSTERS */
+/* BRIMSTONE DRAGON TEETH - CSP-SAFE PURE CSS */
 
-/* 1. Clear out all legacy pseudo-element experiments */
-.card-actions::before, .card-actions::after,
-.bootleg-card .card-actions::before, .bootleg-card .card-actions::after {
-  content: none !important;
-  display: none !important;
-}
-
-/* 2. Position the action bar to anchor the crystal cluster layer */
-.card-actions, 
-.bootleg-card .card-actions,
-div[class*="actions"] {
+/* 1. Force physical space at the bottom of every card */
+div[class*="card"] {
   position: relative !important;
-  padding-bottom: 24px !important; /* Creates vertical space for large crystals */
-  background: linear-gradient(180deg, rgba(12, 5, 5, 0.95) 0%, rgba(60, 0, 0, 0.7) 100%) !important;
+  padding-bottom: 18px !important; 
   border-bottom: none !important;
 }
 
-/* 3. Large, Irregular Brimstone Crystal Formations */
-.card-actions {
-  background-image: 
-    /* Crimson Ember Glow Gradient Layer */
-    linear-gradient(180deg, transparent 60%, rgba(255, 30, 0, 0.25) 100%),
-    /* SVG Vector Crystals: Asymmetrical jagged spires */
-    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 30" preserveAspectRatio="none"><path d="M0,30 L0,15 L12,28 L25,5 L38,22 L45,12 L58,29 L70,18 L85,30 L110,30 L122,8 L138,26 L150,2 L165,24 L178,10 L195,30 L220,30 L232,14 L245,28 L260,4 L275,20 L288,10 L300,25 L300,30 Z" fill="%23cc1100"/><path d="M15,30 L25,5 L38,22 L30,30 Z M130,30 L150,2 L165,24 L158,30 Z M248,30 L260,4 L275,20 L268,30 Z" fill="%23ff5500" opacity="0.6"/></svg>') !important;
-  background-position: bottom center !important;
-  background-size: 100% 24px !important;
-  background-repeat: no-repeat !important;
-  filter: drop-shadow(0 4px 10px rgba(255, 0, 0, 0.7)) !important;
+/* 2. Project the spikes ABOVE all inner containers */
+div[class*="card"]::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 18px !important;
+  z-index: 9999 !important; /* Overrides any inner box hiding the border */
+  pointer-events: none !important;
+  
+  /* Pure CSS repeating jagged spikes - impossible for browsers to block */
+  background: 
+    linear-gradient(135deg, #cc0000 25%, transparent 25%) -9px 0,
+    linear-gradient(225deg, #cc0000 25%, transparent 25%) -9px 0 !important;
+  background-size: 18px 18px !important;
+  
+  /* Upward infernal glow */
+  filter: drop-shadow(0 -4px 6px rgba(255, 0, 0, 0.8)) !important;
 }
 
-/* 4. Molten Core Pulse on Hover */
-.card:hover .card-actions, 
-.bootleg-card:hover .card-actions {
-  background-image: 
-    linear-gradient(180deg, transparent 40%, rgba(255, 120, 0, 0.4) 100%),
-    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 30" preserveAspectRatio="none"><path d="M0,30 L0,15 L12,28 L25,5 L38,22 L45,12 L58,29 L70,18 L85,30 L110,30 L122,8 L138,26 L150,2 L165,24 L178,10 L195,30 L220,30 L232,14 L245,28 L260,4 L275,20 L288,10 L300,25 L300,30 Z" fill="%23ff3300"/><path d="M15,30 L25,5 L38,22 L30,30 Z M130,30 L150,2 L165,24 L158,30 Z M248,30 L260,4 L275,20 L268,30 Z" fill="%23ffea00" opacity="0.85"/></svg>') !important;
-  filter: drop-shadow(0 6px 16px rgba(255, 80, 0, 0.95)) !important;
+/* 3. Molten Heat on Hover */
+div[class*="card"]:hover::after {
+  background: 
+    linear-gradient(135deg, #ff8800 25%, transparent 25%) -9px 0,
+    linear-gradient(225deg, #ff8800 25%, transparent 25%) -9px 0 !important;
+  filter: drop-shadow(0 -6px 12px rgba(255, 120, 0, 1)) !important;
 }
