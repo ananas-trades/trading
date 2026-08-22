@@ -4323,3 +4323,36 @@ article.card {
   content-visibility: auto;
   contain-intrinsic-size: 350px 320px !important; /* Exact aspect height reservation */
 }
+/* ========================================================= */
+/* HARDWARE ACCELERATION & SMOOTH ANIMATIONS                 */
+/* ========================================================= */
+
+/* 1. Smooth Page Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 2. Force GPU Rendering (Stops scrolling micro-stutter) */
+#card-container,
+.trade-drawer,
+.bootleg-card,
+article.card {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 3. Fast, Hardware-Accelerated Drawer Transition */
+.trade-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  transform: translateX(100%);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.trade-drawer.open,
+.trade-drawer.active {
+  transform: translateX(0) !important;
+}
