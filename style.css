@@ -4302,3 +4302,142 @@ article.card,
     display: none !important;
   }
 }
+/* ========================================================= */
+/* CIRCULAR INFERNAL PALETTE DRAWER                          */
+/* ========================================================= */
+
+.infernal-palette-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px auto;
+  max-width: 850px;
+}
+
+/* Sigil Trigger Button */
+.sigil-trigger {
+  background: #0d0000;
+  border: 2px solid #ff3300;
+  color: #ffaa00;
+  border-radius: 50px;
+  padding: 10px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: inherit;
+  box-shadow: 0 0 15px rgba(255, 51, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 20;
+}
+
+.sigil-trigger:hover {
+  background: #200000;
+  border-color: #ffaa00;
+  box-shadow: 0 0 25px rgba(255, 170, 0, 0.6);
+  transform: scale(1.05);
+}
+
+.sigil-icon {
+  font-size: 1.4rem;
+  transition: transform 0.6s ease;
+}
+
+.sigil-trigger.active .sigil-icon {
+  transform: rotate(180deg);
+}
+
+/* Palette Container */
+.palette-compact {
+  width: 100%;
+  background: radial-gradient(circle, #1a0202 0%, #050000 100%);
+  border: 2px solid #ff3300;
+  border-radius: 24px; /* Curved compact frame */
+  margin-top: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 35px rgba(0,0,0,0.9);
+  
+  /* Makeup Palette Swing Transition */
+  transform-origin: top center;
+  transition: max-height 0.7s cubic-bezier(0.77, 0, 0.175, 1), 
+              transform 0.7s cubic-bezier(0.77, 0, 0.175, 1), 
+              opacity 0.5s ease;
+}
+
+.palette-compact.closed {
+  max-height: 0;
+  opacity: 0;
+  transform: scaleY(0) rotateX(-90deg);
+  pointer-events: none;
+}
+
+.palette-compact.open {
+  max-height: 1200px;
+  opacity: 1;
+  transform: scaleY(1) rotateX(0deg);
+}
+
+.palette-inner {
+  padding: 25px;
+  text-align: center;
+}
+
+.palette-header h3 {
+  color: #ffaa00;
+  margin: 0 0 5px 0;
+  letter-spacing: 1px;
+}
+
+.palette-header p {
+  color: #888;
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+/* Grid layout simulating palette shade pans */
+.circles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.circle-sector {
+  background: rgba(10, 0, 0, 0.8);
+  border: 1px solid #441111;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: left;
+  font-size: 0.85rem;
+  transition: border-color 0.3s ease;
+}
+
+.circle-sector:hover {
+  border-color: #ff5500;
+}
+
+.circle-sector h4 {
+  color: #ffaa00;
+  margin: 0 0 6px 0;
+  font-size: 0.95rem;
+  border-bottom: 1px dashed #331111;
+  padding-bottom: 4px;
+}
+
+.circle-sector p {
+  color: #ccc;
+  margin: 3px 0;
+  line-height: 1.3;
+}
+
+.circle-sector .sentence {
+  color: #888;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+.worst-sector {
+  border-color: #ff0000;
+  background: rgba(30, 0, 0, 0.9);
+  grid-column: 1 / -1; /* Spans full width at the bottom */
+}
