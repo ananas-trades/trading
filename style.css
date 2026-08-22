@@ -4207,40 +4207,41 @@ main.container,
   padding: 15px !important;
   box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
 }
-/* PHYSICAL JAGGED BRIMSTONE CRYSTAL SPUR-LINE */
+/* INFERNAL BRIMSTONE ANGLED CRYSTAL CARDS */
 .card, .bootleg-card {
   position: relative !important;
-  border-bottom: 2px solid #ff3300 !important;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9), 0 0 12px rgba(255, 50, 0, 0.3) !important;
-  margin-bottom: 25px !important; /* Space for the bottom crystal spikes */
-}
-
-/* Crimson Brimstone Crystal Shards */
-.card::after, .bootleg-card::after {
-  content: "" !important;
-  position: absolute !important;
-  bottom: -10px !important;
-  left: 5% !important;
-  width: 90% !important;
-  height: 10px !important;
-  pointer-events: none !important;
-  z-index: 10 !important;
+  background: #0d0606 !important;
   
-  /* Deep Blood Red to Fiery Amber Gradient Base */
-  background: linear-gradient(90deg, #990000, #ff3300, #ffaa00, #ff3300, #990000) !important;
-  
-  /* Sharp Crystal Spike Geometry */
+  /* Pure CSS Crystal Corner Cuts on the Bottom Edge */
   clip-path: polygon(
-    0% 0%, 5% 100%, 10% 20%, 18% 90%, 25% 10%, 
-    33% 100%, 42% 30%, 50% 95%, 58% 15%, 67% 85%, 
-    75% 20%, 83% 100%, 90% 10%, 95% 80%, 100% 0%
+    0% 0%, 
+    100% 0%, 
+    100% calc(100% - 12px), 
+    calc(100% - 15px) 100%, 
+    80% calc(100% - 6px), 
+    65% 100%, 
+    50% calc(100% - 8px), 
+    35% 100%, 
+    20% calc(100% - 6px), 
+    15px 100%, 
+    0% calc(100% - 12px)
   ) !important;
-  
-  filter: drop-shadow(0 2px 5px rgba(255, 0, 0, 0.8)) !important;
+
+  /* Hellfire Crimson Border Glow */
+  border-left: 1px solid #770000 !important;
+  border-right: 1px solid #770000 !important;
+  border-bottom: 3px solid #ff2200 !important;
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.95),
+    0 0 15px rgba(255, 34, 0, 0.35),
+    inset 0 -10px 20px rgba(180, 0, 0, 0.4) !important;
 }
 
-/* Glowing Ember Pulse on Hover */
-.card:hover::after, .bootleg-card:hover::after {
-  background: linear-gradient(90deg, #ff1a00, #ffaa00, #ffffff, #ffaa00, #ff1a00) !important;
-  filter: drop-shadow(0 4px 10px rgba(255, 100, 0, 1)) !important;
+/* Molten Brimstone Pulse on Hover */
+.card:hover, .bootleg-card:hover {
+  border-bottom-color: #ffaa00 !important;
+  box-shadow: 
+    0 12px 25px rgba(255, 34, 0, 0.6),
+    0 0 25px rgba(255, 170, 0, 0.5),
+    inset 0 -15px 25px rgba(255, 68, 0, 0.6) !important;
 }
