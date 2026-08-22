@@ -4207,56 +4207,45 @@ main.container,
   padding: 15px !important;
   box-shadow: 0 5px 20px rgba(180, 0, 0, 0.25) !important;
 }
-/* INFERNAL BRIMSTONE GEOMETRIC CARD BORDER */
+/* HYPER-TARGETED BRIMSTONE BASE FIX */
 
-/* 1. Clear out all stuck background pseudo-elements */
-.card::before, .card::after,
-.bootleg-card::before, .bootleg-card::after,
-article::before, article::after,
-div[class*="card"]::after {
-  content: none !important;
+/* 1. Nuke any clip-paths on inner note boxes */
+div, section, article, p {
+  clip-path: none !important;
 }
 
-/* 2. Target the card frame directly and notch the bottom edge */
-article, 
-.card, 
-.bootleg-card,
-div[class*="card"] {
+/* 2. Target strictly the bottom button container */
+.card-actions,
+.bootleg-card-actions,
+.card-footer,
+.bootleg-card > div:last-child {
   position: relative !important;
-  background: #0d0606 !important;
-  border-left: 2px solid #770000 !important;
-  border-right: 2px solid #770000 !important;
   border-bottom: 3px solid #ff2200 !important;
-  margin-bottom: 24px !important;
-
-  /* Carves multi-point crystal notches directly into the physical bottom edge */
+  background: linear-gradient(180deg, #0d0606 0%, #200000 100%) !important;
+  
+  /* Carves sharp brimstone crystals exclusively out of the action bar base */
   clip-path: polygon(
     0% 0%, 
     100% 0%, 
     100% calc(100% - 10px), 
-    calc(50% + 40px) calc(100% - 10px),
-    calc(50% + 25px) 100%, 
-    calc(50% + 15px) calc(100% - 6px),
+    calc(50% + 35px) calc(100% - 10px),
+    calc(50% + 22px) 100%, 
+    calc(50% + 12px) calc(100% - 5px),
     50% 100%, 
-    calc(50% - 15px) calc(100% - 6px),
-    calc(50% - 25px) 100%, 
-    calc(50% - 40px) calc(100% - 10px),
+    calc(50% - 12px) calc(100% - 5px),
+    calc(50% - 22px) 100%, 
+    calc(50% - 35px) calc(100% - 10px),
     0% calc(100% - 10px)
   ) !important;
-
-  /* Lava core glow from within the card */
-  box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.95),
-    inset 0 -12px 20px rgba(255, 34, 0, 0.35) !important;
+  
+  box-shadow: inset 0 -10px 15px rgba(255, 34, 0, 0.4) !important;
 }
 
-/* 3. Intense Flame Core on Hover */
-article:hover, 
-.card:hover, 
-.bootleg-card:hover,
-div[class*="card"]:hover {
+/* 3. Molten Core Hover Effect */
+.card-actions:hover,
+.bootleg-card-actions:hover,
+.card-footer:hover,
+.bootleg-card > div:last-child:hover {
   border-bottom-color: #ffaa00 !important;
-  box-shadow: 
-    0 12px 30px rgba(255, 68, 0, 0.6),
-    inset 0 -16px 25px rgba(255, 120, 0, 0.5) !important;
+  box-shadow: inset 0 -12px 20px rgba(255, 120, 0, 0.6) !important;
 }
