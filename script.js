@@ -1900,58 +1900,25 @@ function updateUI() {
 }
 
 function triggerParadiseLost() {
-  const body = document.body;
-  const topBtn = document.getElementById('paradise-btn');
-  
-  // Toggle the cyberpunk theme class on body
-  body.classList.toggle('theme-cyberpunk');
-  
-  const isCyberpunk = body.classList.contains('theme-cyberpunk');
-  
-  // Save user choice
-  localStorage.setItem('siteTheme', isCyberpunk ? 'cyberpunk' : 'paradise');
-  
-  // Update button label depending on current mode
-  if (topBtn) {
-    topBtn.innerText = isCyberpunk ? '❖ RETURN TO PARADISE' : 'ASCEND TO CYBERSPACE';
-  }
-}
-
-// Restore saved theme state on load
-document.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('siteTheme');
-  const topBtn = document.getElementById('paradise-btn');
-  
-  if (savedTheme === 'cyberpunk') {
-    document.body.classList.add('theme-cyberpunk');
-    if (topBtn) topBtn.innerText = '❖ RETURN TO PARADISE';
-  }
-});
-function triggerParadiseLost() {
-  // Toggle Paradise Lost on body without touching Eyestrain
+  // Toggles paradise-lost on <body> only (Eyestrain stays safe on <html>)
   document.body.classList.toggle('paradise-lost');
   
   const isParadise = document.body.classList.contains('paradise-lost');
-  localStorage.setItem('paradiseThemeState', isParadise ? 'active' : 'inactive');
+  localStorage.setItem('paradiseThemeActive', isParadise ? 'true' : 'false');
   
-  // Update top button label
-  const topBtn = document.getElementById('paradise-btn');
-  if (topBtn) {
-    topBtn.textContent = isParadise ? '❖ ASCEND TO CYBERSPACE' : 'ASCEND TO CYBERSPACE';
+  // Updates the top button text
+  const btn = document.getElementById('paradise-btn');
+  if (btn) {
+    btn.textContent = isParadise ? '❖ ASCEND TO CYBERSPACE' : '❖ Legacy Model';
   }
 }
 
-// Restore theme state on page load
+// Automatically restores state on refresh
 document.addEventListener('DOMContentLoaded', () => {
-  const topBtn = document.getElementById('paradise-btn');
-  
-  if (localStorage.getItem('paradiseThemeState') === 'active') {
+  const isParadise = localStorage.getItem('paradiseThemeActive') === 'true';
+  if (isParadise) {
     document.body.classList.add('paradise-lost');
-    if (topBtn) topBtn.textContent = '❖ ASCEND TO CYBERSPACE';
-  }
-  
-  // Fallback direct event listener in case inline onclick fails
-  if (topBtn) {
-    topBtn.addEventListener('click', triggerParadiseLost);
+    const btn = document.getElementById('paradise-btn');
+    if (btn) btn.textContent = '❖ ASCEND TO CYBERSPACE';
   }
 });
