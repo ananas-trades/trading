@@ -1900,24 +1900,28 @@ function updateUI() {
 }
 
 function triggerParadiseLost() {
-  // Toggles paradise-lost on <body> only (Eyestrain stays safe on <html>)
-  document.body.classList.toggle('paradise-lost');
-  
-  const isParadise = document.body.classList.contains('paradise-lost');
-  localStorage.setItem('paradiseThemeActive', isParadise ? 'true' : 'false');
-  
-  // Updates the top button text
+  const isParadise = document.body.getAttribute('data-theme') === 'paradise-lost';
+
+  if (isParadise) {
+    document.body.removeAttribute('data-theme');
+    document.body.classList.remove('paradise-lost', 'paradise-lost-mode');
+    localStorage.setItem('paradiseThemeActive', 'false');
+  } else {
+    document.body.setAttribute('data-theme', 'paradise-lost');
+    document.body.classList.add('paradise-lost', 'paradise-lost-mode');
+    localStorage.setItem('paradiseThemeActive', 'true');
+  }
+
   const btn = document.getElementById('paradise-btn');
   if (btn) {
-    btn.textContent = isParadise ? '❖ ASCEND TO CYBERSPACE' : '❖ Legacy Model';
+    btn.textContent = !isParadise ? '❖ ASCEND TO CYBERSPACE' : '❖ Legacy Model';
   }
 }
 
-// Automatically restores state on refresh
 document.addEventListener('DOMContentLoaded', () => {
-  const isParadise = localStorage.getItem('paradiseThemeActive') === 'true';
-  if (isParadise) {
-    document.body.classList.add('paradise-lost');
+  if (localStorage.getItem('paradiseThemeActive') === 'true') {
+    document.body.setAttribute('data-theme', 'paradise-lost');
+    document.body.classList.add('paradise-lost', 'paradise-lost-mode');
     const btn = document.getElementById('paradise-btn');
     if (btn) btn.textContent = '❖ ASCEND TO CYBERSPACE';
   }
