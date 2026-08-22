@@ -1,3 +1,5 @@
+
+let searchTimeout;
 let allData = [];
 let currentFilteredItems = [];
 let currentFilter = 'all';
@@ -1060,7 +1062,7 @@ function applyFiltersAndRender() {
   const searchEl = document.getElementById("search-input");
   const query = searchEl ? searchEl.value.toLowerCase().trim() : "";
   currentRenderToken++;
-
+   
   currentFilteredItems = allData.filter(item => {
     const displayType = getMediaType(item);
     if (currentFilter !== 'all' && displayType.toLowerCase() !== currentFilter.toLowerCase()) {
@@ -1995,4 +1997,13 @@ function animateEmbers() {
 // Only run the heavy particle loop on desktop screens
 if (window.innerWidth > 768) {
   animateEmbers();
+}
+const searchInput = document.getElementById("search-input");
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      applyFiltersAndRender();
+    }, 120);
+  });
 }
