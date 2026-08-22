@@ -4245,55 +4245,43 @@ main.container,
     0 0 25px rgba(255, 170, 0, 0.5),
     inset 0 -15px 25px rgba(255, 68, 0, 0.6) !important;
 }
-/* INFERNAL BRIMSTONE CRYSTAL RIMS */
+//* INFERNAL BRIMSTONE OBSIDIAN CRYSTAL CLUSTERS */
 
-/* 1. Nuke any remaining ASCII pseudo-elements */
-.card-actions::after,
-.bootleg-card .card-actions::after,
-.card::after,
-.bootleg-card::after {
-  content: "" !important;
+/* 1. Clear out all legacy pseudo-element experiments */
+.card-actions::before, .card-actions::after,
+.bootleg-card .card-actions::before, .bootleg-card .card-actions::after {
+  content: none !important;
   display: none !important;
 }
 
-/* 2. Format the action bar to hold the crystal rim */
+/* 2. Position the action bar to anchor the crystal cluster layer */
 .card-actions, 
 .bootleg-card .card-actions,
 div[class*="actions"] {
   position: relative !important;
-  padding-bottom: 12px !important; /* Makes room inside the box for crystal spikes */
-  background: linear-gradient(180deg, rgba(15, 5, 5, 0.95) 0%, rgba(80, 0, 0, 0.6) 100%) !important;
+  padding-bottom: 24px !important; /* Creates vertical space for large crystals */
+  background: linear-gradient(180deg, rgba(12, 5, 5, 0.95) 0%, rgba(60, 0, 0, 0.7) 100%) !important;
   border-bottom: none !important;
 }
 
-/* 3. Pure CSS Serrated Crystal Geometry */
-.card-actions::before,
-.bootleg-card .card-actions::before {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 10px !important;
-  pointer-events: none !important;
-  z-index: 5 !important;
-  
-  /* Creates sharp 45-degree crystalline saw-tooth spikes */
+/* 3. Large, Irregular Brimstone Crystal Formations */
+.card-actions {
   background-image: 
-    linear-gradient(45deg, #ff2200 25%, transparent 25%), 
-    linear-gradient(-45deg, #ff2200 25%, transparent 25%) !important;
-  background-position: 0 0, 0 0 !important;
-  background-size: 10px 10px !important;
-  
-  filter: drop-shadow(0 2px 4px #ff0000) !important;
+    /* Crimson Ember Glow Gradient Layer */
+    linear-gradient(180deg, transparent 60%, rgba(255, 30, 0, 0.25) 100%),
+    /* SVG Vector Crystals: Asymmetrical jagged spires */
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 30" preserveAspectRatio="none"><path d="M0,30 L0,15 L12,28 L25,5 L38,22 L45,12 L58,29 L70,18 L85,30 L110,30 L122,8 L138,26 L150,2 L165,24 L178,10 L195,30 L220,30 L232,14 L245,28 L260,4 L275,20 L288,10 L300,25 L300,30 Z" fill="%23cc1100"/><path d="M15,30 L25,5 L38,22 L30,30 Z M130,30 L150,2 L165,24 L158,30 Z M248,30 L260,4 L275,20 L268,30 Z" fill="%23ff5500" opacity="0.6"/></svg>') !important;
+  background-position: bottom center !important;
+  background-size: 100% 24px !important;
+  background-repeat: no-repeat !important;
+  filter: drop-shadow(0 4px 10px rgba(255, 0, 0, 0.7)) !important;
 }
 
-/* 4. Molten Crystal Glow on Hover */
-.card:hover .card-actions::before, 
-.bootleg-card:hover .card-actions::before {
+/* 4. Molten Core Pulse on Hover */
+.card:hover .card-actions, 
+.bootleg-card:hover .card-actions {
   background-image: 
-    linear-gradient(45deg, #ffaa00 25%, transparent 25%), 
-    linear-gradient(-45deg, #ffaa00 25%, transparent 25%) !important;
-  filter: drop-shadow(0 4px 8px #ffaa00) !important;
+    linear-gradient(180deg, transparent 40%, rgba(255, 120, 0, 0.4) 100%),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 30" preserveAspectRatio="none"><path d="M0,30 L0,15 L12,28 L25,5 L38,22 L45,12 L58,29 L70,18 L85,30 L110,30 L122,8 L138,26 L150,2 L165,24 L178,10 L195,30 L220,30 L232,14 L245,28 L260,4 L275,20 L288,10 L300,25 L300,30 Z" fill="%23ff3300"/><path d="M15,30 L25,5 L38,22 L30,30 Z M130,30 L150,2 L165,24 L158,30 Z M248,30 L260,4 L275,20 L268,30 Z" fill="%23ffea00" opacity="0.85"/></svg>') !important;
+  filter: drop-shadow(0 6px 16px rgba(255, 80, 0, 0.95)) !important;
 }
