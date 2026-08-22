@@ -3857,3 +3857,52 @@ body[data-theme="paradise-lost"] .trade-request-bar {
   font-family: 'Cinzel', serif !important;
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.2) !important;
 }
+/* ============================================================
+   NUCLEAR OVERRIDE: PURGE ALL CYBERPUNK TEAL/CYAN
+   ============================================================ */
+
+/* 1. Force override any teal/cyan colors globally in Paradise Lost mode */
+body[data-theme="paradise-lost"] *,
+body[data-theme="paradise-lost"] *::before,
+body[data-theme="paradise-lost"] *::after {
+  /* If any element is using the cyberpunk cyan color, flip it to gold/crimson */
+  --accent-color: #ffd700 !important;
+  --primary-color: #ff3300 !important;
+}
+
+/* 2. Target CAST: and Notes headers directly wherever they live */
+body[data-theme="paradise-lost"] span,
+body[data-theme="paradise-lost"] strong,
+body[data-theme="paradise-lost"] b,
+body[data-theme="paradise-lost"] label {
+  color: inherit;
+}
+
+/* Specifically catch words like CAST, NOTES, MASTER */
+body[data-theme="paradise-lost"] .card span,
+body[data-theme="paradise-lost"] .bootleg-card span,
+body[data-theme="paradise-lost"] p span {
+  color: #ff4500 !important;
+  font-family: 'Cinzel', serif !important;
+  text-shadow: 0 0 6px rgba(255, 69, 0, 0.5) !important;
+}
+
+/* 3. High-Specificity Target for the ASCEND Button */
+html[data-theme="paradise-lost"] button#scroll-top-btn,
+body[data-theme="paradise-lost"] button#scroll-top-btn,
+#scroll-top-btn[style],
+body[data-theme="paradise-lost"] #scroll-top-btn {
+  background: linear-gradient(180deg, #2b0404 0%, #0d0101 100%) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffe87c !important;
+  font-family: 'Cinzel', serif !important;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4) !important;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8) !important;
+}
+
+body[data-theme="paradise-lost"] #scroll-top-btn:hover {
+  background: linear-gradient(180deg, #600000 0%, #200000 100%) !important;
+  border-color: #ff3300 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 20px rgba(255, 51, 0, 0.8) !important;
+}
