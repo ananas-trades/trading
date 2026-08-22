@@ -1901,3 +1901,20 @@ function updateUI() {
 
 // Run UI check when the DOM is ready
 document.addEventListener("DOMContentLoaded", updateUI);
+function triggerParadiseLost() {
+  const body = document.body;
+  
+  // Toggle between your default theme and legacy model on body
+  body.classList.toggle('legacy-theme');
+  
+  // Save preference if needed
+  const isLegacy = body.classList.contains('legacy-theme');
+  localStorage.setItem('paradiseLegacyMode', isLegacy ? 'enabled' : 'disabled');
+}
+
+// Restore saved legacy choice on load
+document.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('paradiseLegacyMode') === 'enabled') {
+    document.body.classList.add('legacy-theme');
+  }
+});
